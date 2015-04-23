@@ -7,6 +7,9 @@ TARGET = jfxwebkit
 
 VPATH += $$PWD
 
+JAVASCRIPTCORE_TARGET = JavaScriptCoreJava
+JAVASCRIPTCORE_DESTDIR = $$OUT_PWD/../lib
+
 win32-*|linux* {
     PRECOMPILED_HEADER = $$PWD/webcorejava_pch.h
 }
@@ -40,7 +43,7 @@ mac* {
 }
 
 INCLUDEPATH += \
-    $${GENERATED_SOURCES_DIR} \
+    $$OUT_PWD/$$GENERATED_SOURCES_DIR \
     $$SOURCE_DIR \
     $$SOURCE_DIR/WebCore \
     $$SOURCE_DIR/WebCore/accessibility \
@@ -153,12 +156,9 @@ INCLUDEPATH += \
     $$SOURCE_DIR/WTF/wtf/java \
     $$SOURCE_DIR/WTF/wtf/unicode/java \
     $$SOURCE_DIR/../WebKitLibraries/zlib/include \
-    ../../../generated-src/headers \
-    ../JavaScriptCore \
-    ../JavaScriptCore/generated
-
-    
-
+    $$OUT_PWD/../../../generated-src/headers \
+    $$OUT_PWD/../JavaScriptCore \
+    $$OUT_PWD/../JavaScriptCore/generated
 
 !contains(DEFINES, IMAGEIO=1) {
 INCLUDEPATH += \
@@ -266,19 +266,18 @@ mac* {
 }
 
 win32-* {
-    POST_TARGETDEPS += ../lib/JavaScriptCoreJava.lib
+    POST_TARGETDEPS += $${JAVASCRIPTCORE_DESTDIR}/$${JAVASCRIPTCORE_TARGET}.lib
 }
 linux-*|solaris-*|mac* {
-    POST_TARGETDEPS += ../lib/libJavaScriptCoreJava.a
+    POST_TARGETDEPS += $${JAVASCRIPTCORE_DESTDIR}/lib$${JAVASCRIPTCORE_TARGET}.a
 }
-LIBS += -lJavaScriptCoreJava
+LIBS = -L$$JAVASCRIPTCORE_DESTDIR -l$$JAVASCRIPTCORE_TARGET $$LIBS
 
 HEADERS += \
     bindings/java/JavaDOMUtils.h \
     bindings/java/JavaEventListener.h \
     page/java/ChromeClientJava.h \
-    platform/java/ClipboardJava.h \
-    platform/java/ClipboardUtilitiesJava.h \
+    platform/java/PasteboardUtilitiesJava.h \
     platform/java/DataObjectJava.h \
     platform/java/ContextMenuClientJava.h \
     platform/java/DragClientJava.h \
@@ -1285,8 +1284,7 @@ SOURCES += \
     platform/MemoryPressureHandler.cpp \
     platform/MIMETypeRegistry.cpp \
     platform/java/BridgeUtils.cpp \
-    platform/java/ClipboardJava.cpp \
-    platform/java/ClipboardUtilitiesJava.cpp \
+    platform/java/PasteboardUtilitiesJava.cpp \
     platform/java/ContextMenuClientJava.cpp \
     platform/java/ContextMenuItemJava.cpp \
     platform/java/ContextMenuJava.cpp \
