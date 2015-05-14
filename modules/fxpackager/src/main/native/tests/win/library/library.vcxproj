@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -22,6 +22,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -29,6 +30,7 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -109,6 +111,7 @@
     <ClCompile Include="..\..\..\library\common\FilePath.cpp" />
     <ClCompile Include="..\..\..\library\common\GenericPlatform.cpp" />
     <ClCompile Include="..\..\..\library\common\Helpers.cpp" />
+    <ClCompile Include="..\..\..\library\common\IniFile.cpp" />
     <ClCompile Include="..\..\..\library\common\Java.cpp" />
     <ClCompile Include="..\..\..\library\common\JavaUserPreferences.cpp" />
     <ClCompile Include="..\..\..\library\common\JavaVirtualMachine.cpp" />
@@ -130,6 +133,7 @@
     <ClInclude Include="..\..\..\library\common\FilePath.h" />
     <ClInclude Include="..\..\..\library\common\GenericPlatform.h" />
     <ClInclude Include="..\..\..\library\common\Helpers.h" />
+    <ClInclude Include="..\..\..\library\common\IniFile.h" />
     <ClInclude Include="..\..\..\library\common\Java.h" />
     <ClInclude Include="..\..\..\library\common\JavaUserPreferences.h" />
     <ClInclude Include="..\..\..\library\common\JavaVirtualMachine.h" />
@@ -138,6 +142,7 @@
     <ClInclude Include="..\..\..\library\common\MacPlatform.h" />
     <ClInclude Include="..\..\..\library\common\Macros.h" />
     <ClInclude Include="..\..\..\library\common\Messages.h" />
+    <ClInclude Include="..\..\..\library\common\OrderedMap.h" />
     <ClInclude Include="..\..\..\library\common\Package.h" />
     <ClInclude Include="..\..\..\library\common\Platform.h" />
     <ClInclude Include="..\..\..\library\common\PlatformString.h" />
