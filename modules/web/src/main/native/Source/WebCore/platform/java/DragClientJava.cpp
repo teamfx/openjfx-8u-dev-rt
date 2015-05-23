@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
@@ -9,10 +9,11 @@
 #include "CachedImage.h"
 #include "DragActions.h"
 #include "DragClient.h"
+#include <wtf/Vector.h>
+#include <WTFString.h>
 
 #include "JavaEnv.h"
 #include "DragClientJava.h"
-#include "ClipboardJava.h"
 
 namespace WebCore {
 
@@ -36,7 +37,7 @@ DragImageRef dissolveDragImageToFraction(DragImageRef pr, float delta)
     return pr;
 }
 
-DragImageRef createDragImageFromImage(Image *img, RespectImageOrientationEnum)
+DragImageRef createDragImageFromImage(Image* img, ImageOrientationDescription)
 {
     if(img)
         img->ref();
@@ -45,7 +46,8 @@ DragImageRef createDragImageFromImage(Image *img, RespectImageOrientationEnum)
 
 DragImageRef createDragImageIconForCachedImage(CachedImage *cimg)
 {
-    return createDragImageFromImage(cimg->image());
+    if (cimg->hasImage()) return nullptr;
+    return createDragImageFromImage(cimg->image(), ImageOrientationDescription(RespectImageOrientation)); // todo tav valid orientation?
 }
 
 void deleteDragImage(DragImageRef pr)
@@ -76,7 +78,7 @@ void DragClientJava::dragControllerDestroyed()
 
 void DragClientJava::willPerformDragDestinationAction(
     DragDestinationAction action,
-    DragData* data)
+    DragData& data)
 {
     notImplemented();
 }
@@ -84,12 +86,12 @@ void DragClientJava::willPerformDragDestinationAction(
 void DragClientJava::willPerformDragSourceAction(
     DragSourceAction,
     const IntPoint&,
-    Clipboard* clipboard)
+    Clipboard& clipboard)
 {
     notImplemented();
 }
 
-DragDestinationAction DragClientJava::actionMaskForDrag(DragData* data)
+DragDestinationAction DragClientJava::actionMaskForDrag(DragData& data)
 {
     //TODO: check input element and produce correct respond
     notImplemented();
@@ -108,8 +110,8 @@ void DragClientJava::startDrag(
     DragImageRef dragImage,
     const IntPoint& dragImageOrigin,
     const IntPoint& eventPos,
-    Clipboard* clipboard,
-    Frame* frame,
+    Clipboard& clipboard,
+    Frame& frame,
     bool linkDrag)
 {
     JNIEnv* env = WebCore_GetJavaEnv();
@@ -127,25 +129,25 @@ void DragClientJava::startDrag(
     static JGClass clsString(env->FindClass("java/lang/String"));
     static JGClass clsObject(env->FindClass("java/lang/Object"));
 
-    ListHashSet<String> mimeTypes( ((ClipboardJava*)clipboard)->typesPrivate() );
-    JLObjectArray jmimeTypes( env->NewObjectArray(mimeTypes.size(), clsString, NULL) );
-    JLObjectArray jvalues( env->NewObjectArray(mimeTypes.size(), clsObject, NULL) );
+    Vector<String> mimeTypes(clipboard.typesPrivate());
+    JLObjectArray jmimeTypes(env->NewObjectArray(mimeTypes.size(), clsString, NULL));
+    JLObjectArray jvalues(env->NewObjectArray(mimeTypes.size(), clsObject, NULL));
     CheckAndClearException(env); // OOME
 
     {
         //we are temporary changing Clipboard security context
         //for transfer-to-Java purposes.
 
-        ClipboardAccessPolicy actualJSPolicy = clipboard->policy();
-        clipboard->setAccessPolicy(ClipboardReadable);
+        ClipboardAccessPolicy actualJSPolicy = clipboard.policy();
+        clipboard.setAccessPolicy(ClipboardReadable);
 
         int index = 0;
-        ListHashSet<String>::const_iterator end = mimeTypes.end();
-        for(ListHashSet<String>::const_iterator i = mimeTypes.begin();
+        Vector<String>::const_iterator end = mimeTypes.end();
+        for(Vector<String>::const_iterator i = mimeTypes.begin();
             end!=i;
             ++i, ++index)
         {
-            String value( clipboard->getData(*i) );
+            String value( clipboard.getData(*i) );
 
             env->SetObjectArrayElement(
                 jmimeTypes,
@@ -158,7 +160,7 @@ void DragClientJava::startDrag(
                 (jstring)value.toJavaString(env));
         }
 
-        clipboard->setAccessPolicy(actualJSPolicy);
+        clipboard.setAccessPolicy(actualJSPolicy);
     }
 
     // Attention! [jimage] can be the instance of WCImage or WCImageFrame class.
@@ -179,7 +181,7 @@ void DragClientJava::startDrag(
 }
 
 DragImageRef DragClientJava::createDragImageForLink(
-    KURL& url,
+    URL& url,
     const String& label,
     Frame* frame)
 {

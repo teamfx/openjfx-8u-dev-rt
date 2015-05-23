@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -29,7 +29,7 @@ import java.lang.ref.WeakReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.sun.javafx.Utils;
+import com.sun.javafx.util.Utils;
 import javafx.beans.Observable;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
@@ -45,6 +45,7 @@ import com.sun.javafx.webkit.theme.RenderThemeImpl.Pool;
 import com.sun.javafx.webkit.theme.RenderThemeImpl.ViewListener;
 import com.sun.javafx.webkit.theme.RenderThemeImpl.Widget;
 import com.sun.javafx.webkit.theme.RenderThemeImpl.WidgetType;
+import com.sun.webkit.graphics.WCSize;
 
 public final class ScrollBarThemeImpl extends ScrollBarTheme {
 
@@ -202,6 +203,14 @@ public final class ScrollBarThemeImpl extends ScrollBarTheme {
         g.translate(x, y);
         Renderer.getRenderer().render(sb, g);
         g.restoreState();
+    }
+    
+    @Override public WCSize getWidgetSize(Ref widget) {
+        ScrollBar sb = (ScrollBar)((ScrollBarRef)widget).asControl();
+        if (sb != null) {
+            return new WCSize((float)sb.getWidth(), (float)sb.getHeight());
+        }
+        return new WCSize(0, 0);
     }
 
     @Override protected int hitTest(int w, int h, int orientation, int value,
