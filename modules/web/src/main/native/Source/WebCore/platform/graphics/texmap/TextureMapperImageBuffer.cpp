@@ -21,32 +21,20 @@
 #include "TextureMapperImageBuffer.h"
 
 #include "GraphicsLayer.h"
-#if PLATFORM(QT)
-#include "NativeImageQt.h"
-#endif
 #include "NotImplemented.h"
-
 
 #if USE(TEXTURE_MAPPER)
 namespace WebCore {
 
 #if PLATFORM(JAVA)
-static const int s_maximumAllowedImageBufferDimension = 2048;
+static const int s_maximumAllowedImageBufferDimension = 512;
 #else
 static const int s_maximumAllowedImageBufferDimension = 4096;
 #endif
 
 void BitmapTextureImageBuffer::updateContents(const void* data, const IntRect& targetRect, const IntPoint& sourceOffset, int bytesPerLine, UpdateContentsFlag)
 {
-#if PLATFORM(QT)
-    QImage image(reinterpret_cast<const uchar*>(data), targetRect.width(), targetRect.height(), bytesPerLine, NativeImageQt::defaultFormatForAlphaEnabledImages());
-
-    QPainter* painter = m_image->context()->platformContext();
-    painter->save();
-    painter->setCompositionMode(QPainter::CompositionMode_Source);
-    painter->drawImage(targetRect, image, IntRect(sourceOffset, targetRect.size()));
-    painter->restore();
-#elif PLATFORM(CAIRO)
+#if PLATFORM(CAIRO)
     RefPtr<cairo_surface_t> surface = adoptRef(cairo_image_surface_create_for_data(static_cast<unsigned char*>(data()),
                                                                                    CAIRO_FORMAT_ARGB32,
                                                                                    targetRect.width(), targetRect.height(),
@@ -83,7 +71,7 @@ void BitmapTextureImageBuffer::didReset()
 
 void BitmapTextureImageBuffer::updateContents(Image* image, const IntRect& targetRect, const IntPoint& offset, UpdateContentsFlag)
 {
-    m_image->context()->drawImage(image, ColorSpaceDeviceRGB, targetRect, IntRect(offset, targetRect.size()), CompositeCopy);
+    m_image->context()->drawImage(image, ColorSpaceDeviceRGB, targetRect, IntRect(offset, targetRect.size()), CompositeCopy, ImageOrientationDescription());
 }
 
 IntSize TextureMapperImageBuffer::maxTextureSize() const
@@ -169,6 +157,7 @@ void TextureMapperImageBuffer::drawNumber(int /* number */, const Color&, const 
 #if ENABLE(CSS_FILTERS)
 PassRefPtr<BitmapTexture> BitmapTextureImageBuffer::applyFilters(TextureMapper*, const FilterOperations&)
 {
+    ASSERT_NOT_REACHED();
     return this;
 }
 #endif

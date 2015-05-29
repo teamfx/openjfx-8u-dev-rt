@@ -791,7 +791,6 @@ is being used to size a border should also be in pixels.
     -fx-padding: 0.166667em 0.25em 0.166667em 0.25em; /* 2 3 2 3 */
     -fx-cursor: hand;
     -fx-content-display: LEFT;
-    -fx-text-fill: -fx-text-background-color;
     -fx-border-color: transparent;
     -fx-border-width: 1px;
 }
@@ -820,6 +819,13 @@ is being used to size a border should also be in pixels.
 }
 .hyperlink:show-mnemonics > .mnemonic-underline {
     -fx-stroke: -fx-text-fill;
+}
+
+/* Fix for RT-37971 */
+.cell:selected .hyperlink,
+.cell:selected .hyperlink:hover,
+.cell:selected .hyperlink:hover:visited {
+    -fx-text-fill: -fx-text-background-color;
 }
 
 /*******************************************************************************
@@ -2073,7 +2079,9 @@ is being used to size a border should also be in pixels.
 }
 
 .custom-color-dialog .controls-pane #settings-pane .settings-unit {
-    -fx-max-width: 1em;
+    -fx-max-width: 1.5em;
+    -fx-min-width: 1.5em;
+    -fx-pref-width: 1.5em;
 }
 
 .custom-color-dialog .controls-pane #settings-pane .slider {
