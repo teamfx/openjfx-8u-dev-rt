@@ -78,6 +78,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.sun.javafx.scene.control.TableColumnComparatorBase.TableColumnComparator;
+import com.sun.javafx.scene.control.infrastructure.ControlTestUtils;
 import com.sun.javafx.scene.control.infrastructure.VirtualFlowTestUtils;
 import com.sun.javafx.scene.control.test.Person;
 import com.sun.javafx.scene.control.test.RT_22463_Person;
@@ -3549,11 +3550,6 @@ public class TableViewTest {
     }
 
     @Test public void test_rt_37429() {
-        // get the current exception handler before replacing with our own,
-        // as ListListenerHelp intercepts the exception otherwise
-        final Thread.UncaughtExceptionHandler exceptionHandler = Thread.currentThread().getUncaughtExceptionHandler();
-        Thread.currentThread().setUncaughtExceptionHandler((t, e) -> fail("We don't expect any exceptions in this test!"));
-
         // table columns - 1 column; name
         TableColumn<String, String> nameColumn = new TableColumn<>("name");
         nameColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper(param.getValue()));
@@ -3580,13 +3576,12 @@ public class TableViewTest {
 
         StageLoader sl = new StageLoader(table);
 
-        table.getSelectionModel().select(0);
-        table.getSortOrder().add(nameColumn);
+        ControlTestUtils.runWithExceptionHandler(() -> {
+            table.getSelectionModel().select(0);
+            table.getSortOrder().add(nameColumn);
+        });
 
         sl.dispose();
-
-        // reset the exception handler
-        Thread.currentThread().setUncaughtExceptionHandler(exceptionHandler);
     }
 
     private int rt_37429_items_change_count = 0;
