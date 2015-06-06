@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -53,8 +53,8 @@ import javafx.event.EventType;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 
-import com.sun.javafx.Utils;
-import com.sun.javafx.WeakReferenceQueue;
+import com.sun.javafx.util.Utils;
+import com.sun.javafx.util.WeakReferenceQueue;
 import com.sun.javafx.css.StyleManager;
 import com.sun.javafx.stage.WindowEventDispatcher;
 import com.sun.javafx.stage.WindowHelper;
@@ -107,6 +107,18 @@ public class Window implements EventTarget {
                                                   Object from,
                                                   Object to) {
                         window.notifyScreenChanged(from, to);
+                    }
+
+                    @Override
+                    public float getUIScale(Window window) {
+                        TKStage peer = window.impl_peer;
+                        return peer == null ? 1.0f : peer.getUIScale();
+                    }
+
+                    @Override
+                    public float getRenderScale(Window window) {
+                        TKStage peer = window.impl_peer;
+                        return peer == null ? 1.0f : peer.getRenderScale();
                     }
 
                     @Override
@@ -1180,7 +1192,7 @@ public class Window implements EventTarget {
     private ReadOnlyObjectProperty<Screen> screenProperty() { return screen.getReadOnlyProperty(); }
 
     private void notifyScreenChanged(Object from, Object to) {
-        screen.set(getWindowScreen());
+        screen.set(Screen.getScreenForNative(to));
     }
 
     /**

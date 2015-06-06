@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -51,6 +51,7 @@ import com.sun.pisces.RendererBase;
 import com.sun.pisces.Transform6;
 import com.sun.prism.BasicStroke;
 import com.sun.prism.CompositeMode;
+import com.sun.prism.Graphics;
 import com.sun.prism.PixelFormat;
 import com.sun.prism.RTTexture;
 import com.sun.prism.ReadbackGraphics;
@@ -91,6 +92,7 @@ final class SWGraphics implements ReadbackGraphics {
 
     private boolean antialiasedShape = true;
     private boolean hasPreCullingBits = false;
+    private float pixelScale = 1.0f;
 
     private NodePath renderRoot;
     @Override
@@ -924,6 +926,16 @@ final class SWGraphics implements ReadbackGraphics {
     }
 
     @Override
+    public void setPixelScaleFactor(float pixelScale) {
+        this.pixelScale = pixelScale;
+    }
+
+    @Override
+    public float getPixelScaleFactor() {
+        return pixelScale;
+    }
+
+    @Override
     public void setLights(NGLightBase[] lights) {
         // Light are not supported by SW pipeline
     }
@@ -938,6 +950,9 @@ final class SWGraphics implements ReadbackGraphics {
     public void blit(RTTexture srcTex, RTTexture dstTex,
                     int srcX0, int srcY0, int srcX1, int srcY1,
                     int dstX0, int dstY0, int dstX1, int dstY1) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Graphics g = dstTex.createGraphics();
+        g.drawTexture(srcTex,
+                      dstX0, dstY0, dstX1, dstY1,
+                      srcX0, srcY0, srcX1, srcY1);
     }
 }
