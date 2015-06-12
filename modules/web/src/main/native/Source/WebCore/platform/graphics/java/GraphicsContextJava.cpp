@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 #include <math.h>
@@ -79,7 +79,7 @@ static void setGradient(Gradient &gradient, PlatformGraphicsContext* context, ji
 class GraphicsContextPlatformPrivate : public PlatformGraphicsContext {
 };
 
-void GraphicsContext::platformInit(PlatformGraphicsContext* context)
+void GraphicsContext::platformInit(PlatformGraphicsContext* context, bool shouldUseContextColors) // todo tav new param
 {
     m_data = static_cast<GraphicsContextPlatformPrivate *>(context);
 }
@@ -113,7 +113,7 @@ void GraphicsContext::restorePlatformState()
 }
 
 // Draws a filled rectangle with a stroked border.
-void GraphicsContext::drawRect(const IntRect& rect)
+void GraphicsContext::drawRect(const FloatRect& rect) // todo tav rect changed from IntRect to FloatRect
 {
     if (paintingDisabled())
         return;
@@ -156,7 +156,7 @@ static void adjustLineToPixelBoundaries(FloatPoint& p1, FloatPoint& p2, float st
 }
 
 // This is only used to draw borders.
-void GraphicsContext::drawLine(const IntPoint& point1, const IntPoint& point2)
+void GraphicsContext::drawLine(const FloatPoint& point1, const FloatPoint& point2) // todo tav points changed from IntPoint to FloatPoint
 {
     if (paintingDisabled() || strokeStyle() == NoStroke)
         return;
@@ -194,12 +194,17 @@ void GraphicsContext::drawConvexPolygon(size_t npoints, const FloatPoint* points
     if (paintingDisabled() || npoints <= 1)
         return;
 
-    platformContext()->rq().freeSpace(12 + npoints*8)
-    << (jint)com_sun_webkit_graphics_GraphicsDecoder_DRAWPOLYGON
-    << (jint)((shouldAntialias)?-1:0) << (jint)(npoints*2);
-    for (int i = 0; i < npoints; i++) {
-        platformContext()->rq() << points[i].x() << points[i].y();
+    Path path;
+    path.moveTo(FloatPoint(points[0].x(), points[0].y()));
+    for (int i = 1; i < npoints; i++) {
+        path.addLineTo(FloatPoint(points[i].x(), points[i].y()));
     }
+    path.closeSubpath();
+    platformContext()->rq().freeSpace(12)
+    << (jint)com_sun_webkit_graphics_GraphicsDecoder_DRAWPOLYGON
+    << copyPath(path.platformPath())
+    << (jint)com_sun_webkit_graphics_WCPath_RULE_NONZERO // default rule for the path
+    << (jint)((shouldAntialias)?-1:0);
 }
 
 void GraphicsContext::fillRect(const FloatRect& rect, const Color& color, ColorSpace)
@@ -257,6 +262,12 @@ void GraphicsContext::clip(const FloatRect& rect)
     platformContext()->rq().freeSpace(20)
     << (jint)com_sun_webkit_graphics_GraphicsDecoder_SETCLIP_IIII
     << (jint)rect.x() << (jint)rect.y() << (jint)rect.width() << (jint)rect.height();
+}
+
+IntRect GraphicsContext::clipBounds() const
+{
+    notImplemented(); // tav todo
+    return IntRect();
 }
 
 void GraphicsContext::clipConvexPolygon(size_t numberOfPoints, const FloatPoint* points, bool antialias)
@@ -329,6 +340,18 @@ void GraphicsContext::drawFocusRing(const Vector<IntRect>& rects, int width, int
         << (jint)color.rgb();
     }
 }
+
+FloatRect GraphicsContext::computeLineBoundsForText(const FloatPoint& point, float width, bool printing)
+{
+  //    NotImplemented(); // todo tav implement
+    return FloatRect();
+}
+
+void GraphicsContext::updateDocumentMarkerResources()
+{
+  //    NotImplemented(); // todo tav implement
+}
+
 void GraphicsContext::drawLineForText(const FloatPoint& origin, float width, bool printing)
 {
     if (paintingDisabled() || width <= 0)
@@ -542,7 +565,7 @@ void GraphicsContext::setPlatformShouldAntialias(bool b)
     notImplemented();
 }
 
-void GraphicsContext::setURLForRect(const KURL& link, const IntRect& destRect)
+void GraphicsContext::setURLForRect(const URL& link, const IntRect& destRect)
 {
     notImplemented();
 }
@@ -775,7 +798,7 @@ void GraphicsContext::clipOut(const Path& path)
     setClipPath(*this, path, RULE_EVENODD, true);
 }
 
-void GraphicsContext::clipOut(const IntRect& rect)
+void GraphicsContext::clipOut(const FloatRect& rect)
 {
     Path path;
     path.addRoundedRect(rect, FloatSize());
@@ -845,8 +868,8 @@ void GraphicsContext::scale(const FloatSize& size)
     << size.width() << size.height();
 }
 
-void GraphicsContext::fillRoundedRect(const IntRect& rect, const IntSize& topLeft, const IntSize& topRight,
-                      const IntSize& bottomLeft, const IntSize& bottomRight, const Color& color, ColorSpace)
+void GraphicsContext::fillRoundedRect(const FloatRect& rect, const FloatSize& topLeft, const FloatSize& topRight,
+				      const FloatSize& bottomLeft, const FloatSize& bottomRight, const Color& color, ColorSpace) // todo tav Int to Float
 {
     if (paintingDisabled())
         return;

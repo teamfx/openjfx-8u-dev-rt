@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -30,6 +30,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
+
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.ManifestException;
 import org.junit.*;
@@ -125,6 +127,125 @@ public class FXJarTest {
     public void missingDestDir() {
         FXJar j = new FXJar();
         j.execute();
+    }
+    
+    private static final String CODEBASE_ATTRIBUTE_NAME = "Codebase";
+    private static final String CODEBASE_ATTRIBUTE_VALUE = "www.example.com";
+    
+    @Test
+    public void codebaseAttributeTest() throws IOException, ManifestException {
+        fxjar.setCodebase(CODEBASE_ATTRIBUTE_VALUE);
+        fxjar.execute();
+
+        JarFile jout = new JarFile(testOut);
+        Manifest m = jout.getManifest();
+
+        assertEquals(CODEBASE_ATTRIBUTE_VALUE,
+                m.getMainAttributes().getValue(CODEBASE_ATTRIBUTE_NAME));
+    }
+
+    @Test
+    public void codebaseAttributeDefaultTest() throws IOException, ManifestException {
+        fxjar.execute();
+
+        JarFile jout = new JarFile(testOut);
+        Manifest m = jout.getManifest();
+
+        assertNull(m.getMainAttributes().getValue(CODEBASE_ATTRIBUTE_NAME));
+    }
+
+    @Test(expected = BuildException.class)
+    public void codebaseManifestConflictTest() throws IOException, ManifestException {
+
+        org.apache.tools.ant.taskdefs.Manifest mf = fxjar.createManifest();
+        mf.addConfiguredAttribute(new org.apache.tools.ant.taskdefs.Manifest.Attribute(
+                CODEBASE_ATTRIBUTE_NAME, "blog.example.com"));
+
+        fxjar.setCodebase("www.example.com");
+        fxjar.execute();
+    }
+
+    @Test(expected = BuildException.class)
+    public void codebaseManifestTest() throws IOException, ManifestException {
+
+        org.apache.tools.ant.taskdefs.Manifest mf = fxjar.createManifest();
+        mf.addConfiguredAttribute(new org.apache.tools.ant.taskdefs.Manifest.Attribute(
+                CODEBASE_ATTRIBUTE_NAME, CODEBASE_ATTRIBUTE_VALUE));
+
+        fxjar.execute();
+
+        JarFile jout = new JarFile(testOut);
+        Manifest m = jout.getManifest();
+
+        assertEquals(CODEBASE_ATTRIBUTE_VALUE,
+                m.getMainAttributes().getValue(CODEBASE_ATTRIBUTE_NAME));
+    }
+
+    private static final String PERMISSIONS_ATTRIBUTE_NAME = "Permissions";
+    private static final String PERMISSIONS_ATTRIBUTE_ALLPERMS_VALUE = "all-permissions";
+    private static final String PERMISSIONS_ATTRIBUTE_SANDBOX_VALUE = "sandbox";
+    
+    @Test
+    public void allpermsAttributeTest() throws IOException, ManifestException {
+        Permissions perms = fxjar.createPermissions();
+        perms.setElevated(true);
+        fxjar.execute();
+
+        JarFile jout = new JarFile(testOut);
+        Manifest m = jout.getManifest();
+
+        assertEquals(PERMISSIONS_ATTRIBUTE_ALLPERMS_VALUE,
+                m.getMainAttributes().getValue(PERMISSIONS_ATTRIBUTE_NAME));
+    }
+
+    @Test
+    public void sandboxAttributeTest() throws IOException, ManifestException {
+        fxjar.execute();
+
+        JarFile jout = new JarFile(testOut);
+        Manifest m = jout.getManifest();
+
+        // should be sandbox if permissions aren't specified
+        assertEquals(PERMISSIONS_ATTRIBUTE_SANDBOX_VALUE,
+                m.getMainAttributes().getValue(PERMISSIONS_ATTRIBUTE_NAME));
+    }
+    
+    @Test
+    public void permissionsAttributeDefaultTest() throws IOException, ManifestException {
+        fxjar.execute();
+
+        JarFile jout = new JarFile(testOut);
+        Manifest m = jout.getManifest();
+
+        assertEquals(PERMISSIONS_ATTRIBUTE_SANDBOX_VALUE,
+                m.getMainAttributes().getValue(PERMISSIONS_ATTRIBUTE_NAME));
+    }
+
+    @Test
+    public void permissionsAttributeManifestTest() throws IOException, ManifestException {
+        org.apache.tools.ant.taskdefs.Manifest mf = fxjar.createManifest();
+        mf.addConfiguredAttribute(new org.apache.tools.ant.taskdefs.Manifest.Attribute(
+                PERMISSIONS_ATTRIBUTE_NAME, PERMISSIONS_ATTRIBUTE_ALLPERMS_VALUE));
+
+        fxjar.execute();
+
+        JarFile jout = new JarFile(testOut);
+        Manifest m = jout.getManifest();
+
+        assertEquals(PERMISSIONS_ATTRIBUTE_ALLPERMS_VALUE,
+                m.getMainAttributes().getValue(PERMISSIONS_ATTRIBUTE_NAME));
+    }
+
+    @Test(expected = BuildException.class)
+    public void allpermsManifestConflictTest() throws IOException, ManifestException {
+        Permissions perms = fxjar.createPermissions();
+        perms.setElevated(true);
+        
+        org.apache.tools.ant.taskdefs.Manifest mf = fxjar.createManifest();
+        mf.addConfiguredAttribute(new org.apache.tools.ant.taskdefs.Manifest.Attribute(
+                PERMISSIONS_ATTRIBUTE_NAME, PERMISSIONS_ATTRIBUTE_ALLPERMS_VALUE));
+        
+        fxjar.execute();
     }
 
 }

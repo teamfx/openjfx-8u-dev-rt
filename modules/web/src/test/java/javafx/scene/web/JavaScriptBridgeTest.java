@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -371,7 +371,7 @@ public class JavaScriptBridgeTest extends TestBase {
         }
     }
     private void executeShouldFail(WebEngine web, String expression) {
-        executeShouldFail(web, expression, "'undefined' is not a function");
+        executeShouldFail(web, expression, "undefined is not a function");
     }
 
     public @Test void testThrowJava() throws InterruptedException {
@@ -392,6 +392,27 @@ public class JavaScriptBridgeTest extends TestBase {
         });
     }
 
+    // RT-37859
+    public @Test void testThrowJava2() throws InterruptedException {
+        final WebEngine web = getEngine();
+
+        submit(() -> {
+            MyExceptionHelper test = new MyExceptionHelper();
+            bind("test", test);
+            try {
+		String script =
+		    "try { " +
+		    "    test.throwException2(); " +
+		    "} catch (e) { " +
+		    "    document.body.textContent = e; " +
+		    "}";
+		web.executeScript(script);
+            } catch (JSException e) {
+                fail("caught unexpected exception: " + e);
+            }
+        });
+    }
+    
     public static class MyException extends Throwable {
     }
 
@@ -399,6 +420,9 @@ public class JavaScriptBridgeTest extends TestBase {
         public void throwException() throws MyException {
             throw new MyException();
         }
+	public void throwException2() {
+	    throw new RuntimeException("TheRuntimeException");
+	}
     }
 
 

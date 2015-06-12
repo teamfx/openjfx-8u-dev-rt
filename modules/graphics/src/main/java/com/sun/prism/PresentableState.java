@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -37,24 +37,28 @@ import com.sun.glass.ui.Window;
  * Prism to make sure that the state is consistent for a rendering probably
  * by use of the AbstractPainter.renderLock to ensure consistent state.
  */
-public class PresentableState {
+public abstract class PresentableState {
 
     /** The underlying Window and View */
     protected Window window;
     protected View view;
     
     // Captured state
+    protected int nativeFrameBuffer;
     protected int windowX, windowY;
     protected float windowAlpha;
     protected long nativeWindowHandle;
     protected long nativeView;
     protected int viewWidth, viewHeight;
+    protected float renderScale;
+    protected int renderWidth, renderHeight;
+    protected float outputScale;
+    protected int outputWidth, outputHeight;
     protected int screenHeight;
     protected int screenWidth;
     protected boolean isWindowVisible;
     protected boolean isWindowMinimized;
-    protected float screenScale;
-    protected static boolean hasWindowManager =
+    protected static final boolean hasWindowManager =
             Application.GetApplication().hasWindowManager();
     // Between PaintCollector and *Painter, there is a window where
     // the associated View can be closed. This variable allows us
@@ -107,13 +111,33 @@ public class PresentableState {
         return viewHeight;
     }
 
+    public int getRenderWidth() {
+        return renderWidth;
+    }
+
+    public int getRenderHeight() {
+        return renderHeight;
+    }
+
+    public int getOutputWidth() {
+        return outputWidth;
+    }
+
+    public int getOutputHeight() {
+        return outputHeight;
+    }
+
     /**
      * @return Screen.getScale
      * 
      * May be called on any thread
      */
-    public float getScale() {
-        return screenScale;
+    public float getRenderScale() {
+        return renderScale;
+    }
+
+    public float getOutputScale() {
+        return outputScale;
     }
 
     /**
@@ -230,18 +254,30 @@ public class PresentableState {
     }
 
     /**
-     * Locks the underlying view for rendering
+     * @return native native frame buffer
      *
      * May be called on any thread.
      */
+    public int getNativeFrameBuffer() {
+        return nativeFrameBuffer;
+    }
+
+    /**
+     * Locks the underlying view for rendering
+     *
+     * Must be called on Prism renderer thread.
+     */
     public void lock() {
-        if (view != null) view.lock();
+        if (view != null) {
+            view.lock();
+            nativeFrameBuffer = view.getNativeFrameBuffer();
+        }
     }
 
     /**
      * Unlocks the underlying view after rendering
      *
-     * May be called on any thread.
+     * Must be called on Prism renderer thread.
      */
     public void unlock() {
         if (view != null) view.unlock();
@@ -260,6 +296,34 @@ public class PresentableState {
             } finally {
                 source.doneWithPixels(pixels);
             }
+        }
+    }
+
+    private int scale(int dim, float fromScale, float toScale) {
+        return (fromScale == toScale)
+               ? dim
+               : (int) Math.ceil(dim * toScale / fromScale);
+    }
+
+    protected void update(float viewScale, float renderScale, float outputScale) {
+        this.renderScale = renderScale;
+        this.outputScale = outputScale;
+        if (renderScale == viewScale) {
+            renderWidth = viewWidth;
+            renderHeight = viewHeight;
+        } else {
+            renderWidth = scale(viewWidth, viewScale, renderScale);
+            renderHeight = scale(viewHeight, viewScale, renderScale);
+        }
+        if (outputScale == viewScale) {
+            outputWidth = viewWidth;
+            outputHeight = viewHeight;
+        } else if (outputScale == renderScale) {
+            outputWidth = renderWidth;
+            outputHeight = renderHeight;
+        } else {
+            outputWidth = scale(viewWidth, viewScale, outputScale);
+            outputHeight = scale(viewHeight, viewScale, outputScale);
         }
     }
 
@@ -287,6 +351,9 @@ public class PresentableState {
             isClosed = view.isClosed();
             isWindowVisible = window.isVisible();
             isWindowMinimized = window.isMinimized();
+            update(window.getPlatformScale(),
+                   window.getRenderScale(),
+                   window.getOutputScale());
             Screen screen = window.getScreen();
             if (screen != null) {
                 // note only used by Embedded Z order painting 
@@ -294,9 +361,6 @@ public class PresentableState {
                 // when null, most likely because of "In Browswer"
                 screenHeight = screen.getHeight();
                 screenWidth = screen.getWidth();
-                screenScale = screen.getScale();
-            } else {
-                screenScale = 1.f;
             }
         } else {
             //TODO - should other variables be cleared?

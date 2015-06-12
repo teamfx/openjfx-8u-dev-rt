@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -77,8 +77,8 @@ ARMV6SF.library = { name -> return "lib${name}.so" as String }
 ARMV6SF.compileSwing = false;
 ARMV6SF.compileSWT = false;
 ARMV6SF.compileFXPackager = false;
-ARMV6SF.compileDesignTime = false;
 ARMV6SF.compileWebnodeNative = false;
+ARMV6SF.compileMediaNative = false;
 
 ARMV6SF.includeLens = false
 ARMV6SF.includeMonocle = true
@@ -106,7 +106,6 @@ def linkFlags = ["-shared", commonFlags].flatten()
 
 // Specify the compilation parameters and link parameters
 def extraCFlags = [
-        "-I", "-L",
         ccFlags,
         "-march=armv6", "-mfloat-abi=softfp", "-mfpu=vfp",
         "-I$sdk/usr/include",
@@ -119,7 +118,6 @@ if (imxHeader.exists()) {
 }
 
 def extraLFlags = [
-        "-I", "-L",
         linkFlags,
         "-L$sdk/usr/lib",
         "-L$sdk/usr/lib/arm-linux-gnueabi",
@@ -473,6 +471,7 @@ ARMV6SF.prismES2.eglfb = [:]
 ARMV6SF.prismES2.eglfb.nativeSource = [
     file("modules/graphics/src/main/native-prism-es2"),
     file("modules/graphics/src/main/native-prism-es2/GL"),
+    file("modules/graphics/src/main/native-prism-es2/eglWrapper"),
     file("modules/graphics/src/main/native-prism-es2/eglfb")
 ]
 ARMV6SF.prismES2.eglfb.compiler = compiler

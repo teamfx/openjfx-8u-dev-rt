@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -166,6 +166,7 @@ public class TableHeaderRow extends StackPane {
         // popup menu for hiding/showing columns
         columnPopupMenu = new ContextMenu();
         updateTableColumnListeners(tableSkin.getColumns(), Collections.<TableColumnBase<?,?>>emptyList());
+        tableSkin.getVisibleLeafColumns().addListener(weakTableColumnsListener);
         tableSkin.getColumns().addListener(weakTableColumnsListener);
 
         // drag header region. Used to indicate the current column being reordered
@@ -338,7 +339,7 @@ public class TableHeaderRow extends StackPane {
     }
 
     // protected to allow subclasses access to the TableViewSkinBase instance
-    protected TableViewSkinBase getTableSkin() {
+    protected TableViewSkinBase<?,?,?,?,?,?> getTableSkin() {
         return this.tableSkin;
     }
 
@@ -458,10 +459,7 @@ public class TableHeaderRow extends StackPane {
             remove(tc);
         }
 
-        // add listeners to all added items
-        for (final TableColumnBase tc : added) {
-            add(tc);
-        }
+        rebuildColumnMenu();
     }
 
     private void remove(TableColumnBase<?,?> col) {
@@ -482,27 +480,49 @@ public class TableHeaderRow extends StackPane {
         }
     }
 
-    private void add(final TableColumnBase<?,?> col) {
-        if (col == null) return;
+    private void rebuildColumnMenu() {
+        columnPopupMenu.getItems().clear();
 
-        if (col.getColumns().isEmpty()) {
-            CheckMenuItem item = columnMenuItems.get(col);
-            if (item == null) {
-                item = new CheckMenuItem();
-                columnMenuItems.put(col, item);
-            }
-
-            // bind column text and isVisible so that the menu item is always correct
-            item.setText(getText(col.getText(), col));
-            col.textProperty().addListener(weakColumnTextListener);
-            item.selectedProperty().bindBidirectional(col.visibleProperty());
-
-            columnPopupMenu.getItems().add(item);
-        } else {
-            for (TableColumnBase tc : col.getColumns()) {
-                add(tc);
+        for (TableColumnBase<?,?> col : getTableSkin().getColumns()) {
+            // we only create menu items for leaf columns, visible or not
+            if (col.getColumns().isEmpty()) {
+                createMenuItem(col);
+            } else {
+                List<TableColumnBase<?,?>> leafColumns = getLeafColumns(col);
+                for (TableColumnBase<?,?> _col : leafColumns) {
+                    createMenuItem(_col);
+                }
             }
         }
+    }
+
+    private List<TableColumnBase<?,?>> getLeafColumns(TableColumnBase<?,?> col) {
+        List<TableColumnBase<?,?>> leafColumns = new ArrayList<>();
+
+        for (TableColumnBase<?,?> _col : col.getColumns()) {
+            if (_col.getColumns().isEmpty()) {
+                leafColumns.add(_col);
+            } else {
+                leafColumns.addAll(getLeafColumns(_col));
+            }
+        }
+
+        return leafColumns;
+    }
+
+    private void createMenuItem(TableColumnBase<?,?> col) {
+        CheckMenuItem item = columnMenuItems.get(col);
+        if (item == null) {
+            item = new CheckMenuItem();
+            columnMenuItems.put(col, item);
+        }
+
+        // bind column text and isVisible so that the menu item is always correct
+        item.setText(getText(col.getText(), col));
+        col.textProperty().addListener(weakColumnTextListener);
+        item.selectedProperty().bindBidirectional(col.visibleProperty());
+
+        columnPopupMenu.getItems().add(item);
     }
 
     /*

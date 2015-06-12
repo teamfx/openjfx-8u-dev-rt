@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -25,19 +25,18 @@
 
 package com.sun.prism.es2;
 
-import java.util.HashMap;
 import com.sun.glass.ui.Screen;
-import com.sun.javafx.PlatformUtil;
 import com.sun.javafx.geom.Rectangle;
 import com.sun.javafx.geom.Vec3d;
 import com.sun.javafx.geom.transform.Affine2D;
+import com.sun.javafx.geom.transform.Affine3D;
 import com.sun.javafx.geom.transform.BaseTransform;
 import com.sun.javafx.geom.transform.GeneralTransform3D;
 import com.sun.javafx.sg.prism.NGCamera;
 import com.sun.javafx.sg.prism.NGDefaultCamera;
 import com.sun.prism.CompositeMode;
+import com.sun.prism.Graphics;
 import com.sun.prism.Material;
-import com.sun.prism.PixelFormat;
 import com.sun.prism.RTTexture;
 import com.sun.prism.RenderTarget;
 import com.sun.prism.Texture;
@@ -51,6 +50,7 @@ class ES2Context extends BaseShaderContext {
     // Temporary variables
     private static GeneralTransform3D scratchTx = new GeneralTransform3D();
     private static final GeneralTransform3D flipTx = new GeneralTransform3D();
+    private static final Affine3D scratchAffine3DTx = new Affine3D();
     // contains the combined projection/modelview matrix (elements 0-15)
     private static float rawMatrix[] = new float[GLContext.NUM_MATRIX_ELEMENTS];
 
@@ -96,14 +96,6 @@ class ES2Context extends BaseShaderContext {
         quadIndices = vb.genQuadsIndexBuffer(NUM_QUADS);
         setIndexBuffer(quadIndices);
         state = new State();
-
-        // JIRA: RT-21739
-        // TODO: This is a temporary mechanism to work well with Glass on Mac due
-        // to the CALayer work. Need to be removed in the early future for 3.0
-        if (PlatformUtil.isMac() || PlatformUtil.isIOS()) {
-           HashMap devDetails = (HashMap) ES2Pipeline.getInstance().getDeviceDetails();
-           ES2Pipeline.glFactory.updateDeviceDetails(devDetails, glContext);
-        }
     }
     
     final void clearContext() {
@@ -130,32 +122,15 @@ class ES2Context extends BaseShaderContext {
         return ES2PhongShader.getShader(meshView, this);
     }
 
-    // JIRA: RT-21738
-    // TODO: If we can't resolve this platform specific treatment code
-    // by 3.0, we need to refactor it to platform specific project
-    private int savedFBO = 0;
     void makeCurrent(GLDrawable drawable) {
         if (drawable == null) {
             drawable = dummyGLDrawable;
         }
-        if (PlatformUtil.isMac() || PlatformUtil.isIOS()) {
-            if (drawable != currentDrawable) {
-                if (drawable == dummyGLDrawable) {
-                    // Need to restore FBO to Glass' boundFBO
-                    glContext.bindFBO(savedFBO);
-                } else {
-                    savedFBO = glContext.getBoundFBO();
-                    glContext.makeCurrent(drawable);
-                }
-                currentDrawable = drawable;
-            }
-        } else { // Linux and Windows
-            if (drawable != currentDrawable) {
-                glContext.makeCurrent(drawable);
-                // Need to restore FBO to on screen framebuffer
-                glContext.bindFBO(0);
-                currentDrawable = drawable;
-            }
+        if (drawable != currentDrawable) {
+            glContext.makeCurrent(drawable);
+            // Need to restore FBO to on screen framebuffer
+            glContext.bindFBO(0);
+            currentDrawable = drawable;
         }
     }
 
@@ -246,7 +221,7 @@ class ES2Context extends BaseShaderContext {
         } else {
             projViewTx.set(scratchTx);
         }
-
+        
         // update camera position; this will be uploaded to the shader
         // when we switch to 3D state
         cameraPos = camera.getPositionInWorld(cameraPos);
@@ -471,17 +446,36 @@ class ES2Context extends BaseShaderContext {
                           dstX0, dstY0, dstX1, dstY1);
     }
 
-    void renderMeshView(long nativeHandle, BaseTransform xform, ES2MeshView meshView) {
+    void renderMeshView(long nativeHandle, Graphics g, ES2MeshView meshView) {
 
         ES2Shader shader = (ES2Shader) getPhongShader(meshView);
         setShaderProgram(shader.getProgramObject());
 
-        updateRawMatrix(projViewTx);
+        // Support retina display by scaling the projViewTx and pass it to the shader.
+        float pixelScaleFactor = g.getPixelScaleFactor();
+        if (pixelScaleFactor != 1.0) {
+            scratchTx = scratchTx.set(projViewTx);
+            scratchTx.scale(pixelScaleFactor, pixelScaleFactor, 1.0);
+            updateRawMatrix(scratchTx);
+        } else { 
+            updateRawMatrix(projViewTx);
+        }
         shader.setMatrix("viewProjectionMatrix", rawMatrix);
         shader.setConstant("camPos", (float) cameraPos.x,
                 (float) cameraPos.y, (float)cameraPos.z);
 
-        updateWorldTransform(xform);
+        // Undo the SwapChain scaling done in createGraphics() because 3D needs
+        // this information in the shader (via projViewTx)
+        BaseTransform xform = g.getTransformNoClone();
+        if (pixelScaleFactor != 1.0) {
+            float invPSF = 1/pixelScaleFactor;
+            scratchAffine3DTx.setToIdentity();
+            scratchAffine3DTx.scale(invPSF, invPSF);
+            scratchAffine3DTx.concatenate(xform);
+            updateWorldTransform(scratchAffine3DTx);
+        } else {
+            updateWorldTransform(xform);
+        }
         updateRawMatrix(worldTx);
 
         shader.setMatrix("worldMatrix", rawMatrix);

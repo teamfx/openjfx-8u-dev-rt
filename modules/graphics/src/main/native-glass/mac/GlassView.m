@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -34,6 +34,7 @@
 #import "GlassWindow.h"
 #import "GlassView3D.h"
 #import "GlassHelper.h"
+#import "GlassLayer3D.h"
 
 //#define VERBOSE
 #ifndef VERBOSE
@@ -330,6 +331,33 @@ JNIEXPORT jlong JNICALL Java_com_sun_glass_ui_mac_MacView__1create
     
     LOG("   view: %p", value);
     return value;
+}
+
+/*
+ * Class:     com_sun_glass_ui_mac_MacView
+ * Method:    _getNativeFrameBuffer
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_sun_glass_ui_mac_MacView__1getNativeFrameBuffer
+(JNIEnv *env, jobject jView, jlong jPtr)
+{
+    LOG("Java_com_sun_glass_ui_mac_MacView__1_getNativeFrameBuffer");
+    LOG("   view: %p", jPtr);
+    if (!jPtr) return 0L;
+    
+    jint fb = 0;
+    
+    GLASS_ASSERT_MAIN_JAVA_THREAD(env);
+    GLASS_POOL_ENTER;
+    {
+        NSView<GlassView> *view = getGlassView(env, jPtr);
+        GlassLayer3D *layer = (GlassLayer3D*)[view layer];
+        fb = (jint) [[layer getPainterOffscreen] fbo];
+    }
+    GLASS_POOL_EXIT;
+    GLASS_CHECK_EXCEPTION(env);
+
+    return fb;
 }
 
 /*
@@ -631,7 +659,7 @@ JNIEXPORT void JNICALL Java_com_sun_glass_ui_mac_MacView__1exitFullscreen
  * Signature: (JLjava/nio/Buffer;II)V
  */
 JNIEXPORT void JNICALL Java_com_sun_glass_ui_mac_MacView__1uploadPixelsDirect
-(JNIEnv *env, jobject jView, jlong jPtr, jobject jBuffer, jint jWidth, jint jHeight)
+(JNIEnv *env, jobject jView, jlong jPtr, jobject jBuffer, jint jWidth, jint jHeight, jfloat jScale)
 {
     LOG("Java_com_sun_glass_ui_mac_MacView__1uploadPixelsDirect");
     if (!jPtr) return;
@@ -648,7 +676,7 @@ JNIEXPORT void JNICALL Java_com_sun_glass_ui_mac_MacView__1uploadPixelsDirect
     // must be in the middle of begin/end
     if ((jWidth > 0) && (jHeight > 0))
     {
-        [view pushPixels:pixels withWidth:(GLuint)jWidth withHeight:(GLuint)jHeight withEnv:env];
+        [view pushPixels:pixels withWidth:(GLuint)jWidth withHeight:(GLuint)jHeight withScale:(GLfloat)jScale withEnv:env];
     }
 }
 
@@ -658,7 +686,7 @@ JNIEXPORT void JNICALL Java_com_sun_glass_ui_mac_MacView__1uploadPixelsDirect
  * Signature: (J[BIII)V
  */
 JNIEXPORT void JNICALL Java_com_sun_glass_ui_mac_MacView__1uploadPixelsByteArray
-(JNIEnv *env, jobject jView, jlong jPtr, jbyteArray jArray, jint jOffset, jint jWidth, jint jHeight)
+(JNIEnv *env, jobject jView, jlong jPtr, jbyteArray jArray, jint jOffset, jint jWidth, jint jHeight, jfloat jScale)
 {
     LOG("Java_com_sun_glass_ui_mac_MacView__1uploadPixelsByteArray");
     if (!jPtr) return;
@@ -681,7 +709,7 @@ JNIEXPORT void JNICALL Java_com_sun_glass_ui_mac_MacView__1uploadPixelsByteArray
         // must be in the middle of begin/end
         if ((jWidth > 0) && (jHeight > 0))
         {
-            [view pushPixels:pixels withWidth:(GLuint)jWidth withHeight:(GLuint)jHeight withEnv:env];
+            [view pushPixels:pixels withWidth:(GLuint)jWidth withHeight:(GLuint)jHeight withScale:(GLfloat)jScale withEnv:env];
         }
     }
     (*env)->ReleasePrimitiveArrayCritical(env, jArray, data, JNI_ABORT);
@@ -693,7 +721,7 @@ JNIEXPORT void JNICALL Java_com_sun_glass_ui_mac_MacView__1uploadPixelsByteArray
  * Signature: (J[IIII)V
  */
 JNIEXPORT void JNICALL Java_com_sun_glass_ui_mac_MacView__1uploadPixelsIntArray
-(JNIEnv *env, jobject jView, jlong jPtr, jintArray jArray, jint jOffset, jint jWidth, jint jHeight)
+(JNIEnv *env, jobject jView, jlong jPtr, jintArray jArray, jint jOffset, jint jWidth, jint jHeight, jfloat jScale)
 {
     LOG("Java_com_sun_glass_ui_mac_MacView__1uploadPixelsIntArray");
     if (!jPtr) return;
@@ -716,7 +744,7 @@ JNIEXPORT void JNICALL Java_com_sun_glass_ui_mac_MacView__1uploadPixelsIntArray
         // must be in the middle of begin/end
         if ((jWidth > 0) && (jHeight > 0))
         {
-            [view pushPixels:pixels withWidth:(GLuint)jWidth withHeight:(GLuint)jHeight withEnv:env];
+            [view pushPixels:pixels withWidth:(GLuint)jWidth withHeight:(GLuint)jHeight withScale:(GLfloat)jScale withEnv:env];
         }
     }
     (*env)->ReleasePrimitiveArrayCritical(env, jArray, data, JNI_ABORT);

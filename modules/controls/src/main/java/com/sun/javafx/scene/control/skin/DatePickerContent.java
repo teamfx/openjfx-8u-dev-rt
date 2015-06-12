@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -45,8 +45,10 @@ import static java.time.temporal.ChronoUnit.*;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.WeakChangeListener;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.DateCell;
@@ -62,6 +64,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.StackPane;
 
 import com.sun.javafx.scene.control.skin.resources.ControlResources;
+import com.sun.javafx.scene.traversal.Direction;
 
 import static com.sun.javafx.PlatformUtil.*;
 
@@ -159,19 +162,36 @@ public class DatePickerContent extends VBox {
         gridPane.setVgap(-1);
         gridPane.setHgap(-1);
 
-        gridPane.focusedProperty().addListener((ov, t, hasFocus) -> {
-            if (hasFocus) {
-                if (lastFocusedDayCell != null) {
-                    Platform.runLater(new Runnable() {
-                        @Override public void run() {
-                            lastFocusedDayCell.requestFocus();
+        // Add a focus owner listener to Scene when it becomes available.
+        final WeakChangeListener<Node> weakFocusOwnerListener =
+            new WeakChangeListener<Node>((ov2, oldFocusOwner, newFocusOwner) -> {
+                if (newFocusOwner == gridPane) {
+                    if (oldFocusOwner instanceof DateCell) {
+                        // Backwards traversal, skip gridPane.
+                        gridPane.impl_traverse(Direction.PREVIOUS);
+                    } else {
+                        // Forwards traversal, pass focus to day cell.
+                        if (lastFocusedDayCell != null) {
+                            Platform.runLater(() -> {
+                                lastFocusedDayCell.requestFocus();
+                            });
+                        } else {
+                            clearFocus();
                         }
-                    });
-                } else {
-                    clearFocus();
+                    }
                 }
+            });
+        gridPane.sceneProperty().addListener(new WeakChangeListener<Scene>((ov, oldScene, newScene) -> {
+            if (oldScene != null) {
+                oldScene.focusOwnerProperty().removeListener(weakFocusOwnerListener);
             }
-        });
+            if (newScene != null) {
+                newScene.focusOwnerProperty().addListener(weakFocusOwnerListener);
+            }
+        }));
+        if (gridPane.getScene() != null) {
+            gridPane.getScene().focusOwnerProperty().addListener(weakFocusOwnerListener);
+        }
 
         // get the weekday labels starting with the weekday that is the
         // first-day-of-the-week according to the locale in the
@@ -246,7 +266,6 @@ public class DatePickerContent extends VBox {
             // Consume all key events except those that control
             // showing the popup and traversal.
             switch (e.getCode()) {
-              case ESCAPE:
               case F4:
               case F10:
               case UP:
@@ -255,6 +274,11 @@ public class DatePickerContent extends VBox {
               case RIGHT:
               case TAB:
                     break;
+
+              case ESCAPE:
+                datePicker.hide();
+                e.consume();
+                break;
 
               default:
                 e.consume();

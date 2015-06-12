@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -283,9 +283,51 @@ class WindowStage extends GlassStage {
         if (isAppletStage) {
             xSet = ySet = false;
         }
-        platformWindow.setBounds((int)x, (int)y, xSet, ySet, 
-                                 (int)w, (int)h, (int)cw, (int)ch, 
+        float pScale = platformWindow.getPlatformScale();
+        int px, py;
+        if (xSet || ySet) {
+            Screen screen = platformWindow.getScreen();
+            List<Screen> screens = Screen.getScreens();
+            if (screens.size() > 1) {
+                float wx = xSet ? x : platformWindow.getX();
+                float wy = ySet ? y : platformWindow.getY();
+                float relx = screen.getX() + screen.getWidth() / 2.0f - wx;
+                float rely = screen.getY() + screen.getHeight()/ 2.0f - wy;
+                float distsq = relx * relx + rely * rely;
+                for (Screen s : Screen.getScreens()) {
+                    relx = s.getX() + s.getWidth() / 2.0f - wx;
+                    rely = s.getY() + s.getHeight()/ 2.0f - wy;
+                    float distsq2 = relx * relx + rely * rely;
+                    if (distsq2 < distsq) {
+                        screen = s;
+                        distsq = distsq2;
+                    }
+                }
+            }
+            float sx = screen == null ? 0 : screen.getX();
+            float sy = screen == null ? 0 : screen.getY();
+            px = xSet ? Math.round(sx + (x - sx) * pScale) : 0;
+            py = ySet ? Math.round(sy + (y - sy) * pScale) : 0;
+        } else {
+            px = py = 0;
+        }
+        int pw = (int) (w > 0 ? Math.ceil(w * pScale) : w);
+        int ph = (int) (h > 0 ? Math.ceil(h * pScale) : h);
+        int pcw = (int) (cw > 0 ? Math.ceil(cw * pScale) : cw);
+        int pch = (int) (ch > 0 ? Math.ceil(ch * pScale) : ch);
+        platformWindow.setBounds(px, py, xSet, ySet, 
+                                 pw, ph, pcw, pch, 
                                  xGravity, yGravity);
+    }
+
+    @Override
+    public float getUIScale() {
+        return platformWindow.getPlatformScale();
+    }
+
+    @Override
+    public float getRenderScale() {
+        return platformWindow.getRenderScale();
     }
 
     @Override public void setMinimumSize(int minWidth, int minHeight) {
@@ -483,6 +525,10 @@ class WindowStage extends GlassStage {
     
     @Override public void setOpacity(float opacity) {
         platformWindow.setAlpha(opacity);
+        GlassScene gs = getScene();
+        if (gs != null) {
+            gs.entireSceneNeedsRepaint();
+        }
     }
 
     public boolean needsUpdateWindow() {
@@ -786,7 +832,10 @@ class WindowStage extends GlassStage {
         super.setPlatformEnabled(enabled);
         platformWindow.setEnabled(enabled);
         if (enabled) {
-            requestToFront();
+            // Check if window is really enabled - to handle nested case
+            if (platformWindow.isEnabled()) {
+                requestToFront();
+            }
         } else {
             removeActiveWindow(this);
         }
@@ -801,7 +850,7 @@ class WindowStage extends GlassStage {
          *            any further access to the Glass layer 
          *            will throw an exception
          */
-        if (enabled && platformWindow.isClosed()) {
+        if (enabled && (platformWindow == null || platformWindow.isClosed())) {
             return;
         }
         setPlatformEnabled(enabled);
@@ -814,8 +863,10 @@ class WindowStage extends GlassStage {
 
     // Note: This method is required to workaround a glass issue mentioned in RT-12607
     protected void requestToFront() {
-        platformWindow.toFront();
-        platformWindow.requestFocus();
+        if (platformWindow != null) {
+            platformWindow.toFront();
+            platformWindow.requestFocus();
+        }
     }
 
     public void setInEventHandler(boolean inEventHandler) {

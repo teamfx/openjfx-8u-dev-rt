@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -385,7 +385,7 @@ JNIEXPORT void JNICALL Java_com_sun_prism_es2_GLContext_nBlit
     ctxInfo->glBindFramebuffer(GL_DRAW_FRAMEBUFFER, (GLuint)dstFBO);
     ctxInfo->glBlitFramebuffer(jsrcX0, jsrcY0, srcX1, srcY1,
                                jdstX0, jdstY0, dstX1, dstY1,
-                               GL_COLOR_BUFFER_BIT, GL_NEAREST);
+                               GL_COLOR_BUFFER_BIT, GL_LINEAR);
     /* TODO: iOS MSAA support:
      * We are using glBlitFramebuffer to "resolve" the mutlisample buffer,
      * to a color destination. iOS does things differently, it uses
@@ -1771,8 +1771,10 @@ JNIEXPORT void JNICALL Java_com_sun_prism_es2_GLContext_nSetDeviceParametersFor3
     }
     // Note: projViewTx and camPos are handled above in the Java layer
 
-    glDisable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ZERO);
+    // This setting matches 2D ((1,1-alpha); premultiplied alpha case.    
+    // Will need to evaluate when support proper 3D blending (alpha,1-alpha). 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
     if (ctxInfo->state.scissorEnabled) {
         ctxInfo->state.scissorEnabled = JNI_FALSE;
@@ -2319,13 +2321,13 @@ JNIEXPORT void JNICALL Java_com_sun_prism_es2_GLContext_nRenderMeshView
     ctxInfo->glEnableVertexAttribArray(NC_3D_INDEX);
 
     ctxInfo->glVertexAttribPointer(VC_3D_INDEX, VC_3D_SIZE, GL_FLOAT, GL_FALSE,
-            VERT_3D_STRIDE, (const void*) offset);
+            VERT_3D_STRIDE, (const GLvoid *) jlong_to_ptr((jlong) offset));
     offset += VC_3D_SIZE * sizeof(GLfloat);
     ctxInfo->glVertexAttribPointer(TC_3D_INDEX, TC_3D_SIZE, GL_FLOAT, GL_FALSE,
-            VERT_3D_STRIDE, (const void*) offset);
+            VERT_3D_STRIDE, (const GLvoid *) jlong_to_ptr((jlong) offset));
     offset += TC_3D_SIZE * sizeof(GLfloat);
     ctxInfo->glVertexAttribPointer(NC_3D_INDEX, NC_3D_SIZE, GL_FLOAT, GL_FALSE,
-            VERT_3D_STRIDE, (const void*) offset);
+            VERT_3D_STRIDE, (const GLvoid *) jlong_to_ptr((jlong) offset));
 
     glDrawElements(GL_TRIANGLES, mvInfo->meshInfo->indexBufferSize,
             mvInfo->meshInfo->indexBufferType, 0);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import com.sun.javafx.PlatformUtil;
-import com.sun.javafx.Utils;
+import com.sun.javafx.util.Utils;
 
 /**
  * Contains the runtime arguments used by Prism.
@@ -61,7 +61,6 @@ public final class PrismSettings {
     public static final boolean showDirtyRegions;
     public static final boolean showOverdraw;
     public static final boolean printRenderGraph;
-    public static final int minTextureSize;
     public static final int minRTTSize;
     public static final int dirtyRegionCount;
     public static final boolean disableBadDriverWarning;
@@ -126,9 +125,10 @@ public final class PrismSettings {
         // The maximum number of dirty regions to use. The absolute max that we can
         // support at present is 15.
         dirtyRegionCount = Utils.clamp(0, getInt(systemProperties, "prism.dirtyregioncount", 6, null), 15);
-        
+
         // Scrolling cache optimization
-        scrollCacheOpt = getBoolean(systemProperties, "prism.scrollcacheopt", true);
+        // Disabled as a workaround for RT-39755.
+        scrollCacheOpt = getBoolean(systemProperties, "prism.scrollcacheopt", false);
 
         /* Dirty region optimizations */
         threadCheck = getBoolean(systemProperties, "prism.threadcheck", false);
@@ -292,14 +292,6 @@ public final class PrismSettings {
             size = Integer.MAX_VALUE;
         }
         maxTextureSize = size;
-
-        /*
-         * Check minimum texture size
-         * This is a workaround for the bugs seen on device creating small textures (see TVP-256)
-         * This value should not be set normally.
-         */
-        minTextureSize = getInt(systemProperties, "prism.mintexturesize", 0,
-                "Try -Dprism.mintexturesize=<number>");
 
         /*
          * Check minimum RTT size

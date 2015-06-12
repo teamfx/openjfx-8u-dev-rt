@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -92,6 +92,7 @@ ViewContainer::ViewContainer() :
     m_kbLayout = ::GetKeyboardLayout(0);
     m_idLang = LOWORD(m_kbLayout);
     m_codePage = LangToCodePage(m_idLang);
+    m_lastTouchInputCount = 0;
 }
 
 jobject ViewContainer::GetView()
@@ -609,35 +610,104 @@ void ViewContainer::HandleViewTypedEvent(HWND hwnd, UINT msg, WPARAM wParam, LPA
     if (!m_deadKeyWParam) {
         wChar = (jchar)wParam;
     } else {
-        wchar_t deadKey;
+        // The character is composed together with the dead key, which
+        // may be translated into one or more combining characters.
+        const size_t COMP_SIZE = 5;
+        wchar_t comp[COMP_SIZE] = { (wchar_t)wParam };
 
         // Some dead keys need additional translation:
         // http://www.fileformat.info/info/unicode/block/combining_diacritical_marks/images.htm
         // Also see awt_Component.cpp for the original dead keys table
-        switch (m_deadKeyWParam) {
-            case L'`':   deadKey = 0x300; break;
-            case L'\'':  deadKey = 0x301; break;
-            case 0x00B4: deadKey = 0x301; break;
-            case L'^':   deadKey = 0x302; break;
-            case L'~':   deadKey = 0x303; break;
-            case 0x02DC: deadKey = 0x303; break;
-            case 0x00AF: deadKey = 0x304; break;
-            case 0x02D8: deadKey = 0x306; break;
-            case 0x02D9: deadKey = 0x307; break;
-            case L'"':   deadKey = 0x308; break;
-            case 0x00A8: deadKey = 0x308; break;
-            case 0x02DA: deadKey = 0x30A; break;
-            case 0x02DD: deadKey = 0x30B; break;
-            case 0x02C7: deadKey = 0x30C; break;
-            case L',':   deadKey = 0x327; break;
-            case 0x00B8: deadKey = 0x327; break;
-            case 0x02DB: deadKey = 0x328; break;
-            default:     deadKey = static_cast<wchar_t>(m_deadKeyWParam); break;
+        if (LOBYTE(m_idLang) == LANG_GREEK) {
+            switch (m_deadKeyWParam) {
+                case L']':   comp[1] = 0x300; break; // varia
+                case L';':   comp[1] = 0x301; break; // oxia (wrong? generates tonos, not oxia)
+                case L'-':   comp[1] = 0x304; break; // macron
+                case L'_':   comp[1] = 0x306; break; // vrachy
+                case L':':   comp[1] = 0x308; break; // dialytika
+                case L'"':   comp[1] = 0x314; break; // dasia
+                case 0x0384: comp[1] = 0x341; break; // tonos
+                case L'[':   comp[1] = 0x342; break; // perispomeni
+                case L'\'':  comp[1] = 0x343; break; // psili
+                case L'~':   comp[1] = 0x344; break; // dialytika oxia
+                case L'{':   comp[1] = 0x345; break; // ypogegrammeni
+
+                case L'`':   comp[1] = 0x308; comp[2] = 0x300; break; // dialytika varia
+                case L'\\':  comp[1] = 0x313; comp[2] = 0x300; break; // psili varia
+                case L'/':   comp[1] = 0x313; comp[2] = 0x301; break; // psili oxia 
+                case L'=':   comp[1] = 0x313; comp[2] = 0x342; break; // psili perispomeni
+                case L'|':   comp[1] = 0x314; comp[2] = 0x300; break; // dasia varia
+                case L'?':   comp[1] = 0x314; comp[2] = 0x301; break; // dasia oxia 
+                case L'+':   comp[1] = 0x314; comp[2] = 0x342; break; // dasia perispomeni
+
+                // AltGr dead chars don't work. Maybe kbd isn't reset properly?
+                // case 0x1fc1: comp[1] = 0x308; comp[2] = 0x342; break; // dialytika perispomeni
+                // case 0x1fde: comp[1] = 0x314; comp[2] = 0x301; comp[3] = 0x345; break; // dasia oxia ypogegrammeni
+
+                default:     comp[1] = static_cast<wchar_t>(m_deadKeyWParam); break;
+            }
+        } else if (HIWORD(m_kbLayout) == 0xF0B1 && LOBYTE(m_idLang) == LANG_LATVIAN) {
+            // The Latvian (Standard) keyboard, available in Win 8.1 and later.
+            switch (m_deadKeyWParam) {
+                case L'\'':
+                case L'"':
+                    // Note: " is Shift-' and automatically capitalizes the typed
+                    // character in native Win 8.1 apps. We don't do this, so the user
+                    // needs to keep the Shift key down. This is probably the common use
+                    // case anyway.
+                    switch (wParam) {
+                        case L'A': case L'a':
+                        case L'E': case L'e':
+                        case L'I': case L'i':
+                        case L'U': case L'u':
+                             comp[1] = 0x304; break; // macron
+                        case L'C': case L'c':
+                        case L'S': case L's':
+                        case L'Z': case L'z':
+                             comp[1] = 0x30c; break; // caron
+                        case L'G': case L'g':
+                        case L'K': case L'k':
+                        case L'L': case L'l':
+                        case L'N': case L'n':
+                             comp[1] = 0x327; break; // cedilla
+                        default:
+                             comp[1] = static_cast<wchar_t>(m_deadKeyWParam); break;
+                    } break;
+                default:     comp[1] = static_cast<wchar_t>(m_deadKeyWParam); break;
+            }
+        } else {
+            switch (m_deadKeyWParam) {
+                case L'`':   comp[1] = 0x300; break;
+                case L'\'':  comp[1] = 0x301; break;
+                case 0x00B4: comp[1] = 0x301; break;
+                case L'^':   comp[1] = 0x302; break;
+                case L'~':   comp[1] = 0x303; break;
+                case 0x02DC: comp[1] = 0x303; break;
+                case 0x00AF: comp[1] = 0x304; break;
+                case 0x02D8: comp[1] = 0x306; break;
+                case 0x02D9: comp[1] = 0x307; break;
+                case L'"':   comp[1] = 0x308; break;
+                case 0x00A8: comp[1] = 0x308; break;
+                case 0x00B0: comp[1] = 0x30A; break;
+                case 0x02DA: comp[1] = 0x30A; break;
+                case 0x02DD: comp[1] = 0x30B; break;
+                case 0x02C7: comp[1] = 0x30C; break;
+                case L',':   comp[1] = 0x327; break;
+                case 0x00B8: comp[1] = 0x327; break;
+                case 0x02DB: comp[1] = 0x328; break;
+                default:     comp[1] = static_cast<wchar_t>(m_deadKeyWParam); break;
+            }
         }
 
-        wchar_t in[3] = {(wchar_t)wParam, deadKey, L'\0'};
+        int compSize = 3;
+        for (int i = 1; i < COMP_SIZE; i++) {
+            if (comp[i] == L'\0') {
+                compSize = i + 1;
+                break;
+            }
+        }
         wchar_t out[3];
-        int res = ::FoldString(MAP_PRECOMPOSED, (LPWSTR)in, 3, (LPWSTR)out, 3);
+        int res = ::FoldString(MAP_PRECOMPOSED, (LPWSTR)comp, compSize, (LPWSTR)out, 3);
         
         if (res > 0) {
             wChar = (jchar)out[0];
@@ -1147,6 +1217,21 @@ public:
     }
 };
 
+static BOOL debugTouch = false;
+
+static char * touchEventName(unsigned int dwFlags) {
+        if (dwFlags & TOUCHEVENTF_MOVE) {
+            return "MOVE";
+        }
+        if (dwFlags & TOUCHEVENTF_DOWN) {
+            return "PRESS";
+        }
+        if (dwFlags & TOUCHEVENTF_UP) {
+            return "RELEASE";
+        }
+        return "UNKOWN";
+}
+
 void NotifyTouchInput(
         HWND hWnd, jobject view, jclass gestureSupportCls, 
         const TOUCHINPUT* ti, unsigned count) 
@@ -1226,36 +1311,148 @@ void NotifyManipulationProcessor(
 
 } // namespace
 
-void ViewContainer::HandleViewTouchEvent(
+unsigned int ViewContainer::HandleViewTouchEvent(
         HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    // Preallocated arrays. One element per finger. Though so far
-    // Win 7 can handle at most four touch points simultaneously, 
-    // so the buffer is excessive.
-    TOUCHINPUT staticTouchInputBuf[10];
+    const UINT newCount = static_cast<UINT>(LOWORD(wParam));
+    TOUCHINPUT * tempTouchInputBuf;
 
-    std::vector<TOUCHINPUT> dynamicTouchInputBuf;
-    PTOUCHINPUT pInputs = staticTouchInputBuf;
-
-    const UINT cInputs = static_cast<UINT>(LOWORD(wParam));
-    if (ARRAYSIZE(staticTouchInputBuf) < cInputs) {
-        dynamicTouchInputBuf.resize(cInputs);
-        pInputs = &*dynamicTouchInputBuf.begin();
+    unsigned int bufsz = newCount >  10 ? newCount : 10;
+    if (m_thisTouchInputBuf.size() < bufsz) {
+        m_thisTouchInputBuf.resize(bufsz);
     }
 
-    do {
-        AutoTouchInputHandle inputInfo(lParam);
-        if (!::GetTouchInputInfo(inputInfo, cInputs, 
-                                 pInputs, sizeof(TOUCHINPUT))) {
-            return;
+    if (newCount > 0) {
+        tempTouchInputBuf = new TOUCHINPUT[newCount];
+        do {
+            AutoTouchInputHandle inputInfo(lParam);
+            if (!::GetTouchInputInfo(inputInfo, newCount,
+                                     tempTouchInputBuf, sizeof(TOUCHINPUT))) {
+                delete [] tempTouchInputBuf;
+                return 0;
+            }
+        } while(0); // scope for 'inputInfo'
+    }
+
+    // Fix up the touch point stream. Some drivers seem to lose touch events,
+    // dropping PRESS, MOVE, UP, so we need to add them back in.
+
+    unsigned int activeCount = 0;
+    unsigned int pointsCount = 0;
+
+    // check first for any "lost" touches
+    // these need to get added to the send list of points
+    for (unsigned int i = 0 ; i < m_lastTouchInputCount; i++) {
+        if (!(m_lastTouchInputBuf[i].dwFlags & TOUCHEVENTF_UP)) {
+            // looking for a dwID that is
+            //   not present in the new batch
+            //   was not UP in the old batch
+            bool found = false;
+            for (unsigned int j = 0; j < newCount; j++) {
+                if (m_lastTouchInputBuf[i].dwID == tempTouchInputBuf[j].dwID) {
+                    found = true;
+                    //break;
+                }
+            }
+            if (!found) {
+                // We have a old event but not a new one, so release it
+                m_thisTouchInputBuf[pointsCount].dwFlags = TOUCHEVENTF_UP;
+                m_thisTouchInputBuf[pointsCount].dwID = m_lastTouchInputBuf[i].dwID;
+                m_thisTouchInputBuf[pointsCount].x = m_lastTouchInputBuf[i].x;
+                m_thisTouchInputBuf[pointsCount].y = m_lastTouchInputBuf[i].y;
+                if (newCount > 0) {
+                    //use the time of the first new element for our inserted event
+                    m_thisTouchInputBuf[pointsCount].dwTime = tempTouchInputBuf[0].dwTime;
+                } else {
+                    m_thisTouchInputBuf[pointsCount].dwTime = m_lastTouchInputBuf[i].dwTime;
+                }
+                m_thisTouchInputBuf[pointsCount].dwMask = m_lastTouchInputBuf[i].dwMask;
+
+                if (debugTouch) {
+                        printf("TOUCH FIX UP  %d, %s\n", m_lastTouchInputBuf[i].dwID, touchEventName(m_lastTouchInputBuf[i].dwFlags));
+                }
+
+                pointsCount++;
+            }
+         }
+    }
+
+    if (pointsCount + newCount > m_thisTouchInputBuf.size()) {
+        bufsz = pointsCount + newCount;
+        m_thisTouchInputBuf.resize(bufsz);
+    }
+
+    // now fold in the current touch points
+    for (unsigned int i = 0 ; i < newCount; i++) {
+        bool found = false;
+        for (unsigned int j = 0 ; j < m_lastTouchInputCount; j++) {
+            if (m_lastTouchInputBuf[j].dwID == tempTouchInputBuf[i].dwID) {
+                found = true;
+                break;
+            }
         }
-    } while(0); // scope for 'inputInfo'
 
-    NotifyTouchInput(hWnd, GetView(), m_gestureSupportCls, pInputs, cInputs);
+        m_thisTouchInputBuf[pointsCount].dwFlags = tempTouchInputBuf[i].dwFlags;
+        m_thisTouchInputBuf[pointsCount].dwID = tempTouchInputBuf[i].dwID;
+        m_thisTouchInputBuf[pointsCount].dwTime = tempTouchInputBuf[i].dwTime;
+        m_thisTouchInputBuf[pointsCount].dwMask = tempTouchInputBuf[i].dwMask;
+        m_thisTouchInputBuf[pointsCount].x = tempTouchInputBuf[i].x;
+        m_thisTouchInputBuf[pointsCount].y = tempTouchInputBuf[i].y;
 
-    if (m_manipProc) {
-        NotifyManipulationProcessor(*m_manipProc, pInputs, cInputs);
+        if (m_thisTouchInputBuf[pointsCount].dwFlags & TOUCHEVENTF_DOWN) {
+            pointsCount++;
+            activeCount ++;
+        } else if (m_thisTouchInputBuf[pointsCount].dwFlags & TOUCHEVENTF_MOVE) {
+                if (!found) {
+                    if (debugTouch) {
+                        printf("TOUCH FIX MV->DOWN  %d, %s\n", m_thisTouchInputBuf[pointsCount].dwID, touchEventName(m_thisTouchInputBuf[pointsCount].dwFlags));
+            }
+                        m_thisTouchInputBuf[pointsCount].dwFlags = TOUCHEVENTF_DOWN;
+                    }
+                pointsCount++;
+                activeCount ++;
+        } else if (m_thisTouchInputBuf[pointsCount].dwFlags & TOUCHEVENTF_UP) {
+               if (found) {
+                    pointsCount++;
+               } else {
+                   // UP without a previous DOWN, ignore it
+               }
+        }
+     }
+
+     if (debugTouch) {
+        printf("Touch Sequence %d/%d win=%d view=%d %d,%d,%d\n",pointsCount,activeCount,
+            hWnd, GetView(),
+            m_lastTouchInputCount, newCount, pointsCount);
+        for (unsigned int i = 0 ; i < m_lastTouchInputCount; i++) {
+            printf("  old  %d, %s\n", m_lastTouchInputBuf[i].dwID, touchEventName(m_lastTouchInputBuf[i].dwFlags));
+        }
+        for (unsigned int i = 0 ; i < newCount; i++) {
+            printf("  in   %d, %s\n", tempTouchInputBuf[i].dwID, touchEventName(tempTouchInputBuf[i].dwFlags));
+        }
+        for (unsigned int i = 0 ; i < pointsCount; i++) {
+            printf("  this %d, %d\n", m_thisTouchInputBuf[i].dwID, m_thisTouchInputBuf[i].dwFlags & 0x07);
+        }
+        printf("  ---\n");
+        fflush(stdout);
+     }
+
+    if (pointsCount > 0) {
+        NotifyTouchInput(hWnd, GetView(), m_gestureSupportCls, &m_thisTouchInputBuf[0], pointsCount);
+
+        if (m_manipProc) {
+            NotifyManipulationProcessor(*m_manipProc, &m_thisTouchInputBuf[0], pointsCount);
+        }
+
+        std::swap(m_lastTouchInputBuf, m_thisTouchInputBuf);
+        m_lastTouchInputCount = pointsCount;
     }
+
+    if ( newCount > 0) {
+        delete [] tempTouchInputBuf;
+    }
+
+    return activeCount;
 }
 
 void ViewContainer::HandleViewTimerEvent(HWND hwnd, UINT_PTR timerID)
