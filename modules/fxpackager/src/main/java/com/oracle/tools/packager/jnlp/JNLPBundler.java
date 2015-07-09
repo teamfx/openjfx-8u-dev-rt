@@ -1116,11 +1116,11 @@ public class JNLPBundler extends AbstractBundler {
                 result.append(", ");
             }
             addComma = true;
-            result.append("\"")
-                    .append(entry.getKey())
-                    .append(": \"")
-                    .append(entry.getValue())
-                    .append("\"");
+            result.append("'")
+                    .append(quoteEscape(entry.getKey()))
+                    .append("' : '")
+                    .append(quoteEscape(entry.getValue()))
+                    .append("'");
 
         }
         for (Map.Entry<String, String> entry : APPLET_PARAMS.fetchFrom(params).entrySet()) {
@@ -1128,15 +1128,19 @@ public class JNLPBundler extends AbstractBundler {
                 result.append(", ");
             }
             addComma = true;
-            result.append("\"")
-                    .append(entry.getKey())
-                    .append(": ")
+            result.append("'")
+                    .append(quoteEscape(entry.getKey()))
+                    .append("' : ")
                     .append(entry.getValue());
 
         }
         return result.toString();
     }
 
+    String quoteEscape(String s) {
+        return s.replaceAll("(['\"\\\\])", "\\\\$1");
+    }
+    
     private static String[] webFiles = {
             "javafx-loading-100x100.gif",
             dtFX,
