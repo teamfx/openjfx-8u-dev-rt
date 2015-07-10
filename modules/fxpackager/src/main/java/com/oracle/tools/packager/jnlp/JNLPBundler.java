@@ -554,7 +554,6 @@ public class JNLPBundler extends AbstractBundler {
 
             //copy jar files
             for (RelativeFileSet rfs : APP_RESOURCES_LIST.fetchFrom(params)) {
-                System.out.println(rfs);
                 copyFiles(rfs, outputParentDir);
             }
 
