@@ -123,7 +123,7 @@ void GlassScreen::LoadDPIFuncs(jint awareRequested)
             }
         }
 #endif /* DEBUG_DPI */
-    } else {
+    } else if (IS_WINVISTA) {
         BOOL ok = ::SetProcessDPIAware();
 #ifdef DEBUG_DPI
         fprintf(stderr, "Could not find SetProcessDpiAwareness function, SetProcessDPIAware returned %d\n", ok);
