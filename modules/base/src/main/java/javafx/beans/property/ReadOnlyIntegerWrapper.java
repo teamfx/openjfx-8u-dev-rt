@@ -25,11 +25,6 @@
 
 package javafx.beans.property;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.value.ChangeListener;
-
-import com.sun.javafx.binding.ExpressionHelper;
-
 /**
  * This class provides a convenient class to define read-only properties. It
  * creates two properties that are synchronized. One property is read-only
@@ -101,81 +96,20 @@ public class ReadOnlyIntegerWrapper extends SimpleIntegerProperty {
      * {@inheritDoc}
      */
     @Override
-    public void addListener(InvalidationListener listener) {
-        getReadOnlyProperty().addListener(listener);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void removeListener(InvalidationListener listener) {
-        if (readOnlyProperty != null) {
-            readOnlyProperty.removeListener(listener);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addListener(ChangeListener<? super Number> listener) {
-        getReadOnlyProperty().addListener(listener);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void removeListener(ChangeListener<? super Number> listener) {
-        if (readOnlyProperty != null) {
-            readOnlyProperty.removeListener(listener);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     protected void fireValueChangedEvent() {
+        super.fireValueChangedEvent();
         if (readOnlyProperty != null) {
             readOnlyProperty.fireValueChangedEvent();
         }
     }
 
-    private class ReadOnlyPropertyImpl extends ReadOnlyIntegerProperty {
-        
-        private ExpressionHelper<Number> helper = null;
-        
+    private class ReadOnlyPropertyImpl extends ReadOnlyIntegerPropertyBase {
+
         @Override
         public int get() {
             return ReadOnlyIntegerWrapper.this.get();
         }
 
-        @Override 
-        public void addListener(InvalidationListener listener) {
-            helper = ExpressionHelper.addListener(helper, this, listener);
-        }
-
-        @Override 
-        public void removeListener(InvalidationListener listener) {
-            helper = ExpressionHelper.removeListener(helper, listener);
-        }
-        
-        @Override
-        public void addListener(ChangeListener<? super Number> listener) {
-            helper = ExpressionHelper.addListener(helper, this, listener);
-        }
-
-        @Override 
-        public void removeListener(ChangeListener<? super Number> listener) {
-            helper = ExpressionHelper.removeListener(helper, listener);
-        }
-        
-        protected void fireValueChangedEvent() {
-            ExpressionHelper.fireValueChangedEvent(helper);
-        }
-        
         @Override
         public Object getBean() {
             return ReadOnlyIntegerWrapper.this.getBean();

@@ -26,7 +26,6 @@
 package com.sun.javafx.scene.control.skin;
 
 import javafx.beans.value.ObservableValue;
-import javafx.css.PseudoClass;
 import javafx.css.Styleable;
 import javafx.geometry.*;
 import javafx.scene.control.*;
@@ -77,6 +76,11 @@ public abstract class ComboBoxPopupControl<T> extends ComboBoxBaseSkin<T> {
             if (getEditor() != null) {
                 // Fix for the regression noted in a comment in RT-29885.
                 ((FakeFocusTextField)textField).setFakeFocus(hasFocus);
+
+                // JDK-8120120 (aka RT-21454) and JDK-8136838
+                if (!hasFocus) {
+                    setTextFromTextFieldIntoComboBoxValue();
+                }
             }
         });
 
@@ -547,7 +551,5 @@ public abstract class ComboBoxPopupControl<T> extends ComboBoxBaseSkin<T> {
      * Stylesheet Handling                                                     *
      *                                                                         *
      **************************************************************************/
-
-    private static PseudoClass CONTAINS_FOCUS_PSEUDOCLASS_STATE = PseudoClass.getPseudoClass("contains-focus");
 
 }
