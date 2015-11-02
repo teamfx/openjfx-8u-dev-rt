@@ -25,11 +25,6 @@
 
 package javafx.beans.property;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.value.ChangeListener;
-
-import com.sun.javafx.binding.ExpressionHelper;
-
 /**
  * This class provides a convenient class to define read-only properties. It
  * creates two properties that are synchronized. One property is read-only
@@ -102,82 +97,20 @@ public class ReadOnlyStringWrapper extends SimpleStringProperty {
      * {@inheritDoc}
      */
     @Override
-    public void addListener(InvalidationListener listener) {
-        getReadOnlyProperty().addListener(listener);
-        get();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void removeListener(InvalidationListener listener) {
-        if (readOnlyProperty != null) {
-            readOnlyProperty.removeListener(listener);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addListener(ChangeListener<? super String> listener) {
-        getReadOnlyProperty().addListener(listener);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void removeListener(ChangeListener<? super String> listener) {
-        if (readOnlyProperty != null) {
-            readOnlyProperty.removeListener(listener);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     protected void fireValueChangedEvent() {
+        super.fireValueChangedEvent();
         if (readOnlyProperty != null) {
             readOnlyProperty.fireValueChangedEvent();
         }
     }
 
-    private class ReadOnlyPropertyImpl extends ReadOnlyStringProperty {
-        
-        private ExpressionHelper<String> helper = null;
+    private class ReadOnlyPropertyImpl extends ReadOnlyStringPropertyBase {
         
         @Override
         public String get() {
             return ReadOnlyStringWrapper.this.get();
         }
 
-        @Override 
-        public void addListener(InvalidationListener listener) {
-            helper = ExpressionHelper.addListener(helper, this, listener);
-        }
-
-        @Override 
-        public void removeListener(InvalidationListener listener) {
-            helper = ExpressionHelper.removeListener(helper, listener);
-        }
-        
-        @Override
-        public void addListener(ChangeListener<? super String> listener) {
-            helper = ExpressionHelper.addListener(helper, this, listener);
-        }
-
-        @Override 
-        public void removeListener(ChangeListener<? super String> listener) {
-            helper = ExpressionHelper.removeListener(helper, listener);
-        }
-        
-        protected void fireValueChangedEvent() {
-            ExpressionHelper.fireValueChangedEvent(helper);
-        }
-        
         @Override
         public Object getBean() {
             return ReadOnlyStringWrapper.this.getBean();
