@@ -276,29 +276,45 @@ public abstract class AbstractImageBundler extends AbstractBundler {
             params.put(".runtime.version.security", matcher.group(5));
             params.put(".runtime.version.patch", "0");
             params.put(".runtime.version.modifiers", matcher.group(7));
-        } else {
-            Pattern newVersionMatcher = Pattern.compile("java version \"((\\d+).(\\d+).(\\d+).(\\d+))(-(.*))?(\\+[^\"]*)?\"");
-            matcher = newVersionMatcher.matcher(versionOutput);
-            if (matcher.find()) {
-                params.put(".runtime.version", matcher.group(1));
-                params.put(".runtime.version.release", matcher.group(1));
-                params.put(".runtime.version.major", matcher.group(2));
-                params.put(".runtime.version.update", matcher.group(3));
-                params.put(".runtime.version.minor", matcher.group(3));
-                params.put(".runtime.version.security", matcher.group(4));
-                params.put(".runtime.version.patch", matcher.group(5));
-                params.put(".runtime.version.modifiers", matcher.group(7));
-            } else {
-                params.put(".runtime.version", "");
-                params.put(".runtime.version.release", "");
-                params.put(".runtime.version.major", "");
-                params.put(".runtime.version.update", "");
-                params.put(".runtime.version.minor", "");
-                params.put(".runtime.version.security", "");
-                params.put(".runtime.version.patch", "");
-                params.put(".runtime.version.modifiers", "");
-            }
+            return;
+        } 
+        
+        Pattern macJreVersionMatcher = Pattern.compile("java version \"(1.(\\d+).(\\d+).(\\d+))\"");
+        matcher = macJreVersionMatcher.matcher(versionOutput);
+        if (matcher.find()) {
+            params.put(".runtime.version", matcher.group(1));
+            params.put(".runtime.version.release", matcher.group(1));
+            params.put(".runtime.version.major", matcher.group(2));
+            params.put(".runtime.version.update", matcher.group(3));
+            params.put(".runtime.version.minor", matcher.group(3));
+            params.put(".runtime.version.security", matcher.group(3));
+            params.put(".runtime.version.patch", matcher.group(4));
+            params.put(".runtime.version.modifiers", "");
+            return;
         }
+
+        Pattern newVersionMatcher = Pattern.compile("java version \"((\\d+).(\\d+).(\\d+).(\\d+))(-(.*))?(\\+[^\"]*)?\"");
+        matcher = newVersionMatcher.matcher(versionOutput);
+        if (matcher.find()) {
+            params.put(".runtime.version", matcher.group(1));
+            params.put(".runtime.version.release", matcher.group(1));
+            params.put(".runtime.version.major", matcher.group(2));
+            params.put(".runtime.version.update", matcher.group(3));
+            params.put(".runtime.version.minor", matcher.group(3));
+            params.put(".runtime.version.security", matcher.group(4));
+            params.put(".runtime.version.patch", matcher.group(5));
+            params.put(".runtime.version.modifiers", matcher.group(7));
+            return;
+        }
+
+        params.put(".runtime.version", "");
+        params.put(".runtime.version.release", "");
+        params.put(".runtime.version.major", "");
+        params.put(".runtime.version.update", "");
+        params.put(".runtime.version.minor", "");
+        params.put(".runtime.version.security", "");
+        params.put(".runtime.version.patch", "");
+        params.put(".runtime.version.modifiers", "");
     }
 
 
