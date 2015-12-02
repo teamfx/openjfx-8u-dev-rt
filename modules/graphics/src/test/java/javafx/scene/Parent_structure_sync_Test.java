@@ -29,6 +29,7 @@ import com.sun.javafx.pgstub.StubToolkit;
 import com.sun.javafx.sg.prism.NGGroup;
 import com.sun.javafx.tk.Toolkit;
 import java.util.List;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.junit.Before;
@@ -333,5 +334,31 @@ public class Parent_structure_sync_Test {
         assertFalse(parent2.test_getRemoved().isEmpty());
         sync();
         assertTrue(parent2.test_getRemoved().isEmpty());
+    }
+
+    @Test
+    public void validateParentsRemovedList2() {
+        BorderPane borderPane = new BorderPane(r1);
+        Parent p = (Parent) borderPane;
+        sync();
+        borderPane.setCenter(null);
+        assertNotNull(p.test_getRemoved());
+        assertTrue(p.test_getRemoved().isEmpty());
+        sync();
+        assertTrue(p.test_getRemoved().isEmpty());
+    }
+
+    @Test
+    public void validateParentsRemovedList3() {
+        BorderPane borderPane = new BorderPane(r1);
+        Parent p = (Parent) borderPane;
+        parent.getScene().setRoot(borderPane);
+        sync();
+        borderPane.getScene().setRoot(parent);
+        borderPane.setCenter(null);
+        assertNotNull(p.test_getRemoved());
+        assertTrue(p.test_getRemoved().isEmpty());
+        sync();
+        assertTrue(p.test_getRemoved().isEmpty());
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -48,6 +48,25 @@ import com.sun.webkit.dom.*;
  * so please be sure to use submit(Callable).</strong>
  */
 public class DOMTest extends TestBase {
+
+    @Test public void testGetSetId() {
+        final Document doc = getDocumentFor("src/test/resources/html/dom.html");
+        submit(() -> {
+            NodeList ee = doc.getElementsByTagName("p");
+
+            int numProcessed = 0;
+                for (int i = 0 ; i < ee.getLength() ; i++) {
+                    Node n = ee.item(i);
+                    String s = ((ElementImpl)n).getId();
+                    String newId = "new" + s;
+                    ((ElementImpl)n).setId(newId);
+                    assertEquals("New element id", newId, ((ElementImpl)n).getId());
+                    numProcessed++;
+                }
+
+            assertTrue("Number of processed Elements is equal to 0", numProcessed > 0);
+        });
+    }
 
     @Test public void testEmptyTextContent() {
         final Document doc = getDocumentFor("src/test/resources/html/dom.html");
