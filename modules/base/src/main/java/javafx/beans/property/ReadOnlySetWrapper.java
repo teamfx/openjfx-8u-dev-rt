@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -25,12 +25,7 @@
 
 package javafx.beans.property;
 
-import com.sun.javafx.binding.SetExpressionHelper;
-import javafx.beans.InvalidationListener;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableSet;
-import javafx.collections.SetChangeListener;
-
 import static javafx.collections.SetChangeListener.Change;
 
 /**
@@ -105,61 +100,8 @@ public class ReadOnlySetWrapper<E> extends SimpleSetProperty<E> {
      * {@inheritDoc}
      */
     @Override
-    public void addListener(InvalidationListener listener) {
-        getReadOnlyProperty().addListener(listener);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void removeListener(InvalidationListener listener) {
-        if (readOnlyProperty != null) {
-            readOnlyProperty.removeListener(listener);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addListener(ChangeListener<? super ObservableSet<E>> listener) {
-        getReadOnlyProperty().addListener(listener);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void removeListener(ChangeListener<? super ObservableSet<E>> listener) {
-        if (readOnlyProperty != null) {
-            readOnlyProperty.removeListener(listener);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addListener(SetChangeListener<? super E> listener) {
-        getReadOnlyProperty().addListener(listener);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void removeListener(SetChangeListener<? super E> listener) {
-        if (readOnlyProperty != null) {
-            readOnlyProperty.removeListener(listener);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     protected void fireValueChangedEvent() {
+        super.fireValueChangedEvent();
         if (readOnlyProperty != null) {
             readOnlyProperty.fireValueChangedEvent();
         }
@@ -170,56 +112,17 @@ public class ReadOnlySetWrapper<E> extends SimpleSetProperty<E> {
      */
     @Override
     protected void fireValueChangedEvent(Change<? extends E> change) {
+        super.fireValueChangedEvent(change);
         if (readOnlyProperty != null) {
             readOnlyProperty.fireValueChangedEvent(change);
         }
     }
 
-    private class ReadOnlyPropertyImpl extends ReadOnlySetProperty<E> {
-
-        private SetExpressionHelper<E> helper = null;
+    private class ReadOnlyPropertyImpl extends ReadOnlySetPropertyBase<E> {
 
         @Override
         public ObservableSet<E> get() {
             return ReadOnlySetWrapper.this.get();
-        }
-
-        @Override
-        public void addListener(InvalidationListener listener) {
-            helper = SetExpressionHelper.addListener(helper, this, listener);
-        }
-
-        @Override
-        public void removeListener(InvalidationListener listener) {
-            helper = SetExpressionHelper.removeListener(helper, listener);
-        }
-
-        @Override
-        public void addListener(ChangeListener<? super ObservableSet<E>> listener) {
-            helper = SetExpressionHelper.addListener(helper, this, listener);
-        }
-
-        @Override
-        public void removeListener(ChangeListener<? super ObservableSet<E>> listener) {
-            helper = SetExpressionHelper.removeListener(helper, listener);
-        }
-
-        @Override
-        public void addListener(SetChangeListener<? super E> listener) {
-            helper = SetExpressionHelper.addListener(helper, this, listener);
-        }
-
-        @Override
-        public void removeListener(SetChangeListener<? super E> listener) {
-            helper = SetExpressionHelper.removeListener(helper, listener);
-        }
-
-        private void fireValueChangedEvent() {
-            SetExpressionHelper.fireValueChangedEvent(helper);
-        }
-
-        private void fireValueChangedEvent(Change<? extends E> change) {
-            SetExpressionHelper.fireValueChangedEvent(helper, change);
         }
 
         @Override

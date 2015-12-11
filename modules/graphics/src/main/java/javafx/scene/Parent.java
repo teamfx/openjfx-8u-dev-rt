@@ -262,7 +262,7 @@ public abstract class Parent extends Node {
                     // update the parent and scene for each new node
                     for (int i = from; i < to; ++i) {
                         Node node = children.get(i);
-                        if (node.isManaged()) {
+                        if (node.isManaged() || (node instanceof Parent && ((Parent) node).layoutFlag != LayoutFlags.CLEAN)) {
                             relayout = true;
                         }
                         node.setParent(Parent.this);
@@ -497,7 +497,10 @@ public abstract class Parent extends Node {
                         old.setParent(null);
                         old.setScenes(null, null);
                     }
-                    if (!removedChildrenOptimizationDisabled) {
+                    // Do not add node with null scene to the removed list.
+                    // It will not be processed in the list and its memory
+                    // will not be freed.
+                    if (scene != null && !removedChildrenOptimizationDisabled) {
                         removed.add(old);
                     }
                 }
@@ -653,6 +656,11 @@ public abstract class Parent extends Node {
         if (oldScene != null && newScene == null) {
             // RT-34863 - clean up CSS cache when Parent is removed from scene-graph
             StyleManager.getInstance().forget(this);
+
+            // Clear removed list on parent who is no longer in a scene 
+            if (removed != null) {
+                removed.clear();
+            }
         }
 
         for (int i=0; i<children.size(); i++) {
