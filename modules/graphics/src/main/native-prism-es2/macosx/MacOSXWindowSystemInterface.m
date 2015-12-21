@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -57,6 +57,10 @@ void *createPixelFormat(jint *ivalues) {
 
     attribs[index++] = NSOpenGLPFADepthSize;
     attribs[index++] = ivalues[com_sun_prism_es2_GLPixelFormat_Attributes_DEPTH_SIZE];
+
+
+    // Lets OpenGL know this context is offline renderer aware.
+    attribs[index++] = NSOpenGLPFAAllowOfflineRenderers;
 
     // Zero-terminate
     attribs[index++] = 0;

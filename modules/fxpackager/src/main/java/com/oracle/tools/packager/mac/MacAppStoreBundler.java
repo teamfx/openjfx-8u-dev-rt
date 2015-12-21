@@ -290,13 +290,33 @@ public class MacAppStoreBundler extends MacBaseInstallerBundler {
                             I18N.getString("error.non-existent-runtime.advice")));
         }
 
-        if (new File(baseDir, "Contents/Home/lib/libjfxmedia_qtkit.dylib").exists()
-            || new File(baseDir, "Contents/Home/jre/lib/libjfxmedia_qtkit.dylib").exists())
-        {
+        int majorVersion;
+        int updateVersion;
+        
+        try {
+            majorVersion = Integer.parseInt(params.get(".runtime.version.major").toString());
+            updateVersion = Integer.parseInt(params.get(".runtime.version.update").toString());
+        } catch (Exception e) {
+            // assume the worst
+            majorVersion = 8;
+            updateVersion = 60;
+        }
+        
+        // Quicktime
+        // before 8u40 it was all of media
+        // after 8u40 QTKit dependencies are isolated in it's own library
+        if (majorVersion == 8 && updateVersion >= 40) {
             rules.add(JreUtils.Rule.suffixNeg("/lib/libjfxmedia_qtkit.dylib"));
         } else {
             rules.add(JreUtils.Rule.suffixNeg("/lib/libjfxmedia.dylib"));
         }
+        
+        // webkit
+        // 8u60 webkit started using an API Apple didn't like
+        if (majorVersion == 8 && updateVersion >= 60) {
+            rules.add(JreUtils.Rule.suffixNeg("/lib/libjfxwebkit.dylib"));
+        }
+        
         return rules.toArray(new JreUtils.Rule[rules.size()]);
     }
 

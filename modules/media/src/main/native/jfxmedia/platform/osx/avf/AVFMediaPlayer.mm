@@ -236,6 +236,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
         if (newOutput) {
             CVDisplayLinkStop(_displayLink);
             [_playerItem removeOutput:_playerOutput];
+        [_playerOutput setDelegate:nil queue:nil];
 
             self.playerOutput = newOutput;
             [_playerOutput setDelegate:blockSelf queue:playerQueue];
@@ -400,6 +401,16 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
 - (void) dispose {
     @synchronized(self) {
         if (!isDisposed) {
+            if (_player != nil) {
+                // this should stop and dealloc the audio processor
+                _player.currentItem.audioMix = nil;
+            }
+
+            if (_playerOutput != nil) {
+                [_playerItem removeOutput:_playerOutput];
+                [_playerOutput setDelegate:nil queue:nil];
+            }
+
             [self setPlayerState:kPlayerState_HALTED];
 
             NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
