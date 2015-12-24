@@ -26,6 +26,7 @@
 package com.oracle.tools.packager.mac;
 
 import com.oracle.tools.packager.AbstractBundler;
+import com.oracle.tools.packager.AbstractImageBundler;
 import com.oracle.tools.packager.BundlerParamInfo;
 import com.oracle.tools.packager.ConfigException;
 import com.oracle.tools.packager.IOUtils;
@@ -42,6 +43,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
@@ -185,7 +188,7 @@ public class MacAppStoreBundlerTest {
         );
         bundleParams.put(MAC_CF_BUNDLE_VERSION.getID(), "1.0." + new SimpleDateFormat("YYYYMMddHHmm").format(new Date()));
         bundleParams.put(CLASSPATH.getID(), "mainApp.jar");
-        bundleParams.put(IDENTIFIER.getID(), "com.example.javapackager.hello.TestPackager");
+        bundleParams.put(IDENTIFIER.getID(), "com.example.javapacakger.hello.TestPackager");
         bundleParams.put(MacAppBundler.MAC_CATEGORY.getID(), "public.app-category.developer-tools");
         bundleParams.put(APP_RESOURCES.getID(), new RelativeFileSet(appResourcesDir, appResources));
         bundleParams.put(VERBOSE.getID(), true);
@@ -200,10 +203,10 @@ public class MacAppStoreBundlerTest {
         File result = bundler.execute(bundleParams, new File(workDir, "smoke"));
         System.err.println("Bundle at - " + result);
 
-        checkFiles(result);
+        checkFiles(result, runtimeJdk);
     }
 
-    private void checkFiles(File result) throws IOException {
+    private void checkFiles(File result, String runtimeRoot) throws IOException {
         assertNotNull(result);
         assertTrue(result.exists());
         assertTrue(result.length() > MIN_SIZE);
@@ -220,7 +223,34 @@ public class MacAppStoreBundlerTest {
         Matcher matcher = jreInfoPListPattern.matcher(output);
         assertTrue("Insure that info.plist is packed in for embedded jre", matcher.find());
 
-        assertFalse("Insure JFX Media isn't packed in", output.contains("/libjfxmedia_qtkit.dylib"));
+        Map<String, Object> params = new HashMap<>();
+        String version;
+        
+        if (runtimeRoot == null) {
+            version = System.getProperty("java.runtime.version");
+        } else {
+            byte[] infoPlistBytes = Files.readAllBytes(Paths.get(runtimeRoot).getParent().resolve("Info.plist"));
+            String infoPlist = new String(infoPlistBytes);
+
+            Pattern cfBundleVersionMatcher = Pattern.compile("<key>CFBundleVersion</key>\\s*<string>([^<]+)</string>");
+            Matcher m = cfBundleVersionMatcher.matcher(infoPlist);
+            assertTrue("Packed Info.plist presents a java version", m.find());
+            version = m.group(1);
+        }
+        AbstractImageBundler.extractFlagsFromVersion(params, "java version \"" + version + "\"\n");
+
+        int majorVersion = Integer.parseInt(params.get(".runtime.version.major").toString());
+        int updateVersion = Integer.parseInt(params.get(".runtime.version.update").toString());
+        
+        if (majorVersion == 8 && updateVersion >= 40) {
+            assertFalse("Insure JFX Media QuickTime Partition isn't packed in", output.contains("/libjfxmedia_qtkit.dylib"));
+        } else {
+            assertFalse("Insure JFX Media isn't packed in", output.contains("/libjfxmedia.dylib"));
+        }
+
+        if (majorVersion == 8 && updateVersion >= 60) {
+            assertFalse("Insure WebView library isn't packed in", output.contains("/libjfxwebkit.dylib"));
+        }
     }
 
     @Test
@@ -291,7 +321,7 @@ public class MacAppStoreBundlerTest {
         File result = bundler.execute(bundleParams, new File(workDir, "everything"));
         System.err.println("Bundle at - " + result);
 
-        checkFiles(result);
+        checkFiles(result, runtimeJdk);
     }
 
     /**
@@ -320,7 +350,7 @@ public class MacAppStoreBundlerTest {
                         new HashSet<>(Arrays.asList(fakeMainJar)))
         );
         bundleParams.put(CLASSPATH.getID(), "mainApp.jar");
-        bundleParams.put(IDENTIFIER.getID(), "com.example.javapackager.hello.TestPackager");
+        bundleParams.put(IDENTIFIER.getID(), "com.example.javapacakger.hello.TestPackager");
         bundleParams.put(MacAppBundler.MAC_CATEGORY.getID(), "public.app-category.developer-tools");
         bundleParams.put(APP_RESOURCES.getID(), new RelativeFileSet(appResourcesDir, appResources));
         bundleParams.put(VERBOSE.getID(), true);
@@ -332,7 +362,7 @@ public class MacAppStoreBundlerTest {
         File result = bundler.execute(bundleParams, new File(workDir, "jre"));
         System.err.println("Bundle at - " + result);
 
-        checkFiles(result);
+        checkFiles(result, runtimeJre);
 
     }
 
@@ -355,7 +385,7 @@ public class MacAppStoreBundlerTest {
                         new HashSet<>(Arrays.asList(fakeMainJar)))
         );
         bundleParams.put(CLASSPATH.getID(), "mainApp.jar");
-        bundleParams.put(IDENTIFIER.getID(), "com.example.javapackager.hello.TestPackager");
+        bundleParams.put(IDENTIFIER.getID(), "com.example.javapacakger.hello.TestPackager");
         bundleParams.put(MacAppBundler.MAC_CATEGORY.getID(), "public.app-category.developer-tools");
         bundleParams.put(APP_RESOURCES.getID(), new RelativeFileSet(appResourcesDir, appResources));
         bundleParams.put(VERBOSE.getID(), true);
