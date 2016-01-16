@@ -349,8 +349,8 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
                     if (mnemonicIndex == -1 ||
                             (bindings != null && !bindings.getMnemonicKeyCombination().equals(mnemonicCode))) {
                         removeMnemonic();
+                        containsMnemonic = false;
                     }
-                    containsMnemonic = false;
                 }
             }
             else {
