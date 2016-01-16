@@ -100,7 +100,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
      */
     final InvalidationListener graphicPropertyChangedListener = valueModel -> {
         invalidText = true;
-        getSkinnable().requestLayout();
+        if (getSkinnable() != null) getSkinnable().requestLayout();
     };
 
     private Rectangle textClip;
