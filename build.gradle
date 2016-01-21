@@ -3456,3 +3456,11 @@ compileTargets { t ->
         }
     )
 }
+
+task checkrepo(type:Exec) {
+    commandLine  'bash', 'tools/scripts/checkWhiteSpace'
+}
+
+task checkrepoall(type:Exec) {
+    commandLine  'bash', 'tools/scripts/checkWhiteSpace', '-a'
+}
