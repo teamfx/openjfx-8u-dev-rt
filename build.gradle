@@ -3424,6 +3424,23 @@ compileTargets { t ->
     openZip.dependsOn(zipTask)
 }
 
+task checkrepo() {
+    doLast {
+        logger.info("checking for whitespace (open)");
+        exec {
+            commandLine  'bash', 'tools/scripts/checkWhiteSpace'
+        }
+    }
+}
+
+task checkrepoall() {
+    doLast {
+        logger.info("checking for all whitespace (open)");
+        exec {
+            commandLine  'bash', 'tools/scripts/checkWhiteSpace', '-a'
+        }
+    }
+}
 
 /******************************************************************************
  *                                                                            *
@@ -3456,10 +3473,3 @@ compileTargets { t ->
     )
 }
 
-task checkrepo(type:Exec) {
-    commandLine  'bash', 'tools/scripts/checkWhiteSpace'
-}
-
-task checkrepoall(type:Exec) {
-    commandLine  'bash', 'tools/scripts/checkWhiteSpace', '-a'
-}
