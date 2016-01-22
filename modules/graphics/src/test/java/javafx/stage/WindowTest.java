@@ -66,7 +66,7 @@ public final class WindowTest {
 
         assertEquals(1.0f, peer.opacity);
     }
-    
+
     @Test public void testProperties() {
         javafx.collections.ObservableMap<Object, Object> properties = testWindow.getProperties();
 

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.shape.PathElement
 public abstract class PathElementBuilder<B extends javafx.scene.shape.PathElementBuilder<B>> {
     protected PathElementBuilder() {
     }
-    
-    
+
+
     private boolean __set;
     public void applyTo(javafx.scene.shape.PathElement x) {
         if (__set) x.setAbsolute(this.absolute);
     }
-    
+
     private boolean absolute;
     /**
     Set the value of the {@link javafx.scene.shape.PathElement#isAbsolute() absolute} property for the instance constructed by this builder.
@@ -53,5 +53,5 @@ public abstract class PathElementBuilder<B extends javafx.scene.shape.PathElemen
         __set = true;
         return (B) this;
     }
-    
+
 }

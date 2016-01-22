@@ -138,7 +138,7 @@ typedef struct _GstRegistryChunkTypeFindFactory
  */
 typedef struct _GstRegistryChunkPadTemplate
 {
-  guint direction;	               /* Either 0:"sink" or 1:"src" */
+  guint direction;                 /* Either 0:"sink" or 1:"src" */
   GstPadPresence presence;
 } GstRegistryChunkPadTemplate;
 

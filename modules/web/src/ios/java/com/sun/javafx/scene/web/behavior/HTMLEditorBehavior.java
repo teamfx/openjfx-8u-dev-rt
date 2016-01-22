@@ -48,7 +48,7 @@ public class HTMLEditorBehavior extends BehaviorBase<HTMLEditor> {
         HTML_EDITOR_BINDINGS.add(new KeyBinding(B, "bold").shortcut());
         HTML_EDITOR_BINDINGS.add(new KeyBinding(I, "italic").shortcut());
         HTML_EDITOR_BINDINGS.add(new KeyBinding(U, "underline").shortcut());
-        
+
         HTML_EDITOR_BINDINGS.add(new KeyBinding(F12, "F12"));
         HTML_EDITOR_BINDINGS.add(new KeyBinding(TAB, "TraverseNext").ctrl());
         HTML_EDITOR_BINDINGS.add(new KeyBinding(TAB, "TraversePrevious").ctrl().shift());

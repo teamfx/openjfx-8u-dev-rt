@@ -129,8 +129,8 @@ import javafx.css.StyleableProperty;
         getStyleClass().setAll(DEFAULT_STYLE_CLASS);
         setAccessibleRole(AccessibleRole.TOGGLE_BUTTON);
         // alignment is styleable through css. Calling setAlignment
-        // makes it look to css like the user set the value and css will not 
-        // override. Initializing alignment by calling set on the 
+        // makes it look to css like the user set the value and css will not
+        // override. Initializing alignment by calling set on the
         // CssMetaData ensures that css will be able to override the value.
         ((StyleableProperty<Pos>)(WritableValue<Pos>)alignmentProperty()).applyStyle(null, Pos.CENTER);
         setMnemonicParsing(true);     // enable mnemonic auto-parsing by default
@@ -202,7 +202,7 @@ import javafx.css.StyleableProperty;
 
     public final ObjectProperty<ToggleGroup> toggleGroupProperty() {
         if (toggleGroup == null) {
-            toggleGroup = new ObjectPropertyBase<ToggleGroup>() {                
+            toggleGroup = new ObjectPropertyBase<ToggleGroup>() {
                 private ToggleGroup old;
                 private ChangeListener<Toggle> listener = (o, oV, nV) ->
                     getImpl_traversalEngine().setOverriddenFocusTraversability(nV != null ? isSelected() : null);
@@ -274,7 +274,7 @@ import javafx.css.StyleableProperty;
             PseudoClass.getPseudoClass("selected");
 
      /**
-      * Not everything uses the default value of false for alignment. 
+      * Not everything uses the default value of false for alignment.
       * This method provides a way to have them return the correct initial value.
       * @treatAsPrivate implementation detail
       */
@@ -294,7 +294,7 @@ import javafx.css.StyleableProperty;
     public Object queryAccessibleAttribute(AccessibleAttribute attribute, Object... parameters) {
         switch (attribute) {
             case SELECTED: return isSelected();
-            default: return super.queryAccessibleAttribute(attribute, parameters); 
+            default: return super.queryAccessibleAttribute(attribute, parameters);
         }
     }
 }

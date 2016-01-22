@@ -1132,7 +1132,7 @@ gst_riff_create_audio_caps (guint16 codec_id,
         gint ch = strf->channels;
         gint wd, ws;
 
-        /* If we have an empty blockalign, we take the width contained in 
+        /* If we have an empty blockalign, we take the width contained in
          * strf->size */
         if (ba != 0)
           wd = ba * 8 / ch;

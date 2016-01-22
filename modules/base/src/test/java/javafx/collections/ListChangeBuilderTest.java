@@ -40,7 +40,7 @@ public class ListChangeBuilderTest {
     private ObservableListWrapper<String> observableList;
     private ArrayList<String> list;
     private MockListObserver<String> observer;
-    
+
     @Before
     public void setUp() {
         observer = new MockListObserver<String>();
@@ -113,7 +113,7 @@ public class ListChangeBuilderTest {
         observer.check1AddRemove(observableList, Arrays.asList("a"), 0, 0);
 
     }
-    
+
     @Test
     public void testAddRemove_4() {
         builder.beginChange();
@@ -168,7 +168,7 @@ public class ListChangeBuilderTest {
         builder.nextAdd(4, 5);
 
         builder.endChange();
-        
+
         assertEquals(list, Arrays.asList("a", "aa","aa","aa","aa", "b", "c", "d", "e"));
 
         observer.checkAddRemove(0, observableList, Collections.EMPTY_LIST, 1, 5);
@@ -456,15 +456,15 @@ public class ListChangeBuilderTest {
     public void testNextReplaceWithoutBegin() {
         builder.nextReplace(0, 1, Collections.EMPTY_LIST);
     }
-    
+
     @Test
     public void testEmpty() {
         builder.beginChange();
         builder.endChange();
-        
+
         observer.check0();
     }
-    
+
     @Test
     public void testToString_Update() {
         observableList.removeListener(observer);
@@ -472,12 +472,12 @@ public class ListChangeBuilderTest {
             assertNotNull(change.toString());
         });
         builder.beginChange();
-        
+
         builder.nextUpdate(0);
-        
+
         builder.endChange();
     }
-    
+
     @Test
     public void testToString_Add() {
         observableList.removeListener(observer);
@@ -485,12 +485,12 @@ public class ListChangeBuilderTest {
             assertNotNull(change.toString());
         });
         builder.beginChange();
-        
+
         builder.nextAdd(0, 1);
-        
+
         builder.endChange();
     }
-    
+
     @Test
     public void testToString_Remove() {
         observableList.removeListener(observer);
@@ -498,12 +498,12 @@ public class ListChangeBuilderTest {
             assertNotNull(change.toString());
         });
         builder.beginChange();
-        
+
         builder.nextRemove(0, "");
-        
+
         builder.endChange();
     }
-    
+
     @Test
     public void testToString_Composed() {
         observableList.removeListener(observer);
@@ -511,14 +511,14 @@ public class ListChangeBuilderTest {
             assertNotNull(change.toString());
         });
         builder.beginChange();
-        
+
         builder.nextUpdate(0);
-        
+
         builder.nextAdd(0, 3);
-        
+
         builder.endChange();
     }
-    
+
     @Test
     public void testToString_Permutation() {
         observableList.removeListener(observer);
@@ -526,9 +526,9 @@ public class ListChangeBuilderTest {
             assertNotNull(change.toString());
         });
         builder.beginChange();
-        
+
         builder.nextPermutation(0, 2, new int[] {1, 0});
-        
+
         builder.endChange();
     }
 

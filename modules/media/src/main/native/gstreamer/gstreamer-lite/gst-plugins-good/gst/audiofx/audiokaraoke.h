@@ -1,4 +1,4 @@
-/* 
+/*
  * GStreamer
  * Copyright (C) 2008 Wim Taymans <wim.taymans@gmail.com>
  *

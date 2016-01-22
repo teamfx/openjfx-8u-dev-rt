@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.TablePosition
 public class TablePositionBuilder<S, T, B extends javafx.scene.control.TablePositionBuilder<S, T, B>> implements javafx.util.Builder<javafx.scene.control.TablePosition<S, T>> {
     protected TablePositionBuilder() {
     }
-    
+
     /** Creates a new instance of TablePositionBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <S, T> javafx.scene.control.TablePositionBuilder<S, T, ?> create() {
         return new javafx.scene.control.TablePositionBuilder();
     }
-    
+
     private int row;
     /**
     Set the value of the {@link javafx.scene.control.TablePosition#getRow() row} property for the instance constructed by this builder.
@@ -52,7 +52,7 @@ public class TablePositionBuilder<S, T, B extends javafx.scene.control.TablePosi
         this.row = x;
         return (B) this;
     }
-    
+
     private javafx.scene.control.TableColumn<S,T> tableColumn;
     /**
     Set the value of the {@link javafx.scene.control.TablePosition#getTableColumn() tableColumn} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public class TablePositionBuilder<S, T, B extends javafx.scene.control.TablePosi
         this.tableColumn = x;
         return (B) this;
     }
-    
+
     private javafx.scene.control.TableView<S> tableView;
     /**
     Set the value of the {@link javafx.scene.control.TablePosition#getTableView() tableView} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public class TablePositionBuilder<S, T, B extends javafx.scene.control.TablePosi
         this.tableView = x;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.TablePosition} based on the properties set on this builder.
     */

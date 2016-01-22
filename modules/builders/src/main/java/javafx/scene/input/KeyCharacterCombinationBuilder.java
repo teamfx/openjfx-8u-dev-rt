@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.input.KeyCharacterCombination
 public final class KeyCharacterCombinationBuilder implements javafx.util.Builder<javafx.scene.input.KeyCharacterCombination> {
     protected KeyCharacterCombinationBuilder() {
     }
-    
+
     /** Creates a new instance of KeyCharacterCombinationBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.input.KeyCharacterCombinationBuilder create() {
         return new javafx.scene.input.KeyCharacterCombinationBuilder();
     }
-    
+
     private javafx.scene.input.KeyCombination.ModifierValue alt;
     /**
     Set the value of the {@link javafx.scene.input.KeyCharacterCombination#getAlt() alt} property for the instance constructed by this builder.
@@ -51,7 +51,7 @@ public final class KeyCharacterCombinationBuilder implements javafx.util.Builder
         this.alt = x;
         return this;
     }
-    
+
     private java.lang.String character;
     /**
     Set the value of the {@link javafx.scene.input.KeyCharacterCombination#getCharacter() character} property for the instance constructed by this builder.
@@ -60,7 +60,7 @@ public final class KeyCharacterCombinationBuilder implements javafx.util.Builder
         this.character = x;
         return this;
     }
-    
+
     private javafx.scene.input.KeyCombination.ModifierValue control;
     /**
     Set the value of the {@link javafx.scene.input.KeyCharacterCombination#getControl() control} property for the instance constructed by this builder.
@@ -69,7 +69,7 @@ public final class KeyCharacterCombinationBuilder implements javafx.util.Builder
         this.control = x;
         return this;
     }
-    
+
     private javafx.scene.input.KeyCombination.ModifierValue meta;
     /**
     Set the value of the {@link javafx.scene.input.KeyCharacterCombination#getMeta() meta} property for the instance constructed by this builder.
@@ -78,7 +78,7 @@ public final class KeyCharacterCombinationBuilder implements javafx.util.Builder
         this.meta = x;
         return this;
     }
-    
+
     private javafx.scene.input.KeyCombination.ModifierValue shift;
     /**
     Set the value of the {@link javafx.scene.input.KeyCharacterCombination#getShift() shift} property for the instance constructed by this builder.
@@ -87,7 +87,7 @@ public final class KeyCharacterCombinationBuilder implements javafx.util.Builder
         this.shift = x;
         return this;
     }
-    
+
     private javafx.scene.input.KeyCombination.ModifierValue shortcut;
     /**
     Set the value of the {@link javafx.scene.input.KeyCharacterCombination#getShortcut() shortcut} property for the instance constructed by this builder.
@@ -96,7 +96,7 @@ public final class KeyCharacterCombinationBuilder implements javafx.util.Builder
         this.shortcut = x;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.input.KeyCharacterCombination} based on the properties set on this builder.
     */

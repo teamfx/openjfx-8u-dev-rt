@@ -58,16 +58,16 @@ class TestNode extends TestNodeBase {
                 public CssMetaData<TestNode, Number> getCssMetaData() {
                     return StyleableProperties.XYZZY;
                 }
-                
+
             };
         }
         return xyzzy;
     }
-    
+
     public void setXyzzy(double number) {
         xyzzyProperty().set(number);
     }
-    
+
     public double getXyzzy() {
         return (xyzzy == null ? .5 : xyzzy.get());
     }
@@ -75,10 +75,10 @@ class TestNode extends TestNodeBase {
     public TestNode() {
         super();
     }
-    
+
      static class StyleableProperties {
 
-         static final CssMetaData<TestNode, Number> XYZZY = 
+         static final CssMetaData<TestNode, Number> XYZZY =
              new CssMetaData<TestNode, Number>("-fx-xyzzy",
                  SizeConverter.getInstance(),
                  .5) {
@@ -92,13 +92,13 @@ class TestNode extends TestNodeBase {
             public StyleableProperty<Number> getStyleableProperty(TestNode node) {
                 return (StyleableProperty<Number>)node.xyzzyProperty();
             }
-                     
+
          };
-            
+
          private static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
          static {
-            final List<CssMetaData<? extends Styleable, ?>> styleables = 
-		new ArrayList<CssMetaData<? extends Styleable, ?>>(TestNodeBase.getClassCssMetaData());
+            final List<CssMetaData<? extends Styleable, ?>> styleables =
+        new ArrayList<CssMetaData<? extends Styleable, ?>>(TestNodeBase.getClassCssMetaData());
             styleables.add(XYZZY);
             STYLEABLES = Collections.unmodifiableList(styleables);
          }
@@ -116,8 +116,8 @@ class TestNode extends TestNodeBase {
      * {@inheritDoc}
      *
      */
-    
-    
+
+
     @Override
     public List<CssMetaData<? extends Styleable, ?>> getCssMetaData() {
         return getClassCssMetaData();

@@ -42,15 +42,15 @@ import java.net.URL;
  *
  */
 class FXOMImageBuilder extends JavaFXImageBuilder {
-    
+
     /*
      * JavaFXImageBuilder
      */
-    
+
     @Override
     public Object put(String key, Object value) {
         Object fixedValue;
-        
+
         if ("url".equals(key)) { //NOI18N
             if (value == null) {
                 fixedValue = getMissingImageURL().toExternalForm();
@@ -72,17 +72,17 @@ class FXOMImageBuilder extends JavaFXImageBuilder {
         } else {
             fixedValue = value;
         }
-        
+
         return super.put(key, fixedValue);
     }
-        
-    
+
+
     /*
      * Private
      */
-    
+
     private static URL missingImageURL;
-    
+
     private static URL getMissingImageURL() {
         if (missingImageURL == null) {
             missingImageURL = FXOMImageBuilder.class.getResource("missing-image.png"); //NOI18N

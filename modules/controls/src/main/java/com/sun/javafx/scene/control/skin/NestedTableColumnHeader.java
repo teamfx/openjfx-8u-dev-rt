@@ -93,16 +93,16 @@ public class NestedTableColumnHeader extends TableColumnHeader {
     boolean updateColumns = true;
 
 
-    
+
     /***************************************************************************
      *                                                                         *
      * Constructor                                                             *
      *                                                                         *
      **************************************************************************/
-    
+
     public NestedTableColumnHeader(final TableViewSkinBase skin, final TableColumnBase tc) {
         super(skin, tc);
-        
+
         getStyleClass().setAll("nested-column-header");
         setFocusTraversable(false);
 
@@ -119,18 +119,18 @@ public class NestedTableColumnHeader extends TableColumnHeader {
         changeListenerHandler.registerChangeListener(skin.columnResizePolicyProperty(), "TABLE_VIEW_COLUMN_RESIZE_POLICY");
     }
 
-    
-    
+
+
     /***************************************************************************
      *                                                                         *
      * Listeners                                                               *
      *                                                                         *
      **************************************************************************/
-    
+
     private final ListChangeListener<TableColumnBase> columnsListener = c -> {
         setHeadersNeedUpdate();
     };
-    
+
     private final WeakListChangeListener weakColumnsListener =
             new WeakListChangeListener(columnsListener);
 
@@ -196,7 +196,7 @@ public class NestedTableColumnHeader extends TableColumnHeader {
             }
         }
     };
-    
+
 
 
     /***************************************************************************
@@ -239,14 +239,14 @@ public class NestedTableColumnHeader extends TableColumnHeader {
         if (this.columns != null) {
             this.columns.removeListener(weakColumnsListener);
         }
-        
-        this.columns = newColumns;  
-        
+
+        this.columns = newColumns;
+
         if (this.columns != null) {
             this.columns.addListener(weakColumnsListener);
         }
     }
-    
+
     void updateTableColumnHeaders() {
         // watching for changes to the view columns in either table or tableColumn.
         if (getTableColumn() == null && getTableViewSkin() != null) {
@@ -258,7 +258,7 @@ public class NestedTableColumnHeader extends TableColumnHeader {
         // update the column headers...
 
         // iterate through all columns, unless we've got no child columns
-        // any longer, in which case we should switch to a TableColumnHeader 
+        // any longer, in which case we should switch to a TableColumnHeader
         // instead
         if (getColumns().isEmpty()) {
             // iterate through all current headers, telling them to clean up
@@ -282,7 +282,7 @@ public class NestedTableColumnHeader extends TableColumnHeader {
         } else {
             List<TableColumnHeader> oldHeaders = new ArrayList<>(getColumnHeaders());
             List<TableColumnHeader> newHeaders = new ArrayList<>();
-            
+
             for (int i = 0; i < getColumns().size(); i++) {
                 TableColumnBase<?,?> column = getColumns().get(i);
                 if (column == null || ! column.isVisible()) continue;
@@ -303,7 +303,7 @@ public class NestedTableColumnHeader extends TableColumnHeader {
                     newHeaders.add(createColumnHeader(column));
                 }
             }
-            
+
             getColumnHeaders().setAll(newHeaders);
 
             // dispose all old headers
@@ -312,23 +312,23 @@ public class NestedTableColumnHeader extends TableColumnHeader {
                 oldHeaders.get(i).dispose();
             }
         }
-        
+
         // update the content
         updateContent();
-        
+
         // RT-33596: Do CSS now, as we are in the middle of layout pass and the headers are new Nodes w/o CSS done
         for (TableColumnHeader header : getColumnHeaders()) {
             header.applyCss();
         }
     }
-    
+
     @Override void dispose() {
         super.dispose();
-        
+
         if (label != null) {
             label.dispose();
         }
-        
+
         if (getColumns() != null) {
             getColumns().removeListener(weakColumnsListener);
         }
@@ -345,13 +345,13 @@ public class NestedTableColumnHeader extends TableColumnHeader {
         }
         dragRects.clear();
         getChildren().clear();
-        
+
         changeListenerHandler.dispose();
     }
 
     public ObservableList<TableColumnHeader> getColumnHeaders() {
         if (columnHeaders == null) columnHeaders = FXCollections.<TableColumnHeader>observableArrayList();
-        return columnHeaders; 
+        return columnHeaders;
     }
 
     @Override protected void layoutChildren() {
@@ -486,12 +486,12 @@ public class NestedTableColumnHeader extends TableColumnHeader {
 
         getChildren().setAll(content);
     }
-    
+
     private void rebuildDragRects() {
         if (! isColumnResizingEnabled()) return;
-        
+
         getChildren().removeAll(dragRects.values());
-        
+
         for (Rectangle rect : dragRects.values()) {
             rect.visibleProperty().unbind();
         }
@@ -552,7 +552,7 @@ public class NestedTableColumnHeader extends TableColumnHeader {
         newCol.setParentHeader(this);
         return newCol;
     }
-    
+
 
 
     /***************************************************************************

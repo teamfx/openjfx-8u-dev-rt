@@ -72,7 +72,7 @@ import static org.junit.Assert.assertEquals;
 public class StylesheetTest {
 
     String testURL = null;
-    
+
     public StylesheetTest() {
         testURL = getClass().getResource("HonorDeveloperSettingsTest_UA.css").toExternalForm();
     }
@@ -86,7 +86,7 @@ public class StylesheetTest {
         URL expResult = null;
         String result = instance.getUrl();
         assertEquals(expResult, result);
-        
+
         instance = new Stylesheet(testURL);
         result = instance.getUrl();
         assertEquals(testURL, result);
@@ -101,7 +101,7 @@ public class StylesheetTest {
         StyleOrigin expResult = StyleOrigin.AUTHOR;
         StyleOrigin result = instance.getOrigin();
         assertEquals(expResult, result);
-        
+
         instance.setOrigin(StyleOrigin.INLINE);
         expResult = StyleOrigin.INLINE;
         result = instance.getOrigin();
@@ -134,13 +134,13 @@ public class StylesheetTest {
         assert(rules.size() == 5);
         for(Rule r : rules) assertEquals(r, rule);
     }
-    
+
     @Test
     public void testAddingRuleSetsStylesheetOnRule() {
         Rule rule = new Rule(Collections.EMPTY_LIST, Collections.EMPTY_LIST);
         Stylesheet instance = new Stylesheet();
         instance.getRules().add(rule);
-        assert(rule.getStylesheet() == instance);        
+        assert(rule.getStylesheet() == instance);
     }
 
     @Test
@@ -151,7 +151,7 @@ public class StylesheetTest {
         instance.getRules().remove(rule);
         assertNull(rule.getStylesheet());
     }
-    
+
     /**
      * Test of equals method, of class Stylesheet.
      */
@@ -174,12 +174,12 @@ public class StylesheetTest {
         expResult = false;
         result = instance.equals(obj);
         assertEquals(expResult, result);
-        
+
         obj = instance = new Stylesheet(testURL);
         expResult = true;
         result = instance.equals(obj);
         assertEquals(expResult, result);
-        
+
     }
 
     /**
@@ -229,7 +229,7 @@ public class StylesheetTest {
         fail("The test case is a prototype.");
     }
      */
-    
+
     @Test public void test_RT_18126() {
         // CSS cannot write binary -fx-background-repeat: repeat, no-repeat;
         String data = "#rt18126 {"

@@ -38,12 +38,12 @@ import java.util.HashMap;
 import static org.junit.Assert.fail;
 
 public class ReadOnlyMapPropertyBaseTest {
-    
+
     private static final Object UNDEFINED = null;
     private static final Object DEFAULT = null;
     private static final ObservableMap<Object, Object> VALUE_1 = FXCollections.observableMap(Collections.emptyMap());
     private static final ObservableMap<Object, Object> VALUE_2 = FXCollections.observableMap(Collections.singletonMap(new Object(), new Object()));
-    
+
     private ReadOnlyPropertyMock property;
     private InvalidationListenerMock invalidationListener;
     private ChangeListenerMock<Object> changeListener;
@@ -54,7 +54,7 @@ public class ReadOnlyMapPropertyBaseTest {
         invalidationListener = new InvalidationListenerMock();
         changeListener = new ChangeListenerMock<Object>(UNDEFINED);
     }
-    
+
     @Test
     public void testInvalidationListener() {
         property.addListener(invalidationListener);
@@ -80,11 +80,11 @@ public class ReadOnlyMapPropertyBaseTest {
         property.set(VALUE_2);
         changeListener.check(null, UNDEFINED, UNDEFINED, 0);
     }
-    
+
     private static class ReadOnlyPropertyMock extends ReadOnlyMapPropertyBase<Object, Object> {
 
         private ObservableMap<Object, Object> value;
-        
+
         @Override
         public Object getBean() {
             // not used
@@ -96,7 +96,7 @@ public class ReadOnlyMapPropertyBaseTest {
             // not used
             return null;
         }
-        
+
         private void set(ObservableMap<Object, Object> value) {
             this.value = value;
             fireValueChangedEvent();

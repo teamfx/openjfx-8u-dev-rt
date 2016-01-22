@@ -27,7 +27,7 @@
 #include <gst/base/gstbasesink.h>
 
 G_BEGIN_DECLS
-  
+
 #define GST_TYPE_VIDEO_SINK (gst_video_sink_get_type())
 #define GST_VIDEO_SINK(obj) \
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_VIDEO_SINK, GstVideoSink))
@@ -60,7 +60,7 @@ G_BEGIN_DECLS
 
 #define GST_VIDEO_SINK_WIDTH(obj) (GST_VIDEO_SINK_CAST (obj)->width)
 #define GST_VIDEO_SINK_HEIGHT(obj) (GST_VIDEO_SINK_CAST (obj)->height)
-  
+
 typedef struct _GstVideoSink GstVideoSink;
 typedef struct _GstVideoSinkClass GstVideoSinkClass;
 typedef struct _GstVideoRectangle GstVideoRectangle;
@@ -93,9 +93,9 @@ struct _GstVideoRectangle {
  */
 struct _GstVideoSink {
   GstBaseSink element;    /* FIXME 0.11: this should not be called 'element' */
-  
+
   gint width, height;
-  
+
   /*< private >*/
   GstVideoSinkPrivate *priv;
 

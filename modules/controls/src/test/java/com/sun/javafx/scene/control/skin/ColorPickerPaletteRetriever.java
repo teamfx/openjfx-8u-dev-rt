@@ -35,25 +35,25 @@ import javafx.stage.Stage;
  *
  */
 public class ColorPickerPaletteRetriever {
-    
+
     public static ColorPalette getColorPalette(ColorPicker cp) {
         ColorPickerSkin cpSkin = (ColorPickerSkin)cp.getSkin();
         return (ColorPalette)cpSkin.getPopupContent();
     }
-    
+
 //    public static ColorPalette.ColorPickerGrid getColorGrid(ColorPalette colorPalette) {
 //        return colorPalette.colorPickerGrid;
 //    }
-    
+
     public static PopupControl getPopup(ColorPicker cp) {
         ColorPickerSkin cpSkin = (ColorPickerSkin)cp.getSkin();
         return cpSkin.getPopup();
     }
-    
+
     public static Hyperlink getCustomColorLink(ColorPalette cp) {
         return cp.customColorLink;
     }
-    
+
     public static Stage getCustomColorDialog(ColorPalette cp) {
         if (cp.customColorDialog != null) return cp.customColorDialog.getDialog();
         return null;

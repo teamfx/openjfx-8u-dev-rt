@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.SnapshotParameters
 public class SnapshotParametersBuilder<B extends javafx.scene.SnapshotParametersBuilder<B>> implements javafx.util.Builder<javafx.scene.SnapshotParameters> {
     protected SnapshotParametersBuilder() {
     }
-    
+
     /** Creates a new instance of SnapshotParametersBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.SnapshotParametersBuilder<?> create() {
         return new javafx.scene.SnapshotParametersBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.SnapshotParameters x) {
         int set = __set;
@@ -52,7 +52,7 @@ public class SnapshotParametersBuilder<B extends javafx.scene.SnapshotParameters
         if ((set & (1 << 3)) != 0) x.setTransform(this.transform);
         if ((set & (1 << 4)) != 0) x.setViewport(this.viewport);
     }
-    
+
     private javafx.scene.Camera camera;
     /**
     Set the value of the {@link javafx.scene.SnapshotParameters#getCamera() camera} property for the instance constructed by this builder.
@@ -63,7 +63,7 @@ public class SnapshotParametersBuilder<B extends javafx.scene.SnapshotParameters
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private boolean depthBuffer;
     /**
     Set the value of the {@link javafx.scene.SnapshotParameters#isDepthBuffer() depthBuffer} property for the instance constructed by this builder.
@@ -74,7 +74,7 @@ public class SnapshotParametersBuilder<B extends javafx.scene.SnapshotParameters
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private javafx.scene.paint.Paint fill;
     /**
     Set the value of the {@link javafx.scene.SnapshotParameters#getFill() fill} property for the instance constructed by this builder.
@@ -85,7 +85,7 @@ public class SnapshotParametersBuilder<B extends javafx.scene.SnapshotParameters
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private javafx.scene.transform.Transform transform;
     /**
     Set the value of the {@link javafx.scene.SnapshotParameters#getTransform() transform} property for the instance constructed by this builder.
@@ -96,7 +96,7 @@ public class SnapshotParametersBuilder<B extends javafx.scene.SnapshotParameters
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private javafx.geometry.Rectangle2D viewport;
     /**
     Set the value of the {@link javafx.scene.SnapshotParameters#getViewport() viewport} property for the instance constructed by this builder.
@@ -107,7 +107,7 @@ public class SnapshotParametersBuilder<B extends javafx.scene.SnapshotParameters
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.SnapshotParameters} based on the properties set on this builder.
     */

@@ -48,7 +48,7 @@ public class BloomTest extends EffectsTestBase {
         pulse();
         assertEquals(1.0f, (float) ((com.sun.scenario.effect.Bloom)effect.impl_getImpl()).getThreshold(), 1e-100);
     }
-    
+
     @Test
     public void testDefaultThreshold() {
         // default value should be 0.3
@@ -57,7 +57,7 @@ public class BloomTest extends EffectsTestBase {
         pulse();
         assertEquals(0.3f, (float) ((com.sun.scenario.effect.Bloom)effect.impl_getImpl()).getThreshold(), 1e-100);
     }
-    
+
     @Test
     public void testMinThreshold() {
         // 0 should be ok
@@ -108,7 +108,7 @@ public class BloomTest extends EffectsTestBase {
         effect.setInput(blur);
         assertEquals(box(-2, -2, 104, 104), n.getBoundsInLocal());
     }
-    
+
     @Test
     public void testCreateWithParams() {
         effect = new Bloom(1);
@@ -117,7 +117,7 @@ public class BloomTest extends EffectsTestBase {
         pulse();
         assertEquals(1.0f, ((com.sun.scenario.effect.Bloom) effect.impl_getImpl()).getThreshold(), 1e-100);
     }
-        
+
     @Test
     public void testCreateWithDefaultParams() {
         effect = new Bloom(0.3);

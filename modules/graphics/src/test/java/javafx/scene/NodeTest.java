@@ -1039,12 +1039,12 @@ public class NodeTest {
         assertEquals(100.0, sc.getRadius(), 0.01);
 
     }
-    
+
     @Test
     public void testSynchronizationOfInvisibleNodes_2() {
         final Group g = new Group();
         final Circle c = new CircleTest.StubCircle(50);
-        
+
         Scene s = new Scene(g);
         Stage st = new Stage();
         st.show();
@@ -1052,7 +1052,7 @@ public class NodeTest {
 
         final NGGroup sg = g.impl_getPeer();
         final CircleTest.StubNGCircle sc = c.impl_getPeer();
-        
+
         g.getChildren().add(c);
 
         s.scenePulseListener.pulse();
@@ -1079,17 +1079,17 @@ public class NodeTest {
         g.setVisible(true);
 
         s.scenePulseListener.pulse();
-        
+
         assertTrue(sg.isVisible());
-        assertFalse(sc.isVisible()); // Now the group is visible again, we need to synchronize also 
+        assertFalse(sc.isVisible()); // Now the group is visible again, we need to synchronize also
                                      // the Circle
     }
-    
+
     @Test
     public void testSynchronizationOfInvisibleNodes_2_withClip() {
         final Group g = new Group();
         final Circle c = new CircleTest.StubCircle(50);
-        
+
         Scene s = new Scene(g);
         Stage st = new Stage();
         st.show();
@@ -1097,7 +1097,7 @@ public class NodeTest {
 
         final NGGroup sg = g.impl_getPeer();
         final CircleTest.StubNGCircle sc = c.impl_getPeer();
-        
+
         g.setClip(c);
 
         s.scenePulseListener.pulse();
@@ -1124,9 +1124,9 @@ public class NodeTest {
         g.setVisible(true);
 
         s.scenePulseListener.pulse();
-        
+
         assertTrue(sg.isVisible());
-        assertFalse(sc.isVisible()); // Now the group is visible again, we need to synchronize also 
+        assertFalse(sc.isVisible()); // Now the group is visible again, we need to synchronize also
                                      // the Circle
     }
 

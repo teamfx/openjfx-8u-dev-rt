@@ -62,7 +62,7 @@ public class TableHeaderRow extends StackPane {
      *                                                                         *
      **************************************************************************/
 
-    private static final String MENU_SEPARATOR = 
+    private static final String MENU_SEPARATOR =
             ControlResources.getString("TableView.nestedColumnControlMenuSeparator");
 
 
@@ -144,7 +144,7 @@ public class TableHeaderRow extends StackPane {
      * Constructor                                                             *
      *                                                                         *
      **************************************************************************/
-    
+
     public TableHeaderRow(final TableViewSkinBase skin) {
         this.tableSkin = skin;
         this.flow = skin.flow;
@@ -200,9 +200,9 @@ public class TableHeaderRow extends StackPane {
             @Override protected void layoutChildren() {
                 double imageWidth = image.snappedLeftInset() + image.snappedRightInset();
                 double imageHeight = image.snappedTopInset() + image.snappedBottomInset();
-                
+
                 image.resize(imageWidth, imageHeight);
-                positionInArea(image, 0, 0, getWidth(), getHeight() - 3, 
+                positionInArea(image, 0, 0, getWidth(), getHeight() - 3,
                         0, HPos.CENTER, VPos.CENTER);
             }
         };
@@ -225,15 +225,15 @@ public class TableHeaderRow extends StackPane {
         // reordering
         getChildren().addAll(filler, header, cornerRegion, dragHeader);
     }
-    
+
 
 
     /***************************************************************************
      *                                                                         *
      * Listeners                                                               *
      *                                                                         *
-     **************************************************************************/    
-    
+     **************************************************************************/
+
     private InvalidationListener tableWidthListener = valueModel -> {
         updateTableWidth();
     };
@@ -241,20 +241,20 @@ public class TableHeaderRow extends StackPane {
     private InvalidationListener tablePaddingListener = valueModel -> {
         updateTableWidth();
     };
-    
+
     private ListChangeListener visibleLeafColumnsListener = new ListChangeListener<TableColumn<?,?>>() {
         @Override public void onChanged(ListChangeListener.Change<? extends TableColumn<?,?>> c) {
             // This is necessary for RT-20300 (but was updated for RT-20840)
             header.setHeadersNeedUpdate();
         }
     };
-    
+
     private final ListChangeListener tableColumnsListener = c -> {
         while (c.next()) {
             updateTableColumnListeners(c.getAddedSubList(), c.getRemoved());
         }
     };
-    
+
     private final InvalidationListener columnTextListener = observable -> {
         TableColumnBase<?,?> column = (TableColumnBase<?,?>) ((StringProperty)observable).getBean();
         CheckMenuItem menuItem = columnMenuItems.get(column);
@@ -262,8 +262,8 @@ public class TableHeaderRow extends StackPane {
             menuItem.setText(getText(column.getText(), column));
         }
     };
-    
-    private final WeakInvalidationListener weakTableWidthListener = 
+
+    private final WeakInvalidationListener weakTableWidthListener =
             new WeakInvalidationListener(tableWidthListener);
 
     private final WeakInvalidationListener weakTablePaddingListener =
@@ -271,11 +271,11 @@ public class TableHeaderRow extends StackPane {
 
     private final WeakListChangeListener weakVisibleLeafColumnsListener =
             new WeakListChangeListener(visibleLeafColumnsListener);
-    
+
     private final WeakListChangeListener weakTableColumnsListener =
             new WeakListChangeListener(tableColumnsListener);
-    
-    private final WeakInvalidationListener weakColumnTextListener = 
+
+    private final WeakInvalidationListener weakColumnTextListener =
             new WeakInvalidationListener(columnTextListener);
 
 
@@ -295,7 +295,7 @@ public class TableHeaderRow extends StackPane {
 
         // position the main nested header
         header.resizeRelocate(x, snappedTopInset(), headerWidth, prefHeight);
-        
+
         // position the filler region
         final Control control = tableSkin.getSkinnable();
         if (control == null) {
@@ -539,24 +539,24 @@ public class TableHeaderRow extends StackPane {
         }
         return s;
     }
-    
+
     // We need to show strings properly. If a column has a parent column which is
     // not inserted into the TableView columns list, it effectively doesn't have
     // a parent column from the users perspective. As such, we shouldn't include
     // the parent column text in the menu. Fixes RT-14482.
     private boolean isColumnVisibleInHeader(TableColumnBase col, List columns) {
         if (col == null) return false;
-        
+
         for (int i = 0; i < columns.size(); i++) {
             TableColumnBase column = (TableColumnBase) columns.get(i);
             if (col.equals(column)) return true;
-            
+
             if (! column.getColumns().isEmpty()) {
                 boolean isVisible = isColumnVisibleInHeader(col, column.getColumns());
                 if (isVisible) return true;
             }
         }
-        
+
         return false;
     }
 }

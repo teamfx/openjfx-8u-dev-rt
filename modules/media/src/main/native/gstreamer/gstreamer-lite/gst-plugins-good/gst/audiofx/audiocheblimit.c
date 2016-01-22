@@ -1,4 +1,4 @@
-/* 
+/*
  * GStreamer
  * Copyright (C) 2007-2009 Sebastian Dröge <sebastian.droege@collabora.co.uk>
  *
@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-/* 
+/*
  * Chebyshev type 1 filter design based on
  * "The Scientist and Engineer's Guide to DSP", Chapter 20.
  * http://www.dspguide.com/

@@ -661,13 +661,13 @@ struct _GstElementClass
 
   /*< private >*/
   /* FIXME-0.11: move up and replace details */
-  gpointer		meta_data;
+  gpointer      meta_data;
 
   /*< public >*/
   /* Virtual method for subclasses (additions) */
   /* FIXME-0.11 Make this the default behaviour */
-  GstPad*		(*request_new_pad_full) (GstElement *element, GstPadTemplate *templ,
-						 const gchar* name, const GstCaps *caps);
+  GstPad*       (*request_new_pad_full) (GstElement *element, GstPadTemplate *templ,
+                         const gchar* name, const GstCaps *caps);
 
   /*< private >*/
   gpointer _gst_reserved[GST_PADDING-2];
@@ -768,8 +768,8 @@ GstPad*                 gst_element_get_pad             (GstElement *element, co
 GstPad*                 gst_element_get_static_pad      (GstElement *element, const gchar *name);
 GstPad*                 gst_element_get_request_pad     (GstElement *element, const gchar *name);
 GstPad*                 gst_element_request_pad         (GstElement *element,
-							 GstPadTemplate *templ,
-							 const gchar * name, const GstCaps *caps);
+                             GstPadTemplate *templ,
+                             const gchar * name, const GstCaps *caps);
 void                    gst_element_release_request_pad (GstElement *element, GstPad *pad);
 
 GstIterator *           gst_element_iterate_pads        (GstElement * element);

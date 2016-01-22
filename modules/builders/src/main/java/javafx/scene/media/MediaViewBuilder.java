@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.media.MediaView
 public class MediaViewBuilder<B extends javafx.scene.media.MediaViewBuilder<B>> extends javafx.scene.NodeBuilder<B> implements javafx.util.Builder<javafx.scene.media.MediaView> {
     protected MediaViewBuilder() {
     }
-    
+
     /** Creates a new instance of MediaViewBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.media.MediaViewBuilder<?> create() {
         return new javafx.scene.media.MediaViewBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -66,7 +66,7 @@ public class MediaViewBuilder<B extends javafx.scene.media.MediaViewBuilder<B>> 
             }
         }
     }
-    
+
     private double fitHeight;
     /**
     Set the value of the {@link javafx.scene.media.MediaView#getFitHeight() fitHeight} property for the instance constructed by this builder.
@@ -77,7 +77,7 @@ public class MediaViewBuilder<B extends javafx.scene.media.MediaViewBuilder<B>> 
         __set(0);
         return (B) this;
     }
-    
+
     private double fitWidth;
     /**
     Set the value of the {@link javafx.scene.media.MediaView#getFitWidth() fitWidth} property for the instance constructed by this builder.
@@ -88,7 +88,7 @@ public class MediaViewBuilder<B extends javafx.scene.media.MediaViewBuilder<B>> 
         __set(1);
         return (B) this;
     }
-    
+
     private javafx.scene.media.MediaPlayer mediaPlayer;
     /**
     Set the value of the {@link javafx.scene.media.MediaView#getMediaPlayer() mediaPlayer} property for the instance constructed by this builder.
@@ -99,7 +99,7 @@ public class MediaViewBuilder<B extends javafx.scene.media.MediaViewBuilder<B>> 
         __set(2);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.scene.media.MediaErrorEvent> onError;
     /**
     Set the value of the {@link javafx.scene.media.MediaView#getOnError() onError} property for the instance constructed by this builder.
@@ -110,7 +110,7 @@ public class MediaViewBuilder<B extends javafx.scene.media.MediaViewBuilder<B>> 
         __set(3);
         return (B) this;
     }
-    
+
     private boolean preserveRatio;
     /**
     Set the value of the {@link javafx.scene.media.MediaView#isPreserveRatio() preserveRatio} property for the instance constructed by this builder.
@@ -121,7 +121,7 @@ public class MediaViewBuilder<B extends javafx.scene.media.MediaViewBuilder<B>> 
         __set(4);
         return (B) this;
     }
-    
+
     private boolean smooth;
     /**
     Set the value of the {@link javafx.scene.media.MediaView#isSmooth() smooth} property for the instance constructed by this builder.
@@ -132,7 +132,7 @@ public class MediaViewBuilder<B extends javafx.scene.media.MediaViewBuilder<B>> 
         __set(5);
         return (B) this;
     }
-    
+
     private javafx.geometry.Rectangle2D viewport;
     /**
     Set the value of the {@link javafx.scene.media.MediaView#getViewport() viewport} property for the instance constructed by this builder.
@@ -143,7 +143,7 @@ public class MediaViewBuilder<B extends javafx.scene.media.MediaViewBuilder<B>> 
         __set(6);
         return (B) this;
     }
-    
+
     private double x;
     /**
     Set the value of the {@link javafx.scene.media.MediaView#getX() x} property for the instance constructed by this builder.
@@ -154,7 +154,7 @@ public class MediaViewBuilder<B extends javafx.scene.media.MediaViewBuilder<B>> 
         __set(7);
         return (B) this;
     }
-    
+
     private double y;
     /**
     Set the value of the {@link javafx.scene.media.MediaView#getY() y} property for the instance constructed by this builder.
@@ -165,7 +165,7 @@ public class MediaViewBuilder<B extends javafx.scene.media.MediaViewBuilder<B>> 
         __set(8);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.media.MediaView} based on the properties set on this builder.
     */

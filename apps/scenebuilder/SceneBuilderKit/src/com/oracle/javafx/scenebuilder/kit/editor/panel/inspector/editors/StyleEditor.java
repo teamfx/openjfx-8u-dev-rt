@@ -81,7 +81,7 @@ public class StyleEditor extends InlineListEditor {
         super(propMeta, selectedClasses);
         initialize(selectedClasses, editorController);
     }
-    
+
     private void initialize(Set<Class<?>> selectedClasses, EditorController editorController) {
         this.selectedClasses = selectedClasses;
         this.editorController = editorController;
@@ -179,7 +179,7 @@ public class StyleEditor extends InlineListEditor {
         }
 
         if (value != null) {
-            // Compare the values without spaces, since the fxml file could have 
+            // Compare the values without spaces, since the fxml file could have
             // a different formatting than the one we generate.
             assert value instanceof String;
             assert valueProperty().getValue() instanceof String;

@@ -113,7 +113,7 @@ public class TestBase implements ChangeListener, InvalidationListener {
         });
         waitLoadFinished();
     }
-    
+
     /**
      * Reloads current page.
      * This method blocks until loading is finished.
@@ -122,7 +122,7 @@ public class TestBase implements ChangeListener, InvalidationListener {
         Platform.runLater(() -> {
             getEngine().reload();
         });
-        waitLoadFinished();        
+        waitLoadFinished();
     }
 
     /**
@@ -280,10 +280,10 @@ public class TestBase implements ChangeListener, InvalidationListener {
      * Allows to override default load timeout value (in milliseconds).
      */
     protected int getLoadTimeOut() {
-	return LOAD_TIMEOUT;
+    return LOAD_TIMEOUT;
     }
-    
+
     public void waitLoadFinished() {
-        wait(LOCK, getLoadTimeOut());        
+        wait(LOCK, getLoadTimeOut());
     }
 }

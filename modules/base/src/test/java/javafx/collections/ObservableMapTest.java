@@ -128,7 +128,7 @@ public class ObservableMapTest {
         observableMap.put("foo", null);
 
         assertEquals(2, observableMap.size());
-        
+
         observableMap.remove("bar");
         observableMap.remove("foo");
 
@@ -145,7 +145,7 @@ public class ObservableMapTest {
 
         assertEquals(observer.getCallsNumber(), 6);
     }
-    
+
     @Test
     public void testPutRemove_NullKey() {
         if (mapFactory instanceof TestedObservableMaps.CallableConcurrentHashMapImpl ||
@@ -156,7 +156,7 @@ public class ObservableMapTest {
         observableMap.put(null, "abc");
 
         assertEquals(4, observableMap.size());
-        
+
         observableMap.remove(null);
 
         assertEquals(3, observableMap.size());
@@ -450,7 +450,7 @@ public class ObservableMapTest {
             public V setValue(V value) {
                 throw new UnsupportedOperationException("Not supported.");
             }
-            
+
             @Override
             public boolean equals(Object obj) {
                 if (!(obj instanceof Map.Entry)) {
@@ -462,7 +462,7 @@ public class ObservableMapTest {
                     (getValue()==null ?
                     entry.getValue()==null : getValue().equals(entry.getValue()));
             }
-            
+
             @Override
             public int hashCode() {
                 return (getKey()==null   ? 0 : getKey().hashCode()) ^

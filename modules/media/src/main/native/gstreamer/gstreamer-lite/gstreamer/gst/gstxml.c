@@ -25,7 +25,7 @@
  * @short_description: XML save/restore operations of pipelines
  *
  * GStreamer pipelines can be saved to xml files using gst_xml_write_file().
- * They can be loaded back using gst_xml_parse_doc() / gst_xml_parse_file() / 
+ * They can be loaded back using gst_xml_parse_doc() / gst_xml_parse_file() /
  * gst_xml_parse_memory().
  * Additionally one can load saved pipelines into the gst-editor to inspect the
  * graph.
@@ -53,12 +53,12 @@ xmlNodePtr gst_object_save_thyself (const GstObject * object,
 GstObject *gst_object_load_thyself (xmlNodePtr parent);
 void gst_object_restore_thyself (GstObject * object, GstXmlNodePtr self);
 
-#define GST_TYPE_XML 		(gst_xml_get_type ())
-#define GST_XML(obj) 		(G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_XML, GstXML))
-#define GST_IS_XML(obj) 	(G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_XML))
-#define GST_XML_CLASS(klass) 	(G_TYPE_CHECK_CLASS_CAST ((klass), GST_TYPE_XML, GstXMLClass))
+#define GST_TYPE_XML        (gst_xml_get_type ())
+#define GST_XML(obj)        (G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_XML, GstXML))
+#define GST_IS_XML(obj)     (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_XML))
+#define GST_XML_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GST_TYPE_XML, GstXMLClass))
 #define GST_IS_XML_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GST_TYPE_XML))
-#define GST_XML_GET_CLASS(obj) 	(G_TYPE_INSTANCE_GET_CLASS ((obj), GST_TYPE_XML, GstXMLClass))
+#define GST_XML_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GST_TYPE_XML, GstXMLClass))
 
 typedef struct _GstXML GstXML;
 typedef struct _GstXMLClass GstXMLClass;

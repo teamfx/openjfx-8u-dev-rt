@@ -47,7 +47,7 @@
 
 G_BEGIN_DECLS
 
-#define FOURCC_ftyp	GST_MAKE_FOURCC('f','t','y','p')
+#define FOURCC_ftyp GST_MAKE_FOURCC('f','t','y','p')
 #define FOURCC_isom     GST_MAKE_FOURCC('i','s','o','m')
 #define FOURCC_iso2     GST_MAKE_FOURCC('i','s','o','2')
 #define FOURCC_mp41     GST_MAKE_FOURCC('m','p','4','1')

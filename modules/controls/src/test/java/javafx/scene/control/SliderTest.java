@@ -46,18 +46,18 @@ import org.junit.Test;
  * @author smarks
  */
 public class SliderTest {
-    
-    
+
+
     private Slider slider;
     private Toolkit tk;
     private Scene scene;
     private Stage stage;
-    
+
     @Before public void setup() {
         tk = (StubToolkit)Toolkit.getToolkit();//This step is not needed (Just to make sure StubToolkit is loaded into VM)
         slider = new Slider();
     }
-    
+
     protected void startApp(Parent root) {
         scene = new Scene(root,800,600);
         stage = new Stage();
@@ -69,9 +69,9 @@ public class SliderTest {
         StackPane pane = new StackPane();
         pane.getChildren().add(slider);
         startApp(pane);
-        
+
         ParsedValue pv = CSSParser.getInstance().parseExpr("-fx-minor-tick-count","2");
-        Object val = pv.convert(null);        
+        Object val = pv.convert(null);
         try {
             ((StyleableProperty)slider.minorTickCountProperty()).applyStyle(null, val);
             assertEquals(2, slider.getMinorTickCount(), 0.);
@@ -79,7 +79,7 @@ public class SliderTest {
             Assert.fail(e.toString());
         }
     }
-    
+
     @Test public void testSettingTickLabelFormatter() {
         StackPane pane = new StackPane();
         pane.getChildren().add(slider);
@@ -96,7 +96,7 @@ public class SliderTest {
         startApp(pane);
         assertEquals("Ok.", slider.getLabelFormatter().toString(10.0));
     }
-    
+
 //    Slider slider;
 //
 //    /**

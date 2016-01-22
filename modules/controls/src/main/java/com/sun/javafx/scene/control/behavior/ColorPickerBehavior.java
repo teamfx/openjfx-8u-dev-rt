@@ -43,9 +43,9 @@ public class ColorPickerBehavior extends ComboBoxBaseBehavior<Color> {
      * Constructors                                                            *
      *                                                                         *
      **************************************************************************/
-    
+
     /**
-     * 
+     *
      */
     public ColorPickerBehavior(final ColorPicker colorPicker) {
         super(colorPicker, COLOR_PICKER_BINDINGS);
@@ -56,7 +56,7 @@ public class ColorPickerBehavior extends ComboBoxBaseBehavior<Color> {
      * Key event handling                                                      *
      *                                                                         *
      **************************************************************************/
-    
+
     /**
      * Opens the Color Picker Palette.
      */
@@ -66,7 +66,7 @@ public class ColorPickerBehavior extends ComboBoxBaseBehavior<Color> {
      * Closes the Color Picker Palette.
      */
     protected static final String CLOSE_ACTION = "Close";
-    
+
 
     protected static final List<KeyBinding> COLOR_PICKER_BINDINGS = new ArrayList<KeyBinding>();
     static {
@@ -74,7 +74,7 @@ public class ColorPickerBehavior extends ComboBoxBaseBehavior<Color> {
         COLOR_PICKER_BINDINGS.add(new KeyBinding(ESCAPE, KEY_PRESSED, CLOSE_ACTION));
         COLOR_PICKER_BINDINGS.add(new KeyBinding(SPACE, KEY_PRESSED, OPEN_ACTION));
         COLOR_PICKER_BINDINGS.add(new KeyBinding(ENTER, KEY_PRESSED, OPEN_ACTION));
-        
+
     }
 
     @Override protected void callAction(String name) {
@@ -85,7 +85,7 @@ public class ColorPickerBehavior extends ComboBoxBaseBehavior<Color> {
         }
         else super.callAction(name);
     }
-    
+
      /**************************************************************************
      *                                                                        *
      * Mouse Events                                                           *
@@ -93,7 +93,7 @@ public class ColorPickerBehavior extends ComboBoxBaseBehavior<Color> {
      *************************************************************************/
 
     @Override public void onAutoHide() {
-        // when we click on some non  interactive part of the 
+        // when we click on some non  interactive part of the
         // Color Palette - we do not want to hide.
         ColorPicker colorPicker = (ColorPicker)getControl();
         ColorPickerSkin cpSkin = (ColorPickerSkin)colorPicker.getSkin();

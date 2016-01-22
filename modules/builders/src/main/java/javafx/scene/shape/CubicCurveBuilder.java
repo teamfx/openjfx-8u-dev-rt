@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.shape.CubicCurve
 public class CubicCurveBuilder<B extends javafx.scene.shape.CubicCurveBuilder<B>> extends javafx.scene.shape.ShapeBuilder<B> implements javafx.util.Builder<javafx.scene.shape.CubicCurve> {
     protected CubicCurveBuilder() {
     }
-    
+
     /** Creates a new instance of CubicCurveBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.shape.CubicCurveBuilder<?> create() {
         return new javafx.scene.shape.CubicCurveBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -65,7 +65,7 @@ public class CubicCurveBuilder<B extends javafx.scene.shape.CubicCurveBuilder<B>
             }
         }
     }
-    
+
     private double controlX1;
     /**
     Set the value of the {@link javafx.scene.shape.CubicCurve#getControlX1() controlX1} property for the instance constructed by this builder.
@@ -76,7 +76,7 @@ public class CubicCurveBuilder<B extends javafx.scene.shape.CubicCurveBuilder<B>
         __set(0);
         return (B) this;
     }
-    
+
     private double controlX2;
     /**
     Set the value of the {@link javafx.scene.shape.CubicCurve#getControlX2() controlX2} property for the instance constructed by this builder.
@@ -87,7 +87,7 @@ public class CubicCurveBuilder<B extends javafx.scene.shape.CubicCurveBuilder<B>
         __set(1);
         return (B) this;
     }
-    
+
     private double controlY1;
     /**
     Set the value of the {@link javafx.scene.shape.CubicCurve#getControlY1() controlY1} property for the instance constructed by this builder.
@@ -98,7 +98,7 @@ public class CubicCurveBuilder<B extends javafx.scene.shape.CubicCurveBuilder<B>
         __set(2);
         return (B) this;
     }
-    
+
     private double controlY2;
     /**
     Set the value of the {@link javafx.scene.shape.CubicCurve#getControlY2() controlY2} property for the instance constructed by this builder.
@@ -109,7 +109,7 @@ public class CubicCurveBuilder<B extends javafx.scene.shape.CubicCurveBuilder<B>
         __set(3);
         return (B) this;
     }
-    
+
     private double endX;
     /**
     Set the value of the {@link javafx.scene.shape.CubicCurve#getEndX() endX} property for the instance constructed by this builder.
@@ -120,7 +120,7 @@ public class CubicCurveBuilder<B extends javafx.scene.shape.CubicCurveBuilder<B>
         __set(4);
         return (B) this;
     }
-    
+
     private double endY;
     /**
     Set the value of the {@link javafx.scene.shape.CubicCurve#getEndY() endY} property for the instance constructed by this builder.
@@ -131,7 +131,7 @@ public class CubicCurveBuilder<B extends javafx.scene.shape.CubicCurveBuilder<B>
         __set(5);
         return (B) this;
     }
-    
+
     private double startX;
     /**
     Set the value of the {@link javafx.scene.shape.CubicCurve#getStartX() startX} property for the instance constructed by this builder.
@@ -142,7 +142,7 @@ public class CubicCurveBuilder<B extends javafx.scene.shape.CubicCurveBuilder<B>
         __set(6);
         return (B) this;
     }
-    
+
     private double startY;
     /**
     Set the value of the {@link javafx.scene.shape.CubicCurve#getStartY() startY} property for the instance constructed by this builder.
@@ -153,7 +153,7 @@ public class CubicCurveBuilder<B extends javafx.scene.shape.CubicCurveBuilder<B>
         __set(7);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.shape.CubicCurve} based on the properties set on this builder.
     */

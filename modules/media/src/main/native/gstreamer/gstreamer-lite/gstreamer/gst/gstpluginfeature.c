@@ -85,7 +85,7 @@ gst_plugin_feature_finalize (GObject * object)
  * Normally this function is used like this:
  * |[
  * GstPluginFeature *loaded_feature;
- * 
+ *
  * loaded_feature = gst_plugin_feature_load (feature);
  * // presumably, we're no longer interested in the potentially-unloaded feature
  * gst_object_unref (feature);

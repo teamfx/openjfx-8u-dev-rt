@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.animation.SequentialTransition
 public final class SequentialTransitionBuilder extends javafx.animation.TransitionBuilder<javafx.animation.SequentialTransitionBuilder> implements javafx.util.Builder<javafx.animation.SequentialTransition> {
     protected SequentialTransitionBuilder() {
     }
-    
+
     /** Creates a new instance of SequentialTransitionBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.animation.SequentialTransitionBuilder create() {
         return new javafx.animation.SequentialTransitionBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.animation.SequentialTransition x) {
         super.applyTo(x);
@@ -50,7 +50,7 @@ public final class SequentialTransitionBuilder extends javafx.animation.Transiti
         if ((set & (1 << 0)) != 0) x.getChildren().addAll(this.children);
         if ((set & (1 << 1)) != 0) x.setNode(this.node);
     }
-    
+
     private java.util.Collection<? extends javafx.animation.Animation> children;
     /**
     Add the given items to the List of items in the {@link javafx.animation.SequentialTransition#getChildren() children} property for the instance constructed by this builder.
@@ -60,14 +60,14 @@ public final class SequentialTransitionBuilder extends javafx.animation.Transiti
         __set |= 1 << 0;
         return this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.animation.SequentialTransition#getChildren() children} property for the instance constructed by this builder.
     */
     public javafx.animation.SequentialTransitionBuilder children(javafx.animation.Animation... x) {
         return children(java.util.Arrays.asList(x));
     }
-    
+
     private javafx.scene.Node node;
     /**
     Set the value of the {@link javafx.animation.SequentialTransition#getNode() node} property for the instance constructed by this builder.
@@ -77,7 +77,7 @@ public final class SequentialTransitionBuilder extends javafx.animation.Transiti
         __set |= 1 << 1;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.animation.SequentialTransition} based on the properties set on this builder.
     */

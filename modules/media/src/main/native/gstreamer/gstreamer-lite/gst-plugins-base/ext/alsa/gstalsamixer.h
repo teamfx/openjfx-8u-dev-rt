@@ -52,13 +52,13 @@ struct _GstAlsaMixer
 
   snd_mixer_t *         handle;
 
-  GstTask *		task;
-  GStaticRecMutex *	task_mutex;
-  GStaticRecMutex *	rec_mutex;
+  GstTask *     task;
+  GStaticRecMutex * task_mutex;
+  GStaticRecMutex * rec_mutex;
 
-  int			pfd[2];
+  int           pfd[2];
 
-  GstMixer *		interface;
+  GstMixer *        interface;
   gchar *               device;
   gchar *               cardname;
 
@@ -88,8 +88,8 @@ void            gst_alsa_mixer_set_option       (GstAlsaMixer * mixer,
                                                  gchar * value);
 const gchar*    gst_alsa_mixer_get_option       (GstAlsaMixer * mixer,
                                                  GstMixerOptions * opts);
-void		_gst_alsa_mixer_set_interface   (GstAlsaMixer * mixer,
-						 GstMixer * interface);
+void        _gst_alsa_mixer_set_interface   (GstAlsaMixer * mixer,
+                         GstMixer * interface);
 GstMixerFlags   gst_alsa_mixer_get_mixer_flags  (GstAlsaMixer *mixer);
 
 #define GST_IMPLEMENT_ALSA_MIXER_METHODS(Type, interface_as_function)           \

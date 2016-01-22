@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -22,7 +22,7 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
- 
+
 package javafx.animation;
 
 /**
@@ -36,8 +36,8 @@ Builder class for javafx.animation.Animation
 public abstract class AnimationBuilder<B extends javafx.animation.AnimationBuilder<B>> {
     protected AnimationBuilder() {
     }
-    
-    
+
+
     private int __set;
     public void applyTo(javafx.animation.Animation x) {
         int set = __set;
@@ -47,7 +47,7 @@ public abstract class AnimationBuilder<B extends javafx.animation.AnimationBuild
         if ((set & (1 << 3)) != 0) x.setOnFinished(this.onFinished);
         if ((set & (1 << 4)) != 0) x.setRate(this.rate);
     }
-    
+
     private boolean autoReverse;
     /**
     Set the value of the {@link javafx.animation.Animation#isAutoReverse() autoReverse} property for the instance constructed by this builder.
@@ -58,7 +58,7 @@ public abstract class AnimationBuilder<B extends javafx.animation.AnimationBuild
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private int cycleCount;
     /**
     Set the value of the {@link javafx.animation.Animation#getCycleCount() cycleCount} property for the instance constructed by this builder.
@@ -69,7 +69,7 @@ public abstract class AnimationBuilder<B extends javafx.animation.AnimationBuild
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private javafx.util.Duration delay;
     /**
     Set the value of the {@link javafx.animation.Animation#getDelay() delay} property for the instance constructed by this builder.
@@ -80,7 +80,7 @@ public abstract class AnimationBuilder<B extends javafx.animation.AnimationBuild
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.event.ActionEvent> onFinished;
     /**
     Set the value of the {@link javafx.animation.Animation#getOnFinished() onFinished} property for the instance constructed by this builder.
@@ -91,7 +91,7 @@ public abstract class AnimationBuilder<B extends javafx.animation.AnimationBuild
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private double rate;
     /**
     Set the value of the {@link javafx.animation.Animation#getRate() rate} property for the instance constructed by this builder.
@@ -102,7 +102,7 @@ public abstract class AnimationBuilder<B extends javafx.animation.AnimationBuild
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     private double targetFramerate;
     /**
     Set the value of the {@link javafx.animation.Animation#getTargetFramerate() targetFramerate} property for the instance constructed by this builder.
@@ -112,5 +112,5 @@ public abstract class AnimationBuilder<B extends javafx.animation.AnimationBuild
         this.targetFramerate = x;
         return (B) this;
     }
-    
+
 }

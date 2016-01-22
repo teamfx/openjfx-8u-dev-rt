@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.ToolBar
 public class ToolBarBuilder<B extends javafx.scene.control.ToolBarBuilder<B>> extends javafx.scene.control.ControlBuilder<B> implements javafx.util.Builder<javafx.scene.control.ToolBar> {
     protected ToolBarBuilder() {
     }
-    
+
     /** Creates a new instance of ToolBarBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.ToolBarBuilder<?> create() {
         return new javafx.scene.control.ToolBarBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.ToolBar x) {
         super.applyTo(x);
@@ -50,7 +50,7 @@ public class ToolBarBuilder<B extends javafx.scene.control.ToolBarBuilder<B>> ex
         if ((set & (1 << 0)) != 0) x.getItems().addAll(this.items);
         if ((set & (1 << 1)) != 0) x.setOrientation(this.orientation);
     }
-    
+
     private java.util.Collection<? extends javafx.scene.Node> items;
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.ToolBar#getItems() items} property for the instance constructed by this builder.
@@ -61,14 +61,14 @@ public class ToolBarBuilder<B extends javafx.scene.control.ToolBarBuilder<B>> ex
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.ToolBar#getItems() items} property for the instance constructed by this builder.
     */
     public B items(javafx.scene.Node... x) {
         return items(java.util.Arrays.asList(x));
     }
-    
+
     private javafx.geometry.Orientation orientation;
     /**
     Set the value of the {@link javafx.scene.control.ToolBar#getOrientation() orientation} property for the instance constructed by this builder.
@@ -79,7 +79,7 @@ public class ToolBarBuilder<B extends javafx.scene.control.ToolBarBuilder<B>> ex
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.ToolBar} based on the properties set on this builder.
     */

@@ -2,7 +2,7 @@
  * OSX video sink
  * Copyright (C) 2004-6 Zaheer Abbas Merali <zaheerabbas at merali dot org>
  * Copyright (C) 2007,2008,2009 Pioneers of the Inevitable <songbird@songbirdnest.com>
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
  * License as published by the Free Software Foundation; either
@@ -20,7 +20,7 @@
  *
  * The development of this code was made possible due to the involvement of
  * Pioneers of the Inevitable, the creators of the Songbird Music player.
- * 
+ *
  */
 
 /**
@@ -29,9 +29,9 @@
  * The OSXVideoSink renders video frames to a MacOSX window. The video output
  * must be directed to a window embedded in an existing NSApp.
  *
- * When the NSView to be embedded is created an element #GstMessage with a 
- * name of 'have-ns-view' will be created and posted on the bus. 
- * The pointer to the NSView to embed will be in the 'nsview' field of that 
+ * When the NSView to be embedded is created an element #GstMessage with a
+ * name of 'have-ns-view' will be created and posted on the bus.
+ * The pointer to the NSView to embed will be in the 'nsview' field of that
  * message. The application MUST handle this message and embed the view
  * appropriately.
  */
@@ -178,7 +178,7 @@ gst_osx_video_sink_osxwindow_resize (GstOSXVideoSink * osxvideosink,
   GST_DEBUG_OBJECT (osxvideosink, "Resizing window to (%d,%d)", width, height);
 
   /* Directly resize the underlying view */
-  GST_DEBUG_OBJECT (osxvideosink, "Calling setVideoSize on %p", osxwindow->gstview); 
+  GST_DEBUG_OBJECT (osxvideosink, "Calling setVideoSize on %p", osxwindow->gstview);
   [osxwindow->gstview setVideoSize:width :height];
 
   [pool release];
@@ -228,7 +228,7 @@ gst_osx_video_sink_change_state (GstElement * element,
 
   osxvideosink = GST_OSX_VIDEO_SINK (element);
 
-  GST_DEBUG_OBJECT (osxvideosink, "%s => %s", 
+  GST_DEBUG_OBJECT (osxvideosink, "%s => %s",
         gst_element_state_get_name(GST_STATE_TRANSITION_CURRENT (transition)),
         gst_element_state_get_name(GST_STATE_TRANSITION_NEXT (transition)));
 

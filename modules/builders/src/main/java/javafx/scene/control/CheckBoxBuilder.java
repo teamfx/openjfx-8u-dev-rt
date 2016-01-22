@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.CheckBox
 public class CheckBoxBuilder<B extends javafx.scene.control.CheckBoxBuilder<B>> extends javafx.scene.control.ButtonBaseBuilder<B> implements javafx.util.Builder<javafx.scene.control.CheckBox> {
     protected CheckBoxBuilder() {
     }
-    
+
     /** Creates a new instance of CheckBoxBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.CheckBoxBuilder<?> create() {
         return new javafx.scene.control.CheckBoxBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.CheckBox x) {
         super.applyTo(x);
@@ -51,7 +51,7 @@ public class CheckBoxBuilder<B extends javafx.scene.control.CheckBoxBuilder<B>> 
         if ((set & (1 << 1)) != 0) x.setIndeterminate(this.indeterminate);
         if ((set & (1 << 2)) != 0) x.setSelected(this.selected);
     }
-    
+
     private boolean allowIndeterminate;
     /**
     Set the value of the {@link javafx.scene.control.CheckBox#isAllowIndeterminate() allowIndeterminate} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public class CheckBoxBuilder<B extends javafx.scene.control.CheckBoxBuilder<B>> 
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private boolean indeterminate;
     /**
     Set the value of the {@link javafx.scene.control.CheckBox#isIndeterminate() indeterminate} property for the instance constructed by this builder.
@@ -73,7 +73,7 @@ public class CheckBoxBuilder<B extends javafx.scene.control.CheckBoxBuilder<B>> 
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private boolean selected;
     /**
     Set the value of the {@link javafx.scene.control.CheckBox#isSelected() selected} property for the instance constructed by this builder.
@@ -84,7 +84,7 @@ public class CheckBoxBuilder<B extends javafx.scene.control.CheckBoxBuilder<B>> 
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.CheckBox} based on the properties set on this builder.
     */

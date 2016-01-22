@@ -19,11 +19,11 @@
  * Boston, MA 02111-1307, USA.
  *
  *
- * The development of this code was made possible due to the involvement of Pioneers 
+ * The development of this code was made possible due to the involvement of Pioneers
  * of the Inevitable, the creators of the Songbird Music player
- * 
+ *
  */
- 
+
 #ifndef __GST_OSX_VIDEO_SINK_H__
 #define __GST_OSX_VIDEO_SINK_H__
 

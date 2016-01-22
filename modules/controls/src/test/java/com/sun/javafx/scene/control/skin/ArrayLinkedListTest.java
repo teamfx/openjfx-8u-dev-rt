@@ -44,7 +44,7 @@ public class ArrayLinkedListTest {
     @Before public void setUp() {
         list = new ArrayLinkedList<String>();
     }
-    
+
     @Test public void testArrayLinkedList_Empty_GetFirstReturnsNull() {
         assertNull(list.getFirst());
     }

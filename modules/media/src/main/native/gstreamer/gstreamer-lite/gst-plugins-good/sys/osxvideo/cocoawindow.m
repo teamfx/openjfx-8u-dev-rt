@@ -16,8 +16,8 @@
  * License along with this library; if not, write to the
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
- * 
- * The development of this code was made possible due to the involvement of Pioneers 
+ *
+ * The development of this code was made possible due to the involvement of Pioneers
  * of the Inevitable, the creators of the Songbird Music player
  *
  */
@@ -43,21 +43,21 @@
 
 /* The object has to be released */
 - (id) initWithContentRect: (NSRect) rect
-		 styleMask: (unsigned int) styleMask
-		   backing: (NSBackingStoreType) bufferingType 
-		     defer: (BOOL) flag
-		    screen:(NSScreen *) aScreen
+         styleMask: (unsigned int) styleMask
+           backing: (NSBackingStoreType) bufferingType
+             defer: (BOOL) flag
+            screen:(NSScreen *) aScreen
 {
   self = [super initWithContentRect: rect
-		styleMask: styleMask
-		backing: bufferingType 
-		defer: flag 
-		screen:aScreen];
+        styleMask: styleMask
+        backing: bufferingType
+        defer: flag
+        screen:aScreen];
 
   GST_DEBUG ("Initializing GstOSXvideoSinkWindow");
 
   gstview = [[GstGLView alloc] initWithFrame:rect];
-  
+
   if (gstview)
     [self setContentView:gstview];
   [self setTitle:@"GStreamer Video Output"];
@@ -120,7 +120,7 @@
   };
 
   fmt = [[NSOpenGLPixelFormat alloc]
-	  initWithAttributes:attribs];
+      initWithAttributes:attribs];
 
   if (!fmt) {
     GST_WARNING ("Cannot create NSOpenGLPixelFormat");
@@ -186,12 +186,12 @@
 
   glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
   glPixelStorei (GL_UNPACK_ROW_LENGTH, width);
-  
+
   glBindTexture (GL_TEXTURE_RECTANGLE_EXT, pi_texture);
 
   /* Use VRAM texturing */
   glTexParameteri (GL_TEXTURE_RECTANGLE_EXT,
-		   GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
+           GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
 
   /* Tell the driver not to make a copy of the texture but to use
      our buffer */
@@ -204,14 +204,14 @@
   /* I have no idea what this exactly does, but it seems to be
      necessary for scaling */
   glTexParameteri (GL_TEXTURE_RECTANGLE_EXT,
-		   GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+           GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri (GL_TEXTURE_RECTANGLE_EXT,
-		   GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+           GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   // glPixelStorei (GL_UNPACK_ROW_LENGTH, 0); WHY ??
 
   glTexImage2D (GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA,
-		width, height, 0, 
-		GL_YCBCR_422_APPLE, GL_UNSIGNED_SHORT_8_8_APPLE, data);
+        width, height, 0,
+        GL_YCBCR_422_APPLE, GL_UNSIGNED_SHORT_8_8_APPLE, data);
 
 
   initDone = 1;
@@ -233,8 +233,8 @@
      http://developer.apple.com/samplecode/Sample_Code/Graphics_3D/
      TextureRange/MainOpenGLView.m.htm */
   glTexSubImage2D (GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0,
-		   width, height,
-		   GL_YCBCR_422_APPLE, GL_UNSIGNED_SHORT_8_8_APPLE, data);    //FIXME
+           width, height,
+           GL_YCBCR_422_APPLE, GL_UNSIGNED_SHORT_8_8_APPLE, data);    //FIXME
 }
 
 - (void) cleanUp {
@@ -318,7 +318,7 @@
     };
 
     fmt = [[NSOpenGLPixelFormat alloc]
-	    initWithAttributes:attribs];
+        initWithAttributes:attribs];
 
     if (!fmt) {
       GST_WARNING ("Cannot create NSOpenGLPixelFormat");
@@ -327,7 +327,7 @@
 
     /* Create the new OpenGL context */
     fullScreenContext = [[NSOpenGLContext alloc]
-			  initWithFormat: fmt shareContext:nil];
+              initWithFormat: fmt shareContext:nil];
     if (!fullScreenContext) {
       GST_WARNING ("Failed to create new NSOpenGLContext");
       return;
@@ -351,7 +351,7 @@
   } else if (fullscreen && !flag) {
     // fullscreen now and needs to go back to normal
     initDone = NO;
-    
+
     actualContext = [self openGLContext];
 
     [NSOpenGLContext clearCurrentContext];
@@ -384,34 +384,34 @@
 }
 
 - (void) haveSuperviewReal:(NSMutableArray *)closure {
-	BOOL haveSuperview = [self superview] != nil;
-	[closure addObject:[NSNumber numberWithBool:haveSuperview]];
+    BOOL haveSuperview = [self superview] != nil;
+    [closure addObject:[NSNumber numberWithBool:haveSuperview]];
 }
 
 - (BOOL) haveSuperview {
-	NSMutableArray *closure = [NSMutableArray arrayWithCapacity:1];
-	[self performSelectorOnMainThread:@selector(haveSuperviewReal:)
-			withObject:(id)closure waitUntilDone:YES];
+    NSMutableArray *closure = [NSMutableArray arrayWithCapacity:1];
+    [self performSelectorOnMainThread:@selector(haveSuperviewReal:)
+            withObject:(id)closure waitUntilDone:YES];
 
-	return [[closure objectAtIndex:0] boolValue];
+    return [[closure objectAtIndex:0] boolValue];
 }
 
 - (void) addToSuperviewReal:(NSView *)superview {
-	NSRect bounds;
-	[superview addSubview:self];
-	bounds = [superview bounds];
-	[self setFrame:bounds];
-	[self setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+    NSRect bounds;
+    [superview addSubview:self];
+    bounds = [superview bounds];
+    [self setFrame:bounds];
+    [self setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
 }
 
 - (void) addToSuperview: (NSView *)superview {
-	[self performSelectorOnMainThread:@selector(addToSuperviewReal:)
-			withObject:superview waitUntilDone:YES];
+    [self performSelectorOnMainThread:@selector(addToSuperviewReal:)
+            withObject:superview waitUntilDone:YES];
 }
 
 - (void) removeFromSuperview: (id)unused
 {
-	[self removeFromSuperview];
+    [self removeFromSuperview];
 }
 
 - (void) dealloc {

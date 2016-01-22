@@ -26,18 +26,18 @@
 #undef G_LOG_DOMAIN
 #include "glib.h"
 #define GSPAWN_HELPER
-#include "gspawn-win32.c"	/* For shared definitions */
+#include "gspawn-win32.c"   /* For shared definitions */
 
 
 static void
 write_err_and_exit (gint    fd,
-		    gintptr msg)
+            gintptr msg)
 {
   gintptr en = errno;
-  
+
   write (fd, &msg, sizeof(gintptr));
   write (fd, &en, sizeof(gintptr));
-  
+
   _exit (1);
 }
 
@@ -63,20 +63,20 @@ typedef struct {
 } _startupinfo;
 
 extern void __wgetmainargs(int *argc,
-			   wchar_t ***wargv,
-			   wchar_t ***wenviron,
-			   int expand_wildcards,
-			   _startupinfo *startupinfo);
+               wchar_t ***wargv,
+               wchar_t ***wenviron,
+               int expand_wildcards,
+               _startupinfo *startupinfo);
 
 /* Copy of protect_argv that handles wchar_t strings */
 
 static gint
 protect_wargv (wchar_t  **wargv,
-	       wchar_t ***new_wargv)
+           wchar_t ***new_wargv)
 {
   gint i;
   gint argc = 0;
-  
+
   while (wargv[argc])
     ++argc;
   *new_wargv = g_new (wchar_t *, argc+1);
@@ -99,47 +99,47 @@ protect_wargv (wchar_t  **wargv,
       gint len = 0;
       gboolean need_dblquotes = FALSE;
       while (*p)
-	{
-	  if (*p == ' ' || *p == '\t')
-	    need_dblquotes = TRUE;
-	  else if (*p == '"')
-	    len++;
-	  else if (*p == '\\')
-	    {
-	      wchar_t *pp = p;
-	      while (*pp && *pp == '\\')
-		pp++;
-	      if (*pp == '"')
-		len++;
-	    }
-	  len++;
-	  p++;
-	}
+    {
+      if (*p == ' ' || *p == '\t')
+        need_dblquotes = TRUE;
+      else if (*p == '"')
+        len++;
+      else if (*p == '\\')
+        {
+          wchar_t *pp = p;
+          while (*pp && *pp == '\\')
+        pp++;
+          if (*pp == '"')
+        len++;
+        }
+      len++;
+      p++;
+    }
 
       q = (*new_wargv)[i] = g_new (wchar_t, len + need_dblquotes*2 + 1);
       p = wargv[i];
 
       if (need_dblquotes)
-	*q++ = '"';
+    *q++ = '"';
 
       while (*p)
-	{
-	  if (*p == '"')
-	    *q++ = '\\';
-	  else if (*p == '\\')
-	    {
-	      wchar_t *pp = p;
-	      while (*pp && *pp == '\\')
-		pp++;
-	      if (*pp == '"')
-		*q++ = '\\';
-	    }
-	  *q++ = *p;
-	  p++;
-	}
+    {
+      if (*p == '"')
+        *q++ = '\\';
+      else if (*p == '\\')
+        {
+          wchar_t *pp = p;
+          while (*pp && *pp == '\\')
+        pp++;
+          if (*pp == '"')
+        *q++ = '\\';
+        }
+      *q++ = *p;
+      p++;
+    }
 
       if (need_dblquotes)
-	*q++ = '"';
+    *q++ = '"';
       *q++ = '\0';
     }
   (*new_wargv)[argc] = NULL;
@@ -150,9 +150,9 @@ protect_wargv (wchar_t  **wargv,
 #ifndef HELPER_CONSOLE
 int _stdcall
 WinMain (struct HINSTANCE__ *hInstance,
-	 struct HINSTANCE__ *hPrevInstance,
-	 char               *lpszCmdLine,
-	 int                 nCmdShow)
+     struct HINSTANCE__ *hPrevInstance,
+     char               *lpszCmdLine,
+     int                 nCmdShow)
 #else
 int
 main (int ignored_argc, char **ignored_argv)
@@ -215,19 +215,19 @@ main (int ignored_argc, char **ignored_argv)
     {
       fd = open ("NUL:", O_RDONLY);
       if (fd != 0)
-	{
-	  dup2 (fd, 0);
-	  close (fd);
-	}
+    {
+      dup2 (fd, 0);
+      close (fd);
+    }
     }
   else
     {
       fd = atoi (__argv[ARG_STDIN]);
       if (fd != 0)
-	{
-	  dup2 (fd, 0);
-	  close (fd);
-	}
+    {
+      dup2 (fd, 0);
+      close (fd);
+    }
     }
 
   if (__argv[ARG_STDOUT][0] == '-')
@@ -236,19 +236,19 @@ main (int ignored_argc, char **ignored_argv)
     {
       fd = open ("NUL:", O_WRONLY);
       if (fd != 1)
-	{
-	  dup2 (fd, 1);
-	  close (fd);
-	}
+    {
+      dup2 (fd, 1);
+      close (fd);
+    }
     }
   else
     {
       fd = atoi (__argv[ARG_STDOUT]);
       if (fd != 1)
-	{
-	  dup2 (fd, 1);
-	  close (fd);
-	}
+    {
+      dup2 (fd, 1);
+      close (fd);
+    }
     }
 
   if (__argv[ARG_STDERR][0] == '-')
@@ -257,19 +257,19 @@ main (int ignored_argc, char **ignored_argv)
     {
       fd = open ("NUL:", O_WRONLY);
       if (fd != 2)
-	{
-	  dup2 (fd, 2);
-	  close (fd);
-	}
+    {
+      dup2 (fd, 2);
+      close (fd);
+    }
     }
   else
     {
       fd = atoi (__argv[ARG_STDERR]);
       if (fd != 2)
-	{
-	  dup2 (fd, 2);
-	  close (fd);
-	}
+    {
+      dup2 (fd, 2);
+      close (fd);
+    }
     }
 
   /* __argv[ARG_WORKING_DIRECTORY] is the directory in which to run the
@@ -285,9 +285,9 @@ main (int ignored_argc, char **ignored_argv)
    *  upwards should be closed
    */
   if (__argv[ARG_CLOSE_DESCRIPTORS][0] == 'y')
-    for (i = 3; i < 1000; i++)	/* FIXME real limit? */
+    for (i = 3; i < 1000; i++)  /* FIXME real limit? */
       if (i != child_err_report_fd && i != helper_sync_fd)
-	close (i);
+    close (i);
 
   /* We don't want our child to inherit the error report and
    * helper sync fds.

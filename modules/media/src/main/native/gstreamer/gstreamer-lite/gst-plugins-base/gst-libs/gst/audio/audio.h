@@ -54,7 +54,7 @@ G_BEGIN_DECLS
  * GST_FRAMES_TO_CLOCK_TIME:
  * @frames: sample frames
  * @rate: sampling rate
- * 
+ *
  * Calculate clocktime from sample @frames and @rate.
  */
 #define GST_FRAMES_TO_CLOCK_TIME(frames, rate) \
@@ -64,7 +64,7 @@ G_BEGIN_DECLS
  * GST_CLOCK_TIME_TO_FRAMES:
  * @clocktime: clock time
  * @rate: sampling rate
- * 
+ *
  * Calculate frames from @clocktime and sample @rate.
  */
 #define GST_CLOCK_TIME_TO_FRAMES(clocktime, rate) \
@@ -72,15 +72,15 @@ G_BEGIN_DECLS
 
 /**
  * GST_AUDIO_DEF_RATE:
- * 
+ *
  * Standard sampling rate used in consumer audio.
  */
 #define GST_AUDIO_DEF_RATE 44100
 
 /**
  * GST_AUDIO_INT_PAD_TEMPLATE_CAPS:
- * 
- * Template caps for integer audio. Can be used when defining a 
+ *
+ * Template caps for integer audio. Can be used when defining a
  * #GstStaticPadTemplate
  */
 #define GST_AUDIO_INT_PAD_TEMPLATE_CAPS \
@@ -94,7 +94,7 @@ G_BEGIN_DECLS
 
 /**
  * GST_AUDIO_INT_STANDARD_PAD_TEMPLATE_CAPS:
- * 
+ *
  * Template caps for 16bit integer stereo audio in native byte-order.
  * Can be used when defining a #GstStaticPadTemplate
  */
@@ -109,8 +109,8 @@ G_BEGIN_DECLS
 
 /**
  * GST_AUDIO_FLOAT_PAD_TEMPLATE_CAPS:
- * 
- * Template caps for float audio. Can be used when defining a 
+ *
+ * Template caps for float audio. Can be used when defining a
  * #GstStaticPadTemplate
  */
 #define GST_AUDIO_FLOAT_PAD_TEMPLATE_CAPS \
@@ -122,7 +122,7 @@ G_BEGIN_DECLS
 
 /**
  * GST_AUDIO_FLOAT_STANDARD_PAD_TEMPLATE_CAPS:
- * 
+ *
  * Template caps for 32bit float mono audio in native byte-order.
  * Can be used when defining a #GstStaticPadTemplate
  */

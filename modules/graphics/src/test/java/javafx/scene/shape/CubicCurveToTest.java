@@ -61,7 +61,7 @@ public class CubicCurveToTest {
     @Test public void testSetGetControlY2() throws Exception {
         TestUtils.testDoublePropertyGetterSetter(new CubicCurveTo(), "controlY2", 123.2f, 0.0f);
     }
-    
+
     //TODO testAddTo
 
     @Test public void testDoublePropertySynced_X() throws Exception {

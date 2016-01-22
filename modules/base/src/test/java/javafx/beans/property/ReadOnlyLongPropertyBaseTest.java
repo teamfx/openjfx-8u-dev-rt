@@ -32,12 +32,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ReadOnlyLongPropertyBaseTest {
-    
+
     private static final Long UNDEFINED = null;
     private static final long DEFAULT = 0L;
     private static final long VALUE_1 = 543210987654321L;
     private static final long VALUE_2 = -678901234567890L;
-    
+
     private ReadOnlyPropertyMock property;
     private InvalidationListenerMock invalidationListener;
     private ChangeListenerMock<Number> changeListener;
@@ -48,7 +48,7 @@ public class ReadOnlyLongPropertyBaseTest {
         invalidationListener = new InvalidationListenerMock();
         changeListener = new ChangeListenerMock<Number>(UNDEFINED);
     }
-    
+
     @Test
     public void testInvalidationListener() {
         property.addListener(invalidationListener);
@@ -74,11 +74,11 @@ public class ReadOnlyLongPropertyBaseTest {
         property.set(VALUE_2);
         changeListener.check(null, UNDEFINED, UNDEFINED, 0);
     }
-    
+
     private static class ReadOnlyPropertyMock extends ReadOnlyLongPropertyBase {
 
         private long value;
-        
+
         @Override
         public Object getBean() {
             // not used
@@ -90,7 +90,7 @@ public class ReadOnlyLongPropertyBaseTest {
             // not used
             return null;
         }
-        
+
         private void set(long value) {
             this.value = value;
             fireValueChangedEvent();
@@ -100,7 +100,7 @@ public class ReadOnlyLongPropertyBaseTest {
         public long get() {
             return value;
         }
-        
+
     }
 
 }

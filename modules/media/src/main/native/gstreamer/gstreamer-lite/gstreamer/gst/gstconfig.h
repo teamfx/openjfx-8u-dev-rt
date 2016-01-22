@@ -64,8 +64,8 @@
 #endif
 
 /***** default padding of structures *****/
-#define GST_PADDING		4
-#define GST_PADDING_INIT	{0}
+#define GST_PADDING     4
+#define GST_PADDING_INIT    {0}
 
 /***** padding for very extensible base classes *****/
 #define GST_PADDING_LARGE       20

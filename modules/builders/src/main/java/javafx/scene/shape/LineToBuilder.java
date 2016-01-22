@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.shape.LineTo
 public class LineToBuilder<B extends javafx.scene.shape.LineToBuilder<B>> extends javafx.scene.shape.PathElementBuilder<B> implements javafx.util.Builder<javafx.scene.shape.LineTo> {
     protected LineToBuilder() {
     }
-    
+
     /** Creates a new instance of LineToBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.shape.LineToBuilder<?> create() {
         return new javafx.scene.shape.LineToBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.shape.LineTo x) {
         super.applyTo(x);
@@ -50,7 +50,7 @@ public class LineToBuilder<B extends javafx.scene.shape.LineToBuilder<B>> extend
         if ((set & (1 << 0)) != 0) x.setX(this.x);
         if ((set & (1 << 1)) != 0) x.setY(this.y);
     }
-    
+
     private double x;
     /**
     Set the value of the {@link javafx.scene.shape.LineTo#getX() x} property for the instance constructed by this builder.
@@ -61,7 +61,7 @@ public class LineToBuilder<B extends javafx.scene.shape.LineToBuilder<B>> extend
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private double y;
     /**
     Set the value of the {@link javafx.scene.shape.LineTo#getY() y} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public class LineToBuilder<B extends javafx.scene.shape.LineToBuilder<B>> extend
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.shape.LineTo} based on the properties set on this builder.
     */

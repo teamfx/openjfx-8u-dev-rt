@@ -170,7 +170,7 @@ public class PlayerPane extends BorderPane {
                     mp.seek(duration.multiply(timeSlider.getValue() / 100.0));
                 }
                 updateValues();
-                
+
             }
         });
         HBox.setHgrow(timeSlider, Priority.ALWAYS);
@@ -225,23 +225,23 @@ public class PlayerPane extends BorderPane {
         Button backButton = new Button("Back");
         backButton.setId("back-button");
         backButton.setOnAction(backAction);
- 
+
         Button stopButton = new Button("Stop");
         stopButton.setId("stop-button");
         stopButton.setOnAction(stopAction);
- 
+
         Button playButton = new Button("Play");
         playButton.setId("play-button");
         playButton.setOnAction(playAction);
- 
+
         Button pauseButton = new Button("Pause");
         pauseButton.setId("pause-button");
         pauseButton.setOnAction(pauseAction);
- 
+
         Button forwardButton = new Button("Forward");
         forwardButton.setId("forward-button");
         forwardButton.setOnAction(forwardAction);
-        
+
         mediaBottomBar = new HBox();
         mediaBottomBar.setId("bottom");
         mediaBottomBar.setSpacing(0);

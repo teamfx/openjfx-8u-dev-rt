@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,8 +36,8 @@ Builder class for javafx.stage.Window
 public abstract class WindowBuilder<B extends javafx.stage.WindowBuilder<B>> {
     protected WindowBuilder() {
     }
-    
-    
+
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -63,7 +63,7 @@ public abstract class WindowBuilder<B extends javafx.stage.WindowBuilder<B>> {
             }
         }
     }
-    
+
     private javafx.event.EventDispatcher eventDispatcher;
     /**
     Set the value of the {@link javafx.stage.Window#getEventDispatcher() eventDispatcher} property for the instance constructed by this builder.
@@ -74,7 +74,7 @@ public abstract class WindowBuilder<B extends javafx.stage.WindowBuilder<B>> {
         __set(0);
         return (B) this;
     }
-    
+
     private boolean focused;
     /**
     Set the value of the {@link javafx.stage.Window#isFocused() focused} property for the instance constructed by this builder.
@@ -85,7 +85,7 @@ public abstract class WindowBuilder<B extends javafx.stage.WindowBuilder<B>> {
         __set(1);
         return (B) this;
     }
-    
+
     private double height;
     /**
     Set the value of the {@link javafx.stage.Window#getHeight() height} property for the instance constructed by this builder.
@@ -96,7 +96,7 @@ public abstract class WindowBuilder<B extends javafx.stage.WindowBuilder<B>> {
         __set(2);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.stage.WindowEvent> onCloseRequest;
     /**
     Set the value of the {@link javafx.stage.Window#getOnCloseRequest() onCloseRequest} property for the instance constructed by this builder.
@@ -107,7 +107,7 @@ public abstract class WindowBuilder<B extends javafx.stage.WindowBuilder<B>> {
         __set(3);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.stage.WindowEvent> onHidden;
     /**
     Set the value of the {@link javafx.stage.Window#getOnHidden() onHidden} property for the instance constructed by this builder.
@@ -118,7 +118,7 @@ public abstract class WindowBuilder<B extends javafx.stage.WindowBuilder<B>> {
         __set(4);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.stage.WindowEvent> onHiding;
     /**
     Set the value of the {@link javafx.stage.Window#getOnHiding() onHiding} property for the instance constructed by this builder.
@@ -129,7 +129,7 @@ public abstract class WindowBuilder<B extends javafx.stage.WindowBuilder<B>> {
         __set(5);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.stage.WindowEvent> onShowing;
     /**
     Set the value of the {@link javafx.stage.Window#getOnShowing() onShowing} property for the instance constructed by this builder.
@@ -140,7 +140,7 @@ public abstract class WindowBuilder<B extends javafx.stage.WindowBuilder<B>> {
         __set(6);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.stage.WindowEvent> onShown;
     /**
     Set the value of the {@link javafx.stage.Window#getOnShown() onShown} property for the instance constructed by this builder.
@@ -151,7 +151,7 @@ public abstract class WindowBuilder<B extends javafx.stage.WindowBuilder<B>> {
         __set(7);
         return (B) this;
     }
-    
+
     private double opacity;
     /**
     Set the value of the {@link javafx.stage.Window#getOpacity() opacity} property for the instance constructed by this builder.
@@ -162,7 +162,7 @@ public abstract class WindowBuilder<B extends javafx.stage.WindowBuilder<B>> {
         __set(8);
         return (B) this;
     }
-    
+
     private double width;
     /**
     Set the value of the {@link javafx.stage.Window#getWidth() width} property for the instance constructed by this builder.
@@ -173,7 +173,7 @@ public abstract class WindowBuilder<B extends javafx.stage.WindowBuilder<B>> {
         __set(9);
         return (B) this;
     }
-    
+
     private double x;
     /**
     Set the value of the {@link javafx.stage.Window#getX() x} property for the instance constructed by this builder.
@@ -184,7 +184,7 @@ public abstract class WindowBuilder<B extends javafx.stage.WindowBuilder<B>> {
         __set(10);
         return (B) this;
     }
-    
+
     private double y;
     /**
     Set the value of the {@link javafx.stage.Window#getY() y} property for the instance constructed by this builder.
@@ -195,5 +195,5 @@ public abstract class WindowBuilder<B extends javafx.stage.WindowBuilder<B>> {
         __set(11);
         return (B) this;
     }
-    
+
 }

@@ -47,7 +47,7 @@ import org.junit.Test;
 /**
  */
 public class SeparatorTest {
-    
+
     private Separator separator;
     @Before public void setup() {
         separator = new Separator();

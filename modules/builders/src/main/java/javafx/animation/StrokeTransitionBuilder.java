@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.animation.StrokeTransition
 public final class StrokeTransitionBuilder extends javafx.animation.TransitionBuilder<javafx.animation.StrokeTransitionBuilder> implements javafx.util.Builder<javafx.animation.StrokeTransition> {
     protected StrokeTransitionBuilder() {
     }
-    
+
     /** Creates a new instance of StrokeTransitionBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.animation.StrokeTransitionBuilder create() {
         return new javafx.animation.StrokeTransitionBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.animation.StrokeTransition x) {
         super.applyTo(x);
@@ -52,7 +52,7 @@ public final class StrokeTransitionBuilder extends javafx.animation.TransitionBu
         if ((set & (1 << 2)) != 0) x.setShape(this.shape);
         if ((set & (1 << 3)) != 0) x.setToValue(this.toValue);
     }
-    
+
     private javafx.util.Duration duration;
     /**
     Set the value of the {@link javafx.animation.StrokeTransition#getDuration() duration} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public final class StrokeTransitionBuilder extends javafx.animation.TransitionBu
         __set |= 1 << 0;
         return this;
     }
-    
+
     private javafx.scene.paint.Color fromValue;
     /**
     Set the value of the {@link javafx.animation.StrokeTransition#getFromValue() fromValue} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public final class StrokeTransitionBuilder extends javafx.animation.TransitionBu
         __set |= 1 << 1;
         return this;
     }
-    
+
     private javafx.scene.shape.Shape shape;
     /**
     Set the value of the {@link javafx.animation.StrokeTransition#getShape() shape} property for the instance constructed by this builder.
@@ -82,7 +82,7 @@ public final class StrokeTransitionBuilder extends javafx.animation.TransitionBu
         __set |= 1 << 2;
         return this;
     }
-    
+
     private javafx.scene.paint.Color toValue;
     /**
     Set the value of the {@link javafx.animation.StrokeTransition#getToValue() toValue} property for the instance constructed by this builder.
@@ -92,7 +92,7 @@ public final class StrokeTransitionBuilder extends javafx.animation.TransitionBu
         __set |= 1 << 3;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.animation.StrokeTransition} based on the properties set on this builder.
     */

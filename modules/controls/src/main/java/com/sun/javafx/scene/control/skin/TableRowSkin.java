@@ -54,13 +54,13 @@ public class TableRowSkin<T> extends TableRowSkinBase<T, TableRow<T>, CellBehavi
 
     private TableView<T> tableView;
     private TableViewSkin<T> tableViewSkin;
-    
+
     public TableRowSkin(TableRow<T> tableRow) {
         super(tableRow, new TableRowBehavior<T>(tableRow));
-        
+
         this.tableView = tableRow.getTableView();
         updateTableViewSkin();
-        
+
         super.init(tableRow);
 
         registerChangeListener(tableRow.tableViewProperty(), "TABLE_VIEW");
@@ -70,18 +70,18 @@ public class TableRowSkin<T> extends TableRowSkinBase<T, TableRow<T>, CellBehavi
         super.handleControlPropertyChanged(p);
         if ("TABLE_VIEW".equals(p)) {
             updateTableViewSkin();
-            
+
             for (int i = 0, max = cells.size(); i < max; i++) {
                 Node n = cells.get(i);
                 if (n instanceof TableCell) {
                     ((TableCell)n).updateTableView(getSkinnable().getTableView());
                 }
             }
-            
+
             this.tableView = getSkinnable().getTableView();
         }
     }
-    
+
     @Override protected TableCell<T, ?> getCell(TableColumnBase tcb) {
         TableColumn tableColumn = (TableColumn<T,?>) tcb;
         TableCell cell = (TableCell) tableColumn.getCellFactory().call(tableColumn);
@@ -90,7 +90,7 @@ public class TableRowSkin<T> extends TableRowSkinBase<T, TableRow<T>, CellBehavi
         cell.updateTableColumn(tableColumn);
         cell.updateTableView(tableColumn.getTableView());
         cell.updateTableRow(getSkinnable());
-        
+
         return cell;
     }
 
@@ -121,7 +121,7 @@ public class TableRowSkin<T> extends TableRowSkinBase<T, TableRow<T>, CellBehavi
     @Override protected Control getVirtualFlowOwner() {
         return getSkinnable().getTableView();
     }
-    
+
     private void updateTableViewSkin() {
         TableView<T> tableView = getSkinnable().getTableView();
         if (tableView.getSkin() instanceof TableViewSkin) {

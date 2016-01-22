@@ -67,12 +67,12 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 public class DragAndDropTest {
-    
+
     private DndToolkit toolkit = new DndToolkit();
     private int counter;
     private boolean detected;
     private Node dragSource;
-    
+
     @Before
     public void setUp() {
         counter = 0;
@@ -80,13 +80,13 @@ public class DragAndDropTest {
         toolkit = new DndToolkit();
         ((StubToolkit) Toolkit.getToolkit()).setDndDelegate(toolkit);
     }
-    
+
     @After
     public void tearDown() {
         ((StubToolkit) Toolkit.getToolkit()).setDndDelegate(null);
         toolkit = null;
     }
-    
+
     /************************************************************************/
     /*                      DRAG EVENT CONSTRUCTOR                          */
     /************************************************************************/
@@ -245,13 +245,13 @@ public class DragAndDropTest {
     /************************************************************************/
     /*                         DRAG INITIATION                              */
     /************************************************************************/
-    
-    
+
+
     @Test
     public void dragDetectionShouldUseHysteresis() {
         Node n = oneNode();
         MouseEventGenerator gen = new MouseEventGenerator();
-        
+
         EventHandler<MouseEvent> thirdEventFailsHysteresis =
                 event -> {
                     counter++;
@@ -262,7 +262,7 @@ public class DragAndDropTest {
         n.addEventHandler(MouseEvent.MOUSE_PRESSED, thirdEventFailsHysteresis);
         n.addEventHandler(MouseEvent.MOUSE_DRAGGED, thirdEventFailsHysteresis);
         n.addEventHandler(MouseEvent.MOUSE_RELEASED, thirdEventFailsHysteresis);
-        
+
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
         n.getScene().impl_processMouseEvent(
@@ -273,10 +273,10 @@ public class DragAndDropTest {
                 gen.generateMouseEvent(MouseEvent.MOUSE_DRAGGED, 50, 50));
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_RELEASED, 50, 50));
-        
+
         assertEquals(5, counter);
     }
-    
+
     @Test
     public void dragShouldNotBeDetectedBasedOnMoveOrRelase() {
         Node n = oneNode();
@@ -286,7 +286,7 @@ public class DragAndDropTest {
         n.setOnMousePressed(dontDetect);
         n.setOnMouseMoved(doDetect);
         n.setOnMouseReleased(doDetect);
-        
+
         /* dontDetect prevents detection */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
@@ -310,7 +310,7 @@ public class DragAndDropTest {
         n.setOnMousePressed(dontDetect);
         n.setOnMouseDragged(dontDetect);
         n.setOnMouseReleased(doDetect);
-        
+
         /* dontDetect prevents detection */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
@@ -324,7 +324,7 @@ public class DragAndDropTest {
 
         /* doDetect fires detection */
         n.setOnMouseDragged(doDetect);
-        
+
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_DRAGGED, 50, 50));
         assertTrue(detected);
@@ -334,12 +334,12 @@ public class DragAndDropTest {
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_DRAGGED, 70, 70));
         assertFalse(detected);
-        
+
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_RELEASED, 50, 50));
         assertFalse(detected);
     }
-    
+
     @Test
     public void dragDetectionShouldBeOverridable() {
         Node n = oneNode();
@@ -350,12 +350,12 @@ public class DragAndDropTest {
         n.setOnMouseDragged(dontDetect);
         n.getParent().setOnMousePressed(dontDetect);
         n.getParent().setOnMouseDragged(doDetect);
-        
+
         /* dontDetect prevents detection */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
         assertFalse(detected);
-        
+
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_DRAGGED, 50, 50));
         assertTrue(detected);
@@ -365,12 +365,12 @@ public class DragAndDropTest {
                 gen.generateMouseEvent(MouseEvent.MOUSE_RELEASED, 50, 50));
         assertFalse(detected);
     }
-    
+
     @Test
     public void startDragShouldNotBeCalledIfNothingPutOnDragboard() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
-        
+
         n.setOnMousePressed(doDetect);
         n.setOnDragDetected(event -> {
             n.startDragAndDrop(TransferMode.COPY);
@@ -382,15 +382,15 @@ public class DragAndDropTest {
                 gen.generateMouseEvent(MouseEvent.MOUSE_DRAGGED, 50, 50));
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_RELEASED, 50, 50));
-        
+
         assertFalse(toolkit.dragging);
     }
-    
+
     @Test
     public void startDragShouldBeCalledIfStringPutOnDragboard() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
-        
+
         dragSource = n;
         n.setOnMousePressed(doDetect);
         n.setOnDragDetected(stringSource(TransferMode.ANY));
@@ -399,7 +399,7 @@ public class DragAndDropTest {
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
         assertTrue(toolkit.dragging);
     }
-    
+
     /************************************************************************/
     /*                           SOURCE/TARGET                              */
     /************************************************************************/
@@ -408,7 +408,7 @@ public class DragAndDropTest {
     public void nodeThatCallsStartDndShouldBecomeGestureSource() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
-        
+
         dragSource = n.getParent();
         n.setOnMousePressed(doDetect);
         n.setOnDragDetected(stringSource(TransferMode.ANY));
@@ -420,7 +420,7 @@ public class DragAndDropTest {
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
         toolkit.dragTo(52, 52, TransferMode.COPY);
-        
+
         assertEquals(1, counter);
     }
 
@@ -428,7 +428,7 @@ public class DragAndDropTest {
     public void parentThatCallsStartDndShouldBecomeGestureSource() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
-        
+
         dragSource = n.getParent();
         n.setOnMousePressed(doDetect);
         n.getParent().setOnDragDetected(stringSource(TransferMode.ANY));
@@ -440,7 +440,7 @@ public class DragAndDropTest {
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
         toolkit.dragTo(52, 52, TransferMode.COPY);
-        
+
         assertEquals(1, counter);
     }
 
@@ -448,7 +448,7 @@ public class DragAndDropTest {
     public void nodeThatAcceptsDragShouldBecomeGestureTarget() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
-        
+
         dragSource = n;
         n.setOnMousePressed(doDetect);
         n.setOnDragDetected(stringSource(TransferMode.ANY));
@@ -471,15 +471,15 @@ public class DragAndDropTest {
         toolkit.dragTo(51, 51, TransferMode.COPY);
         toolkit.dragTo(52, 52, TransferMode.COPY);
         toolkit.drop(52, 52, TransferMode.COPY);
-        
+
         assertEquals(3, counter);
     }
-    
+
     @Test
     public void parentThatAcceptsDragShouldBecomeGestureTarget() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
-        
+
         dragSource = n;
         n.setOnMousePressed(doDetect);
         n.setOnDragDetected(stringSource(TransferMode.ANY));
@@ -503,7 +503,7 @@ public class DragAndDropTest {
         toolkit.dragTo(51, 51, TransferMode.COPY);
         toolkit.dragTo(52, 52, TransferMode.COPY);
         toolkit.drop(52, 52, TransferMode.COPY);
-        
+
         assertEquals(3, counter);
     }
 
@@ -511,7 +511,7 @@ public class DragAndDropTest {
     public void sceneCanBecomeGestureSource() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
-        
+
         n.setOnMousePressed(doDetect);
         n.getScene().setOnDragDetected(event -> {
             Dragboard db = n.getScene().startDragAndDrop(TransferMode.ANY);
@@ -527,15 +527,15 @@ public class DragAndDropTest {
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
         toolkit.dragTo(52, 52, TransferMode.COPY);
-        
+
         assertEquals(1, counter);
     }
-    
+
     @Test
     public void sceneCanBecomeGestureTarget() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
-        
+
         dragSource = n;
         n.setOnMousePressed(doDetect);
         n.setOnDragDetected(stringSource(TransferMode.ANY));
@@ -558,15 +558,15 @@ public class DragAndDropTest {
         toolkit.dragTo(51, 51, TransferMode.COPY);
         toolkit.dragTo(52, 52, TransferMode.COPY);
         toolkit.drop(52, 52, TransferMode.COPY);
-        
+
         assertEquals(3, counter);
     }
-    
+
     /************************************************************************/
     /*                           TRANSFER MODES                             */
     /************************************************************************/
-    
-    @Test 
+
+    @Test
     public void defaultTransferModeShouldBeUsedIfSupported() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -579,12 +579,12 @@ public class DragAndDropTest {
         /* start drag */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
-        
+
         /* drag */
         assertSame(TransferMode.LINK, toolkit.dragTo(52, 52, TransferMode.LINK));
     }
-    
-    @Test 
+
+    @Test
     public void defaultTransferModeShouldNotBeUsedIfNotSupported() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -597,12 +597,12 @@ public class DragAndDropTest {
         /* start drag */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
-        
+
         /* drag */
         assertSame(TransferMode.COPY, toolkit.dragTo(52, 52, TransferMode.LINK));
     }
-    
-    @Test 
+
+    @Test
     public void mostCommonTransferModeShouldBeChosen() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -615,12 +615,12 @@ public class DragAndDropTest {
         /* start drag */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
-        
+
         /* drag */
         assertSame(TransferMode.MOVE, toolkit.dragTo(52, 52, TransferMode.LINK));
     }
-    
-    @Test 
+
+    @Test
     public void transferModeAcceptanceShouldBeOverridable_restriction() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -634,12 +634,12 @@ public class DragAndDropTest {
         /* start drag */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
-        
+
         /* drag */
         assertSame(TransferMode.COPY, toolkit.dragTo(52, 52, TransferMode.MOVE));
     }
-    
-    @Test 
+
+    @Test
     public void transferModeAcceptanceShouldBeOverridable_loosening() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -653,12 +653,12 @@ public class DragAndDropTest {
         /* start drag */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
-        
+
         /* drag */
         assertSame(TransferMode.MOVE, toolkit.dragTo(52, 52, TransferMode.MOVE));
     }
-    
-    @Test 
+
+    @Test
     public void noTransferShouldHappenWhenUnsupportedModeIsAccepted() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -671,12 +671,12 @@ public class DragAndDropTest {
         /* start drag */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
-        
+
         /* drag */
         assertNull(toolkit.dragTo(52, 52, TransferMode.MOVE));
     }
-    
-    @Test 
+
+    @Test
     public void noTransferShouldHappenWhenNotAccepted() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -688,12 +688,12 @@ public class DragAndDropTest {
         /* start drag */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
-        
+
         /* drag */
         assertNull(toolkit.dragTo(52, 52, TransferMode.MOVE));
     }
 
-    @Test 
+    @Test
     public void dropShouldGetAcceptedTransferMode() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -711,15 +711,15 @@ public class DragAndDropTest {
         /* start drag */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
-        
+
         /* drag and drop*/
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         toolkit.drop(52, 52, TransferMode.MOVE);
-        
+
         assertEquals(1, counter);
     }
-    
-    @Test 
+
+    @Test
     public void shouldBePossibleToAcceptInDrop() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -740,12 +740,12 @@ public class DragAndDropTest {
         /* start drag */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
-        
+
         /* drag and drop*/
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         assertEquals(TransferMode.MOVE, toolkit.drop(52, 52, TransferMode.LINK));
     }
-    
+
     @Test
     public void acceptingNonSupportedTransferModeInDropShouldThrowException() {
         final Node n = oneNode();
@@ -768,11 +768,11 @@ public class DragAndDropTest {
         /* start drag */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
-        
+
         /* drag and drop*/
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         toolkit.drop(52, 52, TransferMode.LINK);
-        
+
         assertEquals(1, counter);
     }
 
@@ -816,8 +816,8 @@ public class DragAndDropTest {
     /************************************************************************/
     /*                           GESTURE FINISH                             */
     /************************************************************************/
-    
-    @Test 
+
+    @Test
     public void dropShouldBeAcceptedByCompletion() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -833,13 +833,13 @@ public class DragAndDropTest {
         /* start drag */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
-        
+
         /* drag and drop*/
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         assertSame(TransferMode.COPY, toolkit.drop(52, 52, TransferMode.MOVE));
     }
-    
-    @Test 
+
+    @Test
     public void dropShouldNotBeAcceptedWithUnsuccessfulCompletion() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -855,13 +855,13 @@ public class DragAndDropTest {
         /* start drag */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
-        
+
         /* drag and drop*/
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         assertNull(toolkit.drop(52, 52, TransferMode.MOVE));
     }
-    
-    @Test 
+
+    @Test
     public void dropShouldNotBeAcceptedWithoutCompletion() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -874,13 +874,13 @@ public class DragAndDropTest {
         /* start drag */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
-        
+
         /* drag and drop*/
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         assertNull(toolkit.drop(52, 52, TransferMode.MOVE));
     }
-    
-    @Test 
+
+    @Test
     public void dropCompletionShouldBeOverridable() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -899,13 +899,13 @@ public class DragAndDropTest {
         /* start drag */
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
-        
+
         /* drag and drop*/
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         assertSame(TransferMode.MOVE, toolkit.drop(52, 52, TransferMode.MOVE));
     }
-    
-    @Test 
+
+    @Test
     public void dropDoneShouldBeSentToGestureSource() {
         final Node[] ns = twoNodes();
         Node src = ns[0];
@@ -929,7 +929,7 @@ public class DragAndDropTest {
         /* start drag */
         src.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
-        
+
         /* drag and drop*/
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         toolkit.dragTo(252, 52, TransferMode.MOVE);
@@ -937,12 +937,12 @@ public class DragAndDropTest {
         toolkit.done(TransferMode.MOVE);
         assertEquals(counter, 1);
     }
-    
+
     /************************************************************************/
     /*                            ENTERED/EXITED                            */
     /************************************************************************/
-    
-    @Test 
+
+    @Test
     public void dragSourceShouldGetEnteredImmediately() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -959,13 +959,13 @@ public class DragAndDropTest {
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
         assertEquals(0, counter);
-        
+
         /* drag */
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         assertEquals(1, counter);
     }
-    
-    @Test 
+
+    @Test
     public void dragSourcesParentShouldGetEnteredImmediately() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -982,12 +982,12 @@ public class DragAndDropTest {
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
         assertEquals(0, counter);
-        
+
         /* drag */
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         assertEquals(1, counter);
     }
-    
+
     @Test
     public void dragSourcesSubScenesParentShouldGetEnteredImmediately() {
         final Node[] ns = oneNodeInSubScene();
@@ -1016,7 +1016,7 @@ public class DragAndDropTest {
         assertEquals(2, counter);
     }
 
-    @Test 
+    @Test
     public void dragSourcesParentShouldGetEnteredTargetTwice() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -1035,13 +1035,13 @@ public class DragAndDropTest {
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
         assertEquals(0, counter);
-        
+
         /* drag */
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         assertEquals(2, counter);
     }
-    
-    @Test 
+
+    @Test
     public void dragSourceShouldGetExitedWhenLeft() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -1058,7 +1058,7 @@ public class DragAndDropTest {
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
         assertEquals(0, counter);
-        
+
         /* drag */
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         assertEquals(0, counter);
@@ -1098,7 +1098,7 @@ public class DragAndDropTest {
         assertEquals(2, counter);
     }
 
-    @Test 
+    @Test
     public void dragSourceShouldGetEnteredWhenReturned() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
@@ -1115,7 +1115,7 @@ public class DragAndDropTest {
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
         assertEquals(0, counter);
-        
+
         /* drag */
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         assertEquals(1, counter);
@@ -1126,8 +1126,8 @@ public class DragAndDropTest {
         toolkit.dragTo(60, 52, TransferMode.MOVE);
         assertEquals(2, counter);
     }
-    
-    @Test 
+
+    @Test
     public void anotherNodeShouldGetEntered() {
         final Node[] ns = twoNodes();
         Node src = ns[0];
@@ -1146,7 +1146,7 @@ public class DragAndDropTest {
         src.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
         assertEquals(0, counter);
-        
+
         /* drag */
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         assertEquals(0, counter);
@@ -1154,8 +1154,8 @@ public class DragAndDropTest {
         toolkit.dragTo(250, 52, TransferMode.MOVE);
         assertEquals(1, counter);
     }
-    
-    @Test 
+
+    @Test
     public void anotherNodeShouldGetExited() {
         final Node[] ns = twoNodes();
         Node src = ns[0];
@@ -1174,7 +1174,7 @@ public class DragAndDropTest {
         src.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
         assertEquals(0, counter);
-        
+
         /* drag */
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         assertEquals(0, counter);
@@ -1185,8 +1185,8 @@ public class DragAndDropTest {
         toolkit.dragTo(150, 52, TransferMode.MOVE);
         assertEquals(1, counter);
     }
-    
-    @Test 
+
+    @Test
     public void parentShouldNotGetExitedWhenDraggingOverChildren() {
         final Node[] ns = twoNodes();
         Node src = ns[0];
@@ -1205,7 +1205,7 @@ public class DragAndDropTest {
         src.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
         assertEquals(0, counter);
-        
+
         /* drag */
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         assertEquals(0, counter);
@@ -1216,8 +1216,8 @@ public class DragAndDropTest {
         toolkit.dragTo(50, 52, TransferMode.MOVE);
         assertEquals(0, counter);
     }
-    
-    @Test 
+
+    @Test
     public void parentShouldGetExitedTargetWhenDraggingOverChildren() {
         final Node[] ns = twoNodes();
         Node src = ns[0];
@@ -1238,7 +1238,7 @@ public class DragAndDropTest {
         src.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 50, 50));
         assertEquals(0, counter);
-        
+
         /* drag */
         toolkit.dragTo(52, 52, TransferMode.MOVE);
         assertEquals(0, counter);
@@ -1249,7 +1249,7 @@ public class DragAndDropTest {
         toolkit.dragTo(50, 52, TransferMode.MOVE);
         assertEquals(2, counter);
     }
-    
+
     /************************************************************************/
     /*                              DRAGVIEW                                */
     /************************************************************************/
@@ -1258,7 +1258,7 @@ public class DragAndDropTest {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
         final Image img = new Image("file:testImg_" + 100 + "x" + 100 + ".png");
-        
+
         n.setOnMousePressed(doDetect);
         n.setOnDragDetected(event -> {
             Dragboard db = n.startDragAndDrop(TransferMode.COPY);
@@ -1276,13 +1276,13 @@ public class DragAndDropTest {
 
         assertFalse(toolkit.dragging);
     }
-    
+
     @Test
     public void startDragShouldBeCalledIfStringPutOnDragboardsWithDragView() {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
         final Image img = new Image("file:testImg_" + 100 + "x" + 100 + ".png");
-        
+
         dragSource = n;
         n.setOnMousePressed(doDetect);
         n.setOnDragDetected(event -> {
@@ -1308,7 +1308,7 @@ public class DragAndDropTest {
         final MouseEventGenerator gen = new MouseEventGenerator();
         final Image img = new Image("file:testImg_" + 100 + "x" + 100 + ".png");
         final Image imgParent = new Image("file:testImg_" + 200 + "x" + 200 + ".png");
-        
+
         dragSource = n;
         n.setOnMousePressed(doDetect);
         n.setOnDragDetected(event -> {
@@ -1351,7 +1351,7 @@ public class DragAndDropTest {
         final MouseEventGenerator gen = new MouseEventGenerator();
         final Image img = new Image("file:testImg_" + 100 + "x" + 100 + ".png");
         final Image imgParent = new Image("file:testImg_" + 200 + "x" + 200 + ".png");
-        
+
         dragSource = n;
         n.setOnMousePressed(doDetect);
         n.setOnDragDetected(event -> {
@@ -1390,7 +1390,7 @@ public class DragAndDropTest {
         final Node n = oneNode();
         final MouseEventGenerator gen = new MouseEventGenerator();
         final Image img = new Image("file:testImg_" + 100 + "x" + 100 + ".png");
-        
+
         dragSource = n;
         n.setOnMousePressed(doDetect);
         n.setOnDragDetected(event -> {
@@ -1417,7 +1417,7 @@ public class DragAndDropTest {
         n.getScene().impl_processMouseEvent(
                 gen.generateMouseEvent(MouseEvent.MOUSE_PRESSED, 81, 81));
     }
-    
+
     /************************************************************************/
     /*                             PICK RESULT                              */
     /************************************************************************/
@@ -1513,23 +1513,23 @@ public class DragAndDropTest {
     /************************************************************************/
     /*                             HELPER CODE                              */
     /************************************************************************/
-    
+
     // Event handlers
-    
+
     private final EventHandler<MouseEvent> dontDetect =
             event -> event.setDragDetect(false);
 
     private final EventHandler<MouseEvent> doDetect =
             event -> event.setDragDetect(true);
-    
-    private final EventHandler<MouseEvent> detector = 
+
+    private final EventHandler<MouseEvent> detector =
             new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent event) {
             detected = true;
         }
     };
-    
-    private EventHandler<MouseEvent> stringSource(final TransferMode... tms) { 
+
+    private EventHandler<MouseEvent> stringSource(final TransferMode... tms) {
         return event -> {
             Dragboard db = dragSource.startDragAndDrop(tms);
             ClipboardContent cc = new ClipboardContent();
@@ -1537,31 +1537,31 @@ public class DragAndDropTest {
             db.setContent(cc);
         };
     }
-    
+
     private final EventHandler<DragEvent> acceptAny =
             event -> event.acceptTransferModes(TransferMode.ANY);
 
     private final EventHandler<DragEvent> acceptCopyOrMove =
             event -> event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-    
+
     private final EventHandler<DragEvent> acceptCopy =
             event -> event.acceptTransferModes(TransferMode.COPY);
-    
+
     // Scenes
 
     private static Node oneNode() {
         Group root = new Group();
         getScene(root);
-        
+
         Rectangle r = new Rectangle(100, 100);
         root.getChildren().add(r);
         return r;
     }
-    
+
     private static Node[] twoNodes() {
         Group root = new Group();
         getScene(root);
-        
+
         Rectangle r = new Rectangle(100, 100);
         root.getChildren().add(r);
 
@@ -1591,9 +1591,9 @@ public class DragAndDropTest {
 
         return scene;
     }
-    
+
     // Mock toolkit
-    
+
     private class ClipboardImpl implements TKClipboard {
 
         private List<Pair<DataFormat, Object>> content;
@@ -1645,7 +1645,7 @@ public class DragAndDropTest {
             content.addAll(Arrays.asList(pairs));
             return true;
         }
-        
+
         @Override
         public void setDragView(Image image) {
             this.image = image;
@@ -1681,7 +1681,7 @@ public class DragAndDropTest {
             offsetX = offsetY = 0;
         }
     }
-    
+
     private class DndToolkit implements StubToolkit.DndDelegate {
 
         boolean dragging = false;
@@ -1699,8 +1699,8 @@ public class DragAndDropTest {
         public void enableDrop(TKDropTargetListener l) {
             this.trgListener = l;
         }
-        
-        
+
+
         @Override
         public TKClipboard createDragboard() {
             db = new ClipboardImpl();
@@ -1708,7 +1708,7 @@ public class DragAndDropTest {
         }
 
         @Override
-        public void startDrag(TKScene scene, Set<TransferMode> tm, 
+        public void startDrag(TKScene scene, Set<TransferMode> tm,
                 TKDragSourceListener l, Dragboard dragboard) {
             ((ClipboardImpl)db).setTransferModes(tm);
             ((ClipboardImpl)db).flush();
@@ -1724,22 +1724,22 @@ public class DragAndDropTest {
                     de.getScreenX(), de.getScreenY(), de.getTransferMode(),
                     de.getGestureSource(), de.getGestureTarget(), de.getPickResult());
         }
-        
+
         public TransferMode dragTo(double x, double y, TransferMode tm) {
             return trgListener.dragOver(x, y, x, y, tm);
         }
-        
+
         public TransferMode drop(double x, double y, TransferMode tm) {
             return trgListener.drop(x, y, x, y, tm);
         }
-        
+
         public void done(TransferMode tm) {
             srcListener.dragDropEnd(0, 0, 0, 0, tm);
         }
-        
+
         public void stopDrag() {
             dragging = false;
         }
-        
+
     }
 }

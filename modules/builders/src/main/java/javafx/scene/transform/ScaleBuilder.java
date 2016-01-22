@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.transform.Scale
 public class ScaleBuilder<B extends javafx.scene.transform.ScaleBuilder<B>> implements javafx.util.Builder<javafx.scene.transform.Scale> {
     protected ScaleBuilder() {
     }
-    
+
     /** Creates a new instance of ScaleBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.transform.ScaleBuilder<?> create() {
         return new javafx.scene.transform.ScaleBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.transform.Scale x) {
         int set = __set;
@@ -53,7 +53,7 @@ public class ScaleBuilder<B extends javafx.scene.transform.ScaleBuilder<B>> impl
         if ((set & (1 << 4)) != 0) x.setY(this.y);
         if ((set & (1 << 5)) != 0) x.setZ(this.z);
     }
-    
+
     private double pivotX;
     /**
     Set the value of the {@link javafx.scene.transform.Scale#getPivotX() pivotX} property for the instance constructed by this builder.
@@ -64,7 +64,7 @@ public class ScaleBuilder<B extends javafx.scene.transform.ScaleBuilder<B>> impl
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private double pivotY;
     /**
     Set the value of the {@link javafx.scene.transform.Scale#getPivotY() pivotY} property for the instance constructed by this builder.
@@ -75,7 +75,7 @@ public class ScaleBuilder<B extends javafx.scene.transform.ScaleBuilder<B>> impl
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double pivotZ;
     /**
     Set the value of the {@link javafx.scene.transform.Scale#getPivotZ() pivotZ} property for the instance constructed by this builder.
@@ -86,7 +86,7 @@ public class ScaleBuilder<B extends javafx.scene.transform.ScaleBuilder<B>> impl
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private double x;
     /**
     Set the value of the {@link javafx.scene.transform.Scale#getX() x} property for the instance constructed by this builder.
@@ -97,7 +97,7 @@ public class ScaleBuilder<B extends javafx.scene.transform.ScaleBuilder<B>> impl
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private double y;
     /**
     Set the value of the {@link javafx.scene.transform.Scale#getY() y} property for the instance constructed by this builder.
@@ -108,7 +108,7 @@ public class ScaleBuilder<B extends javafx.scene.transform.ScaleBuilder<B>> impl
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     private double z;
     /**
     Set the value of the {@link javafx.scene.transform.Scale#getZ() z} property for the instance constructed by this builder.
@@ -119,7 +119,7 @@ public class ScaleBuilder<B extends javafx.scene.transform.ScaleBuilder<B>> impl
         __set |= 1 << 5;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.transform.Scale} based on the properties set on this builder.
     */

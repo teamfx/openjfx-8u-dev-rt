@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,8 +36,8 @@ Builder class for javafx.scene.control.Labeled
 public abstract class LabeledBuilder<B extends javafx.scene.control.LabeledBuilder<B>> extends javafx.scene.control.ControlBuilder<B> {
     protected LabeledBuilder() {
     }
-    
-    
+
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -65,7 +65,7 @@ public abstract class LabeledBuilder<B extends javafx.scene.control.LabeledBuild
             }
         }
     }
-    
+
     private javafx.geometry.Pos alignment;
     /**
     Set the value of the {@link javafx.scene.control.Labeled#getAlignment() alignment} property for the instance constructed by this builder.
@@ -76,7 +76,7 @@ public abstract class LabeledBuilder<B extends javafx.scene.control.LabeledBuild
         __set(0);
         return (B) this;
     }
-    
+
     private javafx.scene.control.ContentDisplay contentDisplay;
     /**
     Set the value of the {@link javafx.scene.control.Labeled#getContentDisplay() contentDisplay} property for the instance constructed by this builder.
@@ -87,7 +87,7 @@ public abstract class LabeledBuilder<B extends javafx.scene.control.LabeledBuild
         __set(1);
         return (B) this;
     }
-    
+
     private java.lang.String ellipsisString;
     /**
     Set the value of the {@link javafx.scene.control.Labeled#getEllipsisString() ellipsisString} property for the instance constructed by this builder.
@@ -99,7 +99,7 @@ public abstract class LabeledBuilder<B extends javafx.scene.control.LabeledBuild
         __set(2);
         return (B) this;
     }
-    
+
     private javafx.scene.text.Font font;
     /**
     Set the value of the {@link javafx.scene.control.Labeled#getFont() font} property for the instance constructed by this builder.
@@ -110,7 +110,7 @@ public abstract class LabeledBuilder<B extends javafx.scene.control.LabeledBuild
         __set(3);
         return (B) this;
     }
-    
+
     private javafx.scene.Node graphic;
     /**
     Set the value of the {@link javafx.scene.control.Labeled#getGraphic() graphic} property for the instance constructed by this builder.
@@ -121,7 +121,7 @@ public abstract class LabeledBuilder<B extends javafx.scene.control.LabeledBuild
         __set(4);
         return (B) this;
     }
-    
+
     private double graphicTextGap;
     /**
     Set the value of the {@link javafx.scene.control.Labeled#getGraphicTextGap() graphicTextGap} property for the instance constructed by this builder.
@@ -132,7 +132,7 @@ public abstract class LabeledBuilder<B extends javafx.scene.control.LabeledBuild
         __set(5);
         return (B) this;
     }
-    
+
     private boolean mnemonicParsing;
     /**
     Set the value of the {@link javafx.scene.control.Labeled#isMnemonicParsing() mnemonicParsing} property for the instance constructed by this builder.
@@ -143,7 +143,7 @@ public abstract class LabeledBuilder<B extends javafx.scene.control.LabeledBuild
         __set(6);
         return (B) this;
     }
-    
+
     private java.lang.String text;
     /**
     Set the value of the {@link javafx.scene.control.Labeled#getText() text} property for the instance constructed by this builder.
@@ -154,7 +154,7 @@ public abstract class LabeledBuilder<B extends javafx.scene.control.LabeledBuild
         __set(7);
         return (B) this;
     }
-    
+
     private javafx.scene.text.TextAlignment textAlignment;
     /**
     Set the value of the {@link javafx.scene.control.Labeled#getTextAlignment() textAlignment} property for the instance constructed by this builder.
@@ -165,7 +165,7 @@ public abstract class LabeledBuilder<B extends javafx.scene.control.LabeledBuild
         __set(8);
         return (B) this;
     }
-    
+
     private javafx.scene.paint.Paint textFill;
     /**
     Set the value of the {@link javafx.scene.control.Labeled#getTextFill() textFill} property for the instance constructed by this builder.
@@ -176,7 +176,7 @@ public abstract class LabeledBuilder<B extends javafx.scene.control.LabeledBuild
         __set(9);
         return (B) this;
     }
-    
+
     private javafx.scene.control.OverrunStyle textOverrun;
     /**
     Set the value of the {@link javafx.scene.control.Labeled#getTextOverrun() textOverrun} property for the instance constructed by this builder.
@@ -187,7 +187,7 @@ public abstract class LabeledBuilder<B extends javafx.scene.control.LabeledBuild
         __set(10);
         return (B) this;
     }
-    
+
     private boolean underline;
     /**
     Set the value of the {@link javafx.scene.control.Labeled#isUnderline() underline} property for the instance constructed by this builder.
@@ -198,7 +198,7 @@ public abstract class LabeledBuilder<B extends javafx.scene.control.LabeledBuild
         __set(11);
         return (B) this;
     }
-    
+
     private boolean wrapText;
     /**
     Set the value of the {@link javafx.scene.control.Labeled#isWrapText() wrapText} property for the instance constructed by this builder.
@@ -209,5 +209,5 @@ public abstract class LabeledBuilder<B extends javafx.scene.control.LabeledBuild
         __set(12);
         return (B) this;
     }
-    
+
 }

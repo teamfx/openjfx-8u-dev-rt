@@ -74,7 +74,7 @@ public class ButtonTest {
     private Stage stage;
     private StackPane root;
     private MouseEventFirer mouse;
-    
+
     @Before public void setup() {
         btn = new Button();
         tk = (StubToolkit)Toolkit.getToolkit();//This step is not needed (Just to make sure StubToolkit is loaded into VM)
@@ -89,37 +89,37 @@ public class ButtonTest {
         stage.hide();
         mouse.dispose();
     }
-    
+
     /*********************************************************************
      * Helper methods                                                    *
      ********************************************************************/
     private void show() {
         stage.show();
-    }   
-    
+    }
+
     /*********************************************************************
      * Tests for the constructors                                        *
      ********************************************************************/
-    
+
     @Test public void defaultConstructorShouldHaveNoGraphicAndEmptyString() {
         assertNull(btn.getGraphic());
         assertEquals("", btn.getText());
     }
-    
+
     @Test public void oneArgConstructorShouldHaveNoGraphicAndSpecifiedString() {
         Button b2 = new Button(null);
         assertNull(b2.getGraphic());
         assertNull(b2.getText());
-        
+
         b2 = new Button("");
         assertNull(b2.getGraphic());
         assertEquals("", b2.getText());
-        
+
         b2 = new Button("Hello");
         assertNull(b2.getGraphic());
         assertEquals("Hello", b2.getText());
     }
-    
+
     @Test public void twoArgConstructorShouldHaveSpecifiedGraphicAndSpecifiedString() {
         Button b2 = new Button(null, null);
         assertNull(b2.getGraphic());
@@ -134,17 +134,17 @@ public class ButtonTest {
     @Test public void defaultConstructorShouldSetStyleClassTo_button() {
         assertStyleClassContains(btn, "button");
     }
-    
+
     @Test public void oneArgConstructorShouldSetStyleClassTo_button() {
         Button b2 = new Button(null);
         assertStyleClassContains(b2, "button");
     }
-    
+
     @Test public void twoArgConstructorShouldSetStyleClassTo_button() {
         Button b2 = new Button(null, null);
         assertStyleClassContains(b2, "button");
     }
-    
+
     /*********************************************************************
      * Tests for the defaultButton state                                 *
      ********************************************************************/
@@ -213,40 +213,40 @@ public class ButtonTest {
     @Test public void defaultButtonPropertyHasName() {
         assertEquals("defaultButton", btn.defaultButtonProperty().getName());
     }
-    
+
     @Test public void disabledDefaultButtonCannotGetInvoked_RT20929() {
-        root.getChildren().add(btn);        
-        
+        root.getChildren().add(btn);
+
         btn.setOnAction(actionEvent -> {
             fail();
         });
-        
+
         btn.setDefaultButton(true);
         btn.setDisable(true);
         show();
-        
-        KeyEventFirer keyboard = new KeyEventFirer(btn);        
+
+        KeyEventFirer keyboard = new KeyEventFirer(btn);
         keyboard.doKeyPress(KeyCode.ENTER);
-   
-        tk.firePulse();                
+
+        tk.firePulse();
     }
 
     @Test public void defaultButtonCanBeInvokeAfterRemovingFromTheScene_RT22106() {
-        btn.setDefaultButton(true);        
+        btn.setDefaultButton(true);
         btn.setOnAction(actionEvent -> {
             fail();
         });
         root.getChildren().add(btn);
         show();
-        
-        root.getChildren().remove(btn);        
-        
-        KeyEventFirer keyboard = new KeyEventFirer(root);        
+
+        root.getChildren().remove(btn);
+
+        KeyEventFirer keyboard = new KeyEventFirer(root);
         keyboard.doKeyPress(KeyCode.ENTER);
 
-        tk.firePulse();                      
+        tk.firePulse();
     }
-    
+
     /*********************************************************************
      * Tests for the cancelButton state                                 *
      ********************************************************************/
@@ -317,19 +317,19 @@ public class ButtonTest {
     }
 
     @Test public void cancelButtonCanBeInvokeAfterRemovingFromTheScene_RT22106() {
-        btn.setCancelButton(true);        
+        btn.setCancelButton(true);
         btn.setOnAction(actionEvent -> {
             fail();
         });
         root.getChildren().add(btn);
         show();
-        
-        root.getChildren().remove(btn);        
-        
-        KeyEventFirer keyboard = new KeyEventFirer(root);        
+
+        root.getChildren().remove(btn);
+
+        KeyEventFirer keyboard = new KeyEventFirer(root);
         keyboard.doKeyPress(KeyCode.ESCAPE);
 
-        tk.firePulse();                      
+        tk.firePulse();
     }
 
 
@@ -359,7 +359,7 @@ public class ButtonTest {
         mouse.fireMouseReleased();
         mouse.fireMouseClicked();
     }
-    
+
     private int count = 0;
     @Test public void contextMenuShouldShowOnInSomeCircumstances() {
         ContextMenu popupMenu = new ContextMenu();
@@ -375,23 +375,23 @@ public class ButtonTest {
 
         root.getChildren().add(btn);
         show();
-        
+
         btn.setOnAction(event -> {
             fail();
         });
 
         assertEquals(0, count);
-        
+
         /* Note that right-mouse press events don't force the popup open */
         mouse.fireMousePressed(MouseButton.SECONDARY);
         assertEquals(0, count);
-        
+
         mouse.fireMouseClicked(MouseButton.SECONDARY);
         assertEquals(0, count);
-        
+
         mouse.fireMouseReleased(MouseButton.SECONDARY);
         assertEquals(0, count);
-        
+
         /* Only context menu events force it to appear */
         ContextMenuEventFirer.fireContextMenuEvent(btn);
         assertEquals(1, count);
@@ -401,12 +401,12 @@ public class ButtonTest {
         MyButton(String text) {
             super(text);
         }
-        
+
         void setHoverPseudoclassState(boolean b) {
             setHover(b);
         }
-    }    
-    
+    }
+
     List<Stop> getStops(Button button) {
         Skin skin = button.getSkin();
         Region region = (Region)skin.getNode();
@@ -418,7 +418,7 @@ public class ButtonTest {
 
     @Test
     public void testRT_23207() {
-        
+
         HBox hBox = new HBox();
         hBox.setSpacing(5);
         hBox.setTranslateY(30);
@@ -428,34 +428,34 @@ public class ButtonTest {
         green.setStyle("-fx-base: green;");
         hBox.getChildren().add(red);
         hBox.getChildren().add(green);
-                
+
         Scene scene = new Scene(hBox, 500, 300);
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
-        
+
         Toolkit.getToolkit().firePulse();
-        
+
         List<Stop> redStops0 = getStops(red);
         List<Stop> greenStops0 = getStops(green);
-        
+
         red.setHoverPseudoclassState(true);
-        
+
         Toolkit.getToolkit().firePulse();
 
         List<Stop> redStops1 = getStops(red);
         List<Stop> greenStops1 = getStops(green);
-                
+
         red.setHoverPseudoclassState(false);
         green.setHoverPseudoclassState(true);
-        
+
         Toolkit.getToolkit().firePulse();
-        
+
         List<Stop> redStops2 = getStops(red);
         List<Stop> greenStops2 = getStops(green);
 
         green.setHoverPseudoclassState(false);
-        
+
         Toolkit.getToolkit().firePulse();
 
         List<Stop> redStops3 = getStops(red);
@@ -474,10 +474,10 @@ public class ButtonTest {
         // did green revert to original after green hover=false?
         // This is the acid test. If this fails, then RT-23207 is present.
         assertTrue(greenStops0.equals(greenStops3));
-        
-    }    
 
-    
+    }
+
+
 //  private Button button1;
 //  private Button button2;
 //

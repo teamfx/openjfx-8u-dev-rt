@@ -28,10 +28,10 @@
 G_BEGIN_DECLS
 
 
-#define GST_TYPE_CHILD_PROXY			(gst_child_proxy_get_type ())
-#define GST_CHILD_PROXY(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_CHILD_PROXY, GstChildProxy))
-#define GST_IS_CHILD_PROXY(obj)	                (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_CHILD_PROXY))
-#define GST_CHILD_PROXY_GET_INTERFACE(obj)	(G_TYPE_INSTANCE_GET_INTERFACE ((obj), GST_TYPE_CHILD_PROXY, GstChildProxyInterface))
+#define GST_TYPE_CHILD_PROXY            (gst_child_proxy_get_type ())
+#define GST_CHILD_PROXY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_CHILD_PROXY, GstChildProxy))
+#define GST_IS_CHILD_PROXY(obj)                 (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_CHILD_PROXY))
+#define GST_CHILD_PROXY_GET_INTERFACE(obj)  (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GST_TYPE_CHILD_PROXY, GstChildProxyInterface))
 
 /**
  * GstChildProxy:

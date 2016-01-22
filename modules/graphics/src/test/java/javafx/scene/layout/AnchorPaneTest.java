@@ -623,7 +623,7 @@ public class AnchorPaneTest {
         assertEquals(30, internalAnchorpane.prefWidth(-1), 1e-100);
         assertEquals(256, internalAnchorpane.prefHeight(-1), 1e-100);
     }
-    
+
     @Test
     public void testTopAnchoredMinSizeOverridden() {
         AnchorPane anchorpane = new AnchorPane();
@@ -643,7 +643,7 @@ public class AnchorPaneTest {
         assertEquals(300, child.getWidth(), 1e-100);
         assertEquals(400, child.getHeight(), 1e-100);
     }
-    
+
     @Test
     public void testBottomAnchoredMinSizeOverridden() {
         AnchorPane anchorpane = new AnchorPane();
@@ -663,7 +663,7 @@ public class AnchorPaneTest {
         assertEquals(300, child.getWidth(), 1e-100);
         assertEquals(400, child.getHeight(), 1e-100);
     }
-    
+
     @Test public void testLeftAnchoredMinSizeOverridden() {
         AnchorPane anchorpane = new AnchorPane();
         MockResizable child = new MockResizable(300,400, 100,100, 500,600);
@@ -689,7 +689,7 @@ public class AnchorPaneTest {
         assertEquals(300, child.getWidth(), 1e-100);
         assertEquals(400, child.getHeight(), 1e-100);
     }
-    
+
     @Test public void testRightAnchoredMinSizeOverridden() {
         AnchorPane anchorpane = new AnchorPane();
         MockResizable child = new MockResizable(300,400, 100,100, 500,600);

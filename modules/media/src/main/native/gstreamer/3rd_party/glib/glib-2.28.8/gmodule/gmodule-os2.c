@@ -8,7 +8,7 @@
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
@@ -21,10 +21,10 @@
  * Modified by the GLib Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GLib Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GLib at ftp://ftp.gtk.org/pub/gtk/. 
+ * GLib at ftp://ftp.gtk.org/pub/gtk/.
  */
 
-/* 
+/*
  * MT safe
  */
 #include "config.h"
@@ -36,10 +36,10 @@
 
 /* dlerror() is not implemented on all systems
  */
-#ifndef	G_MODULE_HAVE_DLERROR
+#ifndef G_MODULE_HAVE_DLERROR
 /* could we rely on errno's state here? */
-#  define dlerror()	"unknown dl-error"
-#endif	/* G_MODULE_HAVE_DLERROR */
+#  define dlerror() "unknown dl-error"
+#endif  /* G_MODULE_HAVE_DLERROR */
 
 /* some flags are missing on some systems, so we provide
  * harmless defaults.
@@ -48,37 +48,37 @@
  *
  * Mandatory:
  * RTLD_LAZY   - resolve undefined symbols as code from the dynamic library
- *		 is executed.
+ *       is executed.
  * RTLD_NOW    - resolve all undefined symbols before dlopen returns, and fail
- *		 if this cannot be done.
+ *       if this cannot be done.
  * Optionally:
  * RTLD_GLOBAL - the external symbols defined in the library will be made
- *		 available to subsequently loaded libraries.
+ *       available to subsequently loaded libraries.
  */
-#ifndef	RTLD_GLOBAL
-#define	RTLD_GLOBAL	0
-#endif	/* RTLD_GLOBAL */
-#ifndef	RTLD_LAZY
-#define	RTLD_LAZY	1
-#endif	/* RTLD_LAZY */
-#ifndef	RTLD_NOW
-#define	RTLD_NOW	0
-#endif	/* RTLD_NOW */
+#ifndef RTLD_GLOBAL
+#define RTLD_GLOBAL 0
+#endif  /* RTLD_GLOBAL */
+#ifndef RTLD_LAZY
+#define RTLD_LAZY   1
+#endif  /* RTLD_LAZY */
+#ifndef RTLD_NOW
+#define RTLD_NOW    0
+#endif  /* RTLD_NOW */
 
 
 /* --- functions --- */
 static gpointer
 _g_module_open (const gchar    *file_name,
-		gboolean	bind_lazy,
-		gboolean	bind_local)
+        gboolean    bind_lazy,
+        gboolean    bind_local)
 {
   gpointer handle;
-  
+
   handle = dlopen (file_name,
-	(bind_local ? 0 : RTLD_GLOBAL) | (bind_lazy ? RTLD_LAZY : RTLD_NOW));
+    (bind_local ? 0 : RTLD_GLOBAL) | (bind_lazy ? RTLD_LAZY : RTLD_NOW));
   if (!handle)
     g_module_set_error (dlerror ());
-  
+
   return handle;
 }
 
@@ -86,27 +86,27 @@ static gpointer
 _g_module_self (void)
 {
   gpointer handle;
-  
+
   /* to query symbols from the program itself, special link options
    * are required on some systems.
    */
-  
+
   /* XXX, not supported */
   handle = NULL;
   g_module_set_error ("module handle for self not supported");
-  
+
   return handle;
 }
 
 static void
 _g_module_close (gpointer handle,
-		 gboolean is_unref)
+         gboolean is_unref)
 {
   /* are there any systems out there that have dlopen()/dlclose()
    * without a reference count implementation?
    */
   is_unref |= 1;
-  
+
   if (is_unref)
     {
       /* XXX, no return code */
@@ -116,20 +116,20 @@ _g_module_close (gpointer handle,
 
 static gpointer
 _g_module_symbol (gpointer     handle,
-		  const gchar *symbol_name)
+          const gchar *symbol_name)
 {
   gpointer p;
-  
+
   p = dlsym (handle, symbol_name);
   if (!p)
     g_module_set_error (dlerror ());
-  
+
   return p;
 }
 
 static gchar*
 _g_module_build_path (const gchar *directory,
-		      const gchar *module_name)
+              const gchar *module_name)
 {
   gchar *suffix = strrchr(module_name, '.');
   if (directory && *directory)

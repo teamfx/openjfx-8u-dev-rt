@@ -82,15 +82,15 @@ public class CellSkinBase<C extends Cell, B extends BehaviorBase<C>> extends Lab
                 @Override public void set(double value) {
 //                    // Commented this out due to RT-19794, because otherwise
 //                    // cellSizeSet would be false when the default caspian.css
-//                    // cell size was set. This would lead to 
+//                    // cell size was set. This would lead to
 //                    // ListCellSkin.computePrefHeight computing the pref height
-//                    // of the cell (which is about 22px), rather than use the 
+//                    // of the cell (which is about 22px), rather than use the
 //                    // value provided by caspian.css (which is 24px).
 //                    // cellSizeSet = true;//value != DEFAULT_CELL_SIZE;
                     super.set(value);
                     getSkinnable().requestLayout();
                 }
-                
+
                 @Override public Object getBean() {
                     return CellSkinBase.this;
                 }
@@ -102,7 +102,7 @@ public class CellSkinBase<C extends Cell, B extends BehaviorBase<C>> extends Lab
                 @Override public CssMetaData<Cell<?>, Number> getCssMetaData() {
                     return StyleableProperties.CELL_SIZE;
                 }
-            }; 
+            };
         }
         return cellSize;
     }
@@ -119,7 +119,7 @@ public class CellSkinBase<C extends Cell, B extends BehaviorBase<C>> extends Lab
     }
 
 
-    
+
     /***************************************************************************
      *                                                                         *
      *                         Stylesheet Handling                             *
@@ -153,7 +153,7 @@ public class CellSkinBase<C extends Cell, B extends BehaviorBase<C>> extends Lab
          private static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
          static {
 
-            final List<CssMetaData<? extends Styleable, ?>> styleables = 
+            final List<CssMetaData<? extends Styleable, ?>> styleables =
                 new ArrayList<CssMetaData<? extends Styleable, ?>>(SkinBase.getClassCssMetaData());
             styleables.add(CELL_SIZE);
             STYLEABLES = Collections.unmodifiableList(styleables);

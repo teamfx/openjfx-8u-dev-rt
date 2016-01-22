@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,19 +36,19 @@ Builder class for javafx.scene.control.Hyperlink
 public class HyperlinkBuilder<B extends javafx.scene.control.HyperlinkBuilder<B>> extends javafx.scene.control.ButtonBaseBuilder<B> implements javafx.util.Builder<javafx.scene.control.Hyperlink> {
     protected HyperlinkBuilder() {
     }
-    
+
     /** Creates a new instance of HyperlinkBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.HyperlinkBuilder<?> create() {
         return new javafx.scene.control.HyperlinkBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.scene.control.Hyperlink x) {
         super.applyTo(x);
         if (__set) x.setVisited(this.visited);
     }
-    
+
     private boolean visited;
     /**
     Set the value of the {@link javafx.scene.control.Hyperlink#isVisited() visited} property for the instance constructed by this builder.
@@ -59,7 +59,7 @@ public class HyperlinkBuilder<B extends javafx.scene.control.HyperlinkBuilder<B>
         __set = true;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.Hyperlink} based on the properties set on this builder.
     */

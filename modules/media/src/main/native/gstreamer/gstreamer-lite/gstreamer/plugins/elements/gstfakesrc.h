@@ -81,7 +81,7 @@ typedef enum {
 
 /**
  * GstFakeSrcFillType:
- * @FAKE_SRC_FILLTYPE_NOTHING: do not fill buffers 
+ * @FAKE_SRC_FILLTYPE_NOTHING: do not fill buffers
  * @FAKE_SRC_FILLTYPE_ZERO: fill buffers with 0
  * @FAKE_SRC_FILLTYPE_RANDOM: fill buffers with random bytes
  * @FAKE_SRC_FILLTYPE_PATTERN: fill buffers with a pattern
@@ -120,38 +120,38 @@ struct _GstFakeSrc {
   GstBaseSrc     element;
 
   /*< private >*/
-  gboolean	 has_loop;
-  gboolean	 has_getrange;
+  gboolean   has_loop;
+  gboolean   has_getrange;
 
   GstFakeSrcOutputType output;
   GstFakeSrcDataType   data;
   GstFakeSrcSizeType   sizetype;
   GstFakeSrcFillType   filltype;
 
-  guint		sizemin;
-  guint		sizemax;
-  GstBuffer	*parent;
-  guint		parentsize;
-  guint		parentoffset;
-  guint8	 pattern_byte;
-  gchar		*pattern;
-  GList		*patternlist;
-  gint		 datarate;
-  gboolean	 sync;
-  GstClock	*clock;
+  guint     sizemin;
+  guint     sizemax;
+  GstBuffer *parent;
+  guint     parentsize;
+  guint     parentoffset;
+  guint8     pattern_byte;
+  gchar     *pattern;
+  GList     *patternlist;
+  gint       datarate;
+  gboolean   sync;
+  GstClock  *clock;
 
-  gint		 num_buffers;
-  gint		 rt_num_buffers; /* we are going to change this at runtime */
-  gint64	 buffer_count;
-  gboolean	 silent;
-  gboolean	 signal_handoffs;
-  gboolean	 dump;
-  gboolean	 can_activate_pull;
+  gint       num_buffers;
+  gint       rt_num_buffers; /* we are going to change this at runtime */
+  gint64     buffer_count;
+  gboolean   silent;
+  gboolean   signal_handoffs;
+  gboolean   dump;
+  gboolean   can_activate_pull;
   GstFormat      format;
 
   guint64        bytes_sent;
 
-  gchar		*last_message;
+  gchar     *last_message;
 };
 
 struct _GstFakeSrcClass {

@@ -1,5 +1,5 @@
 /* -*- c-basic-offset: 2 -*-
- * 
+ *
  * GStreamer
  * Copyright (C) 1999-2001 Erik Walthinsen <omega@cse.ogi.edu>
  *               2006 Dreamlab Technologies Ltd. <mathis.hofer@dreamlab.net>
@@ -19,7 +19,7 @@
  * License along with this library; if not, write to the
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
- * 
+ *
  */
 
 #ifdef HAVE_CONFIG_H
@@ -86,7 +86,7 @@ static gboolean gst_audio_fx_base_fir_filter_query (GstPad * pad,
 static const GstQueryType *gst_audio_fx_base_fir_filter_query_type (GstPad *
     pad);
 
-/* 
+/*
  * The code below calculates the linear convolution:
  *
  * y[t] = \sum_{u=0}^{M-1} x[t - u] * h[u]
@@ -319,8 +319,8 @@ process_fft_##channels##_##width (GstAudioFXBaseFIRFilter * self, const g##ctype
       \
       /* Complex multiplication of input and filter spectrum */ \
       for (i = 0; i < frequency_response_length; i++) { \
-	re = fft_buffer[i].r; \
-	im = fft_buffer[i].i; \
+    re = fft_buffer[i].r; \
+    im = fft_buffer[i].i; \
         \
         fft_buffer[i].r = \
             re * frequency_response[i].r - \

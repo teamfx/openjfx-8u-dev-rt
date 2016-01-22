@@ -87,7 +87,7 @@ public class ServiceLifecycleTest extends ServiceTestBase {
     protected final class ManualExecutor implements Executor {
         private Runnable scheduled;
         private Executor wrapped;
-        
+
         ManualExecutor(Executor wrapped) {
             this.wrapped = wrapped;
         }
@@ -1934,7 +1934,7 @@ public class ServiceLifecycleTest extends ServiceTestBase {
         svc.start();
         assertTrue(result.get());
     }
-    
+
     private static final class MythicalService extends Service<String> {
         public void setHandler(EventHandler<MythicalEvent> h) {
             super.setEventHandler(MythicalEvent.ANY, h);

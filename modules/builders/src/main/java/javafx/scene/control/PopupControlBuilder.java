@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.PopupControl
 public class PopupControlBuilder<B extends javafx.scene.control.PopupControlBuilder<B>> extends javafx.stage.PopupWindowBuilder<B> implements javafx.util.Builder<javafx.scene.control.PopupControl> {
     protected PopupControlBuilder() {
     }
-    
+
     /** Creates a new instance of PopupControlBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.PopupControlBuilder<?> create() {
         return new javafx.scene.control.PopupControlBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -67,7 +67,7 @@ public class PopupControlBuilder<B extends javafx.scene.control.PopupControlBuil
             }
         }
     }
-    
+
     private java.lang.String id;
     /**
     Set the value of the {@link javafx.scene.control.PopupControl#getId() id} property for the instance constructed by this builder.
@@ -78,7 +78,7 @@ public class PopupControlBuilder<B extends javafx.scene.control.PopupControlBuil
         __set(0);
         return (B) this;
     }
-    
+
     private double maxHeight;
     /**
     Set the value of the {@link javafx.scene.control.PopupControl#getMaxHeight() maxHeight} property for the instance constructed by this builder.
@@ -89,7 +89,7 @@ public class PopupControlBuilder<B extends javafx.scene.control.PopupControlBuil
         __set(1);
         return (B) this;
     }
-    
+
     private double maxWidth;
     /**
     Set the value of the {@link javafx.scene.control.PopupControl#getMaxWidth() maxWidth} property for the instance constructed by this builder.
@@ -100,7 +100,7 @@ public class PopupControlBuilder<B extends javafx.scene.control.PopupControlBuil
         __set(2);
         return (B) this;
     }
-    
+
     private double minHeight;
     /**
     Set the value of the {@link javafx.scene.control.PopupControl#getMinHeight() minHeight} property for the instance constructed by this builder.
@@ -111,7 +111,7 @@ public class PopupControlBuilder<B extends javafx.scene.control.PopupControlBuil
         __set(3);
         return (B) this;
     }
-    
+
     private double minWidth;
     /**
     Set the value of the {@link javafx.scene.control.PopupControl#getMinWidth() minWidth} property for the instance constructed by this builder.
@@ -122,7 +122,7 @@ public class PopupControlBuilder<B extends javafx.scene.control.PopupControlBuil
         __set(4);
         return (B) this;
     }
-    
+
     private double prefHeight;
     /**
     Set the value of the {@link javafx.scene.control.PopupControl#getPrefHeight() prefHeight} property for the instance constructed by this builder.
@@ -133,7 +133,7 @@ public class PopupControlBuilder<B extends javafx.scene.control.PopupControlBuil
         __set(5);
         return (B) this;
     }
-    
+
     private double prefWidth;
     /**
     Set the value of the {@link javafx.scene.control.PopupControl#getPrefWidth() prefWidth} property for the instance constructed by this builder.
@@ -144,7 +144,7 @@ public class PopupControlBuilder<B extends javafx.scene.control.PopupControlBuil
         __set(6);
         return (B) this;
     }
-    
+
     private javafx.scene.control.Skin<?> skin;
     /**
     Set the value of the {@link javafx.scene.control.PopupControl#getSkin() skin} property for the instance constructed by this builder.
@@ -155,7 +155,7 @@ public class PopupControlBuilder<B extends javafx.scene.control.PopupControlBuil
         __set(7);
         return (B) this;
     }
-    
+
     private java.lang.String style;
     /**
     Set the value of the {@link javafx.scene.control.PopupControl#getStyle() style} property for the instance constructed by this builder.
@@ -166,7 +166,7 @@ public class PopupControlBuilder<B extends javafx.scene.control.PopupControlBuil
         __set(8);
         return (B) this;
     }
-    
+
     private java.util.Collection<? extends java.lang.String> styleClass;
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.PopupControl#getStyleClass() styleClass} property for the instance constructed by this builder.
@@ -177,14 +177,14 @@ public class PopupControlBuilder<B extends javafx.scene.control.PopupControlBuil
         __set(9);
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.PopupControl#getStyleClass() styleClass} property for the instance constructed by this builder.
     */
     public B styleClass(java.lang.String... x) {
         return styleClass(java.util.Arrays.asList(x));
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.PopupControl} based on the properties set on this builder.
     */

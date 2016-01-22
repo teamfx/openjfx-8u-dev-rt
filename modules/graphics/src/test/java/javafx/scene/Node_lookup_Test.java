@@ -41,7 +41,7 @@ public class Node_lookup_Test {
     //             /   \        \
     //           .d    #e        .d
     private Group root, a, bc, d, e, d2;
-    
+
     @Before public void setup() {
         root = new Group();
         root.setId("root");
@@ -59,35 +59,35 @@ public class Node_lookup_Test {
         a.getChildren().addAll(d, e);
         bc.getChildren().addAll(d2);
     }
-    
+
     @Test public void quickTest() {
         Node found = root.lookup("Group");
         assertSame(root, found);
-        
+
         found = root.lookup("#a");
         assertSame(a, found);
-        
+
         found = root.lookup("#a > .d");
         assertSame(d, found);
-        
+
         found = root.lookup("#e");
         assertSame(e, found);
-        
+
         found = root.lookup(".b .d");
         assertSame(d2, found);
-        
+
         found = root.lookup(".c .d");
         assertSame(d2, found);
-        
+
         found = root.lookup(".b");
         assertSame(bc, found);
     }
-    
+
     @Test public void lookupAllTest() {
         Set<Node> nodes = root.lookupAll("#a");
         assertEquals(1, nodes.size());
         assertTrue(nodes.contains(a));
-        
+
         nodes = root.lookupAll(".d");
         assertEquals(2, nodes.size());
         assertTrue(nodes.contains(d));

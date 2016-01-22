@@ -96,7 +96,7 @@ public class SubSceneTest {
 
         assertTrue(subScene.getAntiAliasing() == SceneAntialiasing.BALANCED);
     }
-   
+
     @Test
     public void testRootUpdatedWhenAddedToSubScene() {
         SubScene subScene = new SubScene(new Group(), 10, 10);

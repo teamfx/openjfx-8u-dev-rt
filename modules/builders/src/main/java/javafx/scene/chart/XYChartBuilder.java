@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,8 +36,8 @@ Builder class for javafx.scene.chart.XYChart
 public abstract class XYChartBuilder<X, Y, B extends javafx.scene.chart.XYChartBuilder<X, Y, B>> extends javafx.scene.chart.ChartBuilder<B> {
     protected XYChartBuilder() {
     }
-    
-    
+
+
     private int __set;
     public void applyTo(javafx.scene.chart.XYChart<X, Y> x) {
         super.applyTo(x);
@@ -50,7 +50,7 @@ public abstract class XYChartBuilder<X, Y, B extends javafx.scene.chart.XYChartB
         if ((set & (1 << 5)) != 0) x.setVerticalGridLinesVisible(this.verticalGridLinesVisible);
         if ((set & (1 << 6)) != 0) x.setVerticalZeroLineVisible(this.verticalZeroLineVisible);
     }
-    
+
     private boolean alternativeColumnFillVisible;
     /**
     Set the value of the {@link javafx.scene.chart.XYChart#isAlternativeColumnFillVisible() alternativeColumnFillVisible} property for the instance constructed by this builder.
@@ -61,7 +61,7 @@ public abstract class XYChartBuilder<X, Y, B extends javafx.scene.chart.XYChartB
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private boolean alternativeRowFillVisible;
     /**
     Set the value of the {@link javafx.scene.chart.XYChart#isAlternativeRowFillVisible() alternativeRowFillVisible} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public abstract class XYChartBuilder<X, Y, B extends javafx.scene.chart.XYChartB
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private javafx.collections.ObservableList<javafx.scene.chart.XYChart.Series<X,Y>> data;
     /**
     Set the value of the {@link javafx.scene.chart.XYChart#getData() data} property for the instance constructed by this builder.
@@ -83,7 +83,7 @@ public abstract class XYChartBuilder<X, Y, B extends javafx.scene.chart.XYChartB
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private boolean horizontalGridLinesVisible;
     /**
     Set the value of the {@link javafx.scene.chart.XYChart#isHorizontalGridLinesVisible() horizontalGridLinesVisible} property for the instance constructed by this builder.
@@ -94,7 +94,7 @@ public abstract class XYChartBuilder<X, Y, B extends javafx.scene.chart.XYChartB
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private boolean horizontalZeroLineVisible;
     /**
     Set the value of the {@link javafx.scene.chart.XYChart#isHorizontalZeroLineVisible() horizontalZeroLineVisible} property for the instance constructed by this builder.
@@ -105,7 +105,7 @@ public abstract class XYChartBuilder<X, Y, B extends javafx.scene.chart.XYChartB
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     private boolean verticalGridLinesVisible;
     /**
     Set the value of the {@link javafx.scene.chart.XYChart#getVerticalGridLinesVisible() verticalGridLinesVisible} property for the instance constructed by this builder.
@@ -116,7 +116,7 @@ public abstract class XYChartBuilder<X, Y, B extends javafx.scene.chart.XYChartB
         __set |= 1 << 5;
         return (B) this;
     }
-    
+
     private boolean verticalZeroLineVisible;
     /**
     Set the value of the {@link javafx.scene.chart.XYChart#isVerticalZeroLineVisible() verticalZeroLineVisible} property for the instance constructed by this builder.
@@ -127,7 +127,7 @@ public abstract class XYChartBuilder<X, Y, B extends javafx.scene.chart.XYChartB
         __set |= 1 << 6;
         return (B) this;
     }
-    
+
     private javafx.scene.chart.Axis<X> XAxis;
     /**
     Set the value of the {@link javafx.scene.chart.XYChart#getXAxis() XAxis} property for the instance constructed by this builder.
@@ -137,7 +137,7 @@ public abstract class XYChartBuilder<X, Y, B extends javafx.scene.chart.XYChartB
         this.XAxis = x;
         return (B) this;
     }
-    
+
     private javafx.scene.chart.Axis<Y> YAxis;
     /**
     Set the value of the {@link javafx.scene.chart.XYChart#getYAxis() YAxis} property for the instance constructed by this builder.
@@ -147,5 +147,5 @@ public abstract class XYChartBuilder<X, Y, B extends javafx.scene.chart.XYChartB
         this.YAxis = x;
         return (B) this;
     }
-    
+
 }

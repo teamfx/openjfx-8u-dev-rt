@@ -39,13 +39,13 @@ import com.sun.javafx.scene.control.behavior.BehaviorBase;
  * @profile common
  */
 public abstract class VirtualContainerBase<C extends Control, B extends BehaviorBase<C>, I extends IndexedCell> extends BehaviorSkinBase<C, B> {
-    
+
     protected boolean rowCountDirty;
 
     public VirtualContainerBase(final C control, B behavior) {
         super(control, behavior);
         flow = createVirtualFlow();
-        
+
         control.addEventHandler(ScrollToEvent.scrollToTopIndex(), event -> {
             // Fix for RT-24630: The row count in VirtualFlow was incorrect
             // (normally zero), so the scrollTo call was misbehaving.
@@ -87,16 +87,16 @@ public abstract class VirtualContainerBase<C extends Control, B extends Behavior
      * that are currently hidden because they are out of view.
      */
     public abstract int getItemCount();
-    
+
     protected abstract void updateRowCount();
 
     double getMaxCellWidth(int rowsToCount) {
         return snappedLeftInset() + flow.getMaxCellWidth(rowsToCount) + snappedRightInset();
     }
-    
+
     double getVirtualFlowPreferredHeight(int rows) {
         double height = 1.0;
-        
+
         for (int i = 0; i < rows && i < getItemCount(); i++) {
             height += flow.getCellLength(i);
         }

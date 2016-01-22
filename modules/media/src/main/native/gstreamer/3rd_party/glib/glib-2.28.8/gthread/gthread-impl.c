@@ -11,7 +11,7 @@
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
@@ -53,12 +53,12 @@ static gint g_thread_priority_map [G_THREAD_PRIORITY_URGENT + 1];
 #endif
 
 #ifndef PRIORITY_NORMAL_VALUE
-# define PRIORITY_NORMAL_VALUE						\
+# define PRIORITY_NORMAL_VALUE                      \
   ((PRIORITY_LOW_VALUE * 6 + PRIORITY_URGENT_VALUE * 4) / 10)
 #endif /* PRIORITY_NORMAL_VALUE */
 
 #ifndef PRIORITY_HIGH_VALUE
-# define PRIORITY_HIGH_VALUE						\
+# define PRIORITY_HIGH_VALUE                        \
   ((PRIORITY_NORMAL_VALUE + PRIORITY_URGENT_VALUE * 2) / 3)
 #endif /* PRIORITY_HIGH_VALUE */
 
@@ -76,7 +76,7 @@ struct _GMutexDebugInfo
   GSystemThread owner;
 };
 
-#define G_MUTEX_DEBUG_INFO(mutex) 					\
+#define G_MUTEX_DEBUG_INFO(mutex)                   \
   (((GMutexDebugInfo*)(((char*)mutex)+G_MUTEX_SIZE)))
 
 static GMutex *
@@ -99,8 +99,8 @@ g_mutex_new_errorcheck_impl (void)
 
 static void
 g_mutex_lock_errorcheck_impl (GMutex *mutex,
-			      const gulong magic,
-			      gchar * const location)
+                  const gulong magic,
+                  gchar * const location)
 {
   GMutexDebugInfo *info = G_MUTEX_DEBUG_INFO (mutex);
   gchar *loc = (magic == G_MUTEX_DEBUG_MAGIC) ? location : "unknown";
@@ -110,8 +110,8 @@ g_mutex_lock_errorcheck_impl (GMutex *mutex,
 
   if (g_system_thread_equal (info->owner, self))
     g_error ("Trying to recursively lock a mutex at '%s', "
-	     "previously locked at '%s'",
-	     loc, info->location);
+         "previously locked at '%s'",
+         loc, info->location);
 
   g_thread_functions_for_glib_use_default.mutex_lock (mutex);
 
@@ -121,8 +121,8 @@ g_mutex_lock_errorcheck_impl (GMutex *mutex,
 
 static gboolean
 g_mutex_trylock_errorcheck_impl (GMutex *mutex,
-				 const gulong magic,
-				 gchar * const location)
+                 const gulong magic,
+                 gchar * const location)
 {
   GMutexDebugInfo *info = G_MUTEX_DEBUG_INFO (mutex);
   gchar *loc = (magic == G_MUTEX_DEBUG_MAGIC) ? location : "unknown";
@@ -132,8 +132,8 @@ g_mutex_trylock_errorcheck_impl (GMutex *mutex,
 
   if (g_system_thread_equal (info->owner, self))
     g_error ("Trying to recursivly lock a mutex at '%s', "
-	     "previously locked at '%s'",
-	     loc, info->location);
+         "previously locked at '%s'",
+         loc, info->location);
 
   if (!g_thread_functions_for_glib_use_default.mutex_trylock (mutex))
     return FALSE;
@@ -146,8 +146,8 @@ g_mutex_trylock_errorcheck_impl (GMutex *mutex,
 
 static void
 g_mutex_unlock_errorcheck_impl (GMutex *mutex,
-				const gulong magic,
-				gchar * const location)
+                const gulong magic,
+                gchar * const location)
 {
   GMutexDebugInfo *info = G_MUTEX_DEBUG_INFO (mutex);
   gchar *loc = (magic == G_MUTEX_DEBUG_MAGIC) ? location : "unknown";
@@ -160,8 +160,8 @@ g_mutex_unlock_errorcheck_impl (GMutex *mutex,
 
   if (!g_system_thread_equal (info->owner, self))
     g_warning ("Trying to unlock a mutex at '%s', "
-	       "previously locked by a different thread at '%s'",
-	       loc, info->location);
+           "previously locked by a different thread at '%s'",
+           loc, info->location);
 
   g_system_thread_assign (info->owner, zero_thread);
   info->location = NULL;
@@ -171,25 +171,25 @@ g_mutex_unlock_errorcheck_impl (GMutex *mutex,
 
 static void
 g_mutex_free_errorcheck_impl (GMutex *mutex,
-			      const gulong magic,
-			      gchar * const location)
+                  const gulong magic,
+                  gchar * const location)
 {
   GMutexDebugInfo *info = G_MUTEX_DEBUG_INFO (mutex);
   gchar *loc = (magic == G_MUTEX_DEBUG_MAGIC) ? location : "unknown";
 
   if (info && !g_system_thread_equal (info->owner, zero_thread))
     g_error ("Trying to free a locked mutex at '%s', "
-	     "which was previously locked at '%s'",
-	     loc, info->location);
+         "which was previously locked at '%s'",
+         loc, info->location);
 
   g_thread_functions_for_glib_use_default.mutex_free (mutex);
 }
 
 static void
 g_cond_wait_errorcheck_impl (GCond *cond,
-			     GMutex *mutex,
-			     const gulong magic,
-			     gchar * const location)
+                 GMutex *mutex,
+                 const gulong magic,
+                 gchar * const location)
 {
   GMutexDebugInfo *info = G_MUTEX_DEBUG_INFO (mutex);
   gchar *loc = (magic == G_MUTEX_DEBUG_MAGIC) ? location : "unknown";
@@ -202,7 +202,7 @@ g_cond_wait_errorcheck_impl (GCond *cond,
 
   if (!g_system_thread_equal (info->owner, self))
     g_error ("Trying to use a mutex locked by another thread in "
-	     "g_cond_wait() at '%s'", loc);
+         "g_cond_wait() at '%s'", loc);
 
   g_system_thread_assign (info->owner, zero_thread);
   loc = info->location;
@@ -218,8 +218,8 @@ static gboolean
 g_cond_timed_wait_errorcheck_impl (GCond *cond,
                                    GMutex *mutex,
                                    GTimeVal *end_time,
-				   const gulong magic,
-				   gchar * const location)
+                   const gulong magic,
+                   gchar * const location)
 {
   GMutexDebugInfo *info = G_MUTEX_DEBUG_INFO (mutex);
   gchar *loc = (magic == G_MUTEX_DEBUG_MAGIC) ? location : "unknown";
@@ -230,18 +230,18 @@ g_cond_timed_wait_errorcheck_impl (GCond *cond,
 
   if (g_system_thread_equal (info->owner, zero_thread))
     g_error ("Trying to use an unlocked mutex in g_cond_timed_wait() at '%s'",
-	     loc);
+         loc);
 
   if (!g_system_thread_equal (info->owner, self))
     g_error ("Trying to use a mutex locked by another thread in "
-	     "g_cond_timed_wait() at '%s'", loc);
+         "g_cond_timed_wait() at '%s'", loc);
 
   g_system_thread_assign (info->owner, zero_thread);
   loc = info->location;
 
   retval = g_thread_functions_for_glib_use_default.cond_timed_wait (cond,
-								    mutex,
-								    end_time);
+                                    mutex,
+                                    end_time);
 
   g_system_thread_assign (info->owner, self);
   info->location = loc;
@@ -259,7 +259,7 @@ g_thread_init_with_errorcheck_mutexes (GThreadFunctions* init)
   GThreadFunctions errorcheck_functions;
   if (init)
     g_error ("Errorcheck mutexes can only be used for native "
-	     "thread implementations. Sorry." );
+         "thread implementations. Sorry." );
 
 #ifdef HAVE_G_THREAD_IMPL_INIT
   /* This isn't called in g_thread_init, as it doesn't think to get
@@ -300,7 +300,7 @@ g_thread_init (GThreadFunctions* init)
   if (thread_system_already_initialized)
     {
       if (init != NULL)
-	g_warning ("GThread system already initialized, ignoring custom thread implementation.");
+    g_warning ("GThread system already initialized, ignoring custom thread implementation.");
 
       return;
     }
@@ -325,25 +325,25 @@ g_thread_init (GThreadFunctions* init)
     g_thread_gettime = g_thread_gettime_impl;
 
   supported = (init->mutex_new &&
-	       init->mutex_lock &&
-	       init->mutex_trylock &&
-	       init->mutex_unlock &&
-	       init->mutex_free &&
-	       init->cond_new &&
-	       init->cond_signal &&
-	       init->cond_broadcast &&
-	       init->cond_wait &&
-	       init->cond_timed_wait &&
-	       init->cond_free &&
-	       init->private_new &&
-	       init->private_get &&
-	       init->private_set &&
-	       init->thread_create &&
-	       init->thread_yield &&
-	       init->thread_join &&
-	       init->thread_exit &&
-	       init->thread_set_priority &&
-	       init->thread_self);
+           init->mutex_lock &&
+           init->mutex_trylock &&
+           init->mutex_unlock &&
+           init->mutex_free &&
+           init->cond_new &&
+           init->cond_signal &&
+           init->cond_broadcast &&
+           init->cond_wait &&
+           init->cond_timed_wait &&
+           init->cond_free &&
+           init->private_new &&
+           init->private_get &&
+           init->private_set &&
+           init->thread_create &&
+           init->thread_yield &&
+           init->thread_join &&
+           init->thread_exit &&
+           init->thread_set_priority &&
+           init->thread_self);
 
   /* if somebody is calling g_thread_init (), it means that he wants to
    * have thread support, so check this
@@ -351,9 +351,9 @@ g_thread_init (GThreadFunctions* init)
   if (!supported)
     {
       if (g_thread_use_default_impl)
-	g_error ("Threads are not supported on this platform.");
+    g_error ("Threads are not supported on this platform.");
       else
-	g_error ("The supplied thread function vector is invalid.");
+    g_error ("The supplied thread function vector is invalid.");
     }
 
   g_thread_priority_map [G_THREAD_PRIORITY_LOW] = PRIORITY_LOW_VALUE;

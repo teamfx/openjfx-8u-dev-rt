@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.Pagination
 public class PaginationBuilder<B extends javafx.scene.control.PaginationBuilder<B>> extends javafx.scene.control.ControlBuilder<B> implements javafx.util.Builder<javafx.scene.control.Pagination> {
     protected PaginationBuilder() {
     }
-    
+
     /** Creates a new instance of PaginationBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.PaginationBuilder<?> create() {
         return new javafx.scene.control.PaginationBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.Pagination x) {
         super.applyTo(x);
@@ -52,7 +52,7 @@ public class PaginationBuilder<B extends javafx.scene.control.PaginationBuilder<
         if ((set & (1 << 2)) != 0) x.setPageCount(this.pageCount);
         if ((set & (1 << 3)) != 0) x.setPageFactory(this.pageFactory);
     }
-    
+
     private int currentPageIndex;
     /**
     Set the value of the {@link javafx.scene.control.Pagination#getCurrentPageIndex() currentPageIndex} property for the instance constructed by this builder.
@@ -63,7 +63,7 @@ public class PaginationBuilder<B extends javafx.scene.control.PaginationBuilder<
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private int maxPageIndicatorCount;
     /**
     Set the value of the {@link javafx.scene.control.Pagination#getMaxPageIndicatorCount() maxPageIndicatorCount} property for the instance constructed by this builder.
@@ -74,7 +74,7 @@ public class PaginationBuilder<B extends javafx.scene.control.PaginationBuilder<
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private int pageCount;
     /**
     Set the value of the {@link javafx.scene.control.Pagination#getPageCount() pageCount} property for the instance constructed by this builder.
@@ -85,7 +85,7 @@ public class PaginationBuilder<B extends javafx.scene.control.PaginationBuilder<
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private javafx.util.Callback<java.lang.Integer,javafx.scene.Node> pageFactory;
     /**
     Set the value of the {@link javafx.scene.control.Pagination#getPageFactory() pageFactory} property for the instance constructed by this builder.
@@ -96,7 +96,7 @@ public class PaginationBuilder<B extends javafx.scene.control.PaginationBuilder<
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.Pagination} based on the properties set on this builder.
     */

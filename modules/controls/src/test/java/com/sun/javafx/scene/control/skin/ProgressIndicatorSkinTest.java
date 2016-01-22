@@ -59,14 +59,14 @@ public class ProgressIndicatorSkinTest {
 
         assertEquals(Color.GREEN, skin.getProgressColor());
     }
-    
+
     public static final class ProgressIndicatorSkinMock extends ProgressIndicatorSkin {
         boolean propertyChanged = false;
         int propertyChangeCount = 0;
         public ProgressIndicatorSkinMock(ProgressIndicator progressindicator) {
             super(progressindicator);
         }
-        
+
         @Override protected void handleControlPropertyChanged(String p) {
             super.handleControlPropertyChanged(p);
             propertyChanged = true;

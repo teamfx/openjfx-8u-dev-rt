@@ -52,21 +52,21 @@ public class ContextMenuSkin implements Skin<ContextMenu> {
     /* need to hold a reference to popupMenu here because getSkinnable() deliberately
      * returns null in PopupControlSkin. */
     private ContextMenu popupMenu;
-    
+
     private final Region root;
     private TwoLevelFocusPopupBehavior tlFocus;
-    
+
     // Fix for RT-18247
     private final EventHandler<KeyEvent> keyListener = new EventHandler<KeyEvent>() {
         @Override public void handle(KeyEvent event) {
             if (event.getEventType() != KeyEvent.KEY_PRESSED) return;
-            
+
             // We only care if the root container still has focus
             if (! root.isFocused()) return;
-            
+
             final KeyCode code = event.getCode();
             switch (code) {
-                case ENTER: 
+                case ENTER:
                 case SPACE: popupMenu.hide(); return;
                 default:    return;
             }
@@ -76,7 +76,7 @@ public class ContextMenuSkin implements Skin<ContextMenu> {
     /***/
     public ContextMenuSkin(final ContextMenu popupMenu) {
         this.popupMenu = popupMenu;
-        
+
         // When a contextMenu is shown, requestFocus on its content to enable
         // keyboard navigation.
         popupMenu.addEventHandler(Menu.ON_SHOWN, new EventHandler<Event>() {
@@ -89,7 +89,7 @@ public class ContextMenuSkin implements Skin<ContextMenu> {
                         accMenu.notifyAccessibleAttributeChanged(AccessibleAttribute.VISIBLE);
                     }
                 }
-                
+
                 root.addEventHandler(KeyEvent.KEY_PRESSED, keyListener);
             }
         });
@@ -97,7 +97,7 @@ public class ContextMenuSkin implements Skin<ContextMenu> {
             @Override public void handle(Event event) {
                 Node cmContent = popupMenu.getSkin().getNode();
                 if (cmContent != null) cmContent.requestFocus();
-                
+
                 root.removeEventHandler(KeyEvent.KEY_PRESSED, keyListener);
             }
         });

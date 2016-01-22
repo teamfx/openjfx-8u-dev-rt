@@ -68,7 +68,7 @@ import org.eclipse.swt.opengl.*;
 public final class SWTApplication extends Application {
     Object loopReturn;
     static final String IS_EVENTTHREAD_KEY = "javafx.embed.isEventThread";
-    
+
     //TODO - Prism on Mac uses exactly two GL contexts and does not destroy them
     //TODO - use a context per top level window to better match the platform
     static long context = 0, shareContext = 0;
@@ -119,7 +119,7 @@ public final class SWTApplication extends Application {
 //            System.out.println("[class registered="+launcherClass+"]");
 //        }
     }
-    
+
     void runCocoaLoop(Runnable launchable) {
         try {
             Class<?> OS = Class.forName("org.eclipse.swt.internal.cocoa.OS");
@@ -162,7 +162,7 @@ public final class SWTApplication extends Application {
 //            System.out.println("[message sent]");
 //        }
     }
-    
+
     @Override
     protected void runLoop(final Runnable launchable) {
         if ("true".equals(System.getProperty(IS_EVENTTHREAD_KEY, "false"))) {
@@ -209,7 +209,7 @@ public final class SWTApplication extends Application {
     public View createView() {
         return new SWTView();
     }
-    
+
     @Override
     public Cursor createCursor(int type) {
         return new SWTCursor(type);
@@ -360,7 +360,7 @@ public final class SWTApplication extends Application {
         String result = dialog.open();
         return result == null ? null : new File(result);
     }
-    
+
     @Override protected Object _enterNestedEventLoop() {
         loopReturn = null;
         while (loopReturn == null) {
@@ -402,7 +402,7 @@ public final class SWTApplication extends Application {
     protected boolean _supportsSystemMenu() {
         return SWT.getPlatform().equals("cocoa");
     }
-    
+
     @Override
     protected boolean _supportsTransparentWindows() {
         return SWT.getPlatform().equals("cocoa");
@@ -414,10 +414,10 @@ public final class SWTApplication extends Application {
 
     static final int [] [] KeyTable = {
         {KeyEvent.VK_UNDEFINED,     SWT.NULL},
-        
+
         // SWT only
         {'\n' /*KeyEvent.VK_?????*/,         SWT.CR},
-        
+
         // Misc
         {'\n' /*KeyEvent.VK_ENTER*/,         SWT.LF},
         {'\b' /*KeyEvent.VK_BACKSPACE*/,     SWT.BS},
@@ -431,7 +431,7 @@ public final class SWTApplication extends Application {
 //      {KeyEvent.VK_PRINTSCREEN    SWT.???;
         {KeyEvent.VK_INSERT,        SWT.INSERT},
         {KeyEvent.VK_HELP,          SWT.HELP},
-        
+
         // Modifiers
         {KeyEvent.VK_SHIFT,         SWT.SHIFT},
         {KeyEvent.VK_CONTROL,       SWT.CONTROL},
@@ -441,7 +441,7 @@ public final class SWTApplication extends Application {
         {KeyEvent.VK_CAPS_LOCK,     SWT.CAPS_LOCK},
         {KeyEvent.VK_NUM_LOCK,      SWT.NUM_LOCK},
         {KeyEvent.VK_SCROLL_LOCK,   SWT.SCROLL_LOCK},
-        
+
         // Navigation keys
         {KeyEvent.VK_PAGE_UP,       SWT.PAGE_UP},
         {KeyEvent.VK_PAGE_DOWN,     SWT.PAGE_DOWN},
@@ -451,7 +451,7 @@ public final class SWTApplication extends Application {
         {KeyEvent.VK_UP,            SWT.ARROW_UP},
         {KeyEvent.VK_RIGHT,         SWT.ARROW_RIGHT},
         {KeyEvent.VK_DOWN,          SWT.ARROW_DOWN},
-    
+
         // Misc 2
         //TODO - suspect this only works for English keyboard
         {KeyEvent.VK_COMMA,                 ','}, // ','
@@ -550,7 +550,7 @@ public final class SWTApplication extends Application {
         {KeyEvent.VK_NUMPAD7,   SWT.KEYPAD_7},
         {KeyEvent.VK_NUMPAD8,   SWT.KEYPAD_8},
         {KeyEvent.VK_NUMPAD9,   SWT.KEYPAD_9},
-        
+
         // Function keys
         {KeyEvent.VK_F1,    SWT.F1},
         {KeyEvent.VK_F2,    SWT.F2},
@@ -575,7 +575,7 @@ public final class SWTApplication extends Application {
 //    {KeyEvent.VK_DIVIDE,      SWT.KEYPAD_DIVIDE},
 ////  {KeyEvent.VK_????,        SWT.KEYPAD_EQUAL},
     };
-    
+
     static int getKeyCode(Event event) {
         int keyCode = event.keyCode;
         for (int i=0; i<KeyTable.length; i++) {
@@ -583,14 +583,14 @@ public final class SWTApplication extends Application {
         }
         return 0;
     }
-    
+
     static int getSWTKeyCode(int keyCode) {
         for (int i=0; i<KeyTable.length; i++) {
             if (KeyTable [i] [0] == keyCode) return KeyTable [i] [1];
         }
         return 0;
     }
-    
+
     static int getModifiers(Event event) {
         int stateMask = event.stateMask;
         if (event.type == SWT.KeyDown) {
@@ -644,7 +644,7 @@ public final class SWTApplication extends Application {
         }
         return modifiers;
     }
-    
+
     static int getButton (Event event) {
         int button = MouseEvent.BUTTON_NONE;
         if (event.button == 1 || (event.stateMask & SWT.BUTTON1) != 0) {
@@ -658,7 +658,7 @@ public final class SWTApplication extends Application {
         }
         return button;
     }
-    
+
     /*
      * Use reflection so that the code that accesses SWT internals can be
      * shared on all platforms.  Since there are not too many platform
@@ -666,7 +666,7 @@ public final class SWTApplication extends Application {
      * solution is to add portable API to SWT that provides the internal
      * handles for widgets in a data object.
      */
-    
+
     static Widget findWidget(long handle) {
         Method method;
         try {
@@ -698,7 +698,7 @@ public final class SWTApplication extends Application {
         if (SWT.getPlatform().equals("gtk")) return getHandleGTK(control);
         return 0;
     }
-    
+
     static long getHandle(Class clazz, Object object, String name) {
         Field field;
         try {
@@ -718,7 +718,7 @@ public final class SWTApplication extends Application {
         }
         return 0;
     }
-    
+
     static void setHandle(Class clazz, Object object, String name, long value) {
         Field field;
         try {
@@ -741,11 +741,11 @@ public final class SWTApplication extends Application {
     static long getHandleW32(Control control) {
         return getHandle(Control.class, control, "handle");
     }
-    
+
     static long getHandleGTK(Control control) {
         return getHandle(Widget.class, control, "handle");
     }
-    
+
 
     static long getHandleGTK(Shell control) {
         return getHandle(control.getClass(), control, "shellHandle");
@@ -788,18 +788,18 @@ public final class SWTApplication extends Application {
             e.printStackTrace();
         }
     }
-    
+
     static void lockFocus (Control control) {
         if (SWT.getPlatform().equals("cocoa")) {
             //invokeLock(control, "lockFocus");
             setView(control, new_NSOpenGLContext(context));
         }
     }
-    
+
     static void unlockFocus (Control control) {
         //if (SWT.getPlatform().equals("cocoa")) invokeLock(control, "unlockFocus");
     }
-    
+
     static Object new_NSOpenGLContext (long context) {
         try {
             Class clazz = Class.forName("org.eclipse.swt.internal.cocoa.NSOpenGLContext");
@@ -824,7 +824,7 @@ public final class SWTApplication extends Application {
             e.printStackTrace();
         }
     }
-    
+
     //TODO - temporary code, get rid of reflection
     static void setTransparent(Shell shell) {
         if (SWT.getPlatform().equals("cocoa")) {
@@ -901,14 +901,14 @@ public final class SWTApplication extends Application {
         GLCanvas canvas = new GLCanvas(shell, bits, data);
         //System.out.println(context + " " + shareContext);
         if (context != 0) {
-            //TODO - the original GL context created by the canvas is leaked 
+            //TODO - the original GL context created by the canvas is leaked
             //TODO - the Prism context is disposed when canvas is disposed
             final String GLCONTEXT_KEY = "org.eclipse.swt.internal.cocoa.glcontext";
             canvas.setData(GLCONTEXT_KEY, new_NSOpenGLContext(context));
         }
         return canvas;
     }
-    
+
     static Image createImage(Pixels pixels) {
         if (pixels == null) return null;
         ImageData data = createImageData(pixels);

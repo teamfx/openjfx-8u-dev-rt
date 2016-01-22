@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,20 +36,20 @@ Builder class for javafx.scene.effect.SepiaTone
 public class SepiaToneBuilder<B extends javafx.scene.effect.SepiaToneBuilder<B>> implements javafx.util.Builder<javafx.scene.effect.SepiaTone> {
     protected SepiaToneBuilder() {
     }
-    
+
     /** Creates a new instance of SepiaToneBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.effect.SepiaToneBuilder<?> create() {
         return new javafx.scene.effect.SepiaToneBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.effect.SepiaTone x) {
         int set = __set;
         if ((set & (1 << 0)) != 0) x.setInput(this.input);
         if ((set & (1 << 1)) != 0) x.setLevel(this.level);
     }
-    
+
     private javafx.scene.effect.Effect input;
     /**
     Set the value of the {@link javafx.scene.effect.SepiaTone#getInput() input} property for the instance constructed by this builder.
@@ -60,7 +60,7 @@ public class SepiaToneBuilder<B extends javafx.scene.effect.SepiaToneBuilder<B>>
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private double level;
     /**
     Set the value of the {@link javafx.scene.effect.SepiaTone#getLevel() level} property for the instance constructed by this builder.
@@ -71,7 +71,7 @@ public class SepiaToneBuilder<B extends javafx.scene.effect.SepiaToneBuilder<B>>
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.effect.SepiaTone} based on the properties set on this builder.
     */

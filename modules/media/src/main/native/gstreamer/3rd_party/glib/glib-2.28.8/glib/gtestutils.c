@@ -49,7 +49,7 @@
 #include "gstrfuncs.h"
 #include "gtimer.h"
 
- 
+
 /* Global variable for storing assertion messages; this is the counterpart to
  * glibc's (private) __abort_msg variable, and allows developers and crash
  * analysis systems like Apport and ABRT to fish out assertion messages from
@@ -453,7 +453,7 @@ parse_args (gint    *argc_p,
  *           <varlistentry>
  *             <term>slow, thorough</term>
  *             <listitem><para>
- *               slow and thorough tests, may take quite long and 
+ *               slow and thorough tests, may take quite long and
  *               maximize coverage.
  *             </para></listitem>
  *           </varlistentry>
@@ -607,7 +607,7 @@ g_test_rand_int (void)
  * see g_test_rand_int() for details on test case random numbers.
  *
  * Returns: a number with @begin <= number < @end.
- * 
+ *
  * Since: 2.16
  */
 gint32
@@ -862,7 +862,7 @@ g_test_get_root (void)
  * Runs all tests under the toplevel suite which can be retrieved
  * with g_test_get_root(). Similar to g_test_run_suite(), the test
  * cases to be run are filtered according to
- * test path arguments (-p <replaceable>testpath</replaceable>) as 
+ * test path arguments (-p <replaceable>testpath</replaceable>) as
  * parsed by g_test_init().
  * g_test_run_suite() or g_test_run() may only be called once
  * in a program.
@@ -1244,7 +1244,7 @@ g_test_run_suite_internal (GTestSuite *suite,
  *
  * Execute the tests within @suite and all nested #GTestSuites.
  * The test suites to be executed are filtered according to
- * test path arguments (-p <replaceable>testpath</replaceable>) 
+ * test path arguments (-p <replaceable>testpath</replaceable>)
  * as parsed by g_test_init().
  * g_test_run_suite() or g_test_run() may only be called once
  * in a program.
@@ -1417,13 +1417,13 @@ g_assertion_message_cmpstr (const char     *domain,
 
 void
 g_assertion_message_error (const char     *domain,
-			   const char     *file,
-			   int             line,
-			   const char     *func,
-			   const char     *expr,
-			   const GError   *error,
-			   GQuark          error_domain,
-			   int             error_code)
+               const char     *file,
+               int             line,
+               const char     *func,
+               const char     *expr,
+               const GError   *error,
+               GQuark          error_domain,
+               int             error_code)
 {
   GString *gstring;
 
@@ -1435,13 +1435,13 @@ g_assertion_message_error (const char     *domain,
   gstring = g_string_new ("assertion failed ");
   if (error_domain)
       g_string_append_printf (gstring, "(%s == (%s, %d)): ", expr,
-			      g_quark_to_string (error_domain), error_code);
+                  g_quark_to_string (error_domain), error_code);
   else
     g_string_append_printf (gstring, "(%s == NULL): ", expr);
 
   if (error)
       g_string_append_printf (gstring, "%s (%s, %d)", error->message,
-			      g_quark_to_string (error->domain), error->code);
+                  g_quark_to_string (error->domain), error->code);
   else
     g_string_append_printf (gstring, "%s is NULL", expr);
 
@@ -1454,7 +1454,7 @@ g_assertion_message_error (const char     *domain,
  * @str1: a C string or %NULL
  * @str2: another C string or %NULL
  *
- * Compares @str1 and @str2 like strcmp(). Handles %NULL 
+ * Compares @str1 and @str2 like strcmp(). Handles %NULL
  * gracefully by sorting it before non-%NULL strings.
  * Comparing two %NULL pointers returns 0.
  *

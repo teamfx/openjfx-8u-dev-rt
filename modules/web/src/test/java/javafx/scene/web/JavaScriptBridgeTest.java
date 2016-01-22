@@ -37,11 +37,11 @@ public class JavaScriptBridgeTest extends TestBase {
         JSObject parent = (JSObject) getEngine().executeScript("parent");
         parent.setMember(name, javaObject);
     }
-    
+
     public @Test void testJSBridge1() throws InterruptedException {
         final Document doc = getDocumentFor("src/test/resources/html/dom.html");
         final WebEngine web = getEngine();
-        
+
         submit(() -> {
             Object wino = web.executeScript("parent.parent");
             assertTrue(wino instanceof JSObject);
@@ -158,7 +158,7 @@ public class JavaScriptBridgeTest extends TestBase {
 
     public @Test void testJSBridge4() throws InterruptedException {
         final WebEngine web = getEngine();
-        
+
         submit(() -> {
             // Based on RT-19205 "JavaScript2Java Bridge: float and double
             // values can be lost when assigned to JS variables".
@@ -300,7 +300,7 @@ public class JavaScriptBridgeTest extends TestBase {
 
     public @Test void testCallStatic() throws InterruptedException {
         final WebEngine web = getEngine();
-        
+
         submit(() -> {
             // Test RT-19099
             java.io.File x = new java.io.File("foo.txt1");
@@ -378,7 +378,7 @@ public class JavaScriptBridgeTest extends TestBase {
 
     public @Test void testBridgeExplicitOverloading() throws InterruptedException {
         final WebEngine web = getEngine();
-        
+
         submit(() -> {
             StringBuilder sb = new StringBuilder();
             bind("sb", sb);
@@ -461,19 +461,19 @@ public class JavaScriptBridgeTest extends TestBase {
             MyExceptionHelper test = new MyExceptionHelper();
             bind("test", test);
             try {
-		String script =
-		    "try { " +
-		    "    test.throwException2(); " +
-		    "} catch (e) { " +
-		    "    document.body.textContent = e; " +
-		    "}";
-		web.executeScript(script);
+        String script =
+            "try { " +
+            "    test.throwException2(); " +
+            "} catch (e) { " +
+            "    document.body.textContent = e; " +
+            "}";
+        web.executeScript(script);
             } catch (JSException e) {
                 fail("caught unexpected exception: " + e);
             }
         });
     }
-    
+
     public static class MyException extends Throwable {
     }
 
@@ -481,15 +481,15 @@ public class JavaScriptBridgeTest extends TestBase {
         public void throwException() throws MyException {
             throw new MyException();
         }
-	public void throwException2() {
-	    throw new RuntimeException("TheRuntimeException");
-	}
+    public void throwException2() {
+        throw new RuntimeException("TheRuntimeException");
+    }
     }
 
 
     public @Test void testBridgeArray1() throws InterruptedException {
         final WebEngine web = getEngine();
-        
+
         submit(() -> {
             int []array = new int[3];
             array[0] = 42;
@@ -502,7 +502,7 @@ public class JavaScriptBridgeTest extends TestBase {
 
     public @Test void testBridgeBadOverloading() throws InterruptedException {
         final WebEngine web = getEngine();
-        
+
         submit(() -> {
             StringBuilder sb = new StringBuilder();
             bind("sb", sb);

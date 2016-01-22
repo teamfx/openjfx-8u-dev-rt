@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.Tooltip
 public class TooltipBuilder<B extends javafx.scene.control.TooltipBuilder<B>> extends javafx.scene.control.PopupControlBuilder<B> {
     protected TooltipBuilder() {
     }
-    
+
     /** Creates a new instance of TooltipBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.TooltipBuilder<?> create() {
         return new javafx.scene.control.TooltipBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -65,7 +65,7 @@ public class TooltipBuilder<B extends javafx.scene.control.TooltipBuilder<B>> ex
             }
         }
     }
-    
+
     private javafx.scene.control.ContentDisplay contentDisplay;
     /**
     Set the value of the {@link javafx.scene.control.Tooltip#getContentDisplay() contentDisplay} property for the instance constructed by this builder.
@@ -76,7 +76,7 @@ public class TooltipBuilder<B extends javafx.scene.control.TooltipBuilder<B>> ex
         __set(0);
         return (B) this;
     }
-    
+
     private javafx.scene.text.Font font;
     /**
     Set the value of the {@link javafx.scene.control.Tooltip#getFont() font} property for the instance constructed by this builder.
@@ -87,7 +87,7 @@ public class TooltipBuilder<B extends javafx.scene.control.TooltipBuilder<B>> ex
         __set(1);
         return (B) this;
     }
-    
+
     private javafx.scene.Node graphic;
     /**
     Set the value of the {@link javafx.scene.control.Tooltip#getGraphic() graphic} property for the instance constructed by this builder.
@@ -98,7 +98,7 @@ public class TooltipBuilder<B extends javafx.scene.control.TooltipBuilder<B>> ex
         __set(2);
         return (B) this;
     }
-    
+
     private double graphicTextGap;
     /**
     Set the value of the {@link javafx.scene.control.Tooltip#getGraphicTextGap() graphicTextGap} property for the instance constructed by this builder.
@@ -109,7 +109,7 @@ public class TooltipBuilder<B extends javafx.scene.control.TooltipBuilder<B>> ex
         __set(3);
         return (B) this;
     }
-    
+
     private java.lang.String text;
     /**
     Set the value of the {@link javafx.scene.control.Tooltip#getText() text} property for the instance constructed by this builder.
@@ -120,7 +120,7 @@ public class TooltipBuilder<B extends javafx.scene.control.TooltipBuilder<B>> ex
         __set(4);
         return (B) this;
     }
-    
+
     private javafx.scene.text.TextAlignment textAlignment;
     /**
     Set the value of the {@link javafx.scene.control.Tooltip#getTextAlignment() textAlignment} property for the instance constructed by this builder.
@@ -131,7 +131,7 @@ public class TooltipBuilder<B extends javafx.scene.control.TooltipBuilder<B>> ex
         __set(5);
         return (B) this;
     }
-    
+
     private javafx.scene.control.OverrunStyle textOverrun;
     /**
     Set the value of the {@link javafx.scene.control.Tooltip#getTextOverrun() textOverrun} property for the instance constructed by this builder.
@@ -142,7 +142,7 @@ public class TooltipBuilder<B extends javafx.scene.control.TooltipBuilder<B>> ex
         __set(6);
         return (B) this;
     }
-    
+
     private boolean wrapText;
     /**
     Set the value of the {@link javafx.scene.control.Tooltip#isWrapText() wrapText} property for the instance constructed by this builder.
@@ -153,7 +153,7 @@ public class TooltipBuilder<B extends javafx.scene.control.TooltipBuilder<B>> ex
         __set(7);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.Tooltip} based on the properties set on this builder.
     */

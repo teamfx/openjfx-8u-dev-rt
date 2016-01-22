@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,19 +36,19 @@ Builder class for javafx.scene.control.ProgressIndicator
 public class ProgressIndicatorBuilder<B extends javafx.scene.control.ProgressIndicatorBuilder<B>> extends javafx.scene.control.ControlBuilder<B> implements javafx.util.Builder<javafx.scene.control.ProgressIndicator> {
     protected ProgressIndicatorBuilder() {
     }
-    
+
     /** Creates a new instance of ProgressIndicatorBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.ProgressIndicatorBuilder<?> create() {
         return new javafx.scene.control.ProgressIndicatorBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.scene.control.ProgressIndicator x) {
         super.applyTo(x);
         if (__set) x.setProgress(this.progress);
     }
-    
+
     private double progress;
     /**
     Set the value of the {@link javafx.scene.control.ProgressIndicator#getProgress() progress} property for the instance constructed by this builder.
@@ -59,7 +59,7 @@ public class ProgressIndicatorBuilder<B extends javafx.scene.control.ProgressInd
         __set = true;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.ProgressIndicator} based on the properties set on this builder.
     */

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,19 +36,19 @@ Builder class for javafx.scene.control.cell.TextFieldListCell
 public class TextFieldListCellBuilder<T, B extends javafx.scene.control.cell.TextFieldListCellBuilder<T, B>> extends javafx.scene.control.ListCellBuilder<T, B> {
     protected TextFieldListCellBuilder() {
     }
-    
+
     /** Creates a new instance of TextFieldListCellBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <T> javafx.scene.control.cell.TextFieldListCellBuilder<T, ?> create() {
         return new javafx.scene.control.cell.TextFieldListCellBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.scene.control.cell.TextFieldListCell<T> x) {
         super.applyTo(x);
         if (__set) x.setConverter(this.converter);
     }
-    
+
     private javafx.util.StringConverter<T> converter;
     /**
     Set the value of the {@link javafx.scene.control.cell.TextFieldListCell#getConverter() converter} property for the instance constructed by this builder.
@@ -59,7 +59,7 @@ public class TextFieldListCellBuilder<T, B extends javafx.scene.control.cell.Tex
         __set = true;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.cell.TextFieldListCell} based on the properties set on this builder.
     */

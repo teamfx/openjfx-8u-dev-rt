@@ -58,14 +58,14 @@ public class ChoiceBoxSkinTest {
         choicebox.setPrefHeight(500);
         assertEquals(500, choicebox.maxHeight(-1), 0);
     }
-    
+
     public static final class ChoiceBoxSkinMock extends ChoiceBoxSkin {
         boolean propertyChanged = false;
         int propertyChangeCount = 0;
         public ChoiceBoxSkinMock(ChoiceBox choicebox) {
             super(choicebox);
         }
-        
+
         @Override protected void handleControlPropertyChanged(String p) {
             super.handleControlPropertyChanged(p);
             propertyChanged = true;

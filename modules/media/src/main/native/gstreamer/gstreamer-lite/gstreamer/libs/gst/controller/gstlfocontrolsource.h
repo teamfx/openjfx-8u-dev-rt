@@ -85,7 +85,7 @@ struct _GstLFOControlSource {
 
 struct _GstLFOControlSourceClass {
   GstControlSourceClass parent_class;
-  
+
   /*< private >*/
   gpointer _gst_reserved[GST_PADDING];
 };

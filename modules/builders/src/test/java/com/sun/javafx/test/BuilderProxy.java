@@ -69,7 +69,7 @@ public final class BuilderProxy {
         }
 
         return new BuilderProxy(
-                           builderClass, 
+                           builderClass,
                            ReflectionHelper.getMethod(builderClass, "create"),
                            ReflectionHelper.getMethod(builderClass,
                                                       "applyTo",

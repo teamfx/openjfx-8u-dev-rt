@@ -32,31 +32,31 @@ G_BEGIN_DECLS
  *
  * MusicBrainz track ID
  */
-#define GST_TAG_MUSICBRAINZ_TRACKID	"musicbrainz-trackid"
+#define GST_TAG_MUSICBRAINZ_TRACKID "musicbrainz-trackid"
 /**
  * GST_TAG_MUSICBRAINZ_ARTISTID
  *
  * MusicBrainz artist ID
  */
-#define GST_TAG_MUSICBRAINZ_ARTISTID	"musicbrainz-artistid"
+#define GST_TAG_MUSICBRAINZ_ARTISTID    "musicbrainz-artistid"
 /**
  * GST_TAG_MUSICBRAINZ_ALBUMID
  *
  * MusicBrainz album ID
  */
-#define GST_TAG_MUSICBRAINZ_ALBUMID	"musicbrainz-albumid"
+#define GST_TAG_MUSICBRAINZ_ALBUMID "musicbrainz-albumid"
 /**
  * GST_TAG_MUSICBRAINZ_ALBUMARTISTID
  *
  * MusicBrainz album artist ID
  */
-#define GST_TAG_MUSICBRAINZ_ALBUMARTISTID	"musicbrainz-albumartistid"
+#define GST_TAG_MUSICBRAINZ_ALBUMARTISTID   "musicbrainz-albumartistid"
 /**
  * GST_TAG_MUSICBRAINZ_TRMID
  *
  * MusicBrainz track TRM ID
  */
-#define GST_TAG_MUSICBRAINZ_TRMID	"musicbrainz-trmid"
+#define GST_TAG_MUSICBRAINZ_TRMID   "musicbrainz-trmid"
 
 /* FIXME 0.11: remove GST_TAG_MUSICBRAINZ_SORTNAME */
 #ifndef GST_DISABLE_DEPRECATED
@@ -67,7 +67,7 @@ G_BEGIN_DECLS
  *
  * Deprecated.  Use GST_TAG_ARTIST_SORTNAME instead.
  */
-#define GST_TAG_MUSICBRAINZ_SORTNAME	GST_TAG_ARTIST_SORTNAME
+#define GST_TAG_MUSICBRAINZ_SORTNAME    GST_TAG_ARTIST_SORTNAME
 #endif
 
 /**
@@ -446,11 +446,11 @@ GType   gst_tag_image_type_get_type (void);
 
 const gchar *           gst_tag_from_vorbis_tag                 (const gchar *          vorbis_tag);
 const gchar *           gst_tag_to_vorbis_tag                   (const gchar *          gst_tag);
-void                    gst_vorbis_tag_add                      (GstTagList *           list, 
-                                                                 const gchar *          tag, 
+void                    gst_vorbis_tag_add                      (GstTagList *           list,
+                                                                 const gchar *          tag,
                                                                  const gchar *          value);
 
-GList *                 gst_tag_to_vorbis_comments              (const GstTagList *     list, 
+GList *                 gst_tag_to_vorbis_comments              (const GstTagList *     list,
                                                                  const gchar *          tag);
 
 /* functions to convert GstBuffers with vorbiscomment contents to GstTagLists and back */
@@ -483,9 +483,9 @@ gboolean                gst_tag_list_add_id3_image (GstTagList   * tag_list,
 GstTagList *            gst_tag_list_from_xmp_buffer  (const GstBuffer *  buffer);
 GstBuffer *             gst_tag_list_to_xmp_buffer    (const GstTagList * list,
                                                        gboolean           read_only);
-GstBuffer *		gst_tag_list_to_xmp_buffer_full (const GstTagList * list,
-							gboolean read_only, const gchar ** schemas);
-const gchar**		gst_tag_xmp_list_schemas      (void);
+GstBuffer *     gst_tag_list_to_xmp_buffer_full (const GstTagList * list,
+                            gboolean read_only, const gchar ** schemas);
+const gchar**       gst_tag_xmp_list_schemas      (void);
 
 /* functions related to exif */
 GstBuffer *             gst_tag_list_to_exif_buffer (const GstTagList * taglist,

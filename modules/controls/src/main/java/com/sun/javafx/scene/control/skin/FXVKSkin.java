@@ -98,7 +98,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
 
     void pressShift() {
         long time = System.currentTimeMillis();
-        
+
         //potential for a shift lock
         if (shiftDown && !capsDown) {
             if (lastTime > 0L && time - lastTime < 400L) {
@@ -118,7 +118,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
             shiftDown = false;
             capsDown =  false;
         }
-        
+
         updateKeys();
         lastTime = time;
     }
@@ -215,8 +215,8 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
             }
             return null;
         });
-    }    
-    
+    }
+
     // Proxy for read-only Window.yProperty() so we can animate.
     private static DoubleProperty winY = new SimpleDoubleProperty();
     static {
@@ -246,7 +246,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
         // attached node y position in window coordinates
         double inputControlMinY = node.localToScene(0.0, 0.0).getY() + node.getScene().getY();
         double inputControlHeight = ((TextInputControl) node).getHeight();
-        double inputControlMaxY = inputControlMinY + inputControlHeight; 
+        double inputControlMaxY = inputControlMinY + inputControlHeight;
 
         double screenHeight =
             com.sun.javafx.util.Utils.getScreen(node).getBounds().getHeight();
@@ -293,7 +293,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
             // position at center of visible screen area
             newWindowYPos = Math.min(visibleAreaMaxY / 2 - inputLineCenterY, 0);
         }
-       
+
         Window w = node.getScene().getWindow();
         if (origWindowYPos + inputLineBottomY > visibleAreaMaxY) {
             w.setY(newWindowYPos);
@@ -323,7 +323,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
 
     private boolean isVKHidden = false;
     private Double origWindowYPos = null;
-    
+
     private void registerUnhideHandler(final Node node) {
         if (unHideEventHandler == null) {
             unHideEventHandler = event -> {
@@ -452,7 +452,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
         if (fxvk != primaryVK) {
             return;
         }
-        
+
         //Preload all boards
         loadBoard("text");
         loadBoard("numeric");
@@ -469,7 +469,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
             vkPopup.setX((screenBounds.getWidth() - fxvk.prefWidth(-1)) / 2);
             winY.set(screenBounds.getHeight());
             vkPopup.show(node.getScene().getWindow());
-        }             
+        }
     }
 
     public FXVKSkin(final FXVK fxvk) {
@@ -490,9 +490,9 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
                 if (fxvk != primaryVK) {
                     return;
                 }
-                
+
                 closeSecondaryVK();
-                
+
                 if (attachedNode != null) {
                     if (oldNode != null) {
                         unRegisterUnhideHandler(oldNode);
@@ -521,15 +521,15 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
                             winY.set(screenBounds.getHeight() - VK_HEIGHT);
                         }
                         vkPopup.show(attachedNode.getScene().getWindow());
-                    }             
+                    }
 
                     if (oldNode == null || isVKHidden) {
                         startSlideIn();
                     }
-                        
+
                     if (vkAdjustWindow) {
                         //update previous window position only if moving from non-input control node or window has changed.
-                        if (oldNode == null || oldNode.getScene() == null 
+                        if (oldNode == null || oldNode.getScene() == null
                             || oldNode.getScene().getWindow() != attachedNode.getScene().getWindow()) {
                             saveWindowPosition(attachedNode);
                         }
@@ -567,9 +567,9 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
             for (int i = 0; i < nRows; i++) {
                 int start = i * nKeysPerRow;
                 int end = Math.min(start + nKeysPerRow, nKeys);
-                if (start >= end) 
+                if (start >= end)
                     break;
-                    
+
                 List<Key> keys = new ArrayList<Key>(nKeysPerRow);
                 for (int j = start; j < end; j++) {
                     tmpKey = new CharKey(secondaryVK.chars[j], null, null);
@@ -588,7 +588,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
                 rows.add(keys);
             }
             currentBoard = rows;
-            
+
             getChildren().clear();
             numCols = 0;
             for (List<Key> row : currentBoard) {
@@ -609,7 +609,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
 
         //Clear all state keys and updates current board
         clearStateKeys();
-        
+
         getChildren().clear();
         numCols = 0;
         for (List<Key> row : currentBoard) {
@@ -632,7 +632,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
         return topInset + (80 * 5) + bottomInset;
     }
 
-    // Lays the buttons comprising the current keyboard out. 
+    // Lays the buttons comprising the current keyboard out.
     @Override
     protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
         // I have fixed width columns, all the same.
@@ -751,7 +751,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
 
     /**
      * A key which has a letter, a number or symbol on it
-     * 
+     *
      */
     private class CharKey extends TextInputKey {
         private final String letterChars;
@@ -848,7 +848,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
 
         protected void sendKeyEvents() {
             Node target = fxvk.getAttachedNode();
-            if (target instanceof EventTarget) {               
+            if (target instanceof EventTarget) {
                 target.fireEvent(new KeyEvent(KeyEvent.KEY_PRESSED, KeyEvent.CHAR_UNDEFINED, chars, code, shiftDown, false, false, false));
                 target.fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, chars, "", KeyCode.UNDEFINED, shiftDown, false, false, false));
                 target.fireEvent(new KeyEvent(KeyEvent.KEY_RELEASED, KeyEvent.CHAR_UNDEFINED, chars, code, shiftDown, false, false, false));
@@ -877,7 +877,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
 
         @Override public void update(boolean capsDown, boolean shiftDown, boolean isSymbol) {
             //change icon
-            
+
             if (isSymbol) {
                 text.setText(this.toggledText);
             } else {
@@ -899,7 +899,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
                 secondaryPopup.setAutoHide(true);
                 secondaryPopup.getContent().add(secondaryVK);
             }
-           
+
             secondaryVK.chars=null;
             ArrayList<String> secondaryList = new ArrayList<String>();
 
@@ -922,7 +922,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
                     secondaryList.add(key.altChars);
                 }
             }
-            
+
             // Add more letters
             if (key.moreChars != null && key.moreChars.length > 0) {
                 if (isSymbol) {
@@ -945,14 +945,14 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
                     }
                 }
             }
-            
+
             boolean isMultiChar = false;
             for (String s : secondaryList) {
                 if (s.length() > 1 ) {
                     isMultiChar = true;
                 }
             }
-            
+
             secondaryVK.chars = secondaryList.toArray(new String[secondaryList.size()]);
 
             if (secondaryVK.chars.length > 1) {
@@ -967,7 +967,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
                 int nKeys = secondaryVK.chars.length;
                 int nRows = (int)Math.floor(Math.sqrt(Math.max(1, nKeys - 2)));
                 int nKeysPerRow = (int)Math.ceil(nKeys / (double)nRows);
-                
+
                 final double w = snappedLeftInset() + snappedRightInset() +
                                  nKeysPerRow * PREF_PORTRAIT_KEY_WIDTH * (isMultiChar ? 2 : 1) + (nKeysPerRow - 1) * GAP;
                 final double h = snappedTopInset() + snappedBottomInset() +
@@ -1045,7 +1045,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
                         for (int idx = 0; idx < charsList.size(); idx++) {
                             charsList.set(idx, FXVKCharEntities.get(charsList.get(idx)));
                         }
-                
+
                         int listSize = charsList.size();
                         if (listSize > 0) {
                             chars = charsList.get(0);
@@ -1056,7 +1056,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
                                 }
                             }
                         }
-                        
+
                         // End of a key
                         colSpan = c - col;
                         Key key;
@@ -1066,7 +1066,7 @@ public class FXVKSkin extends BehaviorSkinBase<FXVK, BehaviorBase<FXVK>> {
                                     @Override protected void release() {
                                         pressShift();
                                     }
-                                    
+
                                     @Override public void update(boolean capsDown, boolean shiftDown, boolean isSymbol) {
                                         if (isSymbol) {
                                             this.setDisable(true);

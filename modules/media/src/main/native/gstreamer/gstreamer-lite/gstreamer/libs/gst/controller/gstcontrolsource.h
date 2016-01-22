@@ -76,7 +76,7 @@ struct _GstValueArray
   gpointer *values;
 };
 
-/** 
+/**
  * GstControlSourceGetValue
  * @self: the #GstControlSource instance
  * @timestamp: timestamp for which a value should be calculated
@@ -89,7 +89,7 @@ struct _GstValueArray
  */
 typedef gboolean (* GstControlSourceGetValue) (GstControlSource *self, GstClockTime timestamp, GValue *value);
 
-/** 
+/**
  * GstControlSourceGetValueArray
  * @self: the #GstControlSource instance
  * @timestamp: timestamp for which a value should be calculated
@@ -102,7 +102,7 @@ typedef gboolean (* GstControlSourceGetValue) (GstControlSource *self, GstClockT
  */
 typedef gboolean (* GstControlSourceGetValueArray) (GstControlSource *self, GstClockTime timestamp, GstValueArray *value_array);
 
-/** 
+/**
  * GstControlSourceBind
  * @self: the #GstControlSource instance
  * @pspec: #GParamSpec that should be bound to
@@ -143,7 +143,7 @@ struct _GstControlSource {
 struct _GstControlSourceClass
 {
   GObjectClass parent_class;
-  
+
   GstControlSourceBind bind;  /* Binds the GstControlSource to a specific GParamSpec */
 
   /*< private >*/

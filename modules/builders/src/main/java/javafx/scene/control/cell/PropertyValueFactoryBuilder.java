@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.cell.PropertyValueFactory
 public class PropertyValueFactoryBuilder<S, T, B extends javafx.scene.control.cell.PropertyValueFactoryBuilder<S, T, B>> implements javafx.util.Builder<javafx.scene.control.cell.PropertyValueFactory<S, T>> {
     protected PropertyValueFactoryBuilder() {
     }
-    
+
     /** Creates a new instance of PropertyValueFactoryBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <S, T> javafx.scene.control.cell.PropertyValueFactoryBuilder<S, T, ?> create() {
         return new javafx.scene.control.cell.PropertyValueFactoryBuilder();
     }
-    
+
     private java.lang.String property;
     /**
     Set the value of the {@link javafx.scene.control.cell.PropertyValueFactory#getProperty() property} property for the instance constructed by this builder.
@@ -52,7 +52,7 @@ public class PropertyValueFactoryBuilder<S, T, B extends javafx.scene.control.ce
         this.property = x;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.cell.PropertyValueFactory} based on the properties set on this builder.
     */

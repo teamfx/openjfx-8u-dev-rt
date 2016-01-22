@@ -37,7 +37,7 @@ import com.sun.glass.ui.delegate.MenuDelegate;
 import com.sun.glass.ui.delegate.MenuItemDelegate;
 
 final class SWTMenuDelegate implements MenuDelegate, MenuItemDelegate {
-    
+
     String title = "";
     MenuItem.Callback callback;
     int shortcutKey;
@@ -45,12 +45,12 @@ final class SWTMenuDelegate implements MenuDelegate, MenuItemDelegate {
     Pixels pixels;
     boolean enabled;
     boolean checked;
-    
+
     org.eclipse.swt.widgets.Menu menu;
     org.eclipse.swt.widgets.MenuItem item;
-    
+
     Menu menu2;
-    
+
     public SWTMenuDelegate(Menu menu2) {
         this.menu2 = menu2;
     }

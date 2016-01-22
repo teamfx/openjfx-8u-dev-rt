@@ -32,12 +32,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ReadOnlyFloatPropertyBaseTest {
-    
+
     private static final Float UNDEFINED = null;
     private static final float DEFAULT = 0.0f;
     private static final float VALUE_1 = (float)Math.E;
     private static final float VALUE_2 = (float)Math.PI;
-    
+
     private ReadOnlyPropertyMock property;
     private InvalidationListenerMock invalidationListener;
     private ChangeListenerMock<Number> changeListener;
@@ -48,7 +48,7 @@ public class ReadOnlyFloatPropertyBaseTest {
         invalidationListener = new InvalidationListenerMock();
         changeListener = new ChangeListenerMock<Number>(UNDEFINED);
     }
-    
+
     @Test
     public void testInvalidationListener() {
         property.addListener(invalidationListener);
@@ -74,11 +74,11 @@ public class ReadOnlyFloatPropertyBaseTest {
         property.set(VALUE_2);
         changeListener.check(null, UNDEFINED, UNDEFINED, 0);
     }
-    
+
     private static class ReadOnlyPropertyMock extends ReadOnlyFloatPropertyBase {
 
         private float value;
-        
+
         @Override
         public Object getBean() {
             // not used
@@ -90,7 +90,7 @@ public class ReadOnlyFloatPropertyBaseTest {
             // not used
             return null;
         }
-        
+
         private void set(float value) {
             this.value = value;
             fireValueChangedEvent();
@@ -100,7 +100,7 @@ public class ReadOnlyFloatPropertyBaseTest {
         public float get() {
             return value;
         }
-        
+
     }
 
 }

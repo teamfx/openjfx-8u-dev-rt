@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.effect.Lighting
 public class LightingBuilder<B extends javafx.scene.effect.LightingBuilder<B>> implements javafx.util.Builder<javafx.scene.effect.Lighting> {
     protected LightingBuilder() {
     }
-    
+
     /** Creates a new instance of LightingBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.effect.LightingBuilder<?> create() {
         return new javafx.scene.effect.LightingBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.effect.Lighting x) {
         int set = __set;
@@ -54,7 +54,7 @@ public class LightingBuilder<B extends javafx.scene.effect.LightingBuilder<B>> i
         if ((set & (1 << 5)) != 0) x.setSpecularExponent(this.specularExponent);
         if ((set & (1 << 6)) != 0) x.setSurfaceScale(this.surfaceScale);
     }
-    
+
     private javafx.scene.effect.Effect bumpInput;
     /**
     Set the value of the {@link javafx.scene.effect.Lighting#getBumpInput() bumpInput} property for the instance constructed by this builder.
@@ -65,7 +65,7 @@ public class LightingBuilder<B extends javafx.scene.effect.LightingBuilder<B>> i
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private javafx.scene.effect.Effect contentInput;
     /**
     Set the value of the {@link javafx.scene.effect.Lighting#getContentInput() contentInput} property for the instance constructed by this builder.
@@ -76,7 +76,7 @@ public class LightingBuilder<B extends javafx.scene.effect.LightingBuilder<B>> i
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double diffuseConstant;
     /**
     Set the value of the {@link javafx.scene.effect.Lighting#getDiffuseConstant() diffuseConstant} property for the instance constructed by this builder.
@@ -87,7 +87,7 @@ public class LightingBuilder<B extends javafx.scene.effect.LightingBuilder<B>> i
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private javafx.scene.effect.Light light;
     /**
     Set the value of the {@link javafx.scene.effect.Lighting#getLight() light} property for the instance constructed by this builder.
@@ -98,7 +98,7 @@ public class LightingBuilder<B extends javafx.scene.effect.LightingBuilder<B>> i
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private double specularConstant;
     /**
     Set the value of the {@link javafx.scene.effect.Lighting#getSpecularConstant() specularConstant} property for the instance constructed by this builder.
@@ -109,7 +109,7 @@ public class LightingBuilder<B extends javafx.scene.effect.LightingBuilder<B>> i
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     private double specularExponent;
     /**
     Set the value of the {@link javafx.scene.effect.Lighting#getSpecularExponent() specularExponent} property for the instance constructed by this builder.
@@ -120,7 +120,7 @@ public class LightingBuilder<B extends javafx.scene.effect.LightingBuilder<B>> i
         __set |= 1 << 5;
         return (B) this;
     }
-    
+
     private double surfaceScale;
     /**
     Set the value of the {@link javafx.scene.effect.Lighting#getSurfaceScale() surfaceScale} property for the instance constructed by this builder.
@@ -131,7 +131,7 @@ public class LightingBuilder<B extends javafx.scene.effect.LightingBuilder<B>> i
         __set |= 1 << 6;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.effect.Lighting} based on the properties set on this builder.
     */

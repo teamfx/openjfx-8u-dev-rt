@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,20 +36,20 @@ Builder class for javafx.scene.effect.Bloom
 public class BloomBuilder<B extends javafx.scene.effect.BloomBuilder<B>> implements javafx.util.Builder<javafx.scene.effect.Bloom> {
     protected BloomBuilder() {
     }
-    
+
     /** Creates a new instance of BloomBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.effect.BloomBuilder<?> create() {
         return new javafx.scene.effect.BloomBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.effect.Bloom x) {
         int set = __set;
         if ((set & (1 << 0)) != 0) x.setInput(this.input);
         if ((set & (1 << 1)) != 0) x.setThreshold(this.threshold);
     }
-    
+
     private javafx.scene.effect.Effect input;
     /**
     Set the value of the {@link javafx.scene.effect.Bloom#getInput() input} property for the instance constructed by this builder.
@@ -60,7 +60,7 @@ public class BloomBuilder<B extends javafx.scene.effect.BloomBuilder<B>> impleme
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private double threshold;
     /**
     Set the value of the {@link javafx.scene.effect.Bloom#getThreshold() threshold} property for the instance constructed by this builder.
@@ -71,7 +71,7 @@ public class BloomBuilder<B extends javafx.scene.effect.BloomBuilder<B>> impleme
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.effect.Bloom} based on the properties set on this builder.
     */

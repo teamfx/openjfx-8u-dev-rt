@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.SplitMenuButton
 public class SplitMenuButtonBuilder<B extends javafx.scene.control.SplitMenuButtonBuilder<B>> extends javafx.scene.control.MenuButtonBuilder<B> {
     protected SplitMenuButtonBuilder() {
     }
-    
+
     /** Creates a new instance of SplitMenuButtonBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.SplitMenuButtonBuilder<?> create() {
         return new javafx.scene.control.SplitMenuButtonBuilder();
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.SplitMenuButton} based on the properties set on this builder.
     */

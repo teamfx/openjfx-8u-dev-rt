@@ -274,7 +274,7 @@ static gboolean videodecoder_configure(VideoDecoder *decoder, GstCaps *sink_caps
     base->is_initialized = basedecoder_open_decoder(BASEDECODER(decoder), AV_CODEC_ID_H264);
 #else
     base->is_initialized = basedecoder_open_decoder(BASEDECODER(decoder), CODEC_ID_H264);
-#endif    
+#endif
     return base->is_initialized;
 }
 
@@ -294,8 +294,8 @@ static gboolean videodecoder_configure_sourcepad(VideoDecoder *decoder)
 #else
     int width = base->context->width;
     int height = base->context->height;
-#endif // NEW_CODEC_ID 
-    
+#endif // NEW_CODEC_ID
+
     if (GST_PAD_CAPS(base->srcpad) == NULL ||
         decoder->width != width || decoder->height != height)
     {

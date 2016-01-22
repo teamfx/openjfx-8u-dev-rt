@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,14 +36,14 @@ Builder class for javafx.animation.Transition
 public abstract class TransitionBuilder<B extends javafx.animation.TransitionBuilder<B>> extends javafx.animation.AnimationBuilder<B> {
     protected TransitionBuilder() {
     }
-    
-    
+
+
     private boolean __set;
     public void applyTo(javafx.animation.Transition x) {
         super.applyTo(x);
         if (__set) x.setInterpolator(this.interpolator);
     }
-    
+
     private javafx.animation.Interpolator interpolator;
     /**
     Set the value of the {@link javafx.animation.Transition#getInterpolator() interpolator} property for the instance constructed by this builder.
@@ -54,7 +54,7 @@ public abstract class TransitionBuilder<B extends javafx.animation.TransitionBui
         __set = true;
         return (B) this;
     }
-    
+
     private double targetFramerate;
     /**
     Set the value of the {@link javafx.animation.Transition#getTargetFramerate() targetFramerate} property for the instance constructed by this builder.
@@ -64,5 +64,5 @@ public abstract class TransitionBuilder<B extends javafx.animation.TransitionBui
         this.targetFramerate = x;
         return (B) this;
     }
-    
+
 }

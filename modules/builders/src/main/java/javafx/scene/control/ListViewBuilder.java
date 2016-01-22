@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.ListView
 public class ListViewBuilder<T, B extends javafx.scene.control.ListViewBuilder<T, B>> extends javafx.scene.control.ControlBuilder<B> implements javafx.util.Builder<javafx.scene.control.ListView<T>> {
     protected ListViewBuilder() {
     }
-    
+
     /** Creates a new instance of ListViewBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <T> javafx.scene.control.ListViewBuilder<T, ?> create() {
         return new javafx.scene.control.ListViewBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -66,7 +66,7 @@ public class ListViewBuilder<T, B extends javafx.scene.control.ListViewBuilder<T
             }
         }
     }
-    
+
     private javafx.util.Callback<javafx.scene.control.ListView<T>,javafx.scene.control.ListCell<T>> cellFactory;
     /**
     Set the value of the {@link javafx.scene.control.ListView#getCellFactory() cellFactory} property for the instance constructed by this builder.
@@ -77,7 +77,7 @@ public class ListViewBuilder<T, B extends javafx.scene.control.ListViewBuilder<T
         __set(0);
         return (B) this;
     }
-    
+
     private boolean editable;
     /**
     Set the value of the {@link javafx.scene.control.ListView#isEditable() editable} property for the instance constructed by this builder.
@@ -88,7 +88,7 @@ public class ListViewBuilder<T, B extends javafx.scene.control.ListViewBuilder<T
         __set(1);
         return (B) this;
     }
-    
+
     private javafx.scene.control.FocusModel<T> focusModel;
     /**
     Set the value of the {@link javafx.scene.control.ListView#getFocusModel() focusModel} property for the instance constructed by this builder.
@@ -99,7 +99,7 @@ public class ListViewBuilder<T, B extends javafx.scene.control.ListViewBuilder<T
         __set(2);
         return (B) this;
     }
-    
+
     private javafx.collections.ObservableList<T> items;
     /**
     Set the value of the {@link javafx.scene.control.ListView#getItems() items} property for the instance constructed by this builder.
@@ -110,7 +110,7 @@ public class ListViewBuilder<T, B extends javafx.scene.control.ListViewBuilder<T
         __set(3);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.scene.control.ListView.EditEvent<T>> onEditCancel;
     /**
     Set the value of the {@link javafx.scene.control.ListView#getOnEditCancel() onEditCancel} property for the instance constructed by this builder.
@@ -121,7 +121,7 @@ public class ListViewBuilder<T, B extends javafx.scene.control.ListViewBuilder<T
         __set(4);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.scene.control.ListView.EditEvent<T>> onEditCommit;
     /**
     Set the value of the {@link javafx.scene.control.ListView#getOnEditCommit() onEditCommit} property for the instance constructed by this builder.
@@ -132,7 +132,7 @@ public class ListViewBuilder<T, B extends javafx.scene.control.ListViewBuilder<T
         __set(5);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.scene.control.ListView.EditEvent<T>> onEditStart;
     /**
     Set the value of the {@link javafx.scene.control.ListView#getOnEditStart() onEditStart} property for the instance constructed by this builder.
@@ -143,7 +143,7 @@ public class ListViewBuilder<T, B extends javafx.scene.control.ListViewBuilder<T
         __set(6);
         return (B) this;
     }
-    
+
     private javafx.geometry.Orientation orientation;
     /**
     Set the value of the {@link javafx.scene.control.ListView#getOrientation() orientation} property for the instance constructed by this builder.
@@ -154,7 +154,7 @@ public class ListViewBuilder<T, B extends javafx.scene.control.ListViewBuilder<T
         __set(7);
         return (B) this;
     }
-    
+
     private javafx.scene.control.MultipleSelectionModel<T> selectionModel;
     /**
     Set the value of the {@link javafx.scene.control.ListView#getSelectionModel() selectionModel} property for the instance constructed by this builder.
@@ -165,7 +165,7 @@ public class ListViewBuilder<T, B extends javafx.scene.control.ListViewBuilder<T
         __set(8);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.ListView} based on the properties set on this builder.
     */

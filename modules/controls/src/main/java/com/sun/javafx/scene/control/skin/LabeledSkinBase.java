@@ -123,7 +123,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         // Configure the Text node with all of the attributes from the
         // Labeled which apply to it.
         text = new LabeledText(labeled);
-        
+
         updateChildren();
 
         // Labels do not block the mouse by default, unlike most other UI Controls.
@@ -259,7 +259,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
     protected void mnemonicTargetChanged() {
         if (containsMnemonic == true) {
             /*
-            ** was there previously a labelFor  
+            ** was there previously a labelFor
             */
             removeMnemonic();
 
@@ -560,13 +560,13 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         }
         // Now update the graphic (since it may have changed)
         graphic = labeled.getGraphic();
-        
-        // RT-19851 Only setMouseTransparent(true) for an ImageView.  This allows the button 
-        // to be picked regardless of the changing images on top of it. 
+
+        // RT-19851 Only setMouseTransparent(true) for an ImageView.  This allows the button
+        // to be picked regardless of the changing images on top of it.
         if (graphic instanceof ImageView) {
             graphic.setMouseTransparent(true);
-        }                
-        
+        }
+
         // Now update the children (and add the graphicPropertyChangedListener as necessary)
         if (isIgnoreGraphic()) {
             if (labeled.getContentDisplay() == ContentDisplay.GRAPHIC_ONLY) {
@@ -591,7 +591,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
 
     /**
      * Gets whether for various computations we can ignore the presence of the graphic
-     * (or lack thereof). 
+     * (or lack thereof).
      * @return
      */
     protected boolean isIgnoreGraphic() {
@@ -811,7 +811,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
                 h = textBaselineOffset + (g.prefHeight(-1) - text.prefHeight(-1)) / 2;
             }
         }
-                
+
         return topInset + topLabelPadding() + h;
     }
 
@@ -1081,11 +1081,11 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         /**
          * check if the label text overflows it's bounds.
          * If there's an overflow, and no text clip then
-         * we'll clip it. 
+         * we'll clip it.
          * If there is no overflow, and the label text has a
          * clip, then remove it.
          */
-        if ((text != null) && 
+        if ((text != null) &&
             ((text.getLayoutBounds().getHeight() > wrapHeight) ||
              (text.getLayoutBounds().getWidth() > wrapWidth))) {
 
@@ -1126,14 +1126,14 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
 
                 /* Use the text in the binding if available to handle mnemonics */
                 if (bindings != null) {
-                    String text = bindings.getText(); 
+                    String text = bindings.getText();
                     if (text != null && !text.isEmpty()) return text;
                 }
-                /* Avoid the content in text.getText() as it can contain ellipses 
+                /* Avoid the content in text.getText() as it can contain ellipses
                  * for clipping
                  */
                 if (labeled != null) {
-                    String text = labeled.getText(); 
+                    String text = labeled.getText();
                     if (text != null && !text.isEmpty()) return text;
                 }
                 /* Use the graphic as last resource. Note that this implementation

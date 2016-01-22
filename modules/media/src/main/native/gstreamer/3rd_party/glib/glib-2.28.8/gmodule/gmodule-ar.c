@@ -8,7 +8,7 @@
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
@@ -17,7 +17,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-/* 
+/*
  * MT safe
  */
 
@@ -101,8 +101,8 @@ exit:
 
 static gpointer
 _g_module_open (const gchar *file_name,
-		gboolean     bind_lazy,
-		gboolean     bind_local)
+        gboolean     bind_lazy,
+        gboolean     bind_local)
 {
   gpointer handle;
   gchar* member;
@@ -118,15 +118,15 @@ _g_module_open (const gchar *file_name,
     }
   else
     full_name = g_strdup (file_name);
-  
-  handle = dlopen (full_name, 
-		   (bind_local ? RTLD_LOCAL : RTLD_GLOBAL) | RTLD_MEMBER | (bind_lazy ? RTLD_LAZY : RTLD_NOW));
+
+  handle = dlopen (full_name,
+           (bind_local ? RTLD_LOCAL : RTLD_GLOBAL) | RTLD_MEMBER | (bind_lazy ? RTLD_LAZY : RTLD_NOW));
 
   g_free (full_name);
 
   if (!handle)
     g_module_set_error (fetch_dlerror (TRUE));
-  
+
   return handle;
 }
 
@@ -138,42 +138,42 @@ _g_module_self (void)
   handle = dlopen (NULL, RTLD_GLOBAL | RTLD_LAZY);
   if (!handle)
     g_module_set_error (fetch_dlerror (TRUE));
-  
+
   return handle;
 }
 
 static void
 _g_module_close (gpointer handle,
-		 gboolean is_unref)
+         gboolean is_unref)
 {
   /* are there any systems out there that have dlopen()/dlclose()
    * without a reference count implementation?
    */
   is_unref |= 1;
-  
+
   if (is_unref)
     {
       if (dlclose (handle) != 0)
-	g_module_set_error (fetch_dlerror (TRUE));
+    g_module_set_error (fetch_dlerror (TRUE));
     }
 }
 
 static gpointer
 _g_module_symbol (gpointer     handle,
-		  const gchar *symbol_name)
+          const gchar *symbol_name)
 {
   gpointer p;
-  
+
   p = dlsym (handle, symbol_name);
   if (!p)
     g_module_set_error (fetch_dlerror (FALSE));
-  
+
   return p;
 }
 
 static gchar*
 _g_module_build_path (const gchar *directory,
-		      const gchar *module_name)
+              const gchar *module_name)
 {
   if (directory && *directory) {
     if (strncmp (module_name, "lib", 3) == 0)

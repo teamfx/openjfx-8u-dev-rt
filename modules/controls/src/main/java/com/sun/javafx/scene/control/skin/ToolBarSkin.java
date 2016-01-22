@@ -343,7 +343,7 @@ public class ToolBarSkin extends BehaviorSkinBase<ToolBar, ToolBarBehavior> {
     @Override protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
         double prefHeight = 0;
         final ToolBar toolbar = getSkinnable();
-        
+
         if(toolbar.getOrientation() == Orientation.VERTICAL) {
             for (Node node: toolbar.getItems()) {
                 prefHeight += snapSize(node.prefHeight(-1)) + getSpacing();
@@ -534,7 +534,7 @@ public class ToolBarSkin extends BehaviorSkinBase<ToolBar, ToolBarBehavior> {
                             last.requestFocus();
                         }
                     } else {
-                        overflowMenu.requestFocus();                        
+                        overflowMenu.requestFocus();
                     }
                 }
                 if (node instanceof Separator) {
@@ -641,8 +641,8 @@ public class ToolBarSkin extends BehaviorSkinBase<ToolBar, ToolBarBehavior> {
             });
             popup = new ContextMenu();
             setVisible(false);
-            setManaged(false);            
-            getChildren().add(downArrow);            
+            setManaged(false);
+            getChildren().add(downArrow);
         }
 
         private void fire() {
@@ -716,7 +716,7 @@ public class ToolBarSkin extends BehaviorSkinBase<ToolBar, ToolBarBehavior> {
                 return (StyleableProperty<Number>)(WritableValue<Number>)skin.spacingProperty();
             }
         };
-         
+
         private static final CssMetaData<ToolBar,Pos>ALIGNMENT =
                 new CssMetaData<ToolBar,Pos>("-fx-alignment",
                 new EnumConverter<Pos>(Pos.class), Pos.TOP_LEFT ) {
@@ -734,22 +734,22 @@ public class ToolBarSkin extends BehaviorSkinBase<ToolBar, ToolBarBehavior> {
             }
         };
 
-         
+
          private static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
          static {
 
             final List<CssMetaData<? extends Styleable, ?>> styleables =
                 new ArrayList<CssMetaData<? extends Styleable, ?>>(SkinBase.getClassCssMetaData());
-            
-            // StackPane also has -fx-alignment. Replace it with 
-            // ToolBarSkin's. 
+
+            // StackPane also has -fx-alignment. Replace it with
+            // ToolBarSkin's.
             // TODO: Really should be able to reference StackPane.StyleableProperties.ALIGNMENT
             final String alignmentProperty = ALIGNMENT.getProperty();
             for (int n=0, nMax=styleables.size(); n<nMax; n++) {
                 final CssMetaData<?,?> prop = styleables.get(n);
                 if (alignmentProperty.equals(prop.getProperty())) styleables.remove(prop);
             }
-            
+
             styleables.add(SPACING);
             styleables.add(ALIGNMENT);
             STYLEABLES = Collections.unmodifiableList(styleables);
@@ -784,7 +784,7 @@ public class ToolBarSkin extends BehaviorSkinBase<ToolBar, ToolBarBehavior> {
     @Override
     protected void executeAccessibleAction(AccessibleAction action, Object... parameters) {
         switch (action) {
-            case SHOW_MENU: 
+            case SHOW_MENU:
                 overflowMenu.fire();
                 break;
             default: super.executeAccessibleAction(action, parameters);

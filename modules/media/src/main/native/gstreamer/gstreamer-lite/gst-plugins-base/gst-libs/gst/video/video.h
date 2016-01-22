@@ -33,7 +33,7 @@ G_BEGIN_DECLS
  * @GST_VIDEO_FORMAT_I420: planar 4:2:0 YUV
  * @GST_VIDEO_FORMAT_YV12: planar 4:2:0 YVU (like I420 but UV planes swapped)
  * @GST_VIDEO_FORMAT_YUY2: packed 4:2:2 YUV (Y0-U0-Y1-V0 Y2-U2-Y3-V2 Y4 ...)
- * @GST_VIDEO_FORMAT_UYVY: packed 4:2:2 YUV (U0-Y0-V0-Y1 U2-Y2-V2-Y3 U4 ...) 
+ * @GST_VIDEO_FORMAT_UYVY: packed 4:2:2 YUV (U0-Y0-V0-Y1 U2-Y2-V2-Y3 U4 ...)
  * @GST_VIDEO_FORMAT_AYUV: packed 4:4:4 YUV with alpha channel (A0-Y0-U0-V0 ...)
  * @GST_VIDEO_FORMAT_RGBx: sparse rgb packed into 32 bit, space last
  * @GST_VIDEO_FORMAT_BGRx: sparse reverse rgb packed into 32 bit, space last
@@ -264,13 +264,13 @@ typedef enum {
 
 #define GST_VIDEO_CAPS_RGBx \
     __GST_VIDEO_CAPS_MAKE_32 (1, 2, 3)
-  
+
 #define GST_VIDEO_CAPS_xRGB \
     __GST_VIDEO_CAPS_MAKE_32 (2, 3, 4)
-  
+
 #define GST_VIDEO_CAPS_BGRx \
     __GST_VIDEO_CAPS_MAKE_32 (3, 2, 1)
-  
+
 #define GST_VIDEO_CAPS_xBGR \
     __GST_VIDEO_CAPS_MAKE_32 (4, 3, 2)
 
@@ -278,13 +278,13 @@ typedef enum {
 
 #define GST_VIDEO_CAPS_RGBA \
     __GST_VIDEO_CAPS_MAKE_32A (1, 2, 3, 4)
-  
+
 #define GST_VIDEO_CAPS_ARGB \
     __GST_VIDEO_CAPS_MAKE_32A (2, 3, 4, 1)
-  
+
 #define GST_VIDEO_CAPS_BGRA \
     __GST_VIDEO_CAPS_MAKE_32A (3, 2, 1, 4)
-  
+
 #define GST_VIDEO_CAPS_ABGR \
     __GST_VIDEO_CAPS_MAKE_32A (4, 3, 2, 1)
 
@@ -300,9 +300,9 @@ typedef enum {
   #define GST_VIDEO_CAPS_BGRx_HOST_ENDIAN \
       GST_VIDEO_CAPS_xRGB
 #endif
-      
+
 /* 15/16 bit */
-  
+
 #define GST_VIDEO_CAPS_RGB_16 \
     __GST_VIDEO_CAPS_MAKE_16 (1, 2, 3)
 
@@ -342,7 +342,7 @@ typedef enum {
  */
 #define GST_VIDEO_CAPS_RGB8_PALETTED \
   "video/x-raw-rgb, bpp = (int)8, depth = (int)8, "                     \
-      "width = "GST_VIDEO_SIZE_RANGE" , "		                \
+      "width = "GST_VIDEO_SIZE_RANGE" , "                       \
       "height = " GST_VIDEO_SIZE_RANGE ", "                             \
       "framerate = "GST_VIDEO_FPS_RANGE
 
@@ -442,8 +442,8 @@ gboolean gst_video_get_size   (GstPad *pad,
                                gint   *height);
 
 gboolean gst_video_calculate_display_ratio (guint *dar_n, guint *dar_d,
-            guint video_width, guint video_height, 
-            guint video_par_n, guint video_par_d, 
+            guint video_width, guint video_height,
+            guint video_par_n, guint video_par_d,
             guint display_par_n, guint display_par_d);
 
 gboolean gst_video_format_parse_caps (GstCaps *caps, GstVideoFormat *format,
@@ -489,11 +489,11 @@ GstEvent *gst_video_event_new_still_frame (gboolean in_still);
 gboolean gst_video_event_parse_still_frame (GstEvent *event, gboolean *in_still);
 
 GstBuffer *gst_video_convert_frame(GstBuffer *buf, const GstCaps *to_caps,
-				   GstClockTime timeout, GError **error);
+                   GstClockTime timeout, GError **error);
 
 typedef void (*GstVideoConvertFrameCallback) (GstBuffer *buf, GError *error, gpointer user_data);
 void gst_video_convert_frame_async(GstBuffer *buf, const GstCaps *to_caps,
-				   GstClockTime timeout, GstVideoConvertFrameCallback callback,
+                   GstClockTime timeout, GstVideoConvertFrameCallback callback,
                                    gpointer user_data, GDestroyNotify destroy_notify);
 
 G_END_DECLS

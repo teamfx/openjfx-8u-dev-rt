@@ -63,7 +63,7 @@ typedef void (*GTestFixtureFunc) (gpointer      fixture,
 #define g_assert_no_error(err)          do { if (err) \
                                                g_assertion_message_error (G_LOG_DOMAIN, __FILE__, __LINE__, G_STRFUNC, \
                                                  #err, err, 0, 0); } while (0)
-#define g_assert_error(err, dom, c)	do { if (!err || (err)->domain != dom || (err)->code != c) \
+#define g_assert_error(err, dom, c) do { if (!err || (err)->domain != dom || (err)->code != c) \
                                                g_assertion_message_error (G_LOG_DOMAIN, __FILE__, __LINE__, G_STRFUNC, \
                                                  #err, err, dom, c); } while (0)
 #ifdef G_DISABLE_ASSERT
@@ -110,7 +110,7 @@ void    g_test_add_data_func            (const char     *testpath,
 
 /* hook up a test with fixture under test path */
 #define g_test_add(testpath, Fixture, tdata, fsetup, ftest, fteardown) \
-					G_STMT_START {			\
+                    G_STMT_START {          \
                                          void (*add_vtable) (const char*,       \
                                                     gsize,             \
                                                     gconstpointer,     \
@@ -119,7 +119,7 @@ void    g_test_add_data_func            (const char     *testpath,
                                                     void (*) (Fixture*, gconstpointer)) =  (void (*) (const gchar *, gsize, gconstpointer, void (*) (Fixture*, gconstpointer), void (*) (Fixture*, gconstpointer), void (*) (Fixture*, gconstpointer))) g_test_add_vtable; \
                                          add_vtable \
                                           (testpath, sizeof (Fixture), tdata, fsetup, ftest, fteardown); \
-					} G_STMT_END
+                    } G_STMT_END
 
 /* add test messages to the test report */
 void    g_test_message                  (const char *format,

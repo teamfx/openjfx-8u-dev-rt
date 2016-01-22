@@ -50,10 +50,10 @@ public class CSSParsingReport {
     private final Path stylesheetPath;
     private IOException ioException;
     private final List<CssError> cssErrors = new ArrayList<>();
-    
+
     public CSSParsingReport(Path stylesheetPath) {
         assert stylesheetPath != null;
-        
+
         this.stylesheetPath = stylesheetPath;
         final Set<CssError> previousErrors = new HashSet<>(StyleManager.errorsProperty());
         try {
@@ -71,15 +71,15 @@ public class CSSParsingReport {
     public Path getStylesheetPath() {
         return stylesheetPath;
     }
-    
+
     public boolean isEmpty() {
         return (ioException == null) && cssErrors.isEmpty();
     }
-    
+
     public IOException getIOException() {
         return ioException;
     }
-    
+
     public List<CssError> getCssErrors() {
         return Collections.unmodifiableList(cssErrors);
     }

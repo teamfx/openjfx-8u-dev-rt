@@ -196,16 +196,16 @@ struct _GstPlugin {
   GstObject       object;
 
   /*< private >*/
-  GstPluginDesc	desc;
+  GstPluginDesc desc;
 
   GstPluginDesc *orig_desc;
 
   unsigned int  flags;
 
-  gchar *	filename;
-  gchar *	basename;       /* base name (non-dir part) of plugin path */
+  gchar *   filename;
+  gchar *   basename;       /* base name (non-dir part) of plugin path */
 
-  GModule *	module;		/* contains the module if plugin is loaded */
+  GModule * module;     /* contains the module if plugin is loaded */
 
   off_t         file_size;
   time_t        file_mtime;
@@ -254,21 +254,21 @@ struct _GstPluginClass {
  * If defined, the GST_PACKAGE_RELEASE_DATETIME will also be used for the
  * #GstPluginDesc,release_datetime field.
  */
-#define GST_PLUGIN_DEFINE(major,minor,name,description,init,version,license,package,origin)	\
+#define GST_PLUGIN_DEFINE(major,minor,name,description,init,version,license,package,origin) \
 G_BEGIN_DECLS \
-GST_PLUGIN_EXPORT GstPluginDesc gst_plugin_desc = {	\
-  major,						\
-  minor,						\
-  name,							\
-  (gchar *) description,				\
-  init,							\
-  version,						\
-  license,						\
-  PACKAGE,						\
-  package,						\
-  origin,						\
+GST_PLUGIN_EXPORT GstPluginDesc gst_plugin_desc = { \
+  major,                        \
+  minor,                        \
+  name,                         \
+  (gchar *) description,                \
+  init,                         \
+  version,                      \
+  license,                      \
+  PACKAGE,                      \
+  package,                      \
+  origin,                       \
   __GST_PACKAGE_RELEASE_DATETIME,                       \
-  GST_PADDING_INIT				        \
+  GST_PADDING_INIT                      \
 }; \
 G_END_DECLS
 
@@ -299,24 +299,24 @@ G_END_DECLS
  * deprecation guards around _gst_plugin_register_static(), and will result in
  * much better error messages when compiling with -DGST_DISABLE_DEPRECATED */
 #define GST_PLUGIN_DEFINE_STATIC(major,minor,name,description,init,version,license,package,origin)  \
-static void GST_GNUC_CONSTRUCTOR			\
-_gst_plugin_static_init__ ##init (void)			\
-{							\
-  static GstPluginDesc plugin_desc_ = {			\
-    major,						\
-    minor,						\
-    name,						\
-    (gchar *) description,				\
-    init,						\
-    version,						\
-    license,						\
-    PACKAGE,						\
-    package,						\
-    origin,						\
-    NULL,						\
-    GST_PADDING_INIT				        \
-  };							\
-  _gst_plugin_register_static (&plugin_desc_);		\
+static void GST_GNUC_CONSTRUCTOR            \
+_gst_plugin_static_init__ ##init (void)         \
+{                           \
+  static GstPluginDesc plugin_desc_ = {         \
+    major,                      \
+    minor,                      \
+    name,                       \
+    (gchar *) description,              \
+    init,                       \
+    version,                        \
+    license,                        \
+    PACKAGE,                        \
+    package,                        \
+    origin,                     \
+    NULL,                       \
+    GST_PADDING_INIT                        \
+  };                            \
+  _gst_plugin_register_static (&plugin_desc_);      \
 }
 
 /**
@@ -345,10 +345,10 @@ typedef gboolean        (*GstPluginFilter)              (GstPlugin *plugin,
 GType                   gst_plugin_get_type             (void);
 
 #ifndef GST_DISABLE_DEPRECATED
-void			_gst_plugin_register_static	(GstPluginDesc *desc);
+void            _gst_plugin_register_static (GstPluginDesc *desc);
 #endif
 
-gboolean		gst_plugin_register_static	(gint major_version,
+gboolean        gst_plugin_register_static  (gint major_version,
                                                          gint minor_version,
                                                          const gchar *name,
                                                          const gchar *description,
@@ -359,7 +359,7 @@ gboolean		gst_plugin_register_static	(gint major_version,
                                                          const gchar *package,
                                                          const gchar *origin);
 
-gboolean		gst_plugin_register_static_full	(gint major_version,
+gboolean        gst_plugin_register_static_full (gint major_version,
                                                          gint minor_version,
                                                          const gchar *name,
                                                          const gchar *description,
@@ -371,23 +371,23 @@ gboolean		gst_plugin_register_static_full	(gint major_version,
                                                          const gchar *origin,
                                                          gpointer user_data);
 
-const gchar*		gst_plugin_get_name		(GstPlugin *plugin);
-const gchar*		gst_plugin_get_description	(GstPlugin *plugin);
-const gchar*		gst_plugin_get_filename		(GstPlugin *plugin);
-const gchar*		gst_plugin_get_version		(GstPlugin *plugin);
-const gchar*		gst_plugin_get_license		(GstPlugin *plugin);
-const gchar*		gst_plugin_get_source		(GstPlugin *plugin);
-const gchar*		gst_plugin_get_package		(GstPlugin *plugin);
-const gchar*		gst_plugin_get_origin		(GstPlugin *plugin);
-const GstStructure*	gst_plugin_get_cache_data	(GstPlugin * plugin);
-void			gst_plugin_set_cache_data	(GstPlugin * plugin, GstStructure *cache_data);
+const gchar*        gst_plugin_get_name     (GstPlugin *plugin);
+const gchar*        gst_plugin_get_description  (GstPlugin *plugin);
+const gchar*        gst_plugin_get_filename     (GstPlugin *plugin);
+const gchar*        gst_plugin_get_version      (GstPlugin *plugin);
+const gchar*        gst_plugin_get_license      (GstPlugin *plugin);
+const gchar*        gst_plugin_get_source       (GstPlugin *plugin);
+const gchar*        gst_plugin_get_package      (GstPlugin *plugin);
+const gchar*        gst_plugin_get_origin       (GstPlugin *plugin);
+const GstStructure* gst_plugin_get_cache_data   (GstPlugin * plugin);
+void            gst_plugin_set_cache_data   (GstPlugin * plugin, GstStructure *cache_data);
 
-GModule *		gst_plugin_get_module		(GstPlugin *plugin);
-gboolean		gst_plugin_is_loaded		(GstPlugin *plugin);
+GModule *       gst_plugin_get_module       (GstPlugin *plugin);
+gboolean        gst_plugin_is_loaded        (GstPlugin *plugin);
 
-gboolean		gst_plugin_name_filter		(GstPlugin *plugin, const gchar *name);
+gboolean        gst_plugin_name_filter      (GstPlugin *plugin, const gchar *name);
 
-GstPlugin *		gst_plugin_load_file		(const gchar *filename, GError** error);
+GstPlugin *     gst_plugin_load_file        (const gchar *filename, GError** error);
 
 GstPlugin *             gst_plugin_load                 (GstPlugin *plugin);
 GstPlugin *             gst_plugin_load_by_name         (const gchar *name);

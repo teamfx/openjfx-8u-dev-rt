@@ -1,4 +1,4 @@
-/* 
+/*
  * GStreamer
  * Copyright (C) 2008 Wim Taymans <wim.taymans@gmail.com>
  *
@@ -56,10 +56,10 @@ enum
   LAST_SIGNAL
 };
 
-#define DEFAULT_LEVEL		1.0
-#define DEFAULT_MONO_LEVEL	1.0
-#define DEFAULT_FILTER_BAND	220.0
-#define DEFAULT_FILTER_WIDTH	100.0
+#define DEFAULT_LEVEL       1.0
+#define DEFAULT_MONO_LEVEL  1.0
+#define DEFAULT_FILTER_BAND 220.0
+#define DEFAULT_FILTER_WIDTH    100.0
 
 enum
 {

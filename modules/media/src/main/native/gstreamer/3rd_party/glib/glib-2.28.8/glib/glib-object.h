@@ -8,7 +8,7 @@
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General
@@ -23,19 +23,19 @@
 
 /* topmost include file for GObject header files */
 #include        <gobject/gbinding.h>
-#include	<gobject/gboxed.h>
-#include	<gobject/genums.h>
-#include	<gobject/gobject.h>
-#include	<gobject/gparam.h>
-#include	<gobject/gparamspecs.h>
-#include	<gobject/gsignal.h>
-#include	<gobject/gsourceclosure.h>
-#include	<gobject/gtype.h>
-#include	<gobject/gtypemodule.h>
-#include	<gobject/gtypeplugin.h>
-#include	<gobject/gvalue.h>
-#include	<gobject/gvaluearray.h>
-#include	<gobject/gvaluetypes.h>
+#include    <gobject/gboxed.h>
+#include    <gobject/genums.h>
+#include    <gobject/gobject.h>
+#include    <gobject/gparam.h>
+#include    <gobject/gparamspecs.h>
+#include    <gobject/gsignal.h>
+#include    <gobject/gsourceclosure.h>
+#include    <gobject/gtype.h>
+#include    <gobject/gtypemodule.h>
+#include    <gobject/gtypeplugin.h>
+#include    <gobject/gvalue.h>
+#include    <gobject/gvaluearray.h>
+#include    <gobject/gvaluetypes.h>
 
 #undef __GLIB_GOBJECT_H_INSIDE__
 

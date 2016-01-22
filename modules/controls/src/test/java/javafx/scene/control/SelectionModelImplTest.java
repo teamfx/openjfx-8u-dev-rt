@@ -98,7 +98,7 @@ public class SelectionModelImplTest {
 
     // ChoiceBox
     private ChoiceBox choiceBox;
-    
+
     // ComboBox
     private ComboBox comboBox;
 
@@ -363,7 +363,7 @@ public class SelectionModelImplTest {
         focusModel.focus(1);
         assertEquals(1, focusModel.getFocusedIndex());
         assertTrue(focusModel.isFocused(1));
-        
+
         if (isTree()) {
             assertEquals(root.getChildren().get(0), focusModel.getFocusedItem());
         } else {
@@ -383,17 +383,17 @@ public class SelectionModelImplTest {
         assertFalse(model.isSelected(3));
         assertTrue(model.isSelected(4));
     }
-    
+
     @Test public void test_rt_29821() {
-        // in single selection passing in select(null) should clear selection. 
+        // in single selection passing in select(null) should clear selection.
         // In multiple selection (tested elsewhere), this would result in a no-op
-        
+
         if (currentControl instanceof ChoiceBox) {
             model.clearSelection();
-            
+
             model.select(3);
             assertNotNull(choiceBox.getValue());
-    
+
             model.select(null);
             assertFalse(model.isSelected(3));
             assertNull(choiceBox.getValue());
@@ -401,18 +401,18 @@ public class SelectionModelImplTest {
             IndexedCell cell_3 = VirtualFlowTestUtils.getCell(currentControl, 3);
             assertNotNull(cell_3);
             assertFalse(cell_3.isSelected());
-    
+
             model.clearSelection();
             model.select(3);
             assertTrue(cell_3.isSelected());
-    
+
             model.select(null);
             assertFalse(model.isSelected(3));
-            
+
             if (currentControl instanceof ComboBox) {
                 ((ComboBox)currentControl).layoutChildren();
             }
-            
+
             assertFalse(cell_3.isSelected());
         }
     }

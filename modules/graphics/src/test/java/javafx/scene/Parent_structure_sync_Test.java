@@ -45,7 +45,7 @@ public class Parent_structure_sync_Test {
     private Rectangle r1, r2, r3, r4, r5;
     private Parent parent;
     private NGGroup peer;
-    
+
     @Before public void setup() {
         parent = new Group();
         r1 = new Rectangle(0, 0, 10, 10);
@@ -62,22 +62,22 @@ public class Parent_structure_sync_Test {
 
         sync();
     }
-    
+
     private void sync() {
         ((StubToolkit) Toolkit.getToolkit()).firePulse();
     }
-    
+
     @Test public void emptyParentShouldHaveEmptyPGGroup() {
         assertTrue(peer.getChildren().isEmpty());
     }
-    
+
     @Test public void childAddedToEmptyParentShouldBeInPGGroup() {
         parent.getChildren().add(r1);
         sync();
         assertEquals(1, peer.getChildren().size());
         assertSame(r1.impl_getPeer(), peer.getChildren().get(0));
     }
-    
+
     @Test public void childrenAddedToEmptyParentShouldAllBeInPGGroup() {
         parent.getChildren().addAll(r1, r2, r3);
         sync();
@@ -86,7 +86,7 @@ public class Parent_structure_sync_Test {
         assertSame(r2.impl_getPeer(), peer.getChildren().get(1));
         assertSame(r3.impl_getPeer(), peer.getChildren().get(2));
     }
-    
+
     @Test public void addingAChildToTheBack() {
         parent.getChildren().addAll(r2, r3, r4);
         sync();
@@ -110,7 +110,7 @@ public class Parent_structure_sync_Test {
         assertSame(r3.impl_getPeer(), peer.getChildren().get(2));
         assertSame(r4.impl_getPeer(), peer.getChildren().get(3));
     }
-    
+
     @Test public void addingAChildToTheCenter() {
         parent.getChildren().addAll(r1, r2, r4);
         sync();
@@ -122,7 +122,7 @@ public class Parent_structure_sync_Test {
         assertSame(r3.impl_getPeer(), peer.getChildren().get(2));
         assertSame(r4.impl_getPeer(), peer.getChildren().get(3));
     }
-    
+
     @Test public void removingAChildFromTheFront() {
         parent.getChildren().addAll(r1, r2, r3, r4);
         sync();
@@ -133,7 +133,7 @@ public class Parent_structure_sync_Test {
         assertSame(r2.impl_getPeer(), peer.getChildren().get(1));
         assertSame(r3.impl_getPeer(), peer.getChildren().get(2));
     }
-    
+
     @Test public void removingAChildFromTheBack() {
         parent.getChildren().addAll(r4, r1, r2, r3);
         sync();
@@ -144,7 +144,7 @@ public class Parent_structure_sync_Test {
         assertSame(r2.impl_getPeer(), peer.getChildren().get(1));
         assertSame(r3.impl_getPeer(), peer.getChildren().get(2));
     }
-    
+
     @Test public void removingAChildFromTheCenter() {
         parent.getChildren().addAll(r1, r2, r4, r3);
         sync();
@@ -155,7 +155,7 @@ public class Parent_structure_sync_Test {
         assertSame(r2.impl_getPeer(), peer.getChildren().get(1));
         assertSame(r3.impl_getPeer(), peer.getChildren().get(2));
     }
-    
+
     @Test public void movingAChildFromTheBackToTheFront() {
         parent.getChildren().addAll(r4, r1, r2, r3);
         sync();
@@ -167,7 +167,7 @@ public class Parent_structure_sync_Test {
         assertSame(r3.impl_getPeer(), peer.getChildren().get(2));
         assertSame(r4.impl_getPeer(), peer.getChildren().get(3));
     }
-    
+
     @Test public void movingAChildFromTheBackToTheFrontAndAddingAChild() {
         parent.getChildren().addAll(r4, r1, r2, r3);
         sync();
@@ -181,7 +181,7 @@ public class Parent_structure_sync_Test {
         assertSame(r4.impl_getPeer(), peer.getChildren().get(3));
         assertSame(r5.impl_getPeer(), peer.getChildren().get(4));
     }
-    
+
     @Test public void movingAChildFromTheBackToTheFrontAndRemovingAChild() {
         parent.getChildren().addAll(r3, r1, r4, r2);
         sync();
@@ -193,7 +193,7 @@ public class Parent_structure_sync_Test {
         assertSame(r2.impl_getPeer(), peer.getChildren().get(1));
         assertSame(r3.impl_getPeer(), peer.getChildren().get(2));
     }
-    
+
     @Test public void movingAChildFromTheBackToTheFrontAndThenRemovingTheChild() {
         parent.getChildren().addAll(r4, r1, r2, r3);
         sync();
@@ -217,7 +217,7 @@ public class Parent_structure_sync_Test {
         assertSame(r3.impl_getPeer(), peer.getChildren().get(2));
         assertSame(r4.impl_getPeer(), peer.getChildren().get(3));
     }
-    
+
     @Test public void movingAChildFromTheCenterToTheBack() {
         parent.getChildren().addAll(r2, r3, r1, r4);
         sync();
@@ -229,7 +229,7 @@ public class Parent_structure_sync_Test {
         assertSame(r3.impl_getPeer(), peer.getChildren().get(2));
         assertSame(r4.impl_getPeer(), peer.getChildren().get(3));
     }
-    
+
     @Test public void movingAChildFromTheCenterToTheFrontAndAddingAChild() {
         parent.getChildren().addAll(r1, r2, r4, r3);
         sync();
@@ -243,7 +243,7 @@ public class Parent_structure_sync_Test {
         assertSame(r4.impl_getPeer(), peer.getChildren().get(3));
         assertSame(r5.impl_getPeer(), peer.getChildren().get(4));
     }
-    
+
     @Test public void movingAChildFromTheCenterToTheFrontAndRemovingAChild() {
         parent.getChildren().addAll(r1, r2, r3, r4);
         sync();
@@ -255,7 +255,7 @@ public class Parent_structure_sync_Test {
         assertSame(r2.impl_getPeer(), peer.getChildren().get(1));
         assertSame(r3.impl_getPeer(), peer.getChildren().get(2));
     }
-    
+
     @Test public void movingAChildFromTheCenterToTheFrontAndThenRemovingTheChild() {
         parent.getChildren().addAll(r1, r2, r4, r3);
         sync();
@@ -279,7 +279,7 @@ public class Parent_structure_sync_Test {
         assertSame(r3.impl_getPeer(), peer.getChildren().get(2));
         assertSame(r4.impl_getPeer(), peer.getChildren().get(3));
     }
-    
+
     @Test public void movingAChildFromTheFrontToTheBackAndAddingAChild() {
         parent.getChildren().addAll(r2, r3, r4, r1);
         sync();
@@ -293,7 +293,7 @@ public class Parent_structure_sync_Test {
         assertSame(r4.impl_getPeer(), peer.getChildren().get(3));
         assertSame(r5.impl_getPeer(), peer.getChildren().get(4));
     }
-    
+
     @Test public void movingAChildFromTheFrontToTheBackAndRemovingAChild() {
         parent.getChildren().addAll(r2, r3, r4, r1);
         sync();
@@ -305,7 +305,7 @@ public class Parent_structure_sync_Test {
         assertSame(r2.impl_getPeer(), peer.getChildren().get(1));
         assertSame(r3.impl_getPeer(), peer.getChildren().get(2));
     }
-    
+
     @Test public void movingAChildFromTheFrontToTheBackAndThenRemovingTheChild() {
         parent.getChildren().addAll(r1, r2, r3, r4);
         sync();

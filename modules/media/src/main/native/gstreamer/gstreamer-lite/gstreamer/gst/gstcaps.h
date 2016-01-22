@@ -42,7 +42,7 @@ G_BEGIN_DECLS
  * Extra flags for a caps.
  */
 typedef enum {
-  GST_CAPS_FLAGS_ANY	= (1 << 0)
+  GST_CAPS_FLAGS_ANY    = (1 << 0)
 } GstCapsFlags;
 
 /**
@@ -260,26 +260,26 @@ gboolean          gst_caps_is_empty                (const GstCaps *caps);
 gboolean          gst_caps_is_fixed                (const GstCaps *caps);
 gboolean          gst_caps_is_always_compatible    (const GstCaps *caps1,
                                                     const GstCaps *caps2);
-gboolean          gst_caps_is_subset		   (const GstCaps *subset,
-						    const GstCaps *superset);
-gboolean          gst_caps_is_equal		   (const GstCaps *caps1,
-						    const GstCaps *caps2);
+gboolean          gst_caps_is_subset           (const GstCaps *subset,
+                            const GstCaps *superset);
+gboolean          gst_caps_is_equal        (const GstCaps *caps1,
+                            const GstCaps *caps2);
 gboolean          gst_caps_is_equal_fixed          (const GstCaps *caps1,
-						    const GstCaps *caps2);
+                            const GstCaps *caps2);
 gboolean          gst_caps_can_intersect           (const GstCaps * caps1,
-						    const GstCaps * caps2);
+                            const GstCaps * caps2);
 
 
 /* operations */
 GstCaps *         gst_caps_intersect               (const GstCaps *caps1,
-						    const GstCaps *caps2);
+                            const GstCaps *caps2);
 GstCaps *         gst_caps_intersect_full          (const GstCaps *caps1,
-						    const GstCaps *caps2,
+                            const GstCaps *caps2,
                                                     GstCapsIntersectMode mode);
-GstCaps *         gst_caps_subtract		   (const GstCaps *minuend,
-						    const GstCaps *subtrahend);
+GstCaps *         gst_caps_subtract        (const GstCaps *minuend,
+                            const GstCaps *subtrahend);
 GstCaps *         gst_caps_union                   (const GstCaps *caps1,
-						    const GstCaps *caps2);
+                            const GstCaps *caps2);
 GstCaps *         gst_caps_normalize               (const GstCaps *caps);
 gboolean          gst_caps_do_simplify             (GstCaps       *caps);
 

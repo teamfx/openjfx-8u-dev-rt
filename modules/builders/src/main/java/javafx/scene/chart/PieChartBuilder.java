@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.chart.PieChart
 public class PieChartBuilder<B extends javafx.scene.chart.PieChartBuilder<B>> extends javafx.scene.chart.ChartBuilder<B> {
     protected PieChartBuilder() {
     }
-    
+
     /** Creates a new instance of PieChartBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.chart.PieChartBuilder<?> create() {
         return new javafx.scene.chart.PieChartBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.chart.PieChart x) {
         super.applyTo(x);
@@ -53,7 +53,7 @@ public class PieChartBuilder<B extends javafx.scene.chart.PieChartBuilder<B>> ex
         if ((set & (1 << 3)) != 0) x.setLabelsVisible(this.labelsVisible);
         if ((set & (1 << 4)) != 0) x.setStartAngle(this.startAngle);
     }
-    
+
     private boolean clockwise;
     /**
     Set the value of the {@link javafx.scene.chart.PieChart#isClockwise() clockwise} property for the instance constructed by this builder.
@@ -64,7 +64,7 @@ public class PieChartBuilder<B extends javafx.scene.chart.PieChartBuilder<B>> ex
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private javafx.collections.ObservableList<javafx.scene.chart.PieChart.Data> data;
     /**
     Set the value of the {@link javafx.scene.chart.PieChart#getData() data} property for the instance constructed by this builder.
@@ -75,7 +75,7 @@ public class PieChartBuilder<B extends javafx.scene.chart.PieChartBuilder<B>> ex
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double labelLineLength;
     /**
     Set the value of the {@link javafx.scene.chart.PieChart#getLabelLineLength() labelLineLength} property for the instance constructed by this builder.
@@ -86,7 +86,7 @@ public class PieChartBuilder<B extends javafx.scene.chart.PieChartBuilder<B>> ex
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private boolean labelsVisible;
     /**
     Set the value of the {@link javafx.scene.chart.PieChart#getLabelsVisible() labelsVisible} property for the instance constructed by this builder.
@@ -97,7 +97,7 @@ public class PieChartBuilder<B extends javafx.scene.chart.PieChartBuilder<B>> ex
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private double startAngle;
     /**
     Set the value of the {@link javafx.scene.chart.PieChart#getStartAngle() startAngle} property for the instance constructed by this builder.
@@ -108,7 +108,7 @@ public class PieChartBuilder<B extends javafx.scene.chart.PieChartBuilder<B>> ex
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.chart.PieChart} based on the properties set on this builder.
     */

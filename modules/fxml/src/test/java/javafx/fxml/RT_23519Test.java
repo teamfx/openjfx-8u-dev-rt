@@ -32,7 +32,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class RT_23519Test {
-    
+
     @Test
     public void testId() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("rt_23519.fxml"));
@@ -41,5 +41,5 @@ public class RT_23519Test {
         Button btn = (Button) fxmlLoader.getNamespace().get("fxid");
         assertEquals(btn.getId(), "ButtonID");
     }
-    
+
 }

@@ -85,7 +85,7 @@ public class SpinnerApp extends Application {
         tilePane.setPrefRows(3);        //preferred rows
         tilePane.setHgap(20);
         tilePane.setVgap(30);
-        
+
         Pane root = new Pane();
         root.setMinSize(Pane.USE_PREF_SIZE, Pane.USE_PREF_SIZE);
         root.setMaxSize(Pane.USE_PREF_SIZE, Pane.USE_PREF_SIZE);
@@ -125,7 +125,7 @@ public class SpinnerApp extends Application {
             sp.getStyleClass().add(styles[i]);
             tilePane.getChildren().add(sp);
         }
-        
+
         root.getChildren().add(tilePane);
         return root;
     }

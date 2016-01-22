@@ -111,7 +111,7 @@ public class SliderSkin extends BehaviorSkinBase<Slider, SliderBehavior> {
                 trackClicked = false;
             }
         });
-        
+
         track.setOnMouseDragged(me -> {
             if (!thumb.isPressed()) {
                 if (getSkinnable().getOrientation() == Orientation.HORIZONTAL) {
@@ -150,7 +150,7 @@ public class SliderSkin extends BehaviorSkinBase<Slider, SliderBehavior> {
             return slider.getLabelFormatter().fromString(string);
         }
     };
-    
+
      private void setShowTickMarks(boolean ticksVisible, boolean labelsVisible) {
         showTickMarks = (ticksVisible || labelsVisible);
         Slider slider = getSkinnable();
@@ -178,7 +178,7 @@ public class SliderSkin extends BehaviorSkinBase<Slider, SliderBehavior> {
                 tickLine.setTickMarkVisible(ticksVisible);
                 tickLine.setMinorTickVisible(ticksVisible);
             }
-        } 
+        }
         else  {
             getChildren().clear();
             getChildren().addAll(track, thumb);
@@ -238,14 +238,14 @@ public class SliderSkin extends BehaviorSkinBase<Slider, SliderBehavior> {
      */
     void positionThumb(final boolean animate) {
         Slider s = getSkinnable();
-        if (s.getValue() > s.getMax()) return;// this can happen if we are bound to something 
+        if (s.getValue() > s.getMax()) return;// this can happen if we are bound to something
         boolean horizontal = s.getOrientation() == Orientation.HORIZONTAL;
         final double endX = (horizontal) ? trackStart + (((trackLength * ((s.getValue() - s.getMin()) /
                 (s.getMax() - s.getMin()))) - thumbWidth/2)) : thumbLeft;
         final double endY = (horizontal) ? thumbTop :
             snappedTopInset() + trackLength - (trackLength * ((s.getValue() - s.getMin()) /
                 (s.getMax() - s.getMin()))); //  - thumbHeight/2
-        
+
         if (animate) {
             // lets animate the thumb transition
             final double startX = thumb.getLayoutX();

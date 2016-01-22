@@ -48,7 +48,7 @@ public class ToggleButtonSkinTest {
 
     }
 
-    @Test public void maxWidthTracksPreferred() {        
+    @Test public void maxWidthTracksPreferred() {
         togglebutton.setPrefWidth(500);
         assertEquals(500, togglebutton.maxWidth(-1), 0);
     }
@@ -57,14 +57,14 @@ public class ToggleButtonSkinTest {
         togglebutton.setPrefHeight(500);
         assertEquals(500, togglebutton.maxHeight(-1), 0);
     }
-    
+
     public static final class ToggleButtonSkinMock extends ToggleButtonSkin {
         boolean propertyChanged = false;
         int propertyChangeCount = 0;
         public ToggleButtonSkinMock(ToggleButton togglebutton) {
             super(togglebutton);
         }
-        
+
         @Override protected void handleControlPropertyChanged(String p) {
             super.handleControlPropertyChanged(p);
             propertyChanged = true;

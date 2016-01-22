@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.input.KeyCodeCombination
 public final class KeyCodeCombinationBuilder implements javafx.util.Builder<javafx.scene.input.KeyCodeCombination> {
     protected KeyCodeCombinationBuilder() {
     }
-    
+
     /** Creates a new instance of KeyCodeCombinationBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.input.KeyCodeCombinationBuilder create() {
         return new javafx.scene.input.KeyCodeCombinationBuilder();
     }
-    
+
     private javafx.scene.input.KeyCombination.ModifierValue alt;
     /**
     Set the value of the {@link javafx.scene.input.KeyCodeCombination#getAlt() alt} property for the instance constructed by this builder.
@@ -51,7 +51,7 @@ public final class KeyCodeCombinationBuilder implements javafx.util.Builder<java
         this.alt = x;
         return this;
     }
-    
+
     private javafx.scene.input.KeyCode code;
     /**
     Set the value of the {@link javafx.scene.input.KeyCodeCombination#getCode() code} property for the instance constructed by this builder.
@@ -60,7 +60,7 @@ public final class KeyCodeCombinationBuilder implements javafx.util.Builder<java
         this.code = x;
         return this;
     }
-    
+
     private javafx.scene.input.KeyCombination.ModifierValue control;
     /**
     Set the value of the {@link javafx.scene.input.KeyCodeCombination#getControl() control} property for the instance constructed by this builder.
@@ -69,7 +69,7 @@ public final class KeyCodeCombinationBuilder implements javafx.util.Builder<java
         this.control = x;
         return this;
     }
-    
+
     private javafx.scene.input.KeyCombination.ModifierValue meta;
     /**
     Set the value of the {@link javafx.scene.input.KeyCodeCombination#getMeta() meta} property for the instance constructed by this builder.
@@ -78,7 +78,7 @@ public final class KeyCodeCombinationBuilder implements javafx.util.Builder<java
         this.meta = x;
         return this;
     }
-    
+
     private javafx.scene.input.KeyCombination.ModifierValue shift;
     /**
     Set the value of the {@link javafx.scene.input.KeyCodeCombination#getShift() shift} property for the instance constructed by this builder.
@@ -87,7 +87,7 @@ public final class KeyCodeCombinationBuilder implements javafx.util.Builder<java
         this.shift = x;
         return this;
     }
-    
+
     private javafx.scene.input.KeyCombination.ModifierValue shortcut;
     /**
     Set the value of the {@link javafx.scene.input.KeyCodeCombination#getShortcut() shortcut} property for the instance constructed by this builder.
@@ -96,7 +96,7 @@ public final class KeyCodeCombinationBuilder implements javafx.util.Builder<java
         this.shortcut = x;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.input.KeyCodeCombination} based on the properties set on this builder.
     */

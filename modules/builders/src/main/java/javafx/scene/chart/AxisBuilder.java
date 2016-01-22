@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,8 +36,8 @@ Builder class for javafx.scene.chart.Axis
 public abstract class AxisBuilder<T, B extends javafx.scene.chart.AxisBuilder<T, B>> extends javafx.scene.layout.RegionBuilder<B> {
     protected AxisBuilder() {
     }
-    
-    
+
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -64,7 +64,7 @@ public abstract class AxisBuilder<T, B extends javafx.scene.chart.AxisBuilder<T,
             }
         }
     }
-    
+
     private boolean animated;
     /**
     Set the value of the {@link javafx.scene.chart.Axis#getAnimated() animated} property for the instance constructed by this builder.
@@ -75,7 +75,7 @@ public abstract class AxisBuilder<T, B extends javafx.scene.chart.AxisBuilder<T,
         __set(0);
         return (B) this;
     }
-    
+
     private boolean autoRanging;
     /**
     Set the value of the {@link javafx.scene.chart.Axis#isAutoRanging() autoRanging} property for the instance constructed by this builder.
@@ -86,7 +86,7 @@ public abstract class AxisBuilder<T, B extends javafx.scene.chart.AxisBuilder<T,
         __set(1);
         return (B) this;
     }
-    
+
     private java.lang.String label;
     /**
     Set the value of the {@link javafx.scene.chart.Axis#getLabel() label} property for the instance constructed by this builder.
@@ -97,7 +97,7 @@ public abstract class AxisBuilder<T, B extends javafx.scene.chart.AxisBuilder<T,
         __set(2);
         return (B) this;
     }
-    
+
     private javafx.geometry.Side side;
     /**
     Set the value of the {@link javafx.scene.chart.Axis#getSide() side} property for the instance constructed by this builder.
@@ -108,7 +108,7 @@ public abstract class AxisBuilder<T, B extends javafx.scene.chart.AxisBuilder<T,
         __set(3);
         return (B) this;
     }
-    
+
     private javafx.scene.paint.Paint tickLabelFill;
     /**
     Set the value of the {@link javafx.scene.chart.Axis#getTickLabelFill() tickLabelFill} property for the instance constructed by this builder.
@@ -119,7 +119,7 @@ public abstract class AxisBuilder<T, B extends javafx.scene.chart.AxisBuilder<T,
         __set(4);
         return (B) this;
     }
-    
+
     private javafx.scene.text.Font tickLabelFont;
     /**
     Set the value of the {@link javafx.scene.chart.Axis#getTickLabelFont() tickLabelFont} property for the instance constructed by this builder.
@@ -130,7 +130,7 @@ public abstract class AxisBuilder<T, B extends javafx.scene.chart.AxisBuilder<T,
         __set(5);
         return (B) this;
     }
-    
+
     private double tickLabelGap;
     /**
     Set the value of the {@link javafx.scene.chart.Axis#getTickLabelGap() tickLabelGap} property for the instance constructed by this builder.
@@ -141,7 +141,7 @@ public abstract class AxisBuilder<T, B extends javafx.scene.chart.AxisBuilder<T,
         __set(6);
         return (B) this;
     }
-    
+
     private double tickLabelRotation;
     /**
     Set the value of the {@link javafx.scene.chart.Axis#getTickLabelRotation() tickLabelRotation} property for the instance constructed by this builder.
@@ -152,7 +152,7 @@ public abstract class AxisBuilder<T, B extends javafx.scene.chart.AxisBuilder<T,
         __set(7);
         return (B) this;
     }
-    
+
     private boolean tickLabelsVisible;
     /**
     Set the value of the {@link javafx.scene.chart.Axis#isTickLabelsVisible() tickLabelsVisible} property for the instance constructed by this builder.
@@ -163,7 +163,7 @@ public abstract class AxisBuilder<T, B extends javafx.scene.chart.AxisBuilder<T,
         __set(8);
         return (B) this;
     }
-    
+
     private double tickLength;
     /**
     Set the value of the {@link javafx.scene.chart.Axis#getTickLength() tickLength} property for the instance constructed by this builder.
@@ -174,7 +174,7 @@ public abstract class AxisBuilder<T, B extends javafx.scene.chart.AxisBuilder<T,
         __set(9);
         return (B) this;
     }
-    
+
     private java.util.Collection<? extends javafx.scene.chart.Axis.TickMark<T>> tickMarks;
     /**
     Add the given items to the List of items in the {@link javafx.scene.chart.Axis#getTickMarks() tickMarks} property for the instance constructed by this builder.
@@ -185,14 +185,14 @@ public abstract class AxisBuilder<T, B extends javafx.scene.chart.AxisBuilder<T,
         __set(10);
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.chart.Axis#getTickMarks() tickMarks} property for the instance constructed by this builder.
     */
     public B tickMarks(javafx.scene.chart.Axis.TickMark<T>... x) {
         return tickMarks(java.util.Arrays.asList(x));
     }
-    
+
     private boolean tickMarkVisible;
     /**
     Set the value of the {@link javafx.scene.chart.Axis#isTickMarkVisible() tickMarkVisible} property for the instance constructed by this builder.
@@ -203,5 +203,5 @@ public abstract class AxisBuilder<T, B extends javafx.scene.chart.AxisBuilder<T,
         __set(11);
         return (B) this;
     }
-    
+
 }

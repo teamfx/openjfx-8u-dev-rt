@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,19 +36,19 @@ Builder class for javafx.animation.Timeline
 public final class TimelineBuilder extends javafx.animation.AnimationBuilder<javafx.animation.TimelineBuilder> implements javafx.util.Builder<javafx.animation.Timeline> {
     protected TimelineBuilder() {
     }
-    
+
     /** Creates a new instance of TimelineBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.animation.TimelineBuilder create() {
         return new javafx.animation.TimelineBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.animation.Timeline x) {
         super.applyTo(x);
         if (__set) x.getKeyFrames().addAll(this.keyFrames);
     }
-    
+
     private java.util.Collection<? extends javafx.animation.KeyFrame> keyFrames;
     /**
     Add the given items to the List of items in the {@link javafx.animation.Timeline#getKeyFrames() keyFrames} property for the instance constructed by this builder.
@@ -58,14 +58,14 @@ public final class TimelineBuilder extends javafx.animation.AnimationBuilder<jav
         __set = true;
         return this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.animation.Timeline#getKeyFrames() keyFrames} property for the instance constructed by this builder.
     */
     public javafx.animation.TimelineBuilder keyFrames(javafx.animation.KeyFrame... x) {
         return keyFrames(java.util.Arrays.asList(x));
     }
-    
+
     private double targetFramerate;
     /**
     Set the value of the {@link javafx.animation.Timeline#getTargetFramerate() targetFramerate} property for the instance constructed by this builder.
@@ -74,7 +74,7 @@ public final class TimelineBuilder extends javafx.animation.AnimationBuilder<jav
         this.targetFramerate = x;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.animation.Timeline} based on the properties set on this builder.
     */

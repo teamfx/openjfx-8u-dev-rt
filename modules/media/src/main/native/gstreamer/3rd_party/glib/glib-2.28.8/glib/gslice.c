@@ -462,16 +462,16 @@ thread_memory_from_self (void)
           g_mutex_unlock (allocator->slab_mutex);
         }
       if (!tmem)
-	{
+    {
           const guint n_magazines = MAX_SLAB_INDEX (allocator);
-	  tmem = g_malloc0 (sizeof (ThreadMemory) + sizeof (Magazine) * 2 * n_magazines);
+      tmem = g_malloc0 (sizeof (ThreadMemory) + sizeof (Magazine) * 2 * n_magazines);
 #ifdef GSTREAMER_LITE
       if (tmem == NULL)
           return NULL;
 #endif // GSTREAMER_LITE
-	  tmem->magazine1 = (Magazine*) (tmem + 1);
-	  tmem->magazine2 = &tmem->magazine1[n_magazines];
-	}
+      tmem->magazine1 = (Magazine*) (tmem + 1);
+      tmem->magazine2 = &tmem->magazine1[n_magazines];
+    }
       /* g_private_get/g_private_set works in the single-threaded xor the multi-
        * threaded case. but not *across* g_thread_init(), after multi-thread
        * initialization it returns NULL for previously set single-thread data.
@@ -1490,13 +1490,13 @@ g_slice_debug_tree_statistics (void)
   else
     fprintf (stderr, "GSlice: MemChecker: root=NULL\n");
   g_mutex_unlock (smc_tree_mutex);
-  
+
   /* sample statistics (beast + GSLice + 24h scripted core & GUI activity):
    *  PID %CPU %MEM   VSZ  RSS      COMMAND
    * 8887 30.3 45.8 456068 414856   beast-0.7.1 empty.bse
    * $ cat /proc/8887/statm # total-program-size resident-set-size shared-pages text/code data/stack library dirty-pages
    * 114017 103714 2354 344 0 108676 0
-   * $ cat /proc/8887/status 
+   * $ cat /proc/8887/status
    * Name:   beast-0.7.1
    * VmSize:   456068 kB
    * VmLck:         0 kB

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,18 +36,18 @@ Builder class for javafx.scene.PerspectiveCamera
 public class PerspectiveCameraBuilder<B extends javafx.scene.PerspectiveCameraBuilder<B>> implements javafx.util.Builder<javafx.scene.PerspectiveCamera> {
     protected PerspectiveCameraBuilder() {
     }
-    
+
     /** Creates a new instance of PerspectiveCameraBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.PerspectiveCameraBuilder<?> create() {
         return new javafx.scene.PerspectiveCameraBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.scene.PerspectiveCamera x) {
         if (__set) x.setFieldOfView(this.fieldOfView);
     }
-    
+
     private double fieldOfView;
     /**
     Set the value of the {@link javafx.scene.PerspectiveCamera#getFieldOfView() fieldOfView} property for the instance constructed by this builder.
@@ -58,7 +58,7 @@ public class PerspectiveCameraBuilder<B extends javafx.scene.PerspectiveCameraBu
         __set = true;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.PerspectiveCamera} based on the properties set on this builder.
     */

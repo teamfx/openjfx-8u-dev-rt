@@ -43,7 +43,7 @@ import java.util.List;
 public class AccordionBehavior extends BehaviorBase<Accordion> {
 
     private AccordionFocusModel focusModel;
-    
+
     public AccordionBehavior(Accordion accordion) {
         super(accordion, ACCORDION_BINDINGS);
         focusModel = new AccordionFocusModel(accordion);
@@ -85,7 +85,7 @@ public class AccordionBehavior extends BehaviorBase<Accordion> {
         ACCORDION_BINDINGS.add(new KeyBinding(KeyCode.TAB, CTRL_SHIFT_TAB).shift().ctrl());
     }
 
-    @Override protected void callAction(String name) {   
+    @Override protected void callAction(String name) {
         Accordion accordion = getControl();
         boolean rtl = (accordion.getEffectiveNodeOrientation() == NodeOrientation.RIGHT_TO_LEFT);
 
@@ -101,7 +101,7 @@ public class AccordionBehavior extends BehaviorBase<Accordion> {
                     accordion.getPanes().get(next).setExpanded(true);
                 }
             }
-        } else if (("TraverseRight".equals(name) && !rtl) || 
+        } else if (("TraverseRight".equals(name) && !rtl) ||
                    ("TraverseLeft".equals(name) && rtl) ||
                    "TraverseDown".equals(name) || PAGE_DOWN.equals(name)) {
 
@@ -112,7 +112,7 @@ public class AccordionBehavior extends BehaviorBase<Accordion> {
                 if (PAGE_DOWN.equals(name)) {
                     accordion.getPanes().get(next).setExpanded(true);
                 }
-            }            
+            }
         } else if (CTRL_TAB.equals(name) || CTRL_PAGE_DOWN.equals(name)) {
             focusModel.focusNext();
             if (focusModel.getFocusedIndex() != -1) {
@@ -123,7 +123,7 @@ public class AccordionBehavior extends BehaviorBase<Accordion> {
         } else if (CTRL_SHIFT_TAB.equals(name) || CTRL_PAGE_UP.equals(name)) {
             focusModel.focusPrevious();
             if (focusModel.getFocusedIndex() != -1) {
-                int next = focusModel.getFocusedIndex();            
+                int next = focusModel.getFocusedIndex();
                 accordion.getPanes().get(next).requestFocus();
                 accordion.getPanes().get(next).setExpanded(true);
             }
@@ -205,7 +205,7 @@ public class AccordionBehavior extends BehaviorBase<Accordion> {
                 }
             }
         };
-        
+
         public AccordionFocusModel(final Accordion accordion) {
             if (accordion == null) {
                 throw new IllegalArgumentException("Accordion can not be null");

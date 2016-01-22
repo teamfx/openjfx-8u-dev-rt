@@ -73,7 +73,7 @@ public class FloatMapTest extends EffectsTestBase {
         floatMap.setWidth(0);
         assertEquals(0, floatMap.getWidth());
         pulse();
-        assertEquals(1, ((com.sun.scenario.effect.FloatMap) floatMap.getImpl()).getWidth());      
+        assertEquals(1, ((com.sun.scenario.effect.FloatMap) floatMap.getImpl()).getWidth());
     }
 
     @Test
@@ -84,7 +84,7 @@ public class FloatMapTest extends EffectsTestBase {
         floatMap.setWidth(4097);
         assertEquals(4097, floatMap.getWidth());
         pulse();
-        assertEquals(4096, ((com.sun.scenario.effect.FloatMap) floatMap.getImpl()).getWidth());              
+        assertEquals(4096, ((com.sun.scenario.effect.FloatMap) floatMap.getImpl()).getWidth());
     }
 
     @Test
@@ -148,7 +148,7 @@ public class FloatMapTest extends EffectsTestBase {
         assertEquals(0.5f, data[0], 1e-100);
         assertEquals(0.4f, data[1], 1e-100);
         assertEquals(0.0f, data[2], 1e-100);
-        assertEquals(0.0f, data[3], 1e-100);        
+        assertEquals(0.0f, data[3], 1e-100);
     }
 
     @Test
@@ -160,9 +160,9 @@ public class FloatMapTest extends EffectsTestBase {
         assertEquals(0.5f, data[0], 1e-100);
         assertEquals(0.4f, data[1], 1e-100);
         assertEquals(0.3f, data[2], 1e-100);
-        assertEquals(0.0f, data[3], 1e-100);        
+        assertEquals(0.0f, data[3], 1e-100);
     }
-    
+
     @Test
     public void testSetSamples6() {
         floatMap.setSamples(0, 0, 0.5f, 0.4f, 0.3f, 0.2f);
@@ -172,9 +172,9 @@ public class FloatMapTest extends EffectsTestBase {
         assertEquals(0.5f, data[0], 1e-100);
         assertEquals(0.4f, data[1], 1e-100);
         assertEquals(0.3f, data[2], 1e-100);
-        assertEquals(0.2f, data[3], 1e-100);      
+        assertEquals(0.2f, data[3], 1e-100);
     }
-    
+
     @Test
     public void testSetSample() {
         floatMap.setSample(0, 0, 0, 0.5f);
@@ -187,7 +187,7 @@ public class FloatMapTest extends EffectsTestBase {
         assertEquals(0.5f, data[0], 1e-100);
         assertEquals(0.4f, data[1], 1e-100);
         assertEquals(0.3f, data[2], 1e-100);
-        assertEquals(0.2f, data[3], 1e-100);      
+        assertEquals(0.2f, data[3], 1e-100);
     }
 
     @Test
@@ -244,7 +244,7 @@ public class FloatMapTest extends EffectsTestBase {
         assertEquals(2, ((com.sun.scenario.effect.FloatMap) floatMap.getImpl()).getWidth());
         assertEquals(3, ((com.sun.scenario.effect.FloatMap) floatMap.getImpl()).getHeight());
     }
-    
+
     @Test
     public void testCreateWithDefaultParams() {
         floatMap = new FloatMap(1, 1);

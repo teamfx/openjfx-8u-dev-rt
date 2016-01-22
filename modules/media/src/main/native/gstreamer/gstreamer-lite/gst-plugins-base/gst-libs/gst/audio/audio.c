@@ -277,14 +277,14 @@ gst_audio_structure_set_int (GstStructure * structure, GstAudioFieldFlag flag)
  *
  * Clip the the buffer to the given %GstSegment.
  *
- * After calling this function the caller does not own a reference to 
+ * After calling this function the caller does not own a reference to
  * @buffer anymore.
  *
  * Returns: %NULL if the buffer is completely outside the configured segment,
  * otherwise the clipped buffer is returned.
  *
  * If the buffer has no timestamp, it is assumed to be inside the segment and
- * is not clipped 
+ * is not clipped
  *
  * Since: 0.10.14
  */
@@ -309,7 +309,7 @@ gst_audio_buffer_clip (GstBuffer * buffer, GstSegment * segment, gint rate,
     /* No timestamp - assume the buffer is completely in the segment */
     return buffer;
 
-  /* Get copies of the buffer metadata to change later. 
+  /* Get copies of the buffer metadata to change later.
    * Calculate the missing values for the calculations,
    * they won't be changed later though. */
 

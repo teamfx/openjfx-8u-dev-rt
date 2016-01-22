@@ -35,9 +35,9 @@ import com.sun.scenario.animation.shared.PulseReceiver;
 public class AbstractMasterTimerMock extends AbstractMasterTimer {
 
     private final Set<PulseReceiver> targets = new HashSet<PulseReceiver>();
-    
+
     private long nanos;
-    
+
     protected AbstractMasterTimerMock() {
     }
 
@@ -54,24 +54,24 @@ public class AbstractMasterTimerMock extends AbstractMasterTimer {
     protected int getPulseDuration(int precision) {
         return precision / 60;
     }
-    
-    @Override 
+
+    @Override
     public void addPulseReceiver(PulseReceiver target) {
         super.addPulseReceiver(target);
         targets.add(target);
     }
-    
-    @Override 
+
+    @Override
     public void removePulseReceiver(PulseReceiver target) {
         super.addPulseReceiver(target);
         targets.remove(target);
     }
-    
+
     public void pulse() {
         nanos += TickCalculation.toMillis(100) * 1000000L;
         for (PulseReceiver pr : targets) {
             pr.timePulse(TickCalculation.fromNano(nanos));
         }
     }
-    
+
 }

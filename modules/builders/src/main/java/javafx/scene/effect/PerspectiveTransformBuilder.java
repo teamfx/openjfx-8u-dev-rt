@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.effect.PerspectiveTransform
 public class PerspectiveTransformBuilder<B extends javafx.scene.effect.PerspectiveTransformBuilder<B>> implements javafx.util.Builder<javafx.scene.effect.PerspectiveTransform> {
     protected PerspectiveTransformBuilder() {
     }
-    
+
     /** Creates a new instance of PerspectiveTransformBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.effect.PerspectiveTransformBuilder<?> create() {
         return new javafx.scene.effect.PerspectiveTransformBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -65,7 +65,7 @@ public class PerspectiveTransformBuilder<B extends javafx.scene.effect.Perspecti
             }
         }
     }
-    
+
     private javafx.scene.effect.Effect input;
     /**
     Set the value of the {@link javafx.scene.effect.PerspectiveTransform#getInput() input} property for the instance constructed by this builder.
@@ -76,7 +76,7 @@ public class PerspectiveTransformBuilder<B extends javafx.scene.effect.Perspecti
         __set(0);
         return (B) this;
     }
-    
+
     private double llx;
     /**
     Set the value of the {@link javafx.scene.effect.PerspectiveTransform#getLlx() llx} property for the instance constructed by this builder.
@@ -87,7 +87,7 @@ public class PerspectiveTransformBuilder<B extends javafx.scene.effect.Perspecti
         __set(1);
         return (B) this;
     }
-    
+
     private double lly;
     /**
     Set the value of the {@link javafx.scene.effect.PerspectiveTransform#getLly() lly} property for the instance constructed by this builder.
@@ -98,7 +98,7 @@ public class PerspectiveTransformBuilder<B extends javafx.scene.effect.Perspecti
         __set(2);
         return (B) this;
     }
-    
+
     private double lrx;
     /**
     Set the value of the {@link javafx.scene.effect.PerspectiveTransform#getLrx() lrx} property for the instance constructed by this builder.
@@ -109,7 +109,7 @@ public class PerspectiveTransformBuilder<B extends javafx.scene.effect.Perspecti
         __set(3);
         return (B) this;
     }
-    
+
     private double lry;
     /**
     Set the value of the {@link javafx.scene.effect.PerspectiveTransform#getLry() lry} property for the instance constructed by this builder.
@@ -120,7 +120,7 @@ public class PerspectiveTransformBuilder<B extends javafx.scene.effect.Perspecti
         __set(4);
         return (B) this;
     }
-    
+
     private double ulx;
     /**
     Set the value of the {@link javafx.scene.effect.PerspectiveTransform#getUlx() ulx} property for the instance constructed by this builder.
@@ -131,7 +131,7 @@ public class PerspectiveTransformBuilder<B extends javafx.scene.effect.Perspecti
         __set(5);
         return (B) this;
     }
-    
+
     private double uly;
     /**
     Set the value of the {@link javafx.scene.effect.PerspectiveTransform#getUly() uly} property for the instance constructed by this builder.
@@ -142,7 +142,7 @@ public class PerspectiveTransformBuilder<B extends javafx.scene.effect.Perspecti
         __set(6);
         return (B) this;
     }
-    
+
     private double urx;
     /**
     Set the value of the {@link javafx.scene.effect.PerspectiveTransform#getUrx() urx} property for the instance constructed by this builder.
@@ -153,7 +153,7 @@ public class PerspectiveTransformBuilder<B extends javafx.scene.effect.Perspecti
         __set(7);
         return (B) this;
     }
-    
+
     private double ury;
     /**
     Set the value of the {@link javafx.scene.effect.PerspectiveTransform#getUry() ury} property for the instance constructed by this builder.
@@ -164,7 +164,7 @@ public class PerspectiveTransformBuilder<B extends javafx.scene.effect.Perspecti
         __set(8);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.effect.PerspectiveTransform} based on the properties set on this builder.
     */

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,8 +36,8 @@ Builder class for javafx.scene.shape.Shape
 public abstract class ShapeBuilder<B extends javafx.scene.shape.ShapeBuilder<B>> extends javafx.scene.NodeBuilder<B> {
     protected ShapeBuilder() {
     }
-    
-    
+
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -62,7 +62,7 @@ public abstract class ShapeBuilder<B extends javafx.scene.shape.ShapeBuilder<B>>
             }
         }
     }
-    
+
     private javafx.scene.paint.Paint fill;
     /**
     Set the value of the {@link javafx.scene.shape.Shape#getFill() fill} property for the instance constructed by this builder.
@@ -73,7 +73,7 @@ public abstract class ShapeBuilder<B extends javafx.scene.shape.ShapeBuilder<B>>
         __set(0);
         return (B) this;
     }
-    
+
     private boolean smooth;
     /**
     Set the value of the {@link javafx.scene.shape.Shape#isSmooth() smooth} property for the instance constructed by this builder.
@@ -84,7 +84,7 @@ public abstract class ShapeBuilder<B extends javafx.scene.shape.ShapeBuilder<B>>
         __set(1);
         return (B) this;
     }
-    
+
     private javafx.scene.paint.Paint stroke;
     /**
     Set the value of the {@link javafx.scene.shape.Shape#getStroke() stroke} property for the instance constructed by this builder.
@@ -95,7 +95,7 @@ public abstract class ShapeBuilder<B extends javafx.scene.shape.ShapeBuilder<B>>
         __set(2);
         return (B) this;
     }
-    
+
     private java.util.Collection<? extends java.lang.Double> strokeDashArray;
     /**
     Add the given items to the List of items in the {@link javafx.scene.shape.Shape#getStrokeDashArray() strokeDashArray} property for the instance constructed by this builder.
@@ -106,14 +106,14 @@ public abstract class ShapeBuilder<B extends javafx.scene.shape.ShapeBuilder<B>>
         __set(3);
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.shape.Shape#getStrokeDashArray() strokeDashArray} property for the instance constructed by this builder.
     */
     public B strokeDashArray(java.lang.Double... x) {
         return strokeDashArray(java.util.Arrays.asList(x));
     }
-    
+
     private double strokeDashOffset;
     /**
     Set the value of the {@link javafx.scene.shape.Shape#getStrokeDashOffset() strokeDashOffset} property for the instance constructed by this builder.
@@ -124,7 +124,7 @@ public abstract class ShapeBuilder<B extends javafx.scene.shape.ShapeBuilder<B>>
         __set(4);
         return (B) this;
     }
-    
+
     private javafx.scene.shape.StrokeLineCap strokeLineCap;
     /**
     Set the value of the {@link javafx.scene.shape.Shape#getStrokeLineCap() strokeLineCap} property for the instance constructed by this builder.
@@ -135,7 +135,7 @@ public abstract class ShapeBuilder<B extends javafx.scene.shape.ShapeBuilder<B>>
         __set(5);
         return (B) this;
     }
-    
+
     private javafx.scene.shape.StrokeLineJoin strokeLineJoin;
     /**
     Set the value of the {@link javafx.scene.shape.Shape#getStrokeLineJoin() strokeLineJoin} property for the instance constructed by this builder.
@@ -146,7 +146,7 @@ public abstract class ShapeBuilder<B extends javafx.scene.shape.ShapeBuilder<B>>
         __set(6);
         return (B) this;
     }
-    
+
     private double strokeMiterLimit;
     /**
     Set the value of the {@link javafx.scene.shape.Shape#getStrokeMiterLimit() strokeMiterLimit} property for the instance constructed by this builder.
@@ -157,7 +157,7 @@ public abstract class ShapeBuilder<B extends javafx.scene.shape.ShapeBuilder<B>>
         __set(7);
         return (B) this;
     }
-    
+
     private javafx.scene.shape.StrokeType strokeType;
     /**
     Set the value of the {@link javafx.scene.shape.Shape#getStrokeType() strokeType} property for the instance constructed by this builder.
@@ -168,7 +168,7 @@ public abstract class ShapeBuilder<B extends javafx.scene.shape.ShapeBuilder<B>>
         __set(8);
         return (B) this;
     }
-    
+
     private double strokeWidth;
     /**
     Set the value of the {@link javafx.scene.shape.Shape#getStrokeWidth() strokeWidth} property for the instance constructed by this builder.
@@ -179,5 +179,5 @@ public abstract class ShapeBuilder<B extends javafx.scene.shape.ShapeBuilder<B>>
         __set(9);
         return (B) this;
     }
-    
+
 }

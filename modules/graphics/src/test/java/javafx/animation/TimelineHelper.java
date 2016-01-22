@@ -30,16 +30,16 @@ import com.sun.scenario.animation.shared.TimelineClipCore;
 
 public class TimelineHelper {
 
-	public static ClipEnvelope getClipEnvelope(Timeline timeline) {
-		return timeline.clipEnvelope;
-	}
-	
-	public static TimelineClipCore getClipCore(Timeline timeline) {
-		return timeline.clipCore;
-	}
-	
-	public static void forceSync(Timeline timeline) {
-	    timeline.impl_sync(true);
-	}
+    public static ClipEnvelope getClipEnvelope(Timeline timeline) {
+        return timeline.clipEnvelope;
+    }
+
+    public static TimelineClipCore getClipCore(Timeline timeline) {
+        return timeline.clipCore;
+    }
+
+    public static void forceSync(Timeline timeline) {
+        timeline.impl_sync(true);
+    }
 
 }

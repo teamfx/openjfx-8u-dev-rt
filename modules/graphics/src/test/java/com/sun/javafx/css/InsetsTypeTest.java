@@ -86,7 +86,7 @@ public class InsetsTypeTest {
     }
 
     final Insets makeInsets(float[] vals) {
-        
+
         float top =  (vals.length > 0) ? vals[0] : 0.0f;
         float right = (vals.length > 1) ? vals[1] : top;
         float bottom = (vals.length > 2) ? vals[2] : top;

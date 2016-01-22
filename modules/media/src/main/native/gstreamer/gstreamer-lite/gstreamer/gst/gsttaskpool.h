@@ -92,11 +92,11 @@ GType           gst_task_pool_get_type    (void);
 GstTaskPool *   gst_task_pool_new         (void);
 void            gst_task_pool_prepare     (GstTaskPool *pool, GError **error);
 
-gpointer        gst_task_pool_push        (GstTaskPool *pool, GstTaskPoolFunction func, 
+gpointer        gst_task_pool_push        (GstTaskPool *pool, GstTaskPoolFunction func,
                                            gpointer user_data, GError **error);
 void            gst_task_pool_join        (GstTaskPool *pool, gpointer id);
 
-void		gst_task_pool_cleanup     (GstTaskPool *pool);
+void        gst_task_pool_cleanup     (GstTaskPool *pool);
 
 G_END_DECLS
 

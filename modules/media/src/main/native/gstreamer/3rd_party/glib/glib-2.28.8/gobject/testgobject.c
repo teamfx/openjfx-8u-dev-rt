@@ -19,27 +19,27 @@
 
 #include <string.h>
 
-#undef	G_LOG_DOMAIN
-#define	G_LOG_DOMAIN "TestObject"
-#include	<glib-object.h>
+#undef  G_LOG_DOMAIN
+#define G_LOG_DOMAIN "TestObject"
+#include    <glib-object.h>
 
 /* --- TestIface --- */
 #define TEST_TYPE_IFACE           (test_iface_get_type ())
-#define TEST_IFACE(obj)		  (G_TYPE_CHECK_INSTANCE_CAST ((obj), TEST_TYPE_IFACE, TestIface))
-#define TEST_IS_IFACE(obj)	  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TEST_TYPE_IFACE))
+#define TEST_IFACE(obj)       (G_TYPE_CHECK_INSTANCE_CAST ((obj), TEST_TYPE_IFACE, TestIface))
+#define TEST_IS_IFACE(obj)    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TEST_TYPE_IFACE))
 #define TEST_IFACE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), TEST_TYPE_IFACE, TestIfaceClass))
 typedef struct _TestIface      TestIface;
 typedef struct _TestIfaceClass TestIfaceClass;
 struct _TestIfaceClass
 {
   GTypeInterface base_iface;
-  void	(*print_string)	(TestIface	*tiobj,
-			 const gchar	*string);
+  void  (*print_string) (TestIface  *tiobj,
+             const gchar    *string);
 };
-static void	iface_base_init		(TestIfaceClass	*iface);
-static void	iface_base_finalize	(TestIfaceClass	*iface);
-static void	print_foo		(TestIface	*tiobj,
-					 const gchar	*string);
+static void iface_base_init     (TestIfaceClass *iface);
+static void iface_base_finalize (TestIfaceClass *iface);
+static void print_foo       (TestIface  *tiobj,
+                     const gchar    *string);
 static GType
 test_iface_get_type (void)
 {
@@ -49,9 +49,9 @@ test_iface_get_type (void)
     {
       static const GTypeInfo test_iface_info =
       {
-	sizeof (TestIfaceClass),
-	(GBaseInitFunc)	iface_base_init,		/* base_init */
-	(GBaseFinalizeFunc) iface_base_finalize,	/* base_finalize */
+    sizeof (TestIfaceClass),
+    (GBaseInitFunc) iface_base_init,        /* base_init */
+    (GBaseFinalizeFunc) iface_base_finalize,    /* base_finalize */
       };
 
       test_iface_type = g_type_register_static (G_TYPE_INTERFACE, "TestIface", &test_iface_info, 0);
@@ -81,7 +81,7 @@ iface_base_finalize (TestIfaceClass *iface)
 }
 static void
 print_foo (TestIface   *tiobj,
-	   const gchar *string)
+       const gchar *string)
 {
   if (!string)
     string = "<NULL>";
@@ -89,7 +89,7 @@ print_foo (TestIface   *tiobj,
 }
 static void
 test_object_test_iface_init (gpointer giface,
-			     gpointer iface_data)
+                 gpointer iface_data)
 {
   TestIfaceClass *iface = giface;
 
@@ -105,7 +105,7 @@ test_object_test_iface_init (gpointer giface,
 }
 static void
 iface_print_string (TestIface   *tiobj,
-		    const gchar *string)
+            const gchar *string)
 {
   TestIfaceClass *iface;
 
@@ -139,23 +139,23 @@ struct _TestObjectClass
   GObjectClass parent_class;
 
   gchar* (*test_signal) (TestObject *tobject,
-			 TestIface  *iface_object,
-			 gpointer    tdata);
+             TestIface  *iface_object,
+             gpointer    tdata);
 };
 struct _TestObjectPrivate
 {
   int     dummy1;
   gdouble dummy2;
 };
-static void	test_object_class_init	(TestObjectClass	*class);
-static void	test_object_init	(TestObject		*tobject);
-static gboolean	test_signal_accumulator	(GSignalInvocationHint	*ihint,
-					 GValue            	*return_accu,
-					 const GValue       	*handler_return,
-					 gpointer                data);
-static gchar*	test_object_test_signal	(TestObject		*tobject,
-					 TestIface		*iface_object,
-					 gpointer		 tdata);
+static void test_object_class_init  (TestObjectClass    *class);
+static void test_object_init    (TestObject     *tobject);
+static gboolean test_signal_accumulator (GSignalInvocationHint  *ihint,
+                     GValue             *return_accu,
+                     const GValue           *handler_return,
+                     gpointer                data);
+static gchar*   test_object_test_signal (TestObject     *tobject,
+                     TestIface      *iface_object,
+                     gpointer        tdata);
 static GType
 test_object_get_type (void)
 {
@@ -165,15 +165,15 @@ test_object_get_type (void)
     {
       static const GTypeInfo test_object_info =
       {
-	sizeof (TestObjectClass),
-	NULL,           /* base_init */
-	NULL,           /* base_finalize */
-	(GClassInitFunc) test_object_class_init,
-	NULL,           /* class_finalize */
-	NULL,           /* class_data */
-	sizeof (TestObject),
-	5,              /* n_preallocs */
-	(GInstanceInitFunc) test_object_init,
+    sizeof (TestObjectClass),
+    NULL,           /* base_init */
+    NULL,           /* base_finalize */
+    (GClassInitFunc) test_object_class_init,
+    NULL,           /* class_finalize */
+    NULL,           /* class_data */
+    sizeof (TestObject),
+    5,              /* n_preallocs */
+    (GInstanceInitFunc) test_object_init,
       };
       GInterfaceInfo iface_info = { test_object_test_iface_init, NULL, GUINT_TO_POINTER (42) };
 
@@ -191,12 +191,12 @@ test_object_class_init (TestObjectClass *class)
   class->test_signal = test_object_test_signal;
 
   g_signal_new ("test-signal",
-		G_OBJECT_CLASS_TYPE (class),
-		G_SIGNAL_RUN_FIRST | G_SIGNAL_RUN_LAST | G_SIGNAL_RUN_CLEANUP,
-		G_STRUCT_OFFSET (TestObjectClass, test_signal),
-		test_signal_accumulator, NULL,
-		g_cclosure_marshal_STRING__OBJECT_POINTER,
-		G_TYPE_STRING, 2, TEST_TYPE_IFACE, G_TYPE_POINTER);
+        G_OBJECT_CLASS_TYPE (class),
+        G_SIGNAL_RUN_FIRST | G_SIGNAL_RUN_LAST | G_SIGNAL_RUN_CLEANUP,
+        G_STRUCT_OFFSET (TestObjectClass, test_signal),
+        test_signal_accumulator, NULL,
+        g_cclosure_marshal_STRING__OBJECT_POINTER,
+        G_TYPE_STRING, 2, TEST_TYPE_IFACE, G_TYPE_POINTER);
 
   g_type_class_add_private (class, sizeof (TestObjectPrivate));
 }
@@ -227,9 +227,9 @@ test_object_check_private_init (TestObject *tobject)
 }
 static gboolean
 test_signal_accumulator (GSignalInvocationHint *ihint,
-			 GValue                *return_accu,
-			 const GValue          *handler_return,
-			 gpointer               data)
+             GValue                *return_accu,
+             const GValue          *handler_return,
+             gpointer               data)
 {
   gchar *accu_string = g_value_get_string (return_accu);
   gchar *new_string = g_value_get_string (handler_return);
@@ -248,13 +248,13 @@ test_signal_accumulator (GSignalInvocationHint *ihint,
 }
 static gchar*
 test_object_test_signal (TestObject *tobject,
-			 TestIface  *iface_object,
-			 gpointer    tdata)
+             TestIface  *iface_object,
+             gpointer    tdata)
 {
   g_message ("::test_signal default_handler called");
 
   g_return_val_if_fail (TEST_IS_IFACE (iface_object), NULL);
-  
+
   return g_strdup ("<default_handler>");
 }
 
@@ -262,7 +262,7 @@ test_object_test_signal (TestObject *tobject,
 /* --- TestIface for DerivedObject --- */
 static void
 print_bar (TestIface   *tiobj,
-	   const gchar *string)
+       const gchar *string)
 {
   TestIfaceClass *parent_iface;
 
@@ -281,7 +281,7 @@ print_bar (TestIface   *tiobj,
 
 static void
 derived_object_test_iface_init (gpointer giface,
-				gpointer iface_data)
+                gpointer iface_data)
 {
   TestIfaceClass *iface = giface;
 
@@ -329,15 +329,15 @@ derived_object_get_type (void)
     {
       static const GTypeInfo derived_object_info =
       {
-	sizeof (DerivedObjectClass),
-	NULL,           /* base_init */
-	NULL,           /* base_finalize */
-	(GClassInitFunc) derived_object_class_init,
-	NULL,           /* class_finalize */
-	NULL,           /* class_data */
-	sizeof (DerivedObject),
-	5,              /* n_preallocs */
-	(GInstanceInitFunc) derived_object_init,
+    sizeof (DerivedObjectClass),
+    NULL,           /* base_init */
+    NULL,           /* base_finalize */
+    (GClassInitFunc) derived_object_class_init,
+    NULL,           /* class_finalize */
+    NULL,           /* class_data */
+    sizeof (DerivedObject),
+    5,              /* n_preallocs */
+    (GInstanceInitFunc) derived_object_init,
       };
       GInterfaceInfo iface_info = { derived_object_test_iface_init, NULL, GUINT_TO_POINTER (87) };
 
@@ -364,7 +364,7 @@ derived_object_init (DerivedObject *dobject)
   g_assert ((gchar *)derived_priv >= (gchar *)TEST_OBJECT_GET_PRIVATE (dobject) + sizeof (TestObjectPrivate));
 
   test_priv = TEST_OBJECT_GET_PRIVATE (dobject);
-  
+
   g_assert (test_priv);
   g_assert ((gchar *)test_priv >= (gchar *)dobject + sizeof (TestObject));
 
@@ -384,8 +384,8 @@ main (int   argc,
   gchar *string = NULL;
 
   g_log_set_always_fatal (g_log_set_always_fatal (G_LOG_FATAL_MASK) |
-			  G_LOG_LEVEL_WARNING |
-			  G_LOG_LEVEL_CRITICAL);
+              G_LOG_LEVEL_WARNING |
+              G_LOG_LEVEL_CRITICAL);
   g_type_init_with_debug_flags (G_TYPE_DEBUG_OBJECTS | G_TYPE_DEBUG_SIGNALS);
 
   /* test new fundamentals */
@@ -418,7 +418,7 @@ main (int   argc,
   priv = TEST_OBJECT_GET_PRIVATE (dobject);
   g_print ("private data after initialization: %u == %u\n", priv->dummy1, 54321);
   g_assert (priv->dummy1 == 54321);
-  
+
   g_object_unref (sigarg);
   g_object_unref (dobject);
 

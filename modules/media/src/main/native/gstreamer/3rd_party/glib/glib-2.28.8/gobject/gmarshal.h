@@ -162,7 +162,7 @@ extern void g_cclosure_marshal_BOOLEAN__FLAGS (GClosure     *closure,
                                                const GValue *param_values,
                                                gpointer      invocation_hint,
                                                gpointer      marshal_data);
-#define g_cclosure_marshal_BOOL__FLAGS	g_cclosure_marshal_BOOLEAN__FLAGS
+#define g_cclosure_marshal_BOOL__FLAGS  g_cclosure_marshal_BOOLEAN__FLAGS
 
 /* STRING:OBJECT,POINTER (./gmarshal.list:49) */
 extern void g_cclosure_marshal_STRING__OBJECT_POINTER (GClosure     *closure,
@@ -179,7 +179,7 @@ extern void g_cclosure_marshal_BOOLEAN__BOXED_BOXED (GClosure     *closure,
                                                      const GValue *param_values,
                                                      gpointer      invocation_hint,
                                                      gpointer      marshal_data);
-#define g_cclosure_marshal_BOOL__BOXED_BOXED	g_cclosure_marshal_BOOLEAN__BOXED_BOXED
+#define g_cclosure_marshal_BOOL__BOXED_BOXED    g_cclosure_marshal_BOOLEAN__BOXED_BOXED
 
 G_END_DECLS
 

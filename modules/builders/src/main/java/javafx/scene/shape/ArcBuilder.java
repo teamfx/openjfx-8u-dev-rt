@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.shape.Arc
 public class ArcBuilder<B extends javafx.scene.shape.ArcBuilder<B>> extends javafx.scene.shape.ShapeBuilder<B> implements javafx.util.Builder<javafx.scene.shape.Arc> {
     protected ArcBuilder() {
     }
-    
+
     /** Creates a new instance of ArcBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.shape.ArcBuilder<?> create() {
         return new javafx.scene.shape.ArcBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.shape.Arc x) {
         super.applyTo(x);
@@ -55,7 +55,7 @@ public class ArcBuilder<B extends javafx.scene.shape.ArcBuilder<B>> extends java
         if ((set & (1 << 5)) != 0) x.setStartAngle(this.startAngle);
         if ((set & (1 << 6)) != 0) x.setType(this.type);
     }
-    
+
     private double centerX;
     /**
     Set the value of the {@link javafx.scene.shape.Arc#getCenterX() centerX} property for the instance constructed by this builder.
@@ -66,7 +66,7 @@ public class ArcBuilder<B extends javafx.scene.shape.ArcBuilder<B>> extends java
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private double centerY;
     /**
     Set the value of the {@link javafx.scene.shape.Arc#getCenterY() centerY} property for the instance constructed by this builder.
@@ -77,7 +77,7 @@ public class ArcBuilder<B extends javafx.scene.shape.ArcBuilder<B>> extends java
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double length;
     /**
     Set the value of the {@link javafx.scene.shape.Arc#getLength() length} property for the instance constructed by this builder.
@@ -88,7 +88,7 @@ public class ArcBuilder<B extends javafx.scene.shape.ArcBuilder<B>> extends java
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private double radiusX;
     /**
     Set the value of the {@link javafx.scene.shape.Arc#getRadiusX() radiusX} property for the instance constructed by this builder.
@@ -99,7 +99,7 @@ public class ArcBuilder<B extends javafx.scene.shape.ArcBuilder<B>> extends java
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private double radiusY;
     /**
     Set the value of the {@link javafx.scene.shape.Arc#getRadiusY() radiusY} property for the instance constructed by this builder.
@@ -110,7 +110,7 @@ public class ArcBuilder<B extends javafx.scene.shape.ArcBuilder<B>> extends java
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     private double startAngle;
     /**
     Set the value of the {@link javafx.scene.shape.Arc#getStartAngle() startAngle} property for the instance constructed by this builder.
@@ -121,7 +121,7 @@ public class ArcBuilder<B extends javafx.scene.shape.ArcBuilder<B>> extends java
         __set |= 1 << 5;
         return (B) this;
     }
-    
+
     private javafx.scene.shape.ArcType type;
     /**
     Set the value of the {@link javafx.scene.shape.Arc#getType() type} property for the instance constructed by this builder.
@@ -132,7 +132,7 @@ public class ArcBuilder<B extends javafx.scene.shape.ArcBuilder<B>> extends java
         __set |= 1 << 6;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.shape.Arc} based on the properties set on this builder.
     */

@@ -54,7 +54,7 @@ public class BoxBounds extends BaseBounds {
     public BaseBounds copy() {
         return new BoxBounds(minX, minY, minZ, maxX, maxY, maxZ);
     }
-    
+
     /**
      * Creates an axis aligned bounding box based on the minX, minY, minZ, maxX, maxY,
      * and maxZ values specified.
@@ -264,7 +264,7 @@ public class BoxBounds extends BaseBounds {
         maxY = other.getMaxY();
         maxZ = other.getMaxZ();
     }
-    
+
     /**
      * Set the bounds to the given values.
      */
@@ -500,7 +500,7 @@ public class BoxBounds extends BaseBounds {
         setMaxX(getMaxX() + x);
         setMaxY(getMaxY() + y);
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;

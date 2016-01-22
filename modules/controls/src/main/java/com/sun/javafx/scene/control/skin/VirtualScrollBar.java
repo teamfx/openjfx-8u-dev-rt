@@ -39,12 +39,12 @@ public class VirtualScrollBar extends ScrollBar {
     private final VirtualFlow flow;
 
     private boolean virtual;
-    
+
     private boolean adjusting;
 
     public VirtualScrollBar(final VirtualFlow flow) {
         this.flow = flow;
-        
+
         super.valueProperty().addListener(valueModel -> {
             if (isVirtual()/* && oldValue != newValue*/) {
                 if (adjusting) {
@@ -79,7 +79,7 @@ public class VirtualScrollBar extends ScrollBar {
             super.increment();
         }
     }
-    
+
 //    private double lastAdjustValue = 0.0;
 
     // this method is called when the user clicks in the scrollbar track, so
@@ -93,7 +93,7 @@ public class VirtualScrollBar extends ScrollBar {
 
             adjusting = true;
             double oldValue = flow.getPosition();
-            
+
             double newValue = ((getMax() - getMin()) * Utils.clamp(0, pos, 1))+getMin();
             if (newValue < oldValue) {
                 IndexedCell cell = flow.getFirstVisibleCell();
@@ -105,7 +105,7 @@ public class VirtualScrollBar extends ScrollBar {
                 flow.showAsFirst(cell);
             }
 //            lastAdjustValue = pos;
-            
+
             adjusting = false;
         } else {
             super.adjustValue(pos);

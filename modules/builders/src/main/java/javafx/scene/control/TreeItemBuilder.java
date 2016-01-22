@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.TreeItem
 public class TreeItemBuilder<T, B extends javafx.scene.control.TreeItemBuilder<T, B>> implements javafx.util.Builder<javafx.scene.control.TreeItem<T>> {
     protected TreeItemBuilder() {
     }
-    
+
     /** Creates a new instance of TreeItemBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <T> javafx.scene.control.TreeItemBuilder<T, ?> create() {
         return new javafx.scene.control.TreeItemBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.TreeItem<T> x) {
         int set = __set;
@@ -51,7 +51,7 @@ public class TreeItemBuilder<T, B extends javafx.scene.control.TreeItemBuilder<T
         if ((set & (1 << 2)) != 0) x.setGraphic(this.graphic);
         if ((set & (1 << 3)) != 0) x.setValue(this.value);
     }
-    
+
     private java.util.Collection<? extends javafx.scene.control.TreeItem<T>> children;
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.TreeItem#getChildren() children} property for the instance constructed by this builder.
@@ -62,14 +62,14 @@ public class TreeItemBuilder<T, B extends javafx.scene.control.TreeItemBuilder<T
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.TreeItem#getChildren() children} property for the instance constructed by this builder.
     */
     public B children(javafx.scene.control.TreeItem<T>... x) {
         return children(java.util.Arrays.asList(x));
     }
-    
+
     private boolean expanded;
     /**
     Set the value of the {@link javafx.scene.control.TreeItem#isExpanded() expanded} property for the instance constructed by this builder.
@@ -80,7 +80,7 @@ public class TreeItemBuilder<T, B extends javafx.scene.control.TreeItemBuilder<T
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private javafx.scene.Node graphic;
     /**
     Set the value of the {@link javafx.scene.control.TreeItem#getGraphic() graphic} property for the instance constructed by this builder.
@@ -91,7 +91,7 @@ public class TreeItemBuilder<T, B extends javafx.scene.control.TreeItemBuilder<T
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private T value;
     /**
     Set the value of the {@link javafx.scene.control.TreeItem#getValue() value} property for the instance constructed by this builder.
@@ -102,7 +102,7 @@ public class TreeItemBuilder<T, B extends javafx.scene.control.TreeItemBuilder<T
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.TreeItem} based on the properties set on this builder.
     */

@@ -662,7 +662,7 @@ g_hash_table_new_full (GHashFunc       hash_func,
  * gpointer key, value;
  *
  * g_hash_table_iter_init (&iter, hash_table);
- * while (g_hash_table_iter_next (&iter, &key, &value)) 
+ * while (g_hash_table_iter_next (&iter, &key, &value))
  *   {
  *     /&ast; do something with key and value &ast;/
  *   }
@@ -672,7 +672,7 @@ g_hash_table_new_full (GHashFunc       hash_func,
  **/
 void
 g_hash_table_iter_init (GHashTableIter *iter,
-			GHashTable     *hash_table)
+            GHashTable     *hash_table)
 {
   RealIter *ri = (RealIter *) iter;
 
@@ -702,8 +702,8 @@ g_hash_table_iter_init (GHashTableIter *iter,
  **/
 gboolean
 g_hash_table_iter_next (GHashTableIter *iter,
-			gpointer       *key,
-			gpointer       *value)
+            gpointer       *key,
+            gpointer       *value)
 {
   RealIter *ri = (RealIter *) iter;
   GHashNode *node;
@@ -786,7 +786,7 @@ iter_remove_or_steal (RealIter *ri, gboolean notify)
  *
  * If the #GHashTable was created using g_hash_table_new_full(), the
  * key and value are freed using the supplied destroy functions, otherwise
- * you have to make sure that any dynamically allocated values are freed 
+ * you have to make sure that any dynamically allocated values are freed
  * yourself.
  *
  * Since: 2.16
@@ -1215,7 +1215,7 @@ g_hash_table_steal_all (GHashTable *hash_table)
  */
 static guint
 g_hash_table_foreach_remove_or_steal (GHashTable *hash_table,
-                                      GHRFunc	  func,
+                                      GHRFunc     func,
                                       gpointer    user_data,
                                       gboolean    notify)
 {
@@ -1255,7 +1255,7 @@ g_hash_table_foreach_remove_or_steal (GHashTable *hash_table,
  * the #GHashTable, they are used to free the memory allocated for the removed
  * keys and values.
  *
- * See #GHashTableIter for an alternative way to loop over the 
+ * See #GHashTableIter for an alternative way to loop over the
  * key/value pairs in the hash table.
  *
  * Return value: the number of key/value pairs removed.
@@ -1281,7 +1281,7 @@ g_hash_table_foreach_remove (GHashTable *hash_table,
  * If the function returns %TRUE, then the key/value pair is removed from the
  * #GHashTable, but no key or value destroy functions are called.
  *
- * See #GHashTableIter for an alternative way to loop over the 
+ * See #GHashTableIter for an alternative way to loop over the
  * key/value pairs in the hash table.
  *
  * Return value: the number of key/value pairs removed.

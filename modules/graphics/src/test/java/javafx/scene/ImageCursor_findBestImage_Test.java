@@ -106,7 +106,7 @@ public final class ImageCursor_findBestImage_Test {
         this.bestHeight = bestHeight;
         this.hotspotX = hotspotX;
         this.hotspotY = hotspotY;
-        
+
         this.expectedIndex = expectedIndex;
         this.expectedHotspotX = expectedHotspotX;
         this.expectedHotspotY = expectedHotspotY;

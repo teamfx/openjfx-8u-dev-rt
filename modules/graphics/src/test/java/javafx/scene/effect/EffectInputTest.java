@@ -56,14 +56,14 @@ public class EffectInputTest {
     private String effect1Name = null;
     private String effect2Name = null;
     private Node n = null;
-    
+
     final static String[] effects = new String[] {
         "Bloom", "BoxBlur", "ColorAdjust", "DisplacementMap",
         "DropShadow", "GaussianBlur", "Glow", "InnerShadow",
         "MotionBlur", "PerspectiveTransform",
         "Reflection", "SepiaTone", "Shadow"
     };
-    
+
     @Parameters
     public static Collection parameters() {
         List list = new ArrayList();
@@ -84,7 +84,7 @@ public class EffectInputTest {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
-        n = new Rectangle();        
+        n = new Rectangle();
         root.getChildren().add(n);
     }
 
@@ -166,17 +166,17 @@ public class EffectInputTest {
         // try setting first input as input for itself
         try {
             setInput1.invoke(effect1, effect1);
-            fail("IllegalArgument should have been thrown."); 
+            fail("IllegalArgument should have been thrown.");
         } catch (InvocationTargetException e) {
             assertTrue(e.getTargetException() instanceof IllegalArgumentException);
             assertEquals(null, getInput1.invoke(effect1));
         }
-        
+
         // try setting up cycle from 1. and 2. effect
         try {
             setInput1.invoke(effect1, effect2);
             setInput2.invoke(effect2, effect1);
-            fail("IllegalArgument should have been thrown."); 
+            fail("IllegalArgument should have been thrown.");
         } catch (InvocationTargetException e) {
             assertTrue(e.getTargetException() instanceof IllegalArgumentException);
             assertEquals(null, getInput2.invoke(effect2));

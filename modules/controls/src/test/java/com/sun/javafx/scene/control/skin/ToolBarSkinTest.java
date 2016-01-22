@@ -71,7 +71,7 @@ public class ToolBarSkinTest {
         public ToolBarSkinMock(ToolBar toolbar) {
             super(toolbar);
         }
-        
+
         @Override protected void handleControlPropertyChanged(String p) {
             super.handleControlPropertyChanged(p);
             propertyChanged = true;

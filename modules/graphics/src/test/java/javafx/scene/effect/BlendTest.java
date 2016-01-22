@@ -83,7 +83,7 @@ public class BlendTest extends EffectsTestBase {
         effect.setOpacity(1.1f);
         assertEquals(1.1f, effect.getOpacity(), 1e-100);
         pulse();
-        assertEquals(1f, ((com.sun.scenario.effect.Blend) effect.impl_getImpl()).getOpacity(), 1e-100);        
+        assertEquals(1f, ((com.sun.scenario.effect.Blend) effect.impl_getImpl()).getOpacity(), 1e-100);
     }
 
     @Test
@@ -431,7 +431,7 @@ public class BlendTest extends EffectsTestBase {
         assertEquals(Mode.GREEN, ((com.sun.scenario.effect.Blend) effect.impl_getImpl()).getMode());
         assertEquals(1.0f, ((com.sun.scenario.effect.Bloom) bloom.impl_getImpl()).getThreshold(), 1e-100);
     }
-    
+
     @Test
     public void testCreateWithDefaultParams() {
         effect = new Blend(BlendMode.SRC_OVER);

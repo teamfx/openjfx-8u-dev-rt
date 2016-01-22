@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.ScrollPane
 public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<B>> extends javafx.scene.control.ControlBuilder<B> implements javafx.util.Builder<javafx.scene.control.ScrollPane> {
     protected ScrollPaneBuilder() {
     }
-    
+
     /** Creates a new instance of ScrollPaneBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.ScrollPaneBuilder<?> create() {
         return new javafx.scene.control.ScrollPaneBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -72,7 +72,7 @@ public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<
             }
         }
     }
-    
+
     private javafx.scene.Node content;
     /**
     Set the value of the {@link javafx.scene.control.ScrollPane#getContent() content} property for the instance constructed by this builder.
@@ -83,7 +83,7 @@ public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<
         __set(0);
         return (B) this;
     }
-    
+
     private boolean fitToHeight;
     /**
     Set the value of the {@link javafx.scene.control.ScrollPane#isFitToHeight() fitToHeight} property for the instance constructed by this builder.
@@ -94,7 +94,7 @@ public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<
         __set(1);
         return (B) this;
     }
-    
+
     private boolean fitToWidth;
     /**
     Set the value of the {@link javafx.scene.control.ScrollPane#isFitToWidth() fitToWidth} property for the instance constructed by this builder.
@@ -105,7 +105,7 @@ public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<
         __set(2);
         return (B) this;
     }
-    
+
     private javafx.scene.control.ScrollPane.ScrollBarPolicy hbarPolicy;
     /**
     Set the value of the {@link javafx.scene.control.ScrollPane#getHbarPolicy() hbarPolicy} property for the instance constructed by this builder.
@@ -116,7 +116,7 @@ public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<
         __set(3);
         return (B) this;
     }
-    
+
     private double hmax;
     /**
     Set the value of the {@link javafx.scene.control.ScrollPane#getHmax() hmax} property for the instance constructed by this builder.
@@ -127,7 +127,7 @@ public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<
         __set(4);
         return (B) this;
     }
-    
+
     private double hmin;
     /**
     Set the value of the {@link javafx.scene.control.ScrollPane#getHmin() hmin} property for the instance constructed by this builder.
@@ -138,7 +138,7 @@ public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<
         __set(5);
         return (B) this;
     }
-    
+
     private double hvalue;
     /**
     Set the value of the {@link javafx.scene.control.ScrollPane#getHvalue() hvalue} property for the instance constructed by this builder.
@@ -149,7 +149,7 @@ public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<
         __set(6);
         return (B) this;
     }
-    
+
     private boolean pannable;
     /**
     Set the value of the {@link javafx.scene.control.ScrollPane#isPannable() pannable} property for the instance constructed by this builder.
@@ -160,7 +160,7 @@ public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<
         __set(7);
         return (B) this;
     }
-    
+
     private double prefViewportHeight;
     /**
     Set the value of the {@link javafx.scene.control.ScrollPane#getPrefViewportHeight() prefViewportHeight} property for the instance constructed by this builder.
@@ -171,7 +171,7 @@ public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<
         __set(8);
         return (B) this;
     }
-    
+
     private double prefViewportWidth;
     /**
     Set the value of the {@link javafx.scene.control.ScrollPane#getPrefViewportWidth() prefViewportWidth} property for the instance constructed by this builder.
@@ -182,7 +182,7 @@ public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<
         __set(9);
         return (B) this;
     }
-    
+
     private javafx.scene.control.ScrollPane.ScrollBarPolicy vbarPolicy;
     /**
     Set the value of the {@link javafx.scene.control.ScrollPane#getVbarPolicy() vbarPolicy} property for the instance constructed by this builder.
@@ -193,7 +193,7 @@ public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<
         __set(10);
         return (B) this;
     }
-    
+
     private javafx.geometry.Bounds viewportBounds;
     /**
     Set the value of the {@link javafx.scene.control.ScrollPane#getViewportBounds() viewportBounds} property for the instance constructed by this builder.
@@ -204,7 +204,7 @@ public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<
         __set(11);
         return (B) this;
     }
-    
+
     private double vmax;
     /**
     Set the value of the {@link javafx.scene.control.ScrollPane#getVmax() vmax} property for the instance constructed by this builder.
@@ -215,7 +215,7 @@ public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<
         __set(12);
         return (B) this;
     }
-    
+
     private double vmin;
     /**
     Set the value of the {@link javafx.scene.control.ScrollPane#getVmin() vmin} property for the instance constructed by this builder.
@@ -226,7 +226,7 @@ public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<
         __set(13);
         return (B) this;
     }
-    
+
     private double vvalue;
     /**
     Set the value of the {@link javafx.scene.control.ScrollPane#getVvalue() vvalue} property for the instance constructed by this builder.
@@ -237,7 +237,7 @@ public class ScrollPaneBuilder<B extends javafx.scene.control.ScrollPaneBuilder<
         __set(14);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.ScrollPane} based on the properties set on this builder.
     */

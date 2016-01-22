@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.animation.ParallelTransition
 public final class ParallelTransitionBuilder extends javafx.animation.TransitionBuilder<javafx.animation.ParallelTransitionBuilder> implements javafx.util.Builder<javafx.animation.ParallelTransition> {
     protected ParallelTransitionBuilder() {
     }
-    
+
     /** Creates a new instance of ParallelTransitionBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.animation.ParallelTransitionBuilder create() {
         return new javafx.animation.ParallelTransitionBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.animation.ParallelTransition x) {
         super.applyTo(x);
@@ -50,7 +50,7 @@ public final class ParallelTransitionBuilder extends javafx.animation.Transition
         if ((set & (1 << 0)) != 0) x.getChildren().addAll(this.children);
         if ((set & (1 << 1)) != 0) x.setNode(this.node);
     }
-    
+
     private java.util.Collection<? extends javafx.animation.Animation> children;
     /**
     Add the given items to the List of items in the {@link javafx.animation.ParallelTransition#getChildren() children} property for the instance constructed by this builder.
@@ -60,14 +60,14 @@ public final class ParallelTransitionBuilder extends javafx.animation.Transition
         __set |= 1 << 0;
         return this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.animation.ParallelTransition#getChildren() children} property for the instance constructed by this builder.
     */
     public javafx.animation.ParallelTransitionBuilder children(javafx.animation.Animation... x) {
         return children(java.util.Arrays.asList(x));
     }
-    
+
     private javafx.scene.Node node;
     /**
     Set the value of the {@link javafx.animation.ParallelTransition#getNode() node} property for the instance constructed by this builder.
@@ -77,7 +77,7 @@ public final class ParallelTransitionBuilder extends javafx.animation.Transition
         __set |= 1 << 1;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.animation.ParallelTransition} based on the properties set on this builder.
     */

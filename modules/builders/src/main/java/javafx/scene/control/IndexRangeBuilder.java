@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.IndexRange
 public final class IndexRangeBuilder implements javafx.util.Builder<javafx.scene.control.IndexRange> {
     protected IndexRangeBuilder() {
     }
-    
+
     /** Creates a new instance of IndexRangeBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.IndexRangeBuilder create() {
         return new javafx.scene.control.IndexRangeBuilder();
     }
-    
+
     private int end;
     /**
     Set the value of the {@link javafx.scene.control.IndexRange#getEnd() end} property for the instance constructed by this builder.
@@ -51,7 +51,7 @@ public final class IndexRangeBuilder implements javafx.util.Builder<javafx.scene
         this.end = x;
         return this;
     }
-    
+
     private int start;
     /**
     Set the value of the {@link javafx.scene.control.IndexRange#getStart() start} property for the instance constructed by this builder.
@@ -60,7 +60,7 @@ public final class IndexRangeBuilder implements javafx.util.Builder<javafx.scene
         this.start = x;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.IndexRange} based on the properties set on this builder.
     */

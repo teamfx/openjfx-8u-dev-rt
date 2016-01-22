@@ -96,6 +96,6 @@ public class EventSerializationTest {
         objectOutputStream.writeObject(e);
         turnToInput();
         EventType eType = (EventType) objectInputStream.readObject();
-        
+
     }
 }

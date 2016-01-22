@@ -45,7 +45,7 @@ public class MenuButtonSkin extends MenuButtonSkinBase<MenuButton, MenuButtonBeh
 
     /**
      * Creates a new MenuButtonSkin for the given MenuButton
-     * 
+     *
      * @param menuButton the MenuButton
      */
     public MenuButtonSkin(final MenuButton menuButton) {

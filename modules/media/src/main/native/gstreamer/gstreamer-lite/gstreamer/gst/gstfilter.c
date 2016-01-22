@@ -26,7 +26,7 @@
  *   <programlisting>
  *     GList *node;
  *     GstObject *result = NULL;
- *     
+ *
  *     node = gst_filter_run (list, (GstFilterFunc) my_filter, TRUE, NULL);
  *     if (node) {
  *       result = GST_OBJECT (node->data);

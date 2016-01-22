@@ -417,14 +417,14 @@ audioconverter_sink_event (GstPad * pad, GstEvent * event)
             ret = gst_pad_push_event (decode->srcpad, event);
             break;
         }
-            
+
         case GST_EVENT_EOS:
         {
             if (decode->is_priming)
             {
                 gst_element_message_full(GST_ELEMENT(decode), GST_MESSAGE_ERROR, GST_STREAM_ERROR, GST_STREAM_ERROR_DECODE, g_strdup("MP3 file must contain 3 MP3 frames."), NULL, ("audioconverter.c"), ("audioconverter_sink_event"), 0);
             }
-            
+
             // Push the event downstream.
             ret = gst_pad_push_event (decode->srcpad, event);
             break;
@@ -482,10 +482,10 @@ audioconverter_src_event (GstPad * pad, GstEvent * event)
                     gst_event_unref (event);
                 }
             }
-            
-            if (!result) 
+
+            if (!result)
             {
-                if (decode->frame_duration != 0) 
+                if (decode->frame_duration != 0)
                 {
                     SInt64 absolutePacketOffset = start / decode->frame_duration;
                     SInt64 absoluteByteOffset;
@@ -506,7 +506,7 @@ audioconverter_src_event (GstPad * pad, GstEvent * event)
                     }
                 }
                 else
-                    gst_element_message_full(GST_ELEMENT(decode), GST_MESSAGE_ERROR, GST_STREAM_ERROR, GST_STREAM_ERROR_DECODE, 
+                    gst_element_message_full(GST_ELEMENT(decode), GST_MESSAGE_ERROR, GST_STREAM_ERROR, GST_STREAM_ERROR_DECODE,
                                              g_strdup("Zero frame duration"), NULL, ("audioconverter.c"), ("audioconverter_src_event"), 0);
             }
         }
@@ -883,14 +883,14 @@ audioconverter_chain (GstPad * pad, GstBuffer * buf)
         }
 
         // Check frame duration for zero to avoid division by zero.
-        if (decode->frame_duration == 0) 
+        if (decode->frame_duration == 0)
         {
-            gst_element_message_full(GST_ELEMENT(decode), GST_MESSAGE_ERROR, GST_STREAM_ERROR, GST_STREAM_ERROR_DECODE, 
+            gst_element_message_full(GST_ELEMENT(decode), GST_MESSAGE_ERROR, GST_STREAM_ERROR, GST_STREAM_ERROR_DECODE,
                                      g_strdup("Zero frame duration"), NULL, ("audioconverter.c"), ("audioconverter_chain"), 0);
             ret = GST_FLOW_ERROR;
             goto _exit;
         }
-        
+
         // Derive sample count using the timestamp.
         guint64 frame_index = buf_time/decode->frame_duration;
         decode->total_samples = frame_index * decode->samples_per_frame;

@@ -2,7 +2,7 @@
  * Copyright (C) 1999,2000 Erik Walthinsen <omega@cse.ogi.edu>
  *                    2000 Wim Taymans <wtay@chello.be>
  *                    2005 Andy Wingo <wingo@pobox.com>
- *		      2006 Edward Hervey <bilboed@bilboed.com>
+ *            2006 Edward Hervey <bilboed@bilboed.com>
  *
  * gstghostpad.c: Proxy pads
  *
@@ -443,7 +443,7 @@ gst_proxy_pad_dispose (GObject * object)
   /* remove and unref the target */
   target_p = &GST_PROXY_PAD_TARGET (pad);
   gst_object_replace ((GstObject **) target_p, NULL);
-  /* The internal is only cleared by GstGhostPad::dispose, since it is the 
+  /* The internal is only cleared by GstGhostPad::dispose, since it is the
    * parent of non-ghost GstProxyPad and owns the refcount on the internal.
    */
   GST_PROXY_UNLOCK (pad);
@@ -544,7 +544,7 @@ gst_proxy_pad_save_thyself (GstObject * object, xmlNodePtr parent)
  */
 
 
-#define GST_GHOST_PAD_PRIVATE(obj)	(GST_GHOST_PAD_CAST (obj)->priv)
+#define GST_GHOST_PAD_PRIVATE(obj)  (GST_GHOST_PAD_CAST (obj)->priv)
 
 struct _GstGhostPadPrivate
 {

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,19 +36,19 @@ Builder class for javafx.scene.shape.HLineTo
 public class HLineToBuilder<B extends javafx.scene.shape.HLineToBuilder<B>> extends javafx.scene.shape.PathElementBuilder<B> implements javafx.util.Builder<javafx.scene.shape.HLineTo> {
     protected HLineToBuilder() {
     }
-    
+
     /** Creates a new instance of HLineToBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.shape.HLineToBuilder<?> create() {
         return new javafx.scene.shape.HLineToBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.scene.shape.HLineTo x) {
         super.applyTo(x);
         if (__set) x.setX(this.x);
     }
-    
+
     private double x;
     /**
     Set the value of the {@link javafx.scene.shape.HLineTo#getX() x} property for the instance constructed by this builder.
@@ -59,7 +59,7 @@ public class HLineToBuilder<B extends javafx.scene.shape.HLineToBuilder<B>> exte
         __set = true;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.shape.HLineTo} based on the properties set on this builder.
     */

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.MenuItem
 public class MenuItemBuilder<B extends javafx.scene.control.MenuItemBuilder<B>> implements javafx.util.Builder<javafx.scene.control.MenuItem> {
     protected MenuItemBuilder() {
     }
-    
+
     /** Creates a new instance of MenuItemBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.MenuItemBuilder<?> create() {
         return new javafx.scene.control.MenuItemBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -68,7 +68,7 @@ public class MenuItemBuilder<B extends javafx.scene.control.MenuItemBuilder<B>> 
             }
         }
     }
-    
+
     private javafx.scene.input.KeyCombination accelerator;
     /**
     Set the value of the {@link javafx.scene.control.MenuItem#getAccelerator() accelerator} property for the instance constructed by this builder.
@@ -79,7 +79,7 @@ public class MenuItemBuilder<B extends javafx.scene.control.MenuItemBuilder<B>> 
         __set(0);
         return (B) this;
     }
-    
+
     private boolean disable;
     /**
     Set the value of the {@link javafx.scene.control.MenuItem#isDisable() disable} property for the instance constructed by this builder.
@@ -90,7 +90,7 @@ public class MenuItemBuilder<B extends javafx.scene.control.MenuItemBuilder<B>> 
         __set(1);
         return (B) this;
     }
-    
+
     private javafx.scene.Node graphic;
     /**
     Set the value of the {@link javafx.scene.control.MenuItem#getGraphic() graphic} property for the instance constructed by this builder.
@@ -101,7 +101,7 @@ public class MenuItemBuilder<B extends javafx.scene.control.MenuItemBuilder<B>> 
         __set(2);
         return (B) this;
     }
-    
+
     private java.lang.String id;
     /**
     Set the value of the {@link javafx.scene.control.MenuItem#getId() id} property for the instance constructed by this builder.
@@ -112,7 +112,7 @@ public class MenuItemBuilder<B extends javafx.scene.control.MenuItemBuilder<B>> 
         __set(3);
         return (B) this;
     }
-    
+
     private boolean mnemonicParsing;
     /**
     Set the value of the {@link javafx.scene.control.MenuItem#isMnemonicParsing() mnemonicParsing} property for the instance constructed by this builder.
@@ -123,7 +123,7 @@ public class MenuItemBuilder<B extends javafx.scene.control.MenuItemBuilder<B>> 
         __set(4);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.event.ActionEvent> onAction;
     /**
     Set the value of the {@link javafx.scene.control.MenuItem#getOnAction() onAction} property for the instance constructed by this builder.
@@ -134,7 +134,7 @@ public class MenuItemBuilder<B extends javafx.scene.control.MenuItemBuilder<B>> 
         __set(5);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.event.Event> onMenuValidation;
     /**
     Set the value of the {@link javafx.scene.control.MenuItem#getOnMenuValidation() onMenuValidation} property for the instance constructed by this builder.
@@ -146,7 +146,7 @@ public class MenuItemBuilder<B extends javafx.scene.control.MenuItemBuilder<B>> 
         __set(6);
         return (B) this;
     }
-    
+
     private java.lang.String style;
     /**
     Set the value of the {@link javafx.scene.control.MenuItem#getStyle() style} property for the instance constructed by this builder.
@@ -157,7 +157,7 @@ public class MenuItemBuilder<B extends javafx.scene.control.MenuItemBuilder<B>> 
         __set(7);
         return (B) this;
     }
-    
+
     private java.util.Collection<? extends java.lang.String> styleClass;
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.MenuItem#getStyleClass() styleClass} property for the instance constructed by this builder.
@@ -168,14 +168,14 @@ public class MenuItemBuilder<B extends javafx.scene.control.MenuItemBuilder<B>> 
         __set(8);
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.MenuItem#getStyleClass() styleClass} property for the instance constructed by this builder.
     */
     public B styleClass(java.lang.String... x) {
         return styleClass(java.util.Arrays.asList(x));
     }
-    
+
     private java.lang.String text;
     /**
     Set the value of the {@link javafx.scene.control.MenuItem#getText() text} property for the instance constructed by this builder.
@@ -186,7 +186,7 @@ public class MenuItemBuilder<B extends javafx.scene.control.MenuItemBuilder<B>> 
         __set(9);
         return (B) this;
     }
-    
+
     private java.lang.Object userData;
     /**
     Set the value of the {@link javafx.scene.control.MenuItem#getUserData() userData} property for the instance constructed by this builder.
@@ -197,7 +197,7 @@ public class MenuItemBuilder<B extends javafx.scene.control.MenuItemBuilder<B>> 
         __set(10);
         return (B) this;
     }
-    
+
     private boolean visible;
     /**
     Set the value of the {@link javafx.scene.control.MenuItem#isVisible() visible} property for the instance constructed by this builder.
@@ -208,7 +208,7 @@ public class MenuItemBuilder<B extends javafx.scene.control.MenuItemBuilder<B>> 
         __set(11);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.MenuItem} based on the properties set on this builder.
     */

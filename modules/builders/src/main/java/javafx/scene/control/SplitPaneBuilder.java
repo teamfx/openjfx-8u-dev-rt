@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.SplitPane
 public class SplitPaneBuilder<B extends javafx.scene.control.SplitPaneBuilder<B>> extends javafx.scene.control.ControlBuilder<B> implements javafx.util.Builder<javafx.scene.control.SplitPane> {
     protected SplitPaneBuilder() {
     }
-    
+
     /** Creates a new instance of SplitPaneBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.SplitPaneBuilder<?> create() {
         return new javafx.scene.control.SplitPaneBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.SplitPane x) {
         super.applyTo(x);
@@ -51,7 +51,7 @@ public class SplitPaneBuilder<B extends javafx.scene.control.SplitPaneBuilder<B>
         if ((set & (1 << 1)) != 0) x.getItems().addAll(this.items);
         if ((set & (1 << 2)) != 0) x.setOrientation(this.orientation);
     }
-    
+
     private double[] dividerPositions;
     /**
     Set the value of the {@link javafx.scene.control.SplitPane#getDividerPositions() dividerPositions} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public class SplitPaneBuilder<B extends javafx.scene.control.SplitPaneBuilder<B>
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private java.util.Collection<? extends javafx.scene.Node> items;
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.SplitPane#getItems() items} property for the instance constructed by this builder.
@@ -73,14 +73,14 @@ public class SplitPaneBuilder<B extends javafx.scene.control.SplitPaneBuilder<B>
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.SplitPane#getItems() items} property for the instance constructed by this builder.
     */
     public B items(javafx.scene.Node... x) {
         return items(java.util.Arrays.asList(x));
     }
-    
+
     private javafx.geometry.Orientation orientation;
     /**
     Set the value of the {@link javafx.scene.control.SplitPane#getOrientation() orientation} property for the instance constructed by this builder.
@@ -91,7 +91,7 @@ public class SplitPaneBuilder<B extends javafx.scene.control.SplitPaneBuilder<B>
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.SplitPane} based on the properties set on this builder.
     */

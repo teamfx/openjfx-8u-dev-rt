@@ -155,7 +155,7 @@ public class FXCollectionsTest {
         seq.addAll(content);
         doSort(seq, false);
     }
-    
+
     @Test
     public void sortTest2() {
     //test sort on bigger elements, so that it is sorted with mergesort and not insert sort
@@ -170,7 +170,7 @@ public class FXCollectionsTest {
         FXCollections.sort(seq, (o1, o2) -> o1.charAt(0) - o2.charAt(0));
         observer.check1Permutation(seq, new int[] {4, 8, 0, 5, 6, 9, 7, 1, 2, 3});
     }
-    
+
     @Test
     public void sortTest_empty() {
         ObservableList<String> seq = FXCollections.observableArrayList();
@@ -688,7 +688,7 @@ public class FXCollectionsTest {
             boolean ret = addAll(clctn);
             for (ListChangeListener<? super String> l : listeners) {
                 l.onChanged(new ListChangeListener.Change<String>(this) {
-                    
+
                     boolean valid = true;
 
                     @Override

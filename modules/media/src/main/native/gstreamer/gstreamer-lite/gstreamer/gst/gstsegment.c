@@ -33,7 +33,7 @@
  * @see_also: #GstEvent
  *
  * This helper structure holds the relevant values for tracking the region of
- * interest in a media file, called a segment. 
+ * interest in a media file, called a segment.
  *
  * The structure can be used for two purposes:
  * <itemizedlist>
@@ -41,7 +41,7 @@
  *   <listitem><para>tracking playback regions (handling newsegment events)</para></listitem>
  * </itemizedlist>
  *
- * The segment is usually configured by the application with a seek event which 
+ * The segment is usually configured by the application with a seek event which
  * is propagated upstream and eventually handled by an element that performs the seek.
  *
  * The configured segment is then propagated back downstream with a newsegment event.
@@ -54,7 +54,7 @@
  *
  * If the segment is used for managing seeks, the segment duration should be set with
  * gst_segment_set_duration(). The public duration field contains the duration of the
- * segment. When using the segment for seeking, the start and time members should 
+ * segment. When using the segment for seeking, the start and time members should
  * normally be left to their default 0 value. The stop position is left to -1 unless
  * explicitly configured to a different value after a seek event.
  *
@@ -77,7 +77,7 @@
  * to the clock. This function takes into account all accumulated segments as well as
  * any rate or applied_rate conversions.
  *
- * For elements that need to perform operations on media data in stream_time, 
+ * For elements that need to perform operations on media data in stream_time,
  * gst_segment_to_stream_time() can be used to convert a timestamp and the segment
  * info to stream time (which is always between 0 and the duration of the stream).
  *
@@ -123,7 +123,7 @@ gst_segment_get_type (void)
 /**
  * gst_segment_new:
  *
- * Allocate a new #GstSegment structure and initialize it using 
+ * Allocate a new #GstSegment structure and initialize it using
  * gst_segment_init().
  *
  * Free-function: gst_segment_free
@@ -190,8 +190,8 @@ gst_segment_init (GstSegment * segment, GstFormat format)
  *
  * Set the duration of the segment to @duration. This function is mainly
  * used by elements that perform seeking and know the total duration of the
- * segment. 
- * 
+ * segment.
+ *
  * This field should be set to allow seeking requests relative to the
  * duration.
  */
@@ -213,7 +213,7 @@ gst_segment_set_duration (GstSegment * segment, GstFormat format,
  * gst_segment_set_last_stop:
  * @segment: a #GstSegment structure.
  * @format: the format of the segment.
- * @position: the position 
+ * @position: the position
  *
  * Set the last observed stop position in the segment to @position.
  *
@@ -251,7 +251,7 @@ gst_segment_set_last_stop (GstSegment * segment, GstFormat format,
  *
  * After calling this method, the segment field last_stop and time will
  * contain the requested new position in the segment. The new requested
- * position in the segment depends on @rate and @start_type and @stop_type. 
+ * position in the segment depends on @rate and @start_type and @stop_type.
  *
  * For positive @rate, the new position in the segment is the new @segment
  * start field when it was updated with a @start_type different from
@@ -270,7 +270,7 @@ gst_segment_set_last_stop (GstSegment * segment, GstFormat format,
  * If the caller can apply a rate change, it should update @segment
  * rate and applied_rate after calling this function.
  *
- * @update will be set to TRUE if a seek should be performed to the segment 
+ * @update will be set to TRUE if a seek should be performed to the segment
  * last_stop field. This field can be FALSE if, for example, only the @rate
  * has been changed but not the playback position.
  */
@@ -538,16 +538,16 @@ gst_segment_set_newsegment_full (GstSegment * segment, gboolean update,
  * @format: the format of the segment.
  * @position: the position in the segment
  *
- * Translate @position to stream time using the currently configured 
+ * Translate @position to stream time using the currently configured
  * segment. The @position value must be between @segment start and
- * stop value. 
+ * stop value.
  *
  * This function is typically used by elements that need to operate on
  * the stream time of the buffers it receives, such as effect plugins.
- * In those use cases, @position is typically the buffer timestamp or 
+ * In those use cases, @position is typically the buffer timestamp or
  * clock time that one wants to convert to the stream time.
- * The stream time is always between 0 and the total duration of the 
- * media stream. 
+ * The stream time is always between 0 and the total duration of the
+ * media stream.
  *
  * Returns: the position in stream_time or -1 when an invalid position
  * was given.
@@ -624,7 +624,7 @@ gst_segment_to_stream_time (GstSegment * segment, GstFormat format,
  * @format: the format of the segment.
  * @position: the position in the segment
  *
- * Translate @position to the total running time using the currently configured 
+ * Translate @position to the total running time using the currently configured
  * and previously accumulated segments. Position is a value between @segment
  * start and stop time.
  *
@@ -686,7 +686,7 @@ gst_segment_to_running_time (GstSegment * segment, GstFormat format,
     result = stop - position;
   }
 
-  /* scale based on the rate, avoid division by and conversion to 
+  /* scale based on the rate, avoid division by and conversion to
    * float when not needed */
   if (G_UNLIKELY (segment->abs_rate != 1.0))
     result /= segment->abs_rate;
@@ -707,7 +707,7 @@ gst_segment_to_running_time (GstSegment * segment, GstFormat format,
  * @clip_stop: (out) (allow-none): the clipped stop position in the segment
  *
  * Clip the given @start and @stop values to the segment boundaries given
- * in @segment. @start and @stop are compared and clipped to @segment 
+ * in @segment. @start and @stop are compared and clipped to @segment
  * start and stop values.
  *
  * If the function returns FALSE, @start and @stop are known to fall
@@ -720,8 +720,8 @@ gst_segment_to_running_time (GstSegment * segment, GstFormat format,
  * Note that when @stop is -1, @clip_stop will be set to the end of the
  * segment. Depending on the use case, this may or may not be what you want.
  *
- * Returns: TRUE if the given @start and @stop times fall partially or 
- *     completely in @segment, FALSE if the values are completely outside 
+ * Returns: TRUE if the given @start and @stop times fall partially or
+ *     completely in @segment, FALSE if the values are completely outside
  *     of the segment.
  */
 gboolean
@@ -735,7 +735,7 @@ gst_segment_clip (GstSegment * segment, GstFormat format, gint64 start,
   else
     g_return_val_if_fail (segment->format == format, FALSE);
 
-  /* if we have a stop position and a valid start and start is bigger, 
+  /* if we have a stop position and a valid start and start is bigger,
    * we're outside of the segment */
   if (G_UNLIKELY (segment->stop != -1 && start != -1 && start >= segment->stop))
     return FALSE;

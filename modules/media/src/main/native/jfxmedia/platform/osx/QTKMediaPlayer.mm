@@ -111,7 +111,7 @@
                          [NSNumber numberWithLong:k2vuyPixelFormat],
                           nil], @"PixelFormatType",
                          nil];
-    
+
     NSDictionary *attr = [NSDictionary dictionaryWithObjectsAndKeys:
                           [NSColorSpace genericRGBColorSpace], @"colorspace",
                           pba, @"pixelBufferAttributes",
@@ -138,16 +138,16 @@
 {
     if ((self = [self init]) != nil) {
         movieURL = [source retain];
-        
+
         movie = nil;
         movieReady = NO;
-        
+
         frameHandler = [[ImageConsumerProxy alloc] initWithPlayer:self];
-        
+
         notificationCookies = [[NSMutableSet alloc] init];
-        
+
         isLiveStream = NO; // we'll determine later
-        
+
         audioSyncDelay = 0;
         requestedRate = 1.0;
         updateHostTimeBase = NO;
@@ -156,16 +156,16 @@
         mute = NO;
         volume = 1.0;
         balance = 0.0;
-        
+
         eventHandler = hdlr;
-        
+
         previousWidth = -1;
         previousHeight = -1;
-        
+
         previousPlayerState = kPlayerState_UNKNOWN;
-        
+
         requestedState = kPlaybackState_Stop;
-        
+
         isDisposed = NO;
 
         _audioEqualizer = new CNullAudioEqualizer();
@@ -184,12 +184,12 @@
 - (void) dealloc
 {
     [self dispose]; // just in case
-    
+
     [frameHandler release];
     frameHandler = nil;
-    
+
     [movieURL release];
-    
+
     if (_audioEqualizer) {
         delete _audioEqualizer;
     }
@@ -221,7 +221,7 @@
         }
         [movie release];
         movie = nil;
-        
+
         if (notificationCookies) {
             NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
             for (id cookie in notificationCookies) {
@@ -230,10 +230,10 @@
             [notificationCookies release];
             notificationCookies = nil;
         }
-        
+
         // eventHandler is cleaned up separately, just drop the reference
         eventHandler = NULL;
-        
+
         isDisposed = YES;
     }
 }
@@ -245,7 +245,7 @@
                  object:object
                  queue:nil
                  usingBlock:block];
-    
+
     if (cookie) {
         [notificationCookies addObject:cookie];
     }
@@ -257,7 +257,7 @@
         if (isDisposed) {
             return;
         }
-        
+
         if (![NSThread isMainThread]) {
             LOGGER_ERRORMSG_CM("QTKMediaPlayer", "createMovie", "was NOT called on the main app thread!\n");
             if (eventHandler) {
@@ -265,7 +265,7 @@
             }
             return;
         }
-        
+
         NSError *err = nil;
         QTMovie *qtMovie =
         [QTMovie movieWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -283,20 +283,20 @@
             }
             qtMovie = nil;
         }
-        
+
         /*
          *******************************************************************************
          BIG FAT WARNING!!!!!!!!!!!!!
          *******************************************************************************
-         
+
          Do NOT reference "self" inside a block registered with the
          Notification Center or you will create a retain loop and prevent this
          object from ever releasing. Instead, use the stack variable "blockSelf"
          defined below, this will prevent the retain loop.
-         
+
          *******************************************************************************
          */
-        
+
         __block __typeof__(self) blockSelf = self;
         [self registerForNotification:QTMovieDidEndNotification
                                object:qtMovie
@@ -304,7 +304,7 @@
          ^(NSNotification*note) {
              [blockSelf finish];
          }];
-        
+
         [self registerForNotification:QTMovieLoadStateDidChangeNotification
                                object:qtMovie
                             withBlock:
@@ -329,7 +329,7 @@
                      }
                  }
              }
-             
+
              if (!movieReady) {
                  if (loadState > QTMovieLoadStateLoaded) {
                      [blockSelf setMovieReady];
@@ -344,7 +344,7 @@
                  }
              }
          }];
-        
+
         [self registerForNotification:QTMovieTimeDidChangeNotification
                                object:qtMovie
                             withBlock:
@@ -356,11 +356,11 @@
              uint64_t nowDelta = (uint64_t)(now * hostTimeFreq); // current time in host frequency units
              hostTimeBase = hostTime - nowDelta; // Host time at movie time zero
              LOGGER_DEBUGMSG(([[NSString stringWithFormat:@"Movie time changed %lf", currentTime] UTF8String]));
-             
+
              // http://javafx-jira.kenai.com/browse/RT-27041
              // TODO: flush video buffers
          }];
-        
+
         [self registerForNotification:QTMovieRateDidChangeNotification
                                object:qtMovie
                             withBlock:
@@ -368,10 +368,10 @@
              NSNumber *newRate = [note.userInfo objectForKey:QTMovieRateDidChangeNotificationParameter];
              [blockSelf rateChanged:newRate.floatValue];
          }];
-        
+
         // QTMovieNaturalSizeDidChangeNotification is unreliable, especially with HTTP live streaming
         // so just use the pixel buffer sizes to send frame size changed events
-        
+
         // QTMovieAvailableRangesDidChangeNotification
         [self registerForNotification:@"QTMovieAvailableRangesDidChangeNotification"
                                object:qtMovie
@@ -395,7 +395,7 @@
                  }
              }
          }];
-        
+
         // QTMovieLoadedRangesDidChangeNotification
         [self registerForNotification:@"QTMovieLoadedRangesDidChangeNotification"
                                object:qtMovie
@@ -412,7 +412,7 @@
                      QTTimeRange timeRange = [rangeVal QTTimeRangeValue]; // .time, .duration
                      NSTimeInterval duration;
                      QTGetTimeInterval(timeRange.duration, &duration);
-                     
+
                      total += (int64_t)(duration * 1000);
                  }
                  // send buffer progress event
@@ -420,7 +420,7 @@
                  eventHandler->SendBufferProgressEvent(movieDur, 0, (int64_t)(movieDur * 1000), total);
              }
          }];
-        
+
 #if 0
         // show all notifications, use to find possibly missed notifications
         [[NSNotificationCenter defaultCenter]
@@ -432,7 +432,7 @@
          }
          ];
 #endif
-        
+
 #if 0
         // Template notification block, remember to use blockSelf instead of self
         [[NSNotificationCenter defaultCenter]
@@ -441,14 +441,14 @@
          queue:nil
          usingBlock:
          ^(NSNotification *note) {
-             
+
          }
          ];
 #endif
         // http://javafx-jira.kenai.com/browse/RT-27041
         // TODO: test for addImageConsumer first, fall back on CARenderer hack if it's not available
         [qtMovie addImageConsumer:frameHandler];
-        
+
         movie = (QTMovie*)[[MTObjectProxy objectProxyWithTarget:qtMovie] retain];
     }
 }
@@ -473,7 +473,7 @@
         if (movie && movieReady) {
             [movie stop];
         }
-        
+
         if (previousPlayerState == kPlayerState_STALLED) {
             [self setPlayerState:kPlayerState_PAUSED];
         }
@@ -502,7 +502,7 @@
         } else {
             currentTime = 0.0;
         }
-        
+
         if (previousPlayerState == kPlayerState_STALLED) {
             [self setPlayerState:kPlayerState_STOPPED];
         }
@@ -524,11 +524,11 @@
         if (requestedState == kPlaybackState_Stop) {
             [self setPlayerState:kPlayerState_STOPPED];
         } else if (requestedState == kPlaybackState_Play && previousPlayerState == kPlayerState_PLAYING && requestedRate != 0.0) {
-            [self setPlayerState:kPlayerState_STALLED];        
+            [self setPlayerState:kPlayerState_STALLED];
         } else if (requestedState != kPlaybackState_Finished) {
             [self setPlayerState:kPlayerState_PAUSED];
         }
-        
+
     } else {
         // non-zero is always playing
         [self setPlayerState:kPlayerState_PLAYING];
@@ -645,12 +645,12 @@
         LOGGER_WARNMSG("Cannot seek LIVE stream!");
         return;
     }
-    
+
     currentTime = newTime;
-    
+
     if (movie && movieReady) {
         movie.currentTime = QTMakeTimeWithTimeInterval(newTime);
-        
+
         // make sure we're playing if requested
         if (requestedState == kPlaybackState_Play) {
             [movie play];
@@ -693,7 +693,7 @@ static void append_log(NSMutableString *s, NSString *fmt, ...) {
 {
 #if DUMP_TRACK_INFO
     NSMutableString *trackLog = [[NSMutableString alloc] initWithFormat:@"Parsing tracks for movie %@:\n", movie];
-#endif    
+#endif
     /*
      * Track properties we care about at the FX level:
      *
@@ -739,7 +739,7 @@ static void append_log(NSMutableString *s, NSString *fmt, ...) {
             QTMedia *trackMedia;
             float frameRate = 29.97; // default
             NSString *codecName = nil;
-            
+
             TRACK_LOG(@"Video QTTrack: %@", track);
             TRACK_LOG(@" - id %ld (%sabled)", trackID, trackEnabled ? "en" : "dis");
 
@@ -751,7 +751,7 @@ static void append_log(NSMutableString *s, NSString *fmt, ...) {
                 }
             }
             TRACK_LOG(@" - encoding %d (name %@)", encoding, codecName);
-            
+
             if ([track respondsToSelector:@selector(floatFrameRate)]) {
                 frameRate = [track floatFrameRate];
                 TRACK_LOG(@" - provided frame rate %0.2f", frameRate);
@@ -766,7 +766,7 @@ static void append_log(NSMutableString *s, NSString *fmt, ...) {
                     TRACK_LOG(@" - Unable to determine frame rate!");
                 }
             }
-            
+
             // If we will support more media formats in OS X Platform, then select apropriate name.
             // Now only "video/x-h264" is supported
             CVideoTrack *cvt = new CVideoTrack((int64_t)trackID, "video/x-h264", encoding, trackEnabled,
@@ -781,14 +781,14 @@ static void append_log(NSMutableString *s, NSString *fmt, ...) {
             long trackID = [[track attributeForKey:QTTrackIDAttribute] longValue];
             BOOL trackEnabled = [[track attributeForKey:QTTrackEnabledAttribute] boolValue];
             NSString *codecName = nil;
-            
+
             TRACK_LOG(@"Audio QTTrack: %@", track);
             TRACK_LOG(@" - id %ld (%sabled)", trackID, trackEnabled ? "en" : "dis");
 
             CTrack::Encoding encoding = CTrack::CUSTOM;
             if ([track respondsToSelector:@selector(codecName)]) {
                 codecName = [[track codecName] lowercaseString];
-                
+
                 if ([codecName hasPrefix:@"aac"]) {
                     encoding = CTrack::AAC;
                 } else if ([codecName hasPrefix:@"mp3"]) { // FIXME: verify these values, if we ever officially support them
@@ -798,13 +798,13 @@ static void append_log(NSMutableString *s, NSString *fmt, ...) {
                 }
             }
             TRACK_LOG(@" - encoding %d (name %@)", encoding, codecName);
-            
+
             float rate = 44100.0; // sane default
             if ([track respondsToSelector:@selector(audioSampleRate)]) {
                 rate = floor([track audioSampleRate] * 1000.0); // audioSampleRate returns KHz
             }
             TRACK_LOG(@" - sample rate %0.0f", rate);
-            
+
             int channelCount = 2;
             if ([track respondsToSelector:@selector(audioChannelCount)]) {
                 channelCount = [track audioChannelCount];
@@ -814,7 +814,7 @@ static void append_log(NSMutableString *s, NSString *fmt, ...) {
                 }
             }
             TRACK_LOG(@" - channels %d", channelCount);
-            
+
             int channelMask;
             switch (channelCount) {
                 default:
@@ -829,7 +829,7 @@ static void append_log(NSMutableString *s, NSString *fmt, ...) {
                     break;
             }
             TRACK_LOG(@" - channel mask %02x", channelMask);
-            
+
             NSString *lang = @"und";
             if ([track respondsToSelector:@selector(isoLanguageCodeAsString)]) {
                 NSString *newLang = [track isoLanguageCodeAsString];
@@ -839,7 +839,7 @@ static void append_log(NSMutableString *s, NSString *fmt, ...) {
                 }
             }
             TRACK_LOG(@" - language %@", lang);
-            
+
             // If we will support more media formats in OS X Platform, then select apropriate name.
             // Now only "audio/mpeg" is supported
             CAudioTrack *cat = new CAudioTrack((int64_t)trackID, "audio/mpeg", encoding, (bool)trackEnabled,
@@ -890,7 +890,7 @@ static void append_log(NSMutableString *s, NSString *fmt, ...) {
             delete cat;
         }
     }
-    
+
 #if DUMP_TRACK_INFO
     LOGGER_INFOMSG([trackLog UTF8String]);
     [trackLog release];
@@ -902,12 +902,12 @@ static void append_log(NSMutableString *s, NSString *fmt, ...) {
     if (movieReady) {
         return;
     }
-    
+
     movieReady = YES;
-    
+
     // send player ready
     [self setPlayerState:kPlayerState_READY];
-    
+
     // get duration
     NSNumber *hasDuration = [movie attributeForKey:QTMovieHasDurationAttribute];
     if (!suppressDurationEvents && hasDuration.boolValue) {
@@ -925,23 +925,23 @@ static void append_log(NSMutableString *s, NSString *fmt, ...) {
             }
         }
     }
-    
+
     // Get movie tracks (deferred)
     [self parseMovieTracks];
-    
+
     // Assert settings
     if (currentTime != 0.0) {
         movie.currentTime = QTMakeTimeWithTimeInterval(self.currentTime);
     }
-    
+
     if (mute) {
         movie.muted = YES;
     }
-    
+
     if (volume != 1.0) {
         movie.volume = volume;
     }
-    
+
     if (requestedState == kPlaybackState_Play) {
         [movie play];
         [movie setRate:requestedRate];
@@ -952,7 +952,7 @@ static void append_log(NSMutableString *s, NSString *fmt, ...) {
 {
     // http://javafx-jira.kenai.com/browse/RT-27041
     // TODO: send off to a work queue for processing on a separate thread to avoid deadlock issues during shutdown
-    
+
     if (movie && movieReady && eventHandler) {
         if (updateHostTimeBase) {
             double now = currentTime;
@@ -971,7 +971,7 @@ static void append_log(NSMutableString *s, NSString *fmt, ...) {
             LOGGER_DEBUGMSG(message);
             return;
         }
-        
+
         if (previousWidth < 0 || previousHeight < 0
             || previousWidth != frame->GetWidth() || previousHeight != frame->GetHeight())
         {

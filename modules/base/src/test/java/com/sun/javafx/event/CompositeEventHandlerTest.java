@@ -49,7 +49,7 @@ public class CompositeEventHandlerTest {
                 new WeakEventHandler<Event>(eventCountingHandler);
 
         compositeEventHandler.addEventHandler(weakEventHandler);
-        
+
         Assert.assertTrue(
                 compositeEventHandler.containsHandler(weakEventHandler));
         compositeEventHandler.dispatchCapturingEvent(new EmptyEvent());

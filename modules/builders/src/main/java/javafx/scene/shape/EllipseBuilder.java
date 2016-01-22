@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.shape.Ellipse
 public class EllipseBuilder<B extends javafx.scene.shape.EllipseBuilder<B>> extends javafx.scene.shape.ShapeBuilder<B> implements javafx.util.Builder<javafx.scene.shape.Ellipse> {
     protected EllipseBuilder() {
     }
-    
+
     /** Creates a new instance of EllipseBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.shape.EllipseBuilder<?> create() {
         return new javafx.scene.shape.EllipseBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.shape.Ellipse x) {
         super.applyTo(x);
@@ -52,7 +52,7 @@ public class EllipseBuilder<B extends javafx.scene.shape.EllipseBuilder<B>> exte
         if ((set & (1 << 2)) != 0) x.setRadiusX(this.radiusX);
         if ((set & (1 << 3)) != 0) x.setRadiusY(this.radiusY);
     }
-    
+
     private double centerX;
     /**
     Set the value of the {@link javafx.scene.shape.Ellipse#getCenterX() centerX} property for the instance constructed by this builder.
@@ -63,7 +63,7 @@ public class EllipseBuilder<B extends javafx.scene.shape.EllipseBuilder<B>> exte
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private double centerY;
     /**
     Set the value of the {@link javafx.scene.shape.Ellipse#getCenterY() centerY} property for the instance constructed by this builder.
@@ -74,7 +74,7 @@ public class EllipseBuilder<B extends javafx.scene.shape.EllipseBuilder<B>> exte
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double radiusX;
     /**
     Set the value of the {@link javafx.scene.shape.Ellipse#getRadiusX() radiusX} property for the instance constructed by this builder.
@@ -85,7 +85,7 @@ public class EllipseBuilder<B extends javafx.scene.shape.EllipseBuilder<B>> exte
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private double radiusY;
     /**
     Set the value of the {@link javafx.scene.shape.Ellipse#getRadiusY() radiusY} property for the instance constructed by this builder.
@@ -96,7 +96,7 @@ public class EllipseBuilder<B extends javafx.scene.shape.EllipseBuilder<B>> exte
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.shape.Ellipse} based on the properties set on this builder.
     */

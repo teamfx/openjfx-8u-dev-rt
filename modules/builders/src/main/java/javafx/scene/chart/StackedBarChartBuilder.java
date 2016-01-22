@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,19 +36,19 @@ Builder class for javafx.scene.chart.StackedBarChart
 public class StackedBarChartBuilder<X, Y, B extends javafx.scene.chart.StackedBarChartBuilder<X, Y, B>> extends javafx.scene.chart.XYChartBuilder<X, Y, B> {
     protected StackedBarChartBuilder() {
     }
-    
+
     /** Creates a new instance of StackedBarChartBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <X, Y> javafx.scene.chart.StackedBarChartBuilder<X, Y, ?> create() {
         return new javafx.scene.chart.StackedBarChartBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.scene.chart.StackedBarChart<X, Y> x) {
         super.applyTo(x);
         if (__set) x.setCategoryGap(this.categoryGap);
     }
-    
+
     private double categoryGap;
     /**
     Set the value of the {@link javafx.scene.chart.StackedBarChart#getCategoryGap() categoryGap} property for the instance constructed by this builder.
@@ -59,7 +59,7 @@ public class StackedBarChartBuilder<X, Y, B extends javafx.scene.chart.StackedBa
         __set = true;
         return (B) this;
     }
-    
+
     private javafx.scene.chart.Axis<X> XAxis;
     /**
     Set the value of the {@link javafx.scene.chart.StackedBarChart#getXAxis() XAxis} property for the instance constructed by this builder.
@@ -69,7 +69,7 @@ public class StackedBarChartBuilder<X, Y, B extends javafx.scene.chart.StackedBa
         this.XAxis = x;
         return (B) this;
     }
-    
+
     private javafx.scene.chart.Axis<Y> YAxis;
     /**
     Set the value of the {@link javafx.scene.chart.StackedBarChart#getYAxis() YAxis} property for the instance constructed by this builder.
@@ -79,7 +79,7 @@ public class StackedBarChartBuilder<X, Y, B extends javafx.scene.chart.StackedBa
         this.YAxis = x;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.chart.StackedBarChart} based on the properties set on this builder.
     */

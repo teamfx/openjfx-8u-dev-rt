@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.shape.ClosePath
 public class ClosePathBuilder<B extends javafx.scene.shape.ClosePathBuilder<B>> extends javafx.scene.shape.PathElementBuilder<B> implements javafx.util.Builder<javafx.scene.shape.ClosePath> {
     protected ClosePathBuilder() {
     }
-    
+
     /** Creates a new instance of ClosePathBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.shape.ClosePathBuilder<?> create() {
         return new javafx.scene.shape.ClosePathBuilder();
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.shape.ClosePath} based on the properties set on this builder.
     */

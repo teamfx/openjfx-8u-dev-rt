@@ -78,7 +78,7 @@ public class PickAndContainsTest {
         Group root = new Group();
 
         root.getChildren().addAll(r0 = new Rectangle(100, 100, 40, 20),
-                                grp = new Group(r1 = new Rectangle(0,0,40,20), 
+                                grp = new Group(r1 = new Rectangle(0,0,40,20),
                                                 r2 = new Rectangle(200,200,40,20))
                                 );
 
@@ -86,7 +86,7 @@ public class PickAndContainsTest {
 
         r1.setId("Rect 1");
         r2.setId("Rect 2");
-        
+
         int pickX = 100;
         int pickY = 100;
         assertSame(r0, scene.test_pick(pickX, pickY));
@@ -217,7 +217,7 @@ public class PickAndContainsTest {
         int pickY = 50;
 
         assertNull(scene.test_pick(pickX, pickY));
-        
+
         grp.setPickOnBounds(true);
 
         assertSame(grp, scene.test_pick(pickX, pickY));

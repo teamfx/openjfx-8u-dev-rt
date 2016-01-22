@@ -47,7 +47,7 @@ import org.w3c.dom.Text;
 
 
 public class LoadTest extends TestBase {
-    
+
     private State getLoadState() {
         return submit(() -> getEngine().getLoadWorker().getState());
     }
@@ -112,7 +112,7 @@ public class LoadTest extends TestBase {
         testLoadEmpty("");
         testLoadEmpty("about:blank");
     }
-    
+
     private void testLoadEmpty(String url) {
         load(url);
         final WebEngine web = getEngine();
@@ -168,12 +168,12 @@ public class LoadTest extends TestBase {
 
     @Test public void testLoadContentWithLocalScript() {
         WebEngine webEngine = getEngine();
-        
+
         final StringBuilder result = new StringBuilder();
         webEngine.setOnAlert(event -> {
             result.append("ALERT: ").append(event.getData());
         });
-        
+
         String scriptUrl =
                 new File("src/test/resources/html/invoke-alert.js").toURI().toASCIIString();
         String html =
@@ -182,7 +182,7 @@ public class LoadTest extends TestBase {
                 "<body><script>invokeAlert('foo');</script></body>\n" +
                 "</html>";
         loadContent(html);
-        
+
         assertEquals("Unexpected result", "ALERT: foo", result.toString());
         assertEquals("Unexpected load state", SUCCEEDED, getLoadState());
         assertEquals("Unexpected location", "", webEngine.getLocation());

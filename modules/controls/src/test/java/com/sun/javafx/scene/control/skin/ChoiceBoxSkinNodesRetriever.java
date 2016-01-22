@@ -30,8 +30,8 @@ package com.sun.javafx.scene.control.skin;
  * @author paru
  */
 public class ChoiceBoxSkinNodesRetriever {
-    
-    // can only access the getChoiceBoxSelectedText method in ChoiceBoxSkin 
+
+    // can only access the getChoiceBoxSelectedText method in ChoiceBoxSkin
     // from this package.
     public static String getChoiceBoxSelectedText(ChoiceBoxSkin skin) {
         return skin.getChoiceBoxSelectedText();

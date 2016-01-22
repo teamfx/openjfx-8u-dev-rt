@@ -73,13 +73,13 @@ typedef struct _GstFakeSinkClass GstFakeSinkClass;
  * The opaque #GstFakeSink data structure.
  */
 struct _GstFakeSink {
-  GstBaseSink		element;
+  GstBaseSink       element;
 
-  gboolean		silent;
-  gboolean		dump;
-  gboolean		signal_handoffs;
+  gboolean      silent;
+  gboolean      dump;
+  gboolean      signal_handoffs;
   GstFakeSinkStateError state_error;
-  gchar			*last_message;
+  gchar         *last_message;
   gint                  num_buffers;
   gint                  num_buffers_left;
 #if !GLIB_CHECK_VERSION(2,26,0)

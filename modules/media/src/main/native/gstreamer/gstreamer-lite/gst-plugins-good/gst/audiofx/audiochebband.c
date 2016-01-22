@@ -1,4 +1,4 @@
-/* 
+/*
  * GStreamer
  * Copyright (C) 2007-2009 Sebastian Dröge <sebastian.droege@collabora.co.uk>
  *
@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-/* 
+/*
  * Chebyshev type 1 filter design based on
  * "The Scientist and Engineer's Guide to DSP", Chapter 20.
  * http://www.dspguide.com/
@@ -29,7 +29,7 @@
  * Transformation from lowpass to bandpass/bandreject:
  * http://docs.dewresearch.com/DspHelp/html/IDH_LinearSystems_LowpassToBandPassZ.htm
  * http://docs.dewresearch.com/DspHelp/html/IDH_LinearSystems_LowpassToBandStopZ.htm
- * 
+ *
  */
 
 /**
@@ -322,7 +322,7 @@ generate_biquad_coefficients (GstAudioChebBand * filter,
    * b = tan(1/2) * cot((w1 - w0)/2)
    *
    * For bandreject substitute z^(-1) with:
-   * 
+   *
    *  -2            -1
    * z   - alpha * z   + beta
    * ----------------------------

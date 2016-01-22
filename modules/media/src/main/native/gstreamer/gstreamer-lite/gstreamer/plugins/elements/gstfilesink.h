@@ -64,7 +64,7 @@ struct _GstFileSink {
   gint    buffer_mode;
   guint   buffer_size;
   gchar  *buffer;
-  
+
   gboolean append;
 };
 

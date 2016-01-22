@@ -501,13 +501,13 @@ gst_mixer_volume_changed (GstMixer * mixer,
 
 /**
  * gst_mixer_option_changed:
- * @mixer: the #GstMixer (a #GstElement) that owns the options 
+ * @mixer: the #GstMixer (a #GstElement) that owns the options
  * @opts: the GstMixerOptions that has changed value.
  * @value: the new value of the GstMixerOptions.
  *
  * This function is called by the mixer implementation to produce
  * a notification message on the bus indicating that the given options
- * object has changed state. 
+ * object has changed state.
  *
  * This function only works for GstElements that are implementing the
  * GstMixer interface, and the element needs to have been provided a bus.
@@ -536,7 +536,7 @@ gst_mixer_option_changed (GstMixer * mixer,
 
 /**
  * gst_mixer_options_list_changed:
- * @mixer: the #GstMixer (a #GstElement) that owns the options 
+ * @mixer: the #GstMixer (a #GstElement) that owns the options
  * @opts: the GstMixerOptions whose list of values has changed
  *
  * This function is called by the mixer implementation to produce
@@ -713,7 +713,7 @@ gst_mixer_message_parse_mute_toggled (GstMessage * message,
  * @record: A pointer to a gboolean variable, or NULL.
  *
  * Extracts the contents of a record-toggled bus message. Reads
- * the GstMixerTrack that has changed, and the new value of the 
+ * the GstMixerTrack that has changed, and the new value of the
  * recording flag.
  *
  * The GstMixerTrack remains valid until the message is freed.

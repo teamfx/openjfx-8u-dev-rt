@@ -1,4 +1,4 @@
-/* 
+/*
  * GStreamer
  * Copyright (C) 2009 Sebastian Dröge <sebastian.droege@collabora.co.uk>
  *

@@ -37,7 +37,7 @@ import java.io.IOException;
 final public class Declaration {
     final String property;
     final ParsedValueImpl parsedValue;
-    final boolean important;   
+    final boolean important;
     // The Rule to which this Declaration belongs.
     Rule rule;
 
@@ -46,10 +46,10 @@ final public class Declaration {
         this.property = propertyName;
         this.parsedValue = parsedValue;
         this.important = important;
-        if (propertyName == null) { 
+        if (propertyName == null) {
             throw new IllegalArgumentException("propertyName cannot be null");
         }
-        if (parsedValue == null) { 
+        if (parsedValue == null) {
             throw new IllegalArgumentException("parsedValue cannot be null");
         }
     }
@@ -58,22 +58,22 @@ final public class Declaration {
     public ParsedValue getParsedValue() {
         return parsedValue;
     }
-    
+
     /** @return ParsedValue contains the parsed declaration. */
     ParsedValueImpl getParsedValueImpl() {
         return parsedValue;
     }
-    
+
     /** @return The CSS property name */
     public String getProperty() {
         return property;
     }
-    
+
     /** @return The Rule to which this Declaration belongs. */
     public Rule getRule() {
         return rule;
     }
-    
+
     public boolean isImportant() {
         return important;
     }
@@ -86,7 +86,7 @@ final public class Declaration {
         }
         return null;
     }
-    /** 
+    /**
      * One declaration is the equal to another regardless of the Rule to which
      * the Declaration belongs. Only the property, value and importance are
      * considered.
@@ -134,7 +134,7 @@ final public class Declaration {
         if (important) sbuf.append(" !important");
         return sbuf.toString();
     }
-    
+
     //
     // RT-21964
     //
@@ -143,31 +143,31 @@ final public class Declaration {
     // types, the parser inserts a null placeholder for the URL and we
     // fix it up here. This method is called from Rule#setStylesheet
     // and from Rule#declarations onChanged method.
-    // 
+    //
     void fixUrl(String stylesheetUrl) {
-        
+
         if (stylesheetUrl == null) return;
-        
-        final StyleConverter converter = parsedValue.getConverter();        
-        
+
+        final StyleConverter converter = parsedValue.getConverter();
+
         // code is tightly coupled to the way URLConverter works
         if (converter == URLConverter.getInstance()) {
-            
+
             final ParsedValue[] values = (ParsedValue[])parsedValue.getValue();
             values[1] = new ParsedValueImpl<String,String>(stylesheetUrl, null);
-            
+
         } else if (converter == URLConverter.SequenceConverter.getInstance()) {
 
-            final ParsedValue<ParsedValue[], String>[] layers = 
+            final ParsedValue<ParsedValue[], String>[] layers =
                 (ParsedValue<ParsedValue[], String>[])parsedValue.getValue();
-            
+
             for (int layer = 0; layer < layers.length; layer++) {
                 final ParsedValue[] values = layers[layer].getValue();
                 values[1] = new ParsedValueImpl<String,String>(stylesheetUrl, null);
             }
-            
+
         }
-                
+
     }
 
     final void writeBinary(final DataOutputStream os, final StringStore stringStore)
@@ -175,7 +175,7 @@ final public class Declaration {
     {
         os.writeShort(stringStore.addString(getProperty()));
         getParsedValueImpl().writeBinary(os,stringStore);
-        os.writeBoolean(isImportant());            
+        os.writeBoolean(isImportant());
     }
 
     static Declaration readBinary(int bssVersion, DataInputStream is, String[] strings)
@@ -185,7 +185,7 @@ final public class Declaration {
         final ParsedValueImpl parsedValue = ParsedValueImpl.readBinary(bssVersion,is,strings);
         final boolean important = is.readBoolean();
         return new Declaration(propertyName, parsedValue, important);
-            
+
     }
 }
 

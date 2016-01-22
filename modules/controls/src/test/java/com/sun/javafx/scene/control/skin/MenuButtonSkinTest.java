@@ -61,14 +61,14 @@ public class MenuButtonSkinTest {
         menubutton.setPrefHeight(100);
         assertEquals(100, menubutton.maxHeight(-1), 0);
     }
-    
+
     public static final class MenuButtonSkinMock extends MenuButtonSkin {
         boolean propertyChanged = false;
         int propertyChangeCount = 0;
         public MenuButtonSkinMock(MenuButton menubutton) {
             super(menubutton);
         }
-        
+
         @Override protected void handleControlPropertyChanged(String p) {
             super.handleControlPropertyChanged(p);
             propertyChanged = true;

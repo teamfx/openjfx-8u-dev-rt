@@ -150,7 +150,7 @@ public class ScrollPaneSkin extends BehaviorSkinBase<ScrollPane, ScrollPaneBehav
 
                 /*
                 ** if the new size causes scrollbar visibility to change, then need to relayout
-                ** we also need to correct the thumb size when the scrollnode's size changes 
+                ** we also need to correct the thumb size when the scrollnode's size changes
                 */
                 if (vsbvis != determineVerticalSBVisible() || hsbvis != determineHorizontalSBVisible() ||
                     (scrollNodeWidth != 0.0  && nodeWidth != scrollNodeWidth) ||
@@ -174,13 +174,13 @@ public class ScrollPaneSkin extends BehaviorSkinBase<ScrollPane, ScrollPaneBehav
 
     /*
     ** The content of the ScrollPane has just changed bounds, check scrollBar positions.
-    */ 
+    */
    private final ChangeListener<Bounds> boundsChangeListener = new ChangeListener<Bounds>() {
         @Override public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds newBounds) {
-            
+
             /*
             ** For a height change then we want to reduce
-            ** viewport vertical jumping as much as possible. 
+            ** viewport vertical jumping as much as possible.
             ** We set a new vsb value to try to keep the same
             ** content position at the top of the viewport
             */
@@ -189,7 +189,7 @@ public class ScrollPaneSkin extends BehaviorSkinBase<ScrollPane, ScrollPaneBehav
             if (oldHeight > 0 && oldHeight != newHeight) {
                 double oldPositionY = (snapPosition(snappedTopInset() - posY / (vsb.getMax() - vsb.getMin()) * (oldHeight - contentHeight)));
                 double newPositionY = (snapPosition(snappedTopInset() - posY / (vsb.getMax() - vsb.getMin()) * (newHeight - contentHeight)));
-                
+
                 double newValueY = (oldPositionY/newPositionY)*vsb.getValue();
                 if (newValueY < 0.0) {
                     vsb.setValue(0.0);
@@ -204,7 +204,7 @@ public class ScrollPaneSkin extends BehaviorSkinBase<ScrollPane, ScrollPaneBehav
 
             /*
             ** For a width change then we want to reduce
-            ** viewport horizontal jumping as much as possible. 
+            ** viewport horizontal jumping as much as possible.
             ** We set a new hsb value to try to keep the same
             ** content position to the left of the viewport
             */
@@ -451,7 +451,7 @@ public class ScrollPaneSkin extends BehaviorSkinBase<ScrollPane, ScrollPaneBehav
         ** don't allow the ScrollBar to handle the ScrollEvent,
         ** In a ScrollPane a vertical scroll should scroll on the vertical only,
         ** whereas in a horizontal ScrollBar it can scroll horizontally.
-        */ 
+        */
         // block the event from being passed down to children
         final EventDispatcher blockEventDispatcher = (event, tail) -> event;
         // block ScrollEvent from being passed down to scrollbar's skin
@@ -629,7 +629,7 @@ public class ScrollPaneSkin extends BehaviorSkinBase<ScrollPane, ScrollPaneBehav
             getSkinnable().requestLayout();
         }
     }
-    
+
     void scrollBoundsIntoView(Bounds b) {
         double dx = 0.0;
         double dy = 0.0;
@@ -896,7 +896,7 @@ public class ScrollPaneSkin extends BehaviorSkinBase<ScrollPane, ScrollPaneBehav
             **  The Padding should go between the content and the edge,
             **  otherwise changes in padding move the ScrollBar, and could
             **  in extreme cases size the ScrollBar to become unusable.
-            **  The -1, +1 plus one bit : 
+            **  The -1, +1 plus one bit :
             **   If padding in => 1 then we allow one pixel to appear as the
             **   outside border of the Scrollbar, and the rest on the inside.
             **   If padding is < 1 then we just stick to the edge.
@@ -919,7 +919,7 @@ public class ScrollPaneSkin extends BehaviorSkinBase<ScrollPane, ScrollPaneBehav
         }
         control.setViewportBounds(new BoundingBox(snapPosition(viewContent.getLayoutX()), snapPosition(viewContent.getLayoutY()), snapSize(contentWidth), snapSize(contentHeight)));
     }
-    
+
     private void computeScrollNodeSize(double contentWidth, double contentHeight) {
         if (scrollNode != null) {
             if (scrollNode.isResizable()) {
@@ -1036,7 +1036,7 @@ public class ScrollPaneSkin extends BehaviorSkinBase<ScrollPane, ScrollPaneBehav
             }
         }
     }
-    
+
     private void updateVerticalSB() {
         double contentRatio = nodeHeight * (vsb.getMax() - vsb.getMin());
         if (contentRatio > 0.0) {
@@ -1131,8 +1131,8 @@ public class ScrollPaneSkin extends BehaviorSkinBase<ScrollPane, ScrollPaneBehav
         }
         else if (posY < getSkinnable().getVmin()) {
             newPosY = getSkinnable().getVmin();
-        }             
-        
+        }
+
 
         if (posX > getSkinnable().getHmax()) {
             newPosX = getSkinnable().getHmax();

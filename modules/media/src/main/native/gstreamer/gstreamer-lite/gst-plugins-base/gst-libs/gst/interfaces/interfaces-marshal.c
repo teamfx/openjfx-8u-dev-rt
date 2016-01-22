@@ -1,6 +1,6 @@
-#include "interfaces-marshal.h" 
+#include "interfaces-marshal.h"
 
-#include	<glib-object.h>
+#include    <glib-object.h>
 
 
 #ifdef G_ENABLE_DEBUG

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.paint.RadialGradient
 public final class RadialGradientBuilder implements javafx.util.Builder<javafx.scene.paint.RadialGradient> {
     protected RadialGradientBuilder() {
     }
-    
+
     /** Creates a new instance of RadialGradientBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.paint.RadialGradientBuilder create() {
         return new javafx.scene.paint.RadialGradientBuilder();
     }
-    
+
     private double centerX;
     /**
     Set the value of the {@link javafx.scene.paint.RadialGradient#getCenterX() centerX} property for the instance constructed by this builder.
@@ -51,7 +51,7 @@ public final class RadialGradientBuilder implements javafx.util.Builder<javafx.s
         this.centerX = x;
         return this;
     }
-    
+
     private double centerY;
     /**
     Set the value of the {@link javafx.scene.paint.RadialGradient#getCenterY() centerY} property for the instance constructed by this builder.
@@ -60,7 +60,7 @@ public final class RadialGradientBuilder implements javafx.util.Builder<javafx.s
         this.centerY = x;
         return this;
     }
-    
+
     private javafx.scene.paint.CycleMethod cycleMethod;
     /**
     Set the value of the {@link javafx.scene.paint.RadialGradient#getCycleMethod() cycleMethod} property for the instance constructed by this builder.
@@ -69,7 +69,7 @@ public final class RadialGradientBuilder implements javafx.util.Builder<javafx.s
         this.cycleMethod = x;
         return this;
     }
-    
+
     private double focusAngle;
     /**
     Set the value of the {@link javafx.scene.paint.RadialGradient#getFocusAngle() focusAngle} property for the instance constructed by this builder.
@@ -78,7 +78,7 @@ public final class RadialGradientBuilder implements javafx.util.Builder<javafx.s
         this.focusAngle = x;
         return this;
     }
-    
+
     private double focusDistance;
     /**
     Set the value of the {@link javafx.scene.paint.RadialGradient#getFocusDistance() focusDistance} property for the instance constructed by this builder.
@@ -87,7 +87,7 @@ public final class RadialGradientBuilder implements javafx.util.Builder<javafx.s
         this.focusDistance = x;
         return this;
     }
-    
+
     private boolean proportional = true;
     /**
     Set the value of the {@link javafx.scene.paint.RadialGradient#isProportional() proportional} property for the instance constructed by this builder.
@@ -96,7 +96,7 @@ public final class RadialGradientBuilder implements javafx.util.Builder<javafx.s
         this.proportional = x;
         return this;
     }
-    
+
     private double radius = 1;
     /**
     Set the value of the {@link javafx.scene.paint.RadialGradient#getRadius() radius} property for the instance constructed by this builder.
@@ -105,7 +105,7 @@ public final class RadialGradientBuilder implements javafx.util.Builder<javafx.s
         this.radius = x;
         return this;
     }
-    
+
     private java.util.List<javafx.scene.paint.Stop> stops;
     /**
     Add the given items to the List of items in the {@link javafx.scene.paint.RadialGradient#getStops() stops} property for the instance constructed by this builder.
@@ -114,14 +114,14 @@ public final class RadialGradientBuilder implements javafx.util.Builder<javafx.s
         this.stops = x;
         return this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.paint.RadialGradient#getStops() stops} property for the instance constructed by this builder.
     */
     public javafx.scene.paint.RadialGradientBuilder stops(javafx.scene.paint.Stop... x) {
         return stops(java.util.Arrays.asList(x));
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.paint.RadialGradient} based on the properties set on this builder.
     */

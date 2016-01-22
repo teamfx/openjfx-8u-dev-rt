@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.shape.Path
 public class PathBuilder<B extends javafx.scene.shape.PathBuilder<B>> extends javafx.scene.shape.ShapeBuilder<B> implements javafx.util.Builder<javafx.scene.shape.Path> {
     protected PathBuilder() {
     }
-    
+
     /** Creates a new instance of PathBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.shape.PathBuilder<?> create() {
         return new javafx.scene.shape.PathBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.shape.Path x) {
         super.applyTo(x);
@@ -50,7 +50,7 @@ public class PathBuilder<B extends javafx.scene.shape.PathBuilder<B>> extends ja
         if ((set & (1 << 0)) != 0) x.getElements().addAll(this.elements);
         if ((set & (1 << 1)) != 0) x.setFillRule(this.fillRule);
     }
-    
+
     private java.util.Collection<? extends javafx.scene.shape.PathElement> elements;
     /**
     Add the given items to the List of items in the {@link javafx.scene.shape.Path#getElements() elements} property for the instance constructed by this builder.
@@ -61,14 +61,14 @@ public class PathBuilder<B extends javafx.scene.shape.PathBuilder<B>> extends ja
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.shape.Path#getElements() elements} property for the instance constructed by this builder.
     */
     public B elements(javafx.scene.shape.PathElement... x) {
         return elements(java.util.Arrays.asList(x));
     }
-    
+
     private javafx.scene.shape.FillRule fillRule;
     /**
     Set the value of the {@link javafx.scene.shape.Path#getFillRule() fillRule} property for the instance constructed by this builder.
@@ -79,7 +79,7 @@ public class PathBuilder<B extends javafx.scene.shape.PathBuilder<B>> extends ja
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.shape.Path} based on the properties set on this builder.
     */

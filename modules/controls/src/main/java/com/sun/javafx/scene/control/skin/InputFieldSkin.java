@@ -81,7 +81,7 @@ abstract class InputFieldSkin implements Skin<InputField> {
                 if (accept(t)) {
                     super.replaceSelection(text);
                 }
-//                
+//
 //                if (!text.matches("[a-z]")) {
 //                    super.replaceSelection(text);
 //                }
@@ -144,7 +144,7 @@ abstract class InputFieldSkin implements Skin<InputField> {
     @Override public Node getNode() {
         return textField;
     }
-    
+
     /**
      * Called by a Skinnable when the Skin is replaced on the Skinnable. This method
      * allows a Skin to implement any logic necessary to clean up itself after

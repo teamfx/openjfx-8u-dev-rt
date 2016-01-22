@@ -39,16 +39,16 @@ public class CascadingStyle implements Comparable<CascadingStyle> {
     public Style getStyle() {
         return style;
     }
-    
+
     /** State variables, like &quot;hover&quot; or &quot;pressed&quot; */
     private final Set<PseudoClass> pseudoClasses;
 
     /* specificity of the selector that matched */
     private final int specificity;
-    
+
     /* order in which this style appeared in the stylesheet */
     private final int ordinal;
-    
+
     /*
      * True if the property is -fx-skin. We want the skin property to
      * sort less than all other properties.
@@ -63,32 +63,32 @@ public class CascadingStyle implements Comparable<CascadingStyle> {
         this.ordinal = ordinal;
         this.skinProp = "-fx-skin".equals(style.getDeclaration().getProperty());
     }
-        
+
     // Wrapper to make StyleHelper's life a little easier
     public String getProperty() {
         return style.getDeclaration().getProperty();
     }
-    
+
     // Wrapper to make StyleHelper's life a little easier
     public Selector getSelector() {
         return style.getSelector();
     }
-    
+
     // Wrapper to make StyleHelper's life a little easier
     public Rule getRule() {
         return style.getDeclaration().getRule();
     }
-    
+
     // Wrapper to make StyleHelper's life a little easier
     public StyleOrigin getOrigin() {
         return getRule().getOrigin();
     }
-    
+
     // Wrapper to make StyleHelper's life a little easier
     public ParsedValueImpl getParsedValueImpl() {
         return style.getDeclaration().getParsedValueImpl();
     }
-    
+
     @Override public String toString() { return getProperty(); }
 
     /**
@@ -110,12 +110,12 @@ public class CascadingStyle implements Comparable<CascadingStyle> {
         if (property == null ? otherProperty != null : !property.equals(otherProperty)) {
             return false;
         }
-        
+
         // does [foo bar bang] contain all of [foo bar]?
         if (pseudoClasses == null ? other.pseudoClasses != null : !pseudoClasses.containsAll(other.pseudoClasses)) {
-            return false;            
+            return false;
         }
-        
+
         return true;
 
     }
@@ -145,12 +145,12 @@ public class CascadingStyle implements Comparable<CascadingStyle> {
         // Importance being equal, then specificity is considered
         // Specificity being equal, then the order of declaration decides.
         //
-        
+
         final Declaration decl = style.getDeclaration();
         final boolean important = decl != null ? decl.isImportant() : false;
         final Rule rule = decl != null ? decl.getRule() : null;
         final StyleOrigin source = rule != null ? rule.getOrigin() : null;
-        
+
         final Declaration otherDecl = other.style.getDeclaration();
         final boolean otherImportant = otherDecl != null ? otherDecl.isImportant() : false;
         final Rule otherRule = otherDecl != null ? otherDecl.getRule() : null;

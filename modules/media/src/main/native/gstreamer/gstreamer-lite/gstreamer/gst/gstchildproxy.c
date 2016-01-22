@@ -480,12 +480,12 @@ gst_child_proxy_base_init (gpointer g_class)
   if (!initialized) {
     /* create interface signals and properties here. */
         /**
-	 * GstChildProxy::child-added:
-	 * @child_proxy: the #GstChildProxy
-	 * @object: the #GObject that was added
-	 *
-	 * Will be emitted after the @object was added to the @child_proxy.
-	 */
+     * GstChildProxy::child-added:
+     * @child_proxy: the #GstChildProxy
+     * @object: the #GObject that was added
+     *
+     * Will be emitted after the @object was added to the @child_proxy.
+     */
     /* FIXME 0.11: use GST_TYPE_OBJECT as GstChildProxy only
      * supports GstObjects */
     signals[CHILD_ADDED] =
@@ -495,12 +495,12 @@ gst_child_proxy_base_init (gpointer g_class)
         G_TYPE_OBJECT);
 
         /**
-	 * GstChildProxy::child-removed:
-	 * @child_proxy: the #GstChildProxy
-	 * @object: the #GObject that was removed
-	 *
-	 * Will be emitted after the @object was removed from the @child_proxy.
-	 */
+     * GstChildProxy::child-removed:
+     * @child_proxy: the #GstChildProxy
+     * @object: the #GObject that was removed
+     *
+     * Will be emitted after the @object was removed from the @child_proxy.
+     */
     /* FIXME 0.11: use GST_TYPE_OBJECT as GstChildProxy only
      * supports GstObjects */
     signals[CHILD_REMOVED] =

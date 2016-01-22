@@ -46,15 +46,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TreeTableViewBehavior<T> extends TableViewBehaviorBase<TreeTableView<T>, TreeItem<T>, TreeTableColumn<T, ?>> {
-    
+
     /**************************************************************************
      *                                                                        *
      * Setup key bindings                                                     *
-     *                                                                        *  
+     *                                                                        *
      *************************************************************************/
 
     protected static final List<KeyBinding> TREE_TABLE_VIEW_BINDINGS = new ArrayList<KeyBinding>();
-    
+
     static {
         // Add these bindings at the front of the list, so they take precedence
         TREE_TABLE_VIEW_BINDINGS.add(new KeyBinding(LEFT, "CollapseRow"));
@@ -91,15 +91,15 @@ public class TreeTableViewBehavior<T> extends TableViewBehaviorBase<TreeTableVie
         else if ("ExpandAll".equals(name)) expandAll();
         else super.callAction(name);
     }
-    
 
-    
+
+
     /**************************************************************************
      *                                                                        *
      * Listeners                                                              *
-     *                                                                        *  
+     *                                                                        *
      *************************************************************************/
-    
+
     private final ChangeListener<TreeTableView.TreeTableViewSelectionModel<T>> selectionModelListener =
             (observable, oldValue, newValue) -> {
                 if (oldValue != null) {
@@ -109,16 +109,16 @@ public class TreeTableViewBehavior<T> extends TableViewBehaviorBase<TreeTableVie
                     newValue.getSelectedCells().addListener(weakSelectedCellsListener);
                 }
             };
-    
-    private final WeakChangeListener<TreeTableView.TreeTableViewSelectionModel<T>> weakSelectionModelListener = 
+
+    private final WeakChangeListener<TreeTableView.TreeTableViewSelectionModel<T>> weakSelectionModelListener =
             new WeakChangeListener<TreeTableView.TreeTableViewSelectionModel<T>>(selectionModelListener);
-    
-    
-    
+
+
+
     /**************************************************************************
      *                                                                        *
      * Constructors                                                           *
-     *                                                                        *  
+     *                                                                        *
      *************************************************************************/
 
     public TreeTableViewBehavior(TreeTableView<T>  control) {
@@ -131,14 +131,14 @@ public class TreeTableViewBehavior<T> extends TableViewBehaviorBase<TreeTableVie
         }
     }
 
-    
-    
+
+
     /**************************************************************************
      *                                                                        *
      * Implement TableViewBehaviorBase abstract methods                       *
-     *                                                                        *  
+     *                                                                        *
      *************************************************************************/
-    
+
     /** {@inheritDoc}  */
     @Override protected int getItemCount() {
         return getControl().getExpandedItemCount();
@@ -185,7 +185,7 @@ public class TreeTableViewBehavior<T> extends TableViewBehaviorBase<TreeTableVie
     }
 
     /** {@inheritDoc}  */
-    @Override protected TablePositionBase<TreeTableColumn<T, ?>> 
+    @Override protected TablePositionBase<TreeTableColumn<T, ?>>
             getTablePosition(int row, TableColumnBase<TreeItem<T>, ?> tc) {
         return new TreeTablePosition(getControl(), row, (TreeTableColumn)tc);
     }
@@ -209,9 +209,9 @@ public class TreeTableViewBehavior<T> extends TableViewBehaviorBase<TreeTableVie
     /**************************************************************************
      *                                                                        *
      * Tree-related implementation                                            *
-     *                                                                        *  
+     *                                                                        *
      *************************************************************************/
-    
+
     /**
      * The next methods handle the left/right arrow input differently depending
      * on whether we are in row or cell selection.
@@ -227,7 +227,7 @@ public class TreeTableViewBehavior<T> extends TableViewBehaviorBase<TreeTableVie
             expandRow();
         }
     }
-    
+
     private void leftArrowPressed() {
         if (getControl().getSelectionModel().isCellSelectionEnabled()) {
             if (isRTL()) {
@@ -239,16 +239,16 @@ public class TreeTableViewBehavior<T> extends TableViewBehaviorBase<TreeTableVie
             collapseRow();
         }
     }
-    
+
     private void expandRow() {
         Callback<TreeItem<T>, Integer> getIndex = p -> getControl().getRow(p);
         TreeViewBehavior.expandRow(getControl().getSelectionModel(), getIndex);
     }
-    
+
     private void expandAll() {
         TreeViewBehavior.expandAll(getControl().getRoot());
     }
-    
+
     private void collapseRow() {
         TreeTableView<T> control = getControl();
         TreeViewBehavior.collapseRow(control.getSelectionModel(), control.getRoot(), control.isShowRoot());

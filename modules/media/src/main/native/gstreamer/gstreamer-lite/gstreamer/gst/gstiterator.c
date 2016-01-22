@@ -196,7 +196,7 @@ gst_list_iterator_free (GstListIterator * it)
  * Create a new iterator designed for iterating @list.
  *
  * The list you iterate is usually part of a data structure @owner and is
- * protected with @lock. 
+ * protected with @lock.
  *
  * The iterator will use @lock to retrieve the next item of the list and it
  * will then call the @item function before releasing @lock again.
@@ -259,7 +259,7 @@ gst_iterator_pop (GstIterator * it)
  * @it: The #GstIterator to iterate
  * @elem: pointer to hold next element
  *
- * Get the next item from the iterator in @elem. 
+ * Get the next item from the iterator in @elem.
  *
  * Only when this function returns %GST_ITERATOR_OK, @elem will contain a valid
  * value. For iterators that return refcounted objects, the returned object
@@ -271,7 +271,7 @@ gst_iterator_pop (GstIterator * it)
  *
  * A return value of %GST_ITERATOR_RESYNC indicates that the element list was
  * concurrently updated. The user of @it should call gst_iterator_resync() to
- * get the newly updated list. 
+ * get the newly updated list.
  *
  * A return value of %GST_ITERATOR_ERROR indicates an unrecoverable fatal error.
  *
@@ -517,7 +517,7 @@ gst_iterator_filter (GstIterator * it, GCompareFunc func, gpointer user_data)
  * Folds @func over the elements of @iter. That is to say, @func will be called
  * as @func (object, @ret, @user_data) for each object in @it. The normal use
  * of this procedure is to accumulate the results of operating on the objects in
- * @ret.  If object is a refcounted object its refcount will be increased 
+ * @ret.  If object is a refcounted object its refcount will be increased
  * before @func is called, and it should be unrefed after use in @func.
  *
  * This procedure can be used (and is used internally) to implement the
@@ -582,7 +582,7 @@ foreach_fold_func (gpointer item, GValue * unused, ForeachFoldData * data)
  * @user_data: (closure): user data passed to the function
  *
  * Iterate over all element of @it and call the given function @func for
- * each element.  As in gst_iterator_fold(), the refcount of a refcounted 
+ * each element.  As in gst_iterator_fold(), the refcount of a refcounted
  * object will be increased before @func is called, and should be unrefed
  * after use.
  *
@@ -635,7 +635,7 @@ find_custom_fold_func (gpointer item, GValue * ret, FindCustomFoldData * data)
  *
  * Find the first element in @it that matches the compare function @func.
  * @func should return 0 when the element is found.  As in gst_iterator_fold(),
- * the refcount of a refcounted object will be increased before @func is 
+ * the refcount of a refcounted object will be increased before @func is
  * called, and should be unrefed after use in @func unless it is the matching
  * element.
  *

@@ -52,87 +52,87 @@
   (v4l2object->vcap.capabilities & V4L2_CAP_VIDEO_OVERLAY)
 
 /* checks whether the current v4lv4l2object has already been open()'ed or not */
-#define GST_V4L2_CHECK_OPEN(v4l2object)				\
-  if (!GST_V4L2_IS_OPEN(v4l2object))				\
-  {								\
-    GST_ELEMENT_ERROR (v4l2object->element, RESOURCE, SETTINGS,	\
+#define GST_V4L2_CHECK_OPEN(v4l2object)             \
+  if (!GST_V4L2_IS_OPEN(v4l2object))                \
+  {                             \
+    GST_ELEMENT_ERROR (v4l2object->element, RESOURCE, SETTINGS, \
       (_("Device is not open.")), (NULL));                      \
-    return FALSE;						\
+    return FALSE;                       \
   }
 
 /* checks whether the current v4lv4l2object is close()'ed or whether it is still open */
-#define GST_V4L2_CHECK_NOT_OPEN(v4l2object)			\
-  if (GST_V4L2_IS_OPEN(v4l2object))				\
-  {								\
-    GST_ELEMENT_ERROR (v4l2object->element, RESOURCE, SETTINGS,	\
+#define GST_V4L2_CHECK_NOT_OPEN(v4l2object)         \
+  if (GST_V4L2_IS_OPEN(v4l2object))             \
+  {                             \
+    GST_ELEMENT_ERROR (v4l2object->element, RESOURCE, SETTINGS, \
       (_("Device is open.")), (NULL));                          \
-    return FALSE;						\
+    return FALSE;                       \
   }
 
 /* checks whether the current v4lv4l2object does video overlay */
-#define GST_V4L2_CHECK_OVERLAY(v4l2object)			\
-  if (!GST_V4L2_IS_OVERLAY(v4l2object))				\
-  {								\
+#define GST_V4L2_CHECK_OVERLAY(v4l2object)          \
+  if (!GST_V4L2_IS_OVERLAY(v4l2object))             \
+  {                             \
     GST_ELEMENT_ERROR (v4l2object->element, RESOURCE, SETTINGS, \
       (NULL), ("Device cannot handle overlay"));                \
-    return FALSE;						\
+    return FALSE;                       \
   }
 
 /* checks whether we're in capture mode or not */
-#define GST_V4L2_CHECK_ACTIVE(v4l2object)			\
-  if (!GST_V4L2_IS_ACTIVE(v4l2object))				\
-  {								\
+#define GST_V4L2_CHECK_ACTIVE(v4l2object)           \
+  if (!GST_V4L2_IS_ACTIVE(v4l2object))              \
+  {                             \
     GST_ELEMENT_ERROR (v4l2object->element, RESOURCE, SETTINGS, \
       (NULL), ("Device is not in streaming mode"));             \
-    return FALSE;						\
+    return FALSE;                       \
   }
 
 /* checks whether we're out of capture mode or not */
-#define GST_V4L2_CHECK_NOT_ACTIVE(v4l2object)			\
-  if (GST_V4L2_IS_ACTIVE(v4l2object))				\
-  {								\
+#define GST_V4L2_CHECK_NOT_ACTIVE(v4l2object)           \
+  if (GST_V4L2_IS_ACTIVE(v4l2object))               \
+  {                             \
     GST_ELEMENT_ERROR (v4l2object->element, RESOURCE, SETTINGS, \
       (NULL), ("Device is in streaming mode"));                 \
-    return FALSE;						\
+    return FALSE;                       \
   }
 
 
 /* open/close the device */
-gboolean	gst_v4l2_open			(GstV4l2Object *v4l2object);
-gboolean	gst_v4l2_close			(GstV4l2Object *v4l2object);
+gboolean    gst_v4l2_open           (GstV4l2Object *v4l2object);
+gboolean    gst_v4l2_close          (GstV4l2Object *v4l2object);
 
 /* norm/input/output */
-gboolean	gst_v4l2_get_norm		(GstV4l2Object *v4l2object,
-						 v4l2_std_id    *norm);
-gboolean	gst_v4l2_set_norm		(GstV4l2Object *v4l2object,
-						 v4l2_std_id     norm);
+gboolean    gst_v4l2_get_norm       (GstV4l2Object *v4l2object,
+                         v4l2_std_id    *norm);
+gboolean    gst_v4l2_set_norm       (GstV4l2Object *v4l2object,
+                         v4l2_std_id     norm);
 gboolean        gst_v4l2_get_input              (GstV4l2Object * v4l2object,
                                                  gint * input);
 gboolean        gst_v4l2_set_input              (GstV4l2Object * v4l2object,
                                                  gint input);
-gboolean	gst_v4l2_get_output		(GstV4l2Object *v4l2object,
-						 gint           *output);
-gboolean	gst_v4l2_set_output		(GstV4l2Object *v4l2object,
-						 gint            output);
+gboolean    gst_v4l2_get_output     (GstV4l2Object *v4l2object,
+                         gint           *output);
+gboolean    gst_v4l2_set_output     (GstV4l2Object *v4l2object,
+                         gint            output);
 
 /* frequency control */
-gboolean	gst_v4l2_get_frequency		(GstV4l2Object *v4l2object,
-						 gint            tunernum,
-						 gulong         *frequency);
-gboolean	gst_v4l2_set_frequency		(GstV4l2Object *v4l2object,
-						 gint            tunernum,
-					 	 gulong          frequency);
-gboolean	gst_v4l2_signal_strength	(GstV4l2Object *v4l2object,
-						 gint            tunernum,
-						 gulong         *signal);
+gboolean    gst_v4l2_get_frequency      (GstV4l2Object *v4l2object,
+                         gint            tunernum,
+                         gulong         *frequency);
+gboolean    gst_v4l2_set_frequency      (GstV4l2Object *v4l2object,
+                         gint            tunernum,
+                         gulong          frequency);
+gboolean    gst_v4l2_signal_strength    (GstV4l2Object *v4l2object,
+                         gint            tunernum,
+                         gulong         *signal);
 
 /* attribute control */
-gboolean	gst_v4l2_get_attribute		(GstV4l2Object *v4l2object,
-						 int             attribute,
-						 int            *value);
-gboolean	gst_v4l2_set_attribute		(GstV4l2Object *v4l2object,
-						 int             attribute,
-						 const int       value);
+gboolean    gst_v4l2_get_attribute      (GstV4l2Object *v4l2object,
+                         int             attribute,
+                         int            *value);
+gboolean    gst_v4l2_set_attribute      (GstV4l2Object *v4l2object,
+                         int             attribute,
+                         const int       value);
 
 gboolean        gst_v4l2_get_capabilities       (GstV4l2Object * v4l2object);
 

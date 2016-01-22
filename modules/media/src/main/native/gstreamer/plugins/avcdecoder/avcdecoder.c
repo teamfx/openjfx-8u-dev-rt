@@ -138,9 +138,9 @@ avcdecoder_class_init (AvcDecoderClass * klass)
 {
     GstElementClass *gstelement_class = (GstElementClass *) klass;
     GObjectClass *gobject_class = (GObjectClass*)klass;
-    
+
     gstelement_class->change_state = avcdecoder_change_state;
-    
+
     gobject_class->dispose = avcdecoder_dispose;
 }
 
@@ -190,7 +190,7 @@ avcdecoder_init (AvcDecoder * decode,
     }
 
     gst_pad_use_fixed_caps (decode->srcpad);
-    
+
     decode->mutex = g_mutex_new();
 }
 
@@ -198,14 +198,14 @@ static void
 avcdecoder_dispose(GObject* object)
 {
     AvcDecoder* decode = AVCDECODER(object);
-    
+
     avcdecoder_state_destroy (decode);
-    
+
     if (NULL != decode->mutex) {
         g_mutex_free(decode->mutex);
         decode->mutex = NULL;
     }
-    
+
     G_OBJECT_CLASS(parent_class)->dispose(object);
 }
 
@@ -260,7 +260,7 @@ avcdecoder_decoder_output_callback (void* userData,
                                     CVImageBufferRef imageBuffer)
 {
     AvcDecoder *decode = AVCDECODER (userData);
-    
+
     if(decode->is_flushing)
     {
         return;
@@ -320,7 +320,7 @@ avcdecoder_decoder_output_callback (void* userData,
     }
 
     GstBuffer* buf = NULL;
-    
+
     if (isGap)
     {
         // Push a flagged, empty buffer it there is a problem.
@@ -377,7 +377,7 @@ avcdecoder_decoder_output_callback (void* userData,
     g_mutex_lock(decode->mutex);
 
     g_queue_insert_sorted(decode->ordered_frames, buf, avcdecoder_buffer_compare, NULL);
-    
+
     GstBuffer* frame;
     GstFlowReturn ret = GST_FLOW_OK;
     while(ret == GST_FLOW_OK && !decode->is_flushing && NULL != (frame = g_queue_peek_head(decode->ordered_frames)))
@@ -414,7 +414,7 @@ avcdecoder_decoder_output_callback (void* userData,
             break;
         }
     }
-    
+
     g_mutex_unlock(decode->mutex);
 }
 

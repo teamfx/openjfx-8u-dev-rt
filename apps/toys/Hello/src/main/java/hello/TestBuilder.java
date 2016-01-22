@@ -83,10 +83,10 @@ import javafx.util.Callback;
 import javafx.util.Duration;
 import com.sun.glass.events.KeyEvent;
 import com.sun.glass.ui.Robot;
-    
+
 /**
- * The class is a singleton, used by HelloSanity application 
- * for tests creation 
+ * The class is a singleton, used by HelloSanity application
+ * for tests creation
  */
 
 public class TestBuilder {
@@ -98,7 +98,7 @@ public class TestBuilder {
 
     //Variables used by "HelloComboBox" section
     private final ObservableList<String> strings = FXCollections.observableArrayList(
-            "Option 1", "Option 2", "Option 3", 
+            "Option 1", "Option 2", "Option 3",
             "Option 4", "Option 5", "Option 6",
             "Long ComboBox item 1 2 3 4 5 6 7 8 9",
             "Option 7", "Option 8", "Option 9", "Option 10", "Option 12", "Option 13",
@@ -124,7 +124,7 @@ public class TestBuilder {
     private final Rectangle rec1 = new Rectangle(50, 50, 40, 160);
 
     private boolean playing = false;
-    
+
     private static TestBuilder instance;
 
     protected TestBuilder() {}
@@ -136,8 +136,8 @@ public class TestBuilder {
     }
 
     /**
-     * The method updates globalScene with different controls and 
-     * possible to test them manually 
+     * The method updates globalScene with different controls and
+     * possible to test them manually
      * @param globalScene the global Scene
      * @param mainBox the Box to insert into
      */
@@ -241,7 +241,7 @@ public class TestBuilder {
         l = new Label("ListView:");
         grid.setConstraints(l, 2, 1);
         grid.getChildren().add(l);
-       
+
         ListView<String> lv = new ListView<String>();
         lv.setPrefSize(120, 120);
         ObservableList<String> lvi = FXCollections.observableArrayList();
@@ -251,7 +251,7 @@ public class TestBuilder {
         lv.setItems(lvi);
         grid.setConstraints(lv, 3, 1);
         grid.getChildren().add(lv);
-        
+
 
         l = new Label("ListView:");
         grid.setConstraints(l, 4, 1);
@@ -267,36 +267,36 @@ public class TestBuilder {
         lv.setItems(lvi);
         grid.setConstraints(lv, 5, 1);
         grid.getChildren().add(lv);
-        
-        
+
+
         //text fields for VK behavior testing
         l = new Label("Email:");
         grid.setConstraints(l, 4, 3);
         grid.getChildren().add(l);
-        
+
         TextField text3 = new TextField("jhon@yahoo.com");
         text3.getProperties().put("vkType", "email");
         grid.setConstraints(text3, 5, 3);
         grid.getChildren().add(text3);
-        
+
         l = new Label("URL:");
         grid.setConstraints(l, 4, 4);
         grid.getChildren().add(l);
-        
+
         TextField text4 = new TextField("oracle.com");
         text4.getProperties().put("vkType", "url");
         grid.setConstraints(text4, 5, 4);
         grid.getChildren().add(text4);
-        
+
         l = new Label("Numeric:");
         grid.setConstraints(l, 4, 5);
         grid.getChildren().add(l);
-        
+
         TextField text5 = new TextField("1234");
         grid.setConstraints(text5, 5, 5);
         text5.getProperties().put("vkType", "numeric");
-        grid.getChildren().add(text5); 
-     
+        grid.getChildren().add(text5);
+
         l = new Label("Controls Demo");
         VBox vb = new VBox();
         vb.setAlignment(Pos.CENTER);
@@ -307,7 +307,7 @@ public class TestBuilder {
 
     /**
      * The method updates globalScene with different menus and combo
-     * boxes and possible to test them manually 
+     * boxes and possible to test them manually
      * @param globalScene the global Scene
      * @param mainBox the Box to insert into
      * @param mainstage the main stage to use
@@ -335,7 +335,7 @@ public class TestBuilder {
                                             new Image("hello/about_16.png")));
         MenuItem menu12 = new MenuItem("_Open", new ImageView(
                                             new Image("hello/folder_16.png")));
-        menu12.setAccelerator(new KeyCharacterCombination("]", 
+        menu12.setAccelerator(new KeyCharacterCombination("]",
                 KeyCombination.SHIFT_DOWN, KeyCombination.META_DOWN));
         menu12.setOnAction((javafx.event.EventHandler<javafx.event.ActionEvent>)
                            actionHandler);
@@ -409,7 +409,7 @@ public class TestBuilder {
         menu27.setDisable(false);
         menu2.getItems().addAll(menu21, menu22, new SeparatorMenuItem(), menu23,
                  menu24, menu25, menu26, menu27);
-  
+
         Menu menu3 = makeMenu("_Radio/CheckBox");
         CheckMenuItem checkMI1 = new CheckMenuItem("_1 CheckMenuItem - checked");
         checkMI1.setSelected(true);
@@ -439,7 +439,7 @@ public class TestBuilder {
         menuBar.getMenus().add(menu1);
         menuBar.getMenus().add(menu2);
         menuBar.getMenus().add(menu3);
-        
+
         if (os != null && os.startsWith("Mac")) {
             Menu systemMenuBarMenu = makeMenu("MenuBar _Options");
 
@@ -470,12 +470,12 @@ public class TestBuilder {
         shortComboBox.setItems(FXCollections.
                                observableArrayList(strings.subList(0, 4)));
         buttonsVBox1.getChildren().add(shortComboBox);
-        
+
         ComboBox longComboBox = new ComboBox();
         longComboBox.setPromptText("Make a choice...");
         longComboBox.setItems(strings);
         buttonsVBox1.getChildren().add(longComboBox);
-        
+
         ComboBox fontComboBox = new ComboBox();
         fontComboBox.setItems(fonts);
         fontComboBox.setCellFactory(new Callback<ListView<String>,
@@ -494,13 +494,13 @@ public class TestBuilder {
             }
         });
         buttonsVBox1.getChildren().add(fontComboBox);
-        
+
         ComboBox comboBox2 = new ComboBox();
         comboBox2.setId("first-editable");
         comboBox2.setItems(FXCollections.observableArrayList(strings.subList(0, 4)));
         comboBox2.setEditable(true);
         buttonsVBox1.getChildren().add(comboBox2);
-        
+
         ComboBox<String> comboBox3 = new ComboBox<String>();
         comboBox3.setId("second-editable");
         comboBox3.setPromptText("Make a choice...");
@@ -513,7 +513,7 @@ public class TestBuilder {
                 System.out.println("new value: " + t1);
             }
         });
-        
+
         ComboBox editFontComboBox = new ComboBox();
         editFontComboBox.setId("third-editable");
         editFontComboBox.setItems(fonts);
@@ -533,7 +533,7 @@ public class TestBuilder {
                 return cell;
             }
         });
-        buttonsVBox1.getChildren().add(editFontComboBox);        
+        buttonsVBox1.getChildren().add(editFontComboBox);
 
         Button OpenTabbtn = new Button("Open Tab Pane");
         OpenTabbtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -550,7 +550,7 @@ public class TestBuilder {
             }
         });
 
-        //Menu-Buttons testing 
+        //Menu-Buttons testing
         VBox buttonsVBox2 = new VBox(10);
         int y = 10;
         Button simpButton = new Button("Simple Button");
@@ -703,20 +703,20 @@ public class TestBuilder {
 
         smb3.setText(smb3.getItems().get(0).getText());
         smb3.setOnAction(smb3.getItems().get(0).getOnAction());
-        buttonsVBox2.getChildren().add(smb3);        
+        buttonsVBox2.getChildren().add(smb3);
 
         HBox allButtons = new HBox(100);
         allButtons.getChildren().addAll(buttonsVBox1,buttonsVBox2);
 
         vb.getChildren().addAll(new Label(" "), allButtons, Backbtn);
         globalScene.setRoot(vb);
-        
+
     }
-    
+
     private EventHandler showHideHandler = new EventHandler<Event>() {
         public void handle(Event t) {
             Menu menu = (Menu)t.getSource();
-            if (t.getEventType() == Menu.ON_SHOWING && 
+            if (t.getEventType() == Menu.ON_SHOWING &&
                     menu.getText().equals("_Submenu")) {
                 Date date = new Date();
                 String time = new SimpleDateFormat("HH:mm:ss").format(date);
@@ -744,14 +744,14 @@ public class TestBuilder {
 
     /**
      * The method open new window with Tabbed Pane for manual
-     * testing 
+     * testing
      * @param globalScene the global Scene
      * @param mainBox the Box to insert into
      * @param prevStage the previous stage to use
      */
     public void openTabbedPane(final Scene globalScene, final VBox mainBox,
                                final Stage prevStage) {
-    
+
         prevStage.close();
         final Stage TabStage = new Stage();
         TabStage.setX(10);
@@ -771,7 +771,7 @@ public class TestBuilder {
 
         tabPane.setRotateGraphic(false);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
-        tabPane.setSide(Side.TOP);        
+        tabPane.setSide(Side.TOP);
 
         {
             tab1.setText("Tab 1");
@@ -854,7 +854,7 @@ public class TestBuilder {
                 tb.setSelected(showScrollArrows);
                 tb.selectedProperty().addListener(new InvalidationListener() {
                     public void invalidated(Observable ov) {
-                        showScrollArrows = !showScrollArrows;                       
+                        showScrollArrows = !showScrollArrows;
                     }
                 });
                 vbox.getChildren().add(tb);
@@ -1154,7 +1154,7 @@ public class TestBuilder {
             StackPane stack = new StackPane();
             Rectangle rect = new Rectangle(200,200, Color.YELLOWGREEN);
             stack.getChildren().addAll(rect, new Button(" A type of dog: "+tabstring));
-            tab.setContent(stack);                    
+            tab.setContent(stack);
             internalTabPane.getTabs().add(tab);
         }
         flow.getChildren().add(internalTabPane);
@@ -1167,7 +1167,7 @@ public class TestBuilder {
             StackPane stack = new StackPane();
             Rectangle rect = new Rectangle(200,200, Color.RED);
             stack.getChildren().addAll(rect, new Button(" A type of dog: "+tabstring));
-            tab.setContent(stack);                    
+            tab.setContent(stack);
             internalTabPane.getTabs().add(tab);
         }
         flow.getChildren().add(internalTabPane);
@@ -1208,7 +1208,7 @@ public class TestBuilder {
     }
 
     /**
-     * The method updates globalScene with buttons that 
+     * The method updates globalScene with buttons that
      * opens/manipulates windows
      * @param globalScene the global Scene
      * @param mainBox the Box to insert into
@@ -1223,7 +1223,7 @@ public class TestBuilder {
         Label l = new Label("Windows Demo");
 
         Button PopUpBtn = new Button("Pop-Up Test");
-        final Popup popup = new Popup(); 
+        final Popup popup = new Popup();
         popup.setX(WindowsStage.getX()+300);
         popup.setY(WindowsStage.getY()+150);
         popup.setAutoHide(true);
@@ -1259,7 +1259,7 @@ public class TestBuilder {
                 stage1.setFullScreen(!stage1.isFullScreen());
             }
         });
-        
+
         setMini.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 if (stage1.isShowing()) {
@@ -1293,7 +1293,7 @@ public class TestBuilder {
                 stage1.setScene(s1);
                 stage1.setX(WindowsStage.getX()+300);
                 stage1.setY(WindowsStage.getY()+150);
-		stage1.setAlwaysOnTop(true);
+        stage1.setAlwaysOnTop(true);
                 stage1.show();
                 setMini.setDisable(false);
                 resVerBtn.setDisable(false);
@@ -1355,7 +1355,7 @@ public class TestBuilder {
                 Label l = new Label("  Only this window should be active!");
                 Button BackBtn = new Button("Cancel");
                 BackBtn.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override public void handle(ActionEvent e) { 
+                    @Override public void handle(ActionEvent e) {
                         stage2.close();
                     } });
                 VBox box = new VBox(10);
@@ -1390,7 +1390,7 @@ public class TestBuilder {
     }
 
     /**
-     * The method updates globalScene with animation that should be 
+     * The method updates globalScene with animation that should be
      * shown correctly
      * @param globalScene the global Scene
      * @param mainBox the Box to insert into
@@ -1410,7 +1410,7 @@ public class TestBuilder {
 
         VBox vb = new VBox(30);
         vb.setAlignment(Pos.CENTER);
-        vb.getChildren().addAll( l, car, btn);        
+        vb.getChildren().addAll( l, car, btn);
         Path path = new Path();
         path.getElements().add(new MoveTo(20,20));
         path.getElements().add(new CubicCurveTo(380, 0, 380, 120, 200, 120));
@@ -1428,14 +1428,14 @@ public class TestBuilder {
     }
 
     /**
-     * The method updates globalScene with few types for effects 
-     * that should be shown correctly 
+     * The method updates globalScene with few types for effects
+     * that should be shown correctly
      * @param globalScene the global Scene
      * @param mainBox the Box to insert into
      */
     public void effectsTest(final Scene globalScene, final VBox mainBox){
 
-        
+
         Label l = new Label("Effects Demo");
         Button btn = new Button("Back");
         btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -1509,11 +1509,11 @@ public class TestBuilder {
 
         duke1.setLayoutX(50);
         duke1.setLayoutY(50);
-        
+
         VBox vb = new VBox(20);
         vb.setAlignment(Pos.CENTER);
         vb.getChildren().addAll( l, grid, btn);
-        globalScene.setRoot(vb);        
+        globalScene.setRoot(vb);
     }
 
     /**
@@ -1530,7 +1530,7 @@ public class TestBuilder {
         lGroup.setLayoutX(400);
         lGroup.setLayoutY(10);
 
-    	//Rectangle's coordinates
+        //Rectangle's coordinates
         final int recX = 50;
         final int recY = 50;
 
@@ -1645,101 +1645,101 @@ public class TestBuilder {
 
 
    public void robotKeyTest(final TextField field, final TextField result) {
-		field.requestFocus();
-		new AnimationTimer() {
-			long startTime = System.nanoTime();
-			@Override 
-			public void handle(long now) {
-				if (now > startTime + 3000000000l){ 
-					stop(); 
-					field.setText("Failed");
-				} else if (field.isFocused()) {
-					stop();
-					Robot robot = com.sun.glass.ui.Application.GetApplication().createRobot();
-					robot.keyPress(KeyEvent.VK_T);
-					robot.keyRelease(KeyEvent.VK_T);
-					robot.keyPress(KeyEvent.VK_E);
-					robot.keyRelease(KeyEvent.VK_E);
-					robot.keyPress(KeyEvent.VK_S);
-					robot.keyRelease(KeyEvent.VK_S);
-					robot.keyPress(KeyEvent.VK_T);
-					robot.keyRelease(KeyEvent.VK_T);
-					robot.destroy();
-					new AnimationTimer() {
-						long startTime = System.nanoTime();
-						@Override
-						public void handle(long now) {
-							if (now > startTime + 3000000000l){ 
-								stop();
-								result.setText("Failed");
-							} else if ((field.getText()).equals("test")) { 
-								stop();
-								result.setText("Passed");
-							}
-						}
-					}.start();
-				}
-			}
-		}.start();
-	}
+        field.requestFocus();
+        new AnimationTimer() {
+            long startTime = System.nanoTime();
+            @Override
+            public void handle(long now) {
+                if (now > startTime + 3000000000l){
+                    stop();
+                    field.setText("Failed");
+                } else if (field.isFocused()) {
+                    stop();
+                    Robot robot = com.sun.glass.ui.Application.GetApplication().createRobot();
+                    robot.keyPress(KeyEvent.VK_T);
+                    robot.keyRelease(KeyEvent.VK_T);
+                    robot.keyPress(KeyEvent.VK_E);
+                    robot.keyRelease(KeyEvent.VK_E);
+                    robot.keyPress(KeyEvent.VK_S);
+                    robot.keyRelease(KeyEvent.VK_S);
+                    robot.keyPress(KeyEvent.VK_T);
+                    robot.keyRelease(KeyEvent.VK_T);
+                    robot.destroy();
+                    new AnimationTimer() {
+                        long startTime = System.nanoTime();
+                        @Override
+                        public void handle(long now) {
+                            if (now > startTime + 3000000000l){
+                                stop();
+                                result.setText("Failed");
+                            } else if ((field.getText()).equals("test")) {
+                                stop();
+                                result.setText("Passed");
+                            }
+                        }
+                    }.start();
+                }
+            }
+        }.start();
+    }
 
     public void robotWheelTest(final ListView<String> lv, final TextField result,
                                                             Stage currentStage){
 
-		//Caclulation of ListView minimal coordinates
-		Bounds bounds = lv.localToScreen(new BoundingBox(0, 0, 
-	        lv.getBoundsInParent().getWidth(),
-	        lv.getBoundsInParent().getHeight()));
-		int x = 10 + (int) bounds.getMinX();
-		int y = 10 + (int) bounds.getMinY();
+        //Caclulation of ListView minimal coordinates
+        Bounds bounds = lv.localToScreen(new BoundingBox(0, 0,
+            lv.getBoundsInParent().getWidth(),
+            lv.getBoundsInParent().getHeight()));
+        int x = 10 + (int) bounds.getMinX();
+        int y = 10 + (int) bounds.getMinY();
 
-		final Robot robot =
+        final Robot robot =
                     com.sun.glass.ui.Application.GetApplication().createRobot();
         robot.mouseMove(x, y);
         robot.mousePress(Robot.MOUSE_LEFT_BTN);
         robot.mouseRelease(Robot.MOUSE_LEFT_BTN);
 
-		new AnimationTimer() {
-			long startTime = System.nanoTime();
-			@Override 
-			public void handle(long now) {
-				if (now > startTime + 3000000000l){ 
-					stop(); 
-					result.setText("Failed");
-				} else if (lv.isFocused()) {
-					stop();
-					robot.mouseWheel(-5);
-					robot.mousePress(Robot.MOUSE_LEFT_BTN);
+        new AnimationTimer() {
+            long startTime = System.nanoTime();
+            @Override
+            public void handle(long now) {
+                if (now > startTime + 3000000000l){
+                    stop();
+                    result.setText("Failed");
+                } else if (lv.isFocused()) {
+                    stop();
+                    robot.mouseWheel(-5);
+                    robot.mousePress(Robot.MOUSE_LEFT_BTN);
                     robot.mouseRelease(Robot.MOUSE_LEFT_BTN);
                     robot.destroy();
-					new AnimationTimer() {
-						long startTime = System.nanoTime();
-						@Override
-						public void handle(long now) {
-							if (now > startTime + 3000000000l){ 
-								stop();
-								result.setText("Scroll Down Failed");
-							} else if (!lv.getSelectionModel().
+                    new AnimationTimer() {
+                        long startTime = System.nanoTime();
+                        @Override
+                        public void handle(long now) {
+                            if (now > startTime + 3000000000l){
+                                stop();
+                                result.setText("Scroll Down Failed");
+                            } else if (!lv.getSelectionModel().
                                     selectedItemProperty().getValue().
                                     equals("a")) {
-								        stop();
-								    result.setText("Scroll Down Passed");
-							}
-						}
-					}.start();
-				}
-			}
-		}.start();
-	}
+                                        stop();
+                                    result.setText("Scroll Down Passed");
+                            }
+                        }
+                    }.start();
+                }
+            }
+        }.start();
+    }
 
     public void robotPixelTest(final TextField result, Stage currentStage){
 
-	Bounds bounds = rec1.localToScreen(new BoundingBox(0, 0, 
-			rec1.getBoundsInParent().getWidth(),
+    Bounds bounds = rec1.localToScreen(new BoundingBox(0, 0,
+            rec1.getBoundsInParent().getWidth(),
                         rec1.getBoundsInParent().getHeight()));
-	int x = 53 + (int) bounds.getMinX();
-	int y = 53 + (int) bounds.getMinY();
-	int answer = assertPixelEquals(x, y, Color.RED) +
+    int x = 53 + (int) bounds.getMinX();
+    int y = 53 + (int) bounds.getMinY();
+    int answer = assertPixelEquals(x, y, Color.RED) +
                      assertPixelEquals(x + 40, y, Color.BLUE) +
                      assertPixelEquals(x + 80, y, Color.YELLOW) +
                      assertPixelEquals(x + 120, y, Color.GREEN);
@@ -1794,9 +1794,9 @@ public class TestBuilder {
 
         return false;
     }
-       
+
     public Popup robotScreenTest(final TextField result, Stage stage){
-	
+
         Bounds bounds = rec1.localToScreen(new BoundingBox(0, 0,
                 rec1.getBoundsInParent().getWidth(),
                 rec1.getBoundsInParent().getHeight()));
@@ -1902,7 +1902,7 @@ public class TestBuilder {
     }
 
     /**
-     * The method updates globalScene with rectangle that should be 
+     * The method updates globalScene with rectangle that should be
      * swiped, scrolled, zoomed or rotated (touch only)
      * @param globalScene the global Scene
      * @param mainBox the Box to insert into
@@ -1923,7 +1923,7 @@ public class TestBuilder {
         Button btn = new Button("Back");
         btn.setOnAction(event -> {
                 globalScene.setRoot(mainBox);
-        });   
+        });
         rect = new Rectangle(200, 200, 200, 200);
         rect.setFill(Color.RED);
         rect.setOnSwipeLeft(event -> {
@@ -2010,5 +2010,5 @@ public class TestBuilder {
             playing = false;
         });
         tt.play();
-    }   
+    }
 }

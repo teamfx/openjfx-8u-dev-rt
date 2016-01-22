@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.text.Font
 public final class FontBuilder implements javafx.util.Builder<javafx.scene.text.Font> {
     protected FontBuilder() {
     }
-    
+
     /** Creates a new instance of FontBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.text.FontBuilder create() {
         return new javafx.scene.text.FontBuilder();
     }
-    
+
     private java.lang.String name;
     /**
     Set the value of the {@link javafx.scene.text.Font#getName() name} property for the instance constructed by this builder.
@@ -51,7 +51,7 @@ public final class FontBuilder implements javafx.util.Builder<javafx.scene.text.
         this.name = x;
         return this;
     }
-    
+
     private double size;
     /**
     Set the value of the {@link javafx.scene.text.Font#getSize() size} property for the instance constructed by this builder.
@@ -60,7 +60,7 @@ public final class FontBuilder implements javafx.util.Builder<javafx.scene.text.
         this.size = x;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.text.Font} based on the properties set on this builder.
     */

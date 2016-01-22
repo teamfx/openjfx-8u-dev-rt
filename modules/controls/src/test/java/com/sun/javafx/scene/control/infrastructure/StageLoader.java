@@ -47,7 +47,7 @@ public class StageLoader {
         stage.setScene(scene);
         stage.show();
     }
-    
+
     public StageLoader(Scene scene) {
         stage = new Stage();
         stage.setScene(scene);
@@ -57,7 +57,7 @@ public class StageLoader {
     public Stage getStage() {
         return stage;
     }
-    
+
     public void dispose() {
         if (group != null) {
             group.getChildren().clear();

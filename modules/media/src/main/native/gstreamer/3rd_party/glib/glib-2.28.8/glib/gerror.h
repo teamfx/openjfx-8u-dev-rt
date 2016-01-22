@@ -77,7 +77,7 @@ void     g_set_error_literal   (GError       **err,
 /* if (dest) *dest = src; also has some sanity checks.
  */
 void     g_propagate_error     (GError       **dest,
-				GError        *src);
+                GError        *src);
 
 /* if (err && *err) { g_error_free(*err); *err = NULL; } */
 void     g_clear_error         (GError       **err);

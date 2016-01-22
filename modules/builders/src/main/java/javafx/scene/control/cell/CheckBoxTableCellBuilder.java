@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.cell.CheckBoxTableCell
 public class CheckBoxTableCellBuilder<S, T, B extends javafx.scene.control.cell.CheckBoxTableCellBuilder<S, T, B>> extends javafx.scene.control.TableCellBuilder<S, T, B> {
     protected CheckBoxTableCellBuilder() {
     }
-    
+
     /** Creates a new instance of CheckBoxTableCellBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <S, T> javafx.scene.control.cell.CheckBoxTableCellBuilder<S, T, ?> create() {
         return new javafx.scene.control.cell.CheckBoxTableCellBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.cell.CheckBoxTableCell<S, T> x) {
         super.applyTo(x);
@@ -50,7 +50,7 @@ public class CheckBoxTableCellBuilder<S, T, B extends javafx.scene.control.cell.
         if ((set & (1 << 0)) != 0) x.setConverter(this.converter);
         if ((set & (1 << 1)) != 0) x.setSelectedStateCallback(this.selectedStateCallback);
     }
-    
+
     private javafx.util.StringConverter<T> converter;
     /**
     Set the value of the {@link javafx.scene.control.cell.CheckBoxTableCell#getConverter() converter} property for the instance constructed by this builder.
@@ -61,7 +61,7 @@ public class CheckBoxTableCellBuilder<S, T, B extends javafx.scene.control.cell.
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private javafx.util.Callback<java.lang.Integer,javafx.beans.value.ObservableValue<java.lang.Boolean>> selectedStateCallback;
     /**
     Set the value of the {@link javafx.scene.control.cell.CheckBoxTableCell#getSelectedStateCallback() selectedStateCallback} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public class CheckBoxTableCellBuilder<S, T, B extends javafx.scene.control.cell.
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.cell.CheckBoxTableCell} based on the properties set on this builder.
     */

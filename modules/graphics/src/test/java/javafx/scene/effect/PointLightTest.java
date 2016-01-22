@@ -141,7 +141,7 @@ public class PointLightTest extends LightTestBase {
         assertEquals(2, effect.getY(), 1e-100);
         assertEquals(3, effect.getZ(), 1e-100);
         assertEquals(Color.RED, effect.getColor());
-        pulse();        
+        pulse();
         assertEquals(1.0f, ((com.sun.scenario.effect.light.PointLight) effect.impl_getImpl()).getX(), 1e-100);
         assertEquals(2.0f, ((com.sun.scenario.effect.light.PointLight) effect.impl_getImpl()).getY(), 1e-100);
         assertEquals(3.0f, ((com.sun.scenario.effect.light.PointLight) effect.impl_getImpl()).getZ(), 1e-100);
@@ -160,7 +160,7 @@ public class PointLightTest extends LightTestBase {
         assertEquals(0, effect.getY(), 1e-100);
         assertEquals(0, effect.getZ(), 1e-100);
         assertEquals(Color.WHITE, effect.getColor());
-        pulse();        
+        pulse();
         assertEquals(0f, ((com.sun.scenario.effect.light.PointLight) effect.impl_getImpl()).getX(), 1e-100);
         assertEquals(0f, ((com.sun.scenario.effect.light.PointLight) effect.impl_getImpl()).getY(), 1e-100);
         assertEquals(0f, ((com.sun.scenario.effect.light.PointLight) effect.impl_getImpl()).getZ(), 1e-100);

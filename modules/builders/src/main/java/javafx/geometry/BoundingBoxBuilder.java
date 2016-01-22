@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.geometry.BoundingBox
 public class BoundingBoxBuilder<B extends javafx.geometry.BoundingBoxBuilder<B>> implements javafx.util.Builder<javafx.geometry.BoundingBox> {
     protected BoundingBoxBuilder() {
     }
-    
+
     /** Creates a new instance of BoundingBoxBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.geometry.BoundingBoxBuilder<?> create() {
         return new javafx.geometry.BoundingBoxBuilder();
     }
-    
+
     private double depth;
     /**
     Set the value of the {@link javafx.geometry.BoundingBox#getDepth() depth} property for the instance constructed by this builder.
@@ -52,7 +52,7 @@ public class BoundingBoxBuilder<B extends javafx.geometry.BoundingBoxBuilder<B>>
         this.depth = x;
         return (B) this;
     }
-    
+
     private double height;
     /**
     Set the value of the {@link javafx.geometry.BoundingBox#getHeight() height} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public class BoundingBoxBuilder<B extends javafx.geometry.BoundingBoxBuilder<B>>
         this.height = x;
         return (B) this;
     }
-    
+
     private double minX;
     /**
     Set the value of the {@link javafx.geometry.BoundingBox#getMinX() minX} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public class BoundingBoxBuilder<B extends javafx.geometry.BoundingBoxBuilder<B>>
         this.minX = x;
         return (B) this;
     }
-    
+
     private double minY;
     /**
     Set the value of the {@link javafx.geometry.BoundingBox#getMinY() minY} property for the instance constructed by this builder.
@@ -82,7 +82,7 @@ public class BoundingBoxBuilder<B extends javafx.geometry.BoundingBoxBuilder<B>>
         this.minY = x;
         return (B) this;
     }
-    
+
     private double minZ;
     /**
     Set the value of the {@link javafx.geometry.BoundingBox#getMinZ() minZ} property for the instance constructed by this builder.
@@ -92,7 +92,7 @@ public class BoundingBoxBuilder<B extends javafx.geometry.BoundingBoxBuilder<B>>
         this.minZ = x;
         return (B) this;
     }
-    
+
     private double width;
     /**
     Set the value of the {@link javafx.geometry.BoundingBox#getWidth() width} property for the instance constructed by this builder.
@@ -102,7 +102,7 @@ public class BoundingBoxBuilder<B extends javafx.geometry.BoundingBoxBuilder<B>>
         this.width = x;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.geometry.BoundingBox} based on the properties set on this builder.
     */

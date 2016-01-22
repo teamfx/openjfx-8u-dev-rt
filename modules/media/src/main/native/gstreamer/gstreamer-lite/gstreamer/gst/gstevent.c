@@ -36,19 +36,19 @@
  * elements will use gst_pad_send_event() or gst_pad_push_event().
  * The event should be unreffed with gst_event_unref() if it has not been sent.
  *
- * Events that have been received can be parsed with their respective 
+ * Events that have been received can be parsed with their respective
  * gst_event_parse_*() functions. It is valid to pass %NULL for unwanted details.
  *
  * Events are passed between elements in parallel to the data stream. Some events
  * are serialized with buffers, others are not. Some events only travel downstream,
- * others only upstream. Some events can travel both upstream and downstream. 
- * 
+ * others only upstream. Some events can travel both upstream and downstream.
+ *
  * The events are used to signal special conditions in the datastream such as
  * EOS (end of stream) or the start of a new stream-segment.
  * Events are also used to flush the pipeline of any pending data.
  *
- * Most of the event API is used inside plugins. Applications usually only 
- * construct and use seek events. 
+ * Most of the event API is used inside plugins. Applications usually only
+ * construct and use seek events.
  * To do that gst_event_new_seek() is used to create a seek event. It takes
  * the needed parameters to specity seeking time and mode.
  * <example>
@@ -59,8 +59,8 @@
  *   ...
  *   // construct a seek event to play the media from second 2 to 5, flush
  *   // the pipeline to decrease latency.
- *   event = gst_event_new_seek (1.0, 
- *      GST_FORMAT_TIME, 
+ *   event = gst_event_new_seek (1.0,
+ *      GST_FORMAT_TIME,
  *      GST_SEEK_FLAG_FLUSH,
  *      GST_SEEK_TYPE_SET, 2 * GST_SECOND,
  *      GST_SEEK_TYPE_SET, 5 * GST_SECOND);
@@ -520,10 +520,10 @@ gst_event_new_new_segment (gboolean update, gdouble rate, GstFormat format,
  * @stop: (out): A pointer to store the stop value in
  * @position: (out): A pointer to store the stream time in
  *
- * Get the update flag, rate, format, start, stop and position in the 
+ * Get the update flag, rate, format, start, stop and position in the
  * newsegment event. In general, gst_event_parse_new_segment_full() should
  * be used instead of this, to also retrieve the applied_rate value of the
- * segment. See gst_event_new_new_segment_full() for a full description 
+ * segment. See gst_event_new_new_segment_full() for a full description
  * of the newsegment event.
  */
 void
@@ -554,21 +554,21 @@ gst_event_parse_new_segment (GstEvent * event, gboolean * update,
  * values.
  *
  * The position value of the segment is used in conjunction with the start
- * value to convert the buffer timestamps into the stream time. This is 
- * usually done in sinks to report the current stream_time. 
- * @position represents the stream_time of a buffer carrying a timestamp of 
+ * value to convert the buffer timestamps into the stream time. This is
+ * usually done in sinks to report the current stream_time.
+ * @position represents the stream_time of a buffer carrying a timestamp of
  * @start. @position cannot be -1.
  *
  * @start cannot be -1, @stop can be -1. If there
- * is a valid @stop given, it must be greater or equal the @start, including 
+ * is a valid @stop given, it must be greater or equal the @start, including
  * when the indicated playback @rate is < 0.
  *
  * The @applied_rate value provides information about any rate adjustment that
- * has already been made to the timestamps and content on the buffers of the 
- * stream. (@rate * @applied_rate) should always equal the rate that has been 
- * requested for playback. For example, if an element has an input segment 
- * with intended playback @rate of 2.0 and applied_rate of 1.0, it can adjust 
- * incoming timestamps and buffer content by half and output a newsegment event 
+ * has already been made to the timestamps and content on the buffers of the
+ * stream. (@rate * @applied_rate) should always equal the rate that has been
+ * requested for playback. For example, if an element has an input segment
+ * with intended playback @rate of 2.0 and applied_rate of 1.0, it can adjust
+ * incoming timestamps and buffer content by half and output a newsegment event
  * with @rate of 1.0 and @applied_rate of 2.0
  *
  * After a newsegment event, the buffer stream time is calculated with:
@@ -634,8 +634,8 @@ gst_event_new_new_segment_full (gboolean update, gdouble rate,
  * @stop: (out): A pointer to store the stop value in
  * @position: (out): A pointer to store the stream time in
  *
- * Get the update, rate, applied_rate, format, start, stop and 
- * position in the newsegment event. See gst_event_new_new_segment_full() 
+ * Get the update, rate, applied_rate, format, start, stop and
+ * position in the newsegment event. See gst_event_new_new_segment_full()
  * for a full description of the newsegment event.
  *
  * Since: 0.10.6
@@ -837,7 +837,7 @@ gst_event_new_qos (gdouble proportion, GstClockTimeDiff diff,
  * @type indicates the reason for the QoS event. #GST_QOS_TYPE_OVERFLOW is
  * used when a buffer arrived in time or when the sink cannot keep up with
  * the upstream datarate. #GST_QOS_TYPE_UNDERFLOW is when the sink is not
- * receiving buffers fast enough and thus has to drop late buffers. 
+ * receiving buffers fast enough and thus has to drop late buffers.
  * #GST_QOS_TYPE_THROTTLE is used when the datarate is artificially limited
  * by the application, for example to reduce power consumption.
  *
@@ -980,15 +980,15 @@ gst_event_parse_qos_full (GstEvent * event, GstQOSType * type,
  *
  * A pipeline has a default playback segment configured with a start
  * position of 0, a stop position of -1 and a rate of 1.0. The currently
- * configured playback segment can be queried with #GST_QUERY_SEGMENT. 
+ * configured playback segment can be queried with #GST_QUERY_SEGMENT.
  *
- * @start_type and @stop_type specify how to adjust the currently configured 
+ * @start_type and @stop_type specify how to adjust the currently configured
  * start and stop fields in playback segment. Adjustments can be made relative
  * or absolute to the last configured values. A type of #GST_SEEK_TYPE_NONE
  * means that the position should not be updated.
  *
  * When the rate is positive and @start has been updated, playback will start
- * from the newly configured start position. 
+ * from the newly configured start position.
  *
  * For negative rates, playback will start from the newly configured stop
  * position (if any). If the stop position if updated, it must be different from
@@ -997,7 +997,7 @@ gst_event_parse_qos_full (GstEvent * event, GstQOSType * type,
  * It is not possible to seek relative to the current playback position, to do
  * this, PAUSE the pipeline, query the current playback position with
  * #GST_QUERY_POSITION and update the playback segment current position with a
- * #GST_SEEK_TYPE_SET to the desired position. 
+ * #GST_SEEK_TYPE_SET to the desired position.
  *
  * Returns: (transfer full): a new seek event.
  */

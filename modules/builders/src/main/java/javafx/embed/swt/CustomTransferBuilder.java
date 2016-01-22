@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.embed.swt.CustomTransfer
 public class CustomTransferBuilder<B extends javafx.embed.swt.CustomTransferBuilder<B>> implements javafx.util.Builder<javafx.embed.swt.CustomTransfer> {
     protected CustomTransferBuilder() {
     }
-    
+
     /** Creates a new instance of CustomTransferBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.embed.swt.CustomTransferBuilder<?> create() {
         return new javafx.embed.swt.CustomTransferBuilder();
     }
-    
+
     private java.lang.String mime;
     /**
     Set the value of the {@link javafx.embed.swt.CustomTransfer#getMime() mime} property for the instance constructed by this builder.
@@ -52,7 +52,7 @@ public class CustomTransferBuilder<B extends javafx.embed.swt.CustomTransferBuil
         this.mime = x;
         return (B) this;
     }
-    
+
     private java.lang.String name;
     /**
     Set the value of the {@link javafx.embed.swt.CustomTransfer#getName() name} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public class CustomTransferBuilder<B extends javafx.embed.swt.CustomTransferBuil
         this.name = x;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.embed.swt.CustomTransfer} based on the properties set on this builder.
     */

@@ -99,7 +99,7 @@ G_BEGIN_DECLS
 #define FOURCC_hint     GST_MAKE_FOURCC('h','i','n','t')
 #define FOURCC_mp4a     GST_MAKE_FOURCC('m','p','4','a')
 #define FOURCC__mp3     GST_MAKE_FOURCC('.','m','p','3')
-#define FOURCC_mp4s	GST_MAKE_FOURCC('m','p','4','s')
+#define FOURCC_mp4s GST_MAKE_FOURCC('m','p','4','s')
 #define FOURCC_mp4v     GST_MAKE_FOURCC('m','p','4','v')
 #define FOURCC_2vuy     GST_MAKE_FOURCC('2','v','u','y')
 #define FOURCC_wave     GST_MAKE_FOURCC('w','a','v','e')

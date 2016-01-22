@@ -36,4 +36,4 @@ public class KeyBindingTest {
 
         assertEquals(expect, uut.getSpecificity(null, event)); // Gets 2 (fx 2.2, fx 8)
     }
-} 
+}

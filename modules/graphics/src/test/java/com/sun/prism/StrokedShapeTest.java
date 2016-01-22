@@ -77,14 +77,14 @@ public class StrokedShapeTest {
         stroke.cap = BasicStroke.CAP_ROUND;
         assertBounds(-5, -5, 11, 7);
     }
-    
+
     @Test
     public void curveTo() {
         path.curveTo(10, 0, 0, 10, 20, 10);
         assertBounds(-5, -5, 25, 15);
-        
+
     }
-    
+
     @Test
     public void curveTo_cap() {
         path.curveTo(3, 4, 6, 0, 9, 4);
@@ -95,7 +95,7 @@ public class StrokedShapeTest {
         stroke.cap = BasicStroke.CAP_ROUND;
         assertBounds(-5, -5, 14, 9);
     }
-    
+
     @Test
     public void lineLine_join() {
         stroke.cap = BasicStroke.CAP_ROUND; // for easy computation
@@ -108,7 +108,7 @@ public class StrokedShapeTest {
         stroke.join = BasicStroke.JOIN_ROUND;
         assertBounds(-5, -5, 11, 9);
     }
-    
+
     @Test
     public void lineQuad_join() {
         stroke.cap = BasicStroke.CAP_ROUND; // for easy computation
@@ -121,8 +121,8 @@ public class StrokedShapeTest {
         stroke.join = BasicStroke.JOIN_ROUND;
         assertBounds(-5, -5, 15, 9);
     }
-    
-    
+
+
     @Test
     public void lineCurve_join() {
         stroke.cap = BasicStroke.CAP_ROUND; // for easy computation
@@ -135,7 +135,7 @@ public class StrokedShapeTest {
         stroke.join = BasicStroke.JOIN_ROUND;
         assertBounds(-5, -5, 15, 9);
     }
-    
+
     private void assertBounds(float x0, float y0, float x1, float y1) {
         float[] bbox = new float[]{0, 0, 0, 0};
         stroke.accumulateShapeBounds(bbox, path, BaseTransform.IDENTITY_TRANSFORM);

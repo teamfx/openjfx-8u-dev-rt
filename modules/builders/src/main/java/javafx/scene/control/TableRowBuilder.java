@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.TableRow
 public class TableRowBuilder<T, B extends javafx.scene.control.TableRowBuilder<T, B>> extends javafx.scene.control.IndexedCellBuilder<T, B> {
     protected TableRowBuilder() {
     }
-    
+
     /** Creates a new instance of TableRowBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <T> javafx.scene.control.TableRowBuilder<T, ?> create() {
         return new javafx.scene.control.TableRowBuilder();
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.TableRow} based on the properties set on this builder.
     */

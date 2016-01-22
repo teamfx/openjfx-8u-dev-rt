@@ -117,7 +117,7 @@ typedef enum
   G_UNICODE_BREAK_CLOSE_PARANTHESIS
 } GUnicodeBreakType;
 
-typedef enum 
+typedef enum
 {                         /* ISO 15924 code */
   G_UNICODE_SCRIPT_INVALID_CODE = -1,
   G_UNICODE_SCRIPT_COMMON       = 0,   /* Zyyy */
@@ -284,13 +284,13 @@ gint g_unichar_combining_class (gunichar uc) G_GNUC_CONST;
    decomposed characters in the string according to their combining
    classes.  See the Unicode manual for more information.  */
 void g_unicode_canonical_ordering (gunichar *string,
-				   gsize     len);
+                   gsize     len);
 
 /* Compute canonical decomposition of a character.  Returns g_malloc()d
    string of Unicode characters.  RESULT_LEN is set to the resulting
    length of the string.  */
 gunichar *g_unicode_canonical_decomposition (gunichar  ch,
-					     gsize    *result_len) G_GNUC_MALLOC;
+                         gsize    *result_len) G_GNUC_MALLOC;
 
 /* Array of skip-bytes-per-initial character.
  */
@@ -300,95 +300,95 @@ GLIB_VAR const gchar * const g_utf8_skip;
 
 gunichar g_utf8_get_char           (const gchar  *p) G_GNUC_PURE;
 gunichar g_utf8_get_char_validated (const  gchar *p,
-				    gssize        max_len) G_GNUC_PURE;
+                    gssize        max_len) G_GNUC_PURE;
 
 gchar*   g_utf8_offset_to_pointer (const gchar *str,
                                    glong        offset) G_GNUC_PURE;
-glong    g_utf8_pointer_to_offset (const gchar *str,      
-				   const gchar *pos) G_GNUC_PURE;
+glong    g_utf8_pointer_to_offset (const gchar *str,
+                   const gchar *pos) G_GNUC_PURE;
 gchar*   g_utf8_prev_char         (const gchar *p) G_GNUC_PURE;
 gchar*   g_utf8_find_next_char    (const gchar *p,
-				   const gchar *end) G_GNUC_PURE;
+                   const gchar *end) G_GNUC_PURE;
 gchar*   g_utf8_find_prev_char    (const gchar *str,
-				   const gchar *p) G_GNUC_PURE;
+                   const gchar *p) G_GNUC_PURE;
 
-glong g_utf8_strlen (const gchar *p,  
-		     gssize       max) G_GNUC_PURE;
+glong g_utf8_strlen (const gchar *p,
+             gssize       max) G_GNUC_PURE;
 
 /* Copies n characters from src to dest */
 gchar* g_utf8_strncpy (gchar       *dest,
-		       const gchar *src,
-		       gsize        n);
+               const gchar *src,
+               gsize        n);
 
 /* Find the UTF-8 character corresponding to ch, in string p. These
    functions are equivalants to strchr and strrchr */
 gchar* g_utf8_strchr  (const gchar *p,
-		       gssize       len,
-		       gunichar     c);
+               gssize       len,
+               gunichar     c);
 gchar* g_utf8_strrchr (const gchar *p,
-		       gssize       len,
-		       gunichar     c);
+               gssize       len,
+               gunichar     c);
 gchar* g_utf8_strreverse (const gchar *str,
-			  gssize len);
+              gssize len);
 
 gunichar2 *g_utf8_to_utf16     (const gchar      *str,
-				glong             len,            
-				glong            *items_read,     
-				glong            *items_written,  
-				GError          **error) G_GNUC_MALLOC;
+                glong             len,
+                glong            *items_read,
+                glong            *items_written,
+                GError          **error) G_GNUC_MALLOC;
 gunichar * g_utf8_to_ucs4      (const gchar      *str,
-				glong             len,            
-				glong            *items_read,     
-				glong            *items_written,  
-				GError          **error) G_GNUC_MALLOC;
+                glong             len,
+                glong            *items_read,
+                glong            *items_written,
+                GError          **error) G_GNUC_MALLOC;
 gunichar * g_utf8_to_ucs4_fast (const gchar      *str,
-				glong             len,            
-				glong            *items_written) G_GNUC_MALLOC; 
+                glong             len,
+                glong            *items_written) G_GNUC_MALLOC;
 gunichar * g_utf16_to_ucs4     (const gunichar2  *str,
-				glong             len,            
-				glong            *items_read,     
-				glong            *items_written,  
-				GError          **error) G_GNUC_MALLOC;
+                glong             len,
+                glong            *items_read,
+                glong            *items_written,
+                GError          **error) G_GNUC_MALLOC;
 gchar*     g_utf16_to_utf8     (const gunichar2  *str,
-				glong             len,            
-				glong            *items_read,     
-				glong            *items_written,  
-				GError          **error) G_GNUC_MALLOC;
+                glong             len,
+                glong            *items_read,
+                glong            *items_written,
+                GError          **error) G_GNUC_MALLOC;
 gunichar2 *g_ucs4_to_utf16     (const gunichar   *str,
-				glong             len,            
-				glong            *items_read,     
-				glong            *items_written,  
-				GError          **error) G_GNUC_MALLOC;
+                glong             len,
+                glong            *items_read,
+                glong            *items_written,
+                GError          **error) G_GNUC_MALLOC;
 gchar*     g_ucs4_to_utf8      (const gunichar   *str,
-				glong             len,            
-				glong            *items_read,     
-				glong            *items_written,  
-				GError          **error) G_GNUC_MALLOC;
+                glong             len,
+                glong            *items_read,
+                glong            *items_written,
+                GError          **error) G_GNUC_MALLOC;
 
 /* Convert a single character into UTF-8. outbuf must have at
  * least 6 bytes of space. Returns the number of bytes in the
  * result.
  */
 gint      g_unichar_to_utf8 (gunichar    c,
-			     gchar      *outbuf);
+                 gchar      *outbuf);
 
 /* Validate a UTF8 string, return TRUE if valid, put pointer to
  * first invalid char in **end
  */
 
 gboolean g_utf8_validate (const gchar  *str,
-                          gssize        max_len,  
+                          gssize        max_len,
                           const gchar **end);
 
 /* Validate a Unicode character */
 gboolean g_unichar_validate (gunichar ch) G_GNUC_CONST;
 
 gchar *g_utf8_strup   (const gchar *str,
-		       gssize       len) G_GNUC_MALLOC;
+               gssize       len) G_GNUC_MALLOC;
 gchar *g_utf8_strdown (const gchar *str,
-		       gssize       len) G_GNUC_MALLOC;
+               gssize       len) G_GNUC_MALLOC;
 gchar *g_utf8_casefold (const gchar *str,
-			gssize       len) G_GNUC_MALLOC;
+            gssize       len) G_GNUC_MALLOC;
 
 typedef enum {
   G_NORMALIZE_DEFAULT,
@@ -402,15 +402,15 @@ typedef enum {
 } GNormalizeMode;
 
 gchar *g_utf8_normalize (const gchar   *str,
-			 gssize         len,
-			 GNormalizeMode mode) G_GNUC_MALLOC;
+             gssize         len,
+             GNormalizeMode mode) G_GNUC_MALLOC;
 
 gint   g_utf8_collate     (const gchar *str1,
-			   const gchar *str2) G_GNUC_PURE;
+               const gchar *str2) G_GNUC_PURE;
 gchar *g_utf8_collate_key (const gchar *str,
-			   gssize       len) G_GNUC_MALLOC;
+               gssize       len) G_GNUC_MALLOC;
 gchar *g_utf8_collate_key_for_filename (const gchar *str,
-			                gssize       len) G_GNUC_MALLOC;
+                            gssize       len) G_GNUC_MALLOC;
 
 gboolean g_unichar_get_mirror_char (gunichar ch,
                                     gunichar *mirrored_ch);

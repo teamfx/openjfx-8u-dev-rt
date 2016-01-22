@@ -24,7 +24,7 @@
  * @see_also: #GstFakeSrc
  *
  * Dummy sink that swallows everything.
- * 
+ *
  * <refsect2>
  * <title>Example launch line</title>
  * |[

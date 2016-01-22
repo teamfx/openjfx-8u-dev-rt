@@ -40,7 +40,7 @@ import org.junit.runners.Parameterized;
 
 /**
  * Tests for ObservableList.
- * 
+ *
  */
 @RunWith(Parameterized.class)
 public class ObservableListTest  {
@@ -212,7 +212,7 @@ public class ObservableListTest  {
         list.removeAll(Arrays.asList("three", "four"));
         mlo.check0();
     }
-        
+
     @Test
     public void testRemoveAll_3() {
         useListData("a", "c", "d", "c");
@@ -220,7 +220,7 @@ public class ObservableListTest  {
         assertEquals(1, mlo.calls.size());
         mlo.checkAddRemove(0, list, Arrays.asList("d"), 2, 2);
     }
-    
+
     @Test
     public void testRemoveAll_4() {
         useListData("a", "c", "d", "c");
@@ -273,7 +273,7 @@ public class ObservableListTest  {
         list.add("zz");
         assertEquals(listener.counter, 1);
     }
-    
+
     @Test
     public void testEqualsAndHashCode() {
         final List<String> other = Arrays.asList("one", "two", "three");

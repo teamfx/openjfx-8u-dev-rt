@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.TableColumn
 public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumnBuilder<S, T, B>> implements javafx.util.Builder<javafx.scene.control.TableColumn<S, T>> {
     protected TableColumnBuilder() {
     }
-    
+
     /** Creates a new instance of TableColumnBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <S, T> javafx.scene.control.TableColumnBuilder<S, T, ?> create() {
         return new javafx.scene.control.TableColumnBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -79,7 +79,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
             }
         }
     }
-    
+
     private javafx.util.Callback<javafx.scene.control.TableColumn<S,T>,javafx.scene.control.TableCell<S,T>> cellFactory;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getCellFactory() cellFactory} property for the instance constructed by this builder.
@@ -90,7 +90,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(0);
         return (B) this;
     }
-    
+
     private javafx.util.Callback<javafx.scene.control.TableColumn.CellDataFeatures<S,T>,javafx.beans.value.ObservableValue<T>> cellValueFactory;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getCellValueFactory() cellValueFactory} property for the instance constructed by this builder.
@@ -101,7 +101,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(1);
         return (B) this;
     }
-    
+
     private java.util.Collection<? extends javafx.scene.control.TableColumn<S,?>> columns;
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.TableColumn#getColumns() columns} property for the instance constructed by this builder.
@@ -112,14 +112,14 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(2);
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.TableColumn#getColumns() columns} property for the instance constructed by this builder.
     */
     public B columns(javafx.scene.control.TableColumn<S,?>... x) {
         return columns(java.util.Arrays.asList(x));
     }
-    
+
     private java.util.Comparator<T> comparator;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getComparator() comparator} property for the instance constructed by this builder.
@@ -130,7 +130,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(3);
         return (B) this;
     }
-    
+
     private javafx.scene.control.ContextMenu contextMenu;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getContextMenu() contextMenu} property for the instance constructed by this builder.
@@ -141,7 +141,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(4);
         return (B) this;
     }
-    
+
     private boolean editable;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#isEditable() editable} property for the instance constructed by this builder.
@@ -152,7 +152,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(5);
         return (B) this;
     }
-    
+
     private javafx.scene.Node graphic;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getGraphic() graphic} property for the instance constructed by this builder.
@@ -164,7 +164,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(6);
         return (B) this;
     }
-    
+
     private java.lang.String id;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getId() id} property for the instance constructed by this builder.
@@ -176,7 +176,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(7);
         return (B) this;
     }
-    
+
     private double maxWidth;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getMaxWidth() maxWidth} property for the instance constructed by this builder.
@@ -187,7 +187,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(8);
         return (B) this;
     }
-    
+
     private double minWidth;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getMinWidth() minWidth} property for the instance constructed by this builder.
@@ -198,7 +198,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(9);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.scene.control.TableColumn.CellEditEvent<S,T>> onEditCancel;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getOnEditCancel() onEditCancel} property for the instance constructed by this builder.
@@ -209,7 +209,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(10);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.scene.control.TableColumn.CellEditEvent<S,T>> onEditCommit;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getOnEditCommit() onEditCommit} property for the instance constructed by this builder.
@@ -220,7 +220,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(11);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.scene.control.TableColumn.CellEditEvent<S,T>> onEditStart;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getOnEditStart() onEditStart} property for the instance constructed by this builder.
@@ -231,7 +231,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(12);
         return (B) this;
     }
-    
+
     private double prefWidth;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getPrefWidth() prefWidth} property for the instance constructed by this builder.
@@ -242,7 +242,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(13);
         return (B) this;
     }
-    
+
     private boolean resizable;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#isResizable() resizable} property for the instance constructed by this builder.
@@ -253,7 +253,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(14);
         return (B) this;
     }
-    
+
     private boolean sortable;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#isSortable() sortable} property for the instance constructed by this builder.
@@ -264,7 +264,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(15);
         return (B) this;
     }
-    
+
     private javafx.scene.Node sortNode;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getSortNode() sortNode} property for the instance constructed by this builder.
@@ -276,7 +276,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(16);
         return (B) this;
     }
-    
+
     private javafx.scene.control.TableColumn.SortType sortType;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getSortType() sortType} property for the instance constructed by this builder.
@@ -287,7 +287,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(17);
         return (B) this;
     }
-    
+
     private java.lang.String style;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getStyle() style} property for the instance constructed by this builder.
@@ -299,7 +299,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(18);
         return (B) this;
     }
-    
+
     private java.util.Collection<? extends java.lang.String> styleClass;
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.TableColumn#getStyleClass() styleClass} property for the instance constructed by this builder.
@@ -311,7 +311,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(19);
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.TableColumn#getStyleClass() styleClass} property for the instance constructed by this builder.
     * @since JavaFX 2.2
@@ -319,7 +319,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
     public B styleClass(java.lang.String... x) {
         return styleClass(java.util.Arrays.asList(x));
     }
-    
+
     private java.lang.String text;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getText() text} property for the instance constructed by this builder.
@@ -330,7 +330,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(20);
         return (B) this;
     }
-    
+
     private java.lang.Object userData;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#getUserData() userData} property for the instance constructed by this builder.
@@ -342,7 +342,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(21);
         return (B) this;
     }
-    
+
     private boolean visible;
     /**
     Set the value of the {@link javafx.scene.control.TableColumn#isVisible() visible} property for the instance constructed by this builder.
@@ -353,7 +353,7 @@ public class TableColumnBuilder<S, T, B extends javafx.scene.control.TableColumn
         __set(22);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.TableColumn} based on the properties set on this builder.
     */

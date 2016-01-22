@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.chart.BarChart
 public class BarChartBuilder<X, Y, B extends javafx.scene.chart.BarChartBuilder<X, Y, B>> extends javafx.scene.chart.XYChartBuilder<X, Y, B> {
     protected BarChartBuilder() {
     }
-    
+
     /** Creates a new instance of BarChartBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <X, Y> javafx.scene.chart.BarChartBuilder<X, Y, ?> create() {
         return new javafx.scene.chart.BarChartBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.chart.BarChart<X, Y> x) {
         super.applyTo(x);
@@ -50,7 +50,7 @@ public class BarChartBuilder<X, Y, B extends javafx.scene.chart.BarChartBuilder<
         if ((set & (1 << 0)) != 0) x.setBarGap(this.barGap);
         if ((set & (1 << 1)) != 0) x.setCategoryGap(this.categoryGap);
     }
-    
+
     private double barGap;
     /**
     Set the value of the {@link javafx.scene.chart.BarChart#getBarGap() barGap} property for the instance constructed by this builder.
@@ -61,7 +61,7 @@ public class BarChartBuilder<X, Y, B extends javafx.scene.chart.BarChartBuilder<
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private double categoryGap;
     /**
     Set the value of the {@link javafx.scene.chart.BarChart#getCategoryGap() categoryGap} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public class BarChartBuilder<X, Y, B extends javafx.scene.chart.BarChartBuilder<
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private javafx.scene.chart.Axis<X> XAxis;
     /**
     Set the value of the {@link javafx.scene.chart.BarChart#getXAxis() XAxis} property for the instance constructed by this builder.
@@ -82,7 +82,7 @@ public class BarChartBuilder<X, Y, B extends javafx.scene.chart.BarChartBuilder<
         this.XAxis = x;
         return (B) this;
     }
-    
+
     private javafx.scene.chart.Axis<Y> YAxis;
     /**
     Set the value of the {@link javafx.scene.chart.BarChart#getYAxis() YAxis} property for the instance constructed by this builder.
@@ -92,7 +92,7 @@ public class BarChartBuilder<X, Y, B extends javafx.scene.chart.BarChartBuilder<
         this.YAxis = x;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.chart.BarChart} based on the properties set on this builder.
     */

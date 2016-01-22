@@ -196,7 +196,7 @@ const GstStructure*       gst_discoverer_info_get_misc(const GstDiscovererInfo* 
 const GstTagList*         gst_discoverer_info_get_tags(const GstDiscovererInfo* info);
 
 GList *                   gst_discoverer_info_get_streams (GstDiscovererInfo *info,
-							   GType streamtype);
+                               GType streamtype);
 GList *                   gst_discoverer_info_get_audio_streams (GstDiscovererInfo *info);
 GList *                   gst_discoverer_info_get_video_streams (GstDiscovererInfo *info);
 GList *                   gst_discoverer_info_get_container_streams (GstDiscovererInfo *info);
@@ -241,7 +241,7 @@ struct _GstDiscovererClass {
   void        (*starting)        (GstDiscoverer *discoverer);
   void        (*discovered)      (GstDiscoverer *discoverer,
                                   GstDiscovererInfo *info,
-				  const GError *err);
+                  const GError *err);
 
   gpointer _reserved[GST_PADDING];
 };
@@ -253,13 +253,13 @@ GstDiscoverer *gst_discoverer_new (GstClockTime timeout, GError **err);
 void           gst_discoverer_start (GstDiscoverer *discoverer);
 void           gst_discoverer_stop (GstDiscoverer *discoverer);
 gboolean       gst_discoverer_discover_uri_async (GstDiscoverer *discoverer,
-						  const gchar *uri);
+                          const gchar *uri);
 
 /* Synchronous API */
 GstDiscovererInfo *
 gst_discoverer_discover_uri (GstDiscoverer * discoverer,
-			     const gchar * uri,
-			     GError ** err);
+                 const gchar * uri,
+                 GError ** err);
 
 G_END_DECLS
 

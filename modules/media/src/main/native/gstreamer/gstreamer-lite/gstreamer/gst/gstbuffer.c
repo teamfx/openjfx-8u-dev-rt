@@ -348,7 +348,7 @@ gst_buffer_new (void)
  * gst_buffer_try_new_and_alloc() if you want to handle this case
  * gracefully or have gotten the size to allocate from an untrusted
  * source such as a media stream.
- * 
+ *
  *
  * Note that when @size == 0, the buffer data pointer will be NULL.
  *
@@ -523,7 +523,7 @@ gst_buffer_is_metadata_writable (GstBuffer * buf)
  * data array is writable. Instead, this just ensures that the returned buffer
  * is solely owned by the caller, by creating a subbuffer of the original
  * buffer if necessary.
- * 
+ *
  * After calling this function, @buf should not be referenced anymore. The
  * result of this function has guaranteed writable metadata.
  *
@@ -551,14 +551,14 @@ gst_buffer_make_metadata_writable (GstBuffer * buf)
 /**
  * gst_buffer_create_sub:
  * @parent: a #GstBuffer.
- * @offset: the offset into parent #GstBuffer at which the new sub-buffer 
+ * @offset: the offset into parent #GstBuffer at which the new sub-buffer
  *          begins.
  * @size: the size of the new #GstBuffer sub-buffer, in bytes.
  *
  * Creates a sub-buffer from @parent at @offset and @size.
  * This sub-buffer uses the actual memory space of the parent buffer.
  * This function will copy the offset and timestamp fields when the
- * offset is 0. If not, they will be set to #GST_CLOCK_TIME_NONE and 
+ * offset is 0. If not, they will be set to #GST_CLOCK_TIME_NONE and
  * #GST_BUFFER_OFFSET_NONE.
  * If @offset equals 0 and @size equals the total size of @buffer, the
  * duration and offset end fields are also copied. If not they will be set
@@ -646,7 +646,7 @@ gst_buffer_create_sub (GstBuffer * buffer, guint offset, guint size)
  * @buf2: the second #GstBuffer.
  *
  * Determines whether a gst_buffer_span() can be done without copying
- * the contents, that is, whether the data areas are contiguous sub-buffers of 
+ * the contents, that is, whether the data areas are contiguous sub-buffers of
  * the same buffer.
  *
  * MT safe.

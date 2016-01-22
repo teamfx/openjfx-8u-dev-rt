@@ -220,7 +220,7 @@ enum
   LAST_SIGNAL
 };
 
-#define DEFAULT_PROP_QOS	FALSE
+#define DEFAULT_PROP_QOS    FALSE
 
 enum
 {
@@ -643,7 +643,7 @@ no_out_size:
 /* get the caps that can be handled by @pad. We perform:
  *
  *  - take the caps of peer of otherpad,
- *  - filter against the padtemplate of otherpad, 
+ *  - filter against the padtemplate of otherpad,
  *  - calculate all transforms of remaining caps
  *  - filter against template of @pad
  *
@@ -1327,7 +1327,7 @@ compute_upstream_suggestion (GstBaseTransform * trans, guint expsize,
  * This function can do renegotiation on the source pad
  *
  * The output buffer is always writable. outbuf can be equal to
- * inbuf, the caller should be prepared for this and perform 
+ * inbuf, the caller should be prepared for this and perform
  * appropriate refcounting.
  */
 static GstFlowReturn
@@ -2262,7 +2262,7 @@ no_qos:
 
   /* first try to allocate an output buffer based on the currently negotiated
    * format. While we call pad-alloc we could renegotiate the srcpad format or
-   * have a new suggestion for upstream buffer-alloc. 
+   * have a new suggestion for upstream buffer-alloc.
    * In any case, outbuf will contain a buffer suitable for doing the configured
    * transform after this function. */
   ret = gst_base_transform_prepare_output_buffer (trans, inbuf, outbuf);
@@ -2548,7 +2548,7 @@ gst_base_transform_activate (GstBaseTransform * trans, gboolean active)
     GST_PAD_STREAM_UNLOCK (trans->sinkpad);
 
     trans->have_same_caps = FALSE;
-    /* We can only reset the passthrough mode if the instance told us to 
+    /* We can only reset the passthrough mode if the instance told us to
        handle it in configure_caps */
     if (bclass->passthrough_on_same_caps) {
       gst_base_transform_set_passthrough (trans, FALSE);

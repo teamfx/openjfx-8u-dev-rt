@@ -37,7 +37,7 @@ public class AnimationImpl extends Animation {
     public AnimationImpl() {
         super();
     }
-    
+
 
     @Override
     public void impl_playTo(long currentTicks, long cycleTicks) {
@@ -47,5 +47,5 @@ public class AnimationImpl extends Animation {
     public void impl_jumpTo(long currentTicks, long cycleTicks, boolean forceJump) {
         impl_setCurrentTicks(currentTicks);
     }
-    
+
 }

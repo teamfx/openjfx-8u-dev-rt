@@ -51,26 +51,26 @@ typedef struct _GstIdentityClass GstIdentityClass;
  * Opaque #GstIdentity data structure
  */
 struct _GstIdentity {
-  GstBaseTransform 	 element;
+  GstBaseTransform   element;
 
   /*< private >*/
   GstClockID     clock_id;
-  gint 	 	 error_after;
-  gfloat 	 drop_probability;
-  gint		 datarate;
-  guint 	 sleep_time;
-  gboolean 	 silent;
-  gboolean 	 dump;
-  gboolean 	 sync;
-  gboolean 	 check_perfect;
-  gboolean 	 check_imperfect_timestamp;
-  gboolean 	 check_imperfect_offset;
-  gboolean	 single_segment;
+  gint       error_after;
+  gfloat     drop_probability;
+  gint       datarate;
+  guint      sleep_time;
+  gboolean   silent;
+  gboolean   dump;
+  gboolean   sync;
+  gboolean   check_perfect;
+  gboolean   check_imperfect_timestamp;
+  gboolean   check_imperfect_offset;
+  gboolean   single_segment;
   GstClockTime   prev_timestamp;
   GstClockTime   prev_duration;
   guint64        prev_offset;
   guint64        prev_offset_end;
-  gchar 	*last_message;
+  gchar     *last_message;
   guint64        offset;
   gboolean       signal_handoffs;
 

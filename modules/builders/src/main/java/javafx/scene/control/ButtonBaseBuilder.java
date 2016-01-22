@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,14 +36,14 @@ Builder class for javafx.scene.control.ButtonBase
 public abstract class ButtonBaseBuilder<B extends javafx.scene.control.ButtonBaseBuilder<B>> extends javafx.scene.control.LabeledBuilder<B> {
     protected ButtonBaseBuilder() {
     }
-    
-    
+
+
     private boolean __set;
     public void applyTo(javafx.scene.control.ButtonBase x) {
         super.applyTo(x);
         if (__set) x.setOnAction(this.onAction);
     }
-    
+
     private javafx.event.EventHandler<javafx.event.ActionEvent> onAction;
     /**
     Set the value of the {@link javafx.scene.control.ButtonBase#getOnAction() onAction} property for the instance constructed by this builder.
@@ -54,5 +54,5 @@ public abstract class ButtonBaseBuilder<B extends javafx.scene.control.ButtonBas
         __set = true;
         return (B) this;
     }
-    
+
 }

@@ -537,7 +537,7 @@ static gboolean hls_progress_buffer_sink_event(GstPad *pad, GstEvent *event)
         element->send_new_segment = TRUE;
         element->is_flushing = FALSE;
         element->srcresult = GST_FLOW_OK;
-        
+
         if (!element->is_eos && gst_pad_is_linked(element->srcpad))
             gst_pad_start_task(element->srcpad, hls_progress_buffer_loop, element);
 

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.transform.Affine
 public class AffineBuilder<B extends javafx.scene.transform.AffineBuilder<B>> implements javafx.util.Builder<javafx.scene.transform.Affine> {
     protected AffineBuilder() {
     }
-    
+
     /** Creates a new instance of AffineBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.transform.AffineBuilder<?> create() {
         return new javafx.scene.transform.AffineBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -68,7 +68,7 @@ public class AffineBuilder<B extends javafx.scene.transform.AffineBuilder<B>> im
             }
         }
     }
-    
+
     private double mxx;
     /**
     Set the value of the {@link javafx.scene.transform.Affine#getMxx() mxx} property for the instance constructed by this builder.
@@ -79,7 +79,7 @@ public class AffineBuilder<B extends javafx.scene.transform.AffineBuilder<B>> im
         __set(0);
         return (B) this;
     }
-    
+
     private double mxy;
     /**
     Set the value of the {@link javafx.scene.transform.Affine#getMxy() mxy} property for the instance constructed by this builder.
@@ -90,7 +90,7 @@ public class AffineBuilder<B extends javafx.scene.transform.AffineBuilder<B>> im
         __set(1);
         return (B) this;
     }
-    
+
     private double mxz;
     /**
     Set the value of the {@link javafx.scene.transform.Affine#getMxz() mxz} property for the instance constructed by this builder.
@@ -101,7 +101,7 @@ public class AffineBuilder<B extends javafx.scene.transform.AffineBuilder<B>> im
         __set(2);
         return (B) this;
     }
-    
+
     private double myx;
     /**
     Set the value of the {@link javafx.scene.transform.Affine#getMyx() myx} property for the instance constructed by this builder.
@@ -112,7 +112,7 @@ public class AffineBuilder<B extends javafx.scene.transform.AffineBuilder<B>> im
         __set(3);
         return (B) this;
     }
-    
+
     private double myy;
     /**
     Set the value of the {@link javafx.scene.transform.Affine#getMyy() myy} property for the instance constructed by this builder.
@@ -123,7 +123,7 @@ public class AffineBuilder<B extends javafx.scene.transform.AffineBuilder<B>> im
         __set(4);
         return (B) this;
     }
-    
+
     private double myz;
     /**
     Set the value of the {@link javafx.scene.transform.Affine#getMyz() myz} property for the instance constructed by this builder.
@@ -134,7 +134,7 @@ public class AffineBuilder<B extends javafx.scene.transform.AffineBuilder<B>> im
         __set(5);
         return (B) this;
     }
-    
+
     private double mzx;
     /**
     Set the value of the {@link javafx.scene.transform.Affine#getMzx() mzx} property for the instance constructed by this builder.
@@ -145,7 +145,7 @@ public class AffineBuilder<B extends javafx.scene.transform.AffineBuilder<B>> im
         __set(6);
         return (B) this;
     }
-    
+
     private double mzy;
     /**
     Set the value of the {@link javafx.scene.transform.Affine#getMzy() mzy} property for the instance constructed by this builder.
@@ -156,7 +156,7 @@ public class AffineBuilder<B extends javafx.scene.transform.AffineBuilder<B>> im
         __set(7);
         return (B) this;
     }
-    
+
     private double mzz;
     /**
     Set the value of the {@link javafx.scene.transform.Affine#getMzz() mzz} property for the instance constructed by this builder.
@@ -167,7 +167,7 @@ public class AffineBuilder<B extends javafx.scene.transform.AffineBuilder<B>> im
         __set(8);
         return (B) this;
     }
-    
+
     private double tx;
     /**
     Set the value of the {@link javafx.scene.transform.Affine#getTx() tx} property for the instance constructed by this builder.
@@ -178,7 +178,7 @@ public class AffineBuilder<B extends javafx.scene.transform.AffineBuilder<B>> im
         __set(9);
         return (B) this;
     }
-    
+
     private double ty;
     /**
     Set the value of the {@link javafx.scene.transform.Affine#getTy() ty} property for the instance constructed by this builder.
@@ -189,7 +189,7 @@ public class AffineBuilder<B extends javafx.scene.transform.AffineBuilder<B>> im
         __set(10);
         return (B) this;
     }
-    
+
     private double tz;
     /**
     Set the value of the {@link javafx.scene.transform.Affine#getTz() tz} property for the instance constructed by this builder.
@@ -200,7 +200,7 @@ public class AffineBuilder<B extends javafx.scene.transform.AffineBuilder<B>> im
         __set(11);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.transform.Affine} based on the properties set on this builder.
     */

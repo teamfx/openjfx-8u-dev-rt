@@ -114,7 +114,7 @@ public class HelloPopup extends Application {
 
         private Popup nextPopup;
 
-        public PopupActionHandler(PopupPlacement popupPlacement, 
+        public PopupActionHandler(PopupPlacement popupPlacement,
                                   Node popupParent) {
             this.popupPlacement = popupPlacement;
             this.popupParent = popupParent;
@@ -128,7 +128,7 @@ public class HelloPopup extends Application {
             }
 
             nextPopup.show(popupParent, popupX, popupY);
-            
+
             Iterator<Window> windows = Window.impl_getWindows();
             while (windows.hasNext()) {
                 System.out.println("W: " + windows.next().getClass().getName());

@@ -32,13 +32,13 @@ G_BEGIN_DECLS
 
 void     gst_v4l2_video_orientation_interface_init (GstVideoOrientationInterface * klass);
 
-gboolean gst_v4l2_video_orientation_get_hflip 	(GstV4l2Object *v4l2object, gboolean *flip);
-gboolean gst_v4l2_video_orientation_get_vflip 	(GstV4l2Object *v4l2object, gboolean *flip);
+gboolean gst_v4l2_video_orientation_get_hflip   (GstV4l2Object *v4l2object, gboolean *flip);
+gboolean gst_v4l2_video_orientation_get_vflip   (GstV4l2Object *v4l2object, gboolean *flip);
 gboolean gst_v4l2_video_orientation_get_hcenter (GstV4l2Object *v4l2object, gint *center);
 gboolean gst_v4l2_video_orientation_get_vcenter (GstV4l2Object *v4l2object, gint *center);
 
-gboolean gst_v4l2_video_orientation_set_hflip 	(GstV4l2Object *v4l2object, gboolean flip);
-gboolean gst_v4l2_video_orientation_set_vflip 	(GstV4l2Object *v4l2object, gboolean flip);
+gboolean gst_v4l2_video_orientation_set_hflip   (GstV4l2Object *v4l2object, gboolean flip);
+gboolean gst_v4l2_video_orientation_set_vflip   (GstV4l2Object *v4l2object, gboolean flip);
 gboolean gst_v4l2_video_orientation_set_hcenter (GstV4l2Object *v4l2object, gint center);
 gboolean gst_v4l2_video_orientation_set_vcenter (GstV4l2Object *v4l2object, gint center);
 
@@ -48,56 +48,56 @@ gboolean gst_v4l2_video_orientation_set_vcenter (GstV4l2Object *v4l2object, gint
   interface_as_function ## _video_orientation_get_hflip (GstVideoOrientation *vo, gboolean *flip)       \
   {                                                                                               \
     Type *this = (Type*) vo;                                                                      \
-    return gst_v4l2_video_orientation_get_hflip (this->v4l2object, flip);		          \
+    return gst_v4l2_video_orientation_get_hflip (this->v4l2object, flip);                 \
   }                                                                                               \
                                                                                                   \
   static gboolean                                                                                 \
   interface_as_function ## _video_orientation_get_vflip (GstVideoOrientation *vo, gboolean *flip)       \
   {                                                                                               \
     Type *this = (Type*) vo;                                                                      \
-    return gst_v4l2_video_orientation_get_vflip (this->v4l2object, flip);		          \
+    return gst_v4l2_video_orientation_get_vflip (this->v4l2object, flip);                 \
   }                                                                                               \
                                                                                                   \
   static gboolean                                                                                 \
   interface_as_function ## _video_orientation_get_hcenter (GstVideoOrientation *vo, gint *center)       \
   {                                                                                               \
     Type *this = (Type*) vo;                                                                      \
-    return gst_v4l2_video_orientation_get_hcenter (this->v4l2object, center);		          \
+    return gst_v4l2_video_orientation_get_hcenter (this->v4l2object, center);                 \
   }                                                                                               \
                                                                                                   \
   static gboolean                                                                                 \
   interface_as_function ## _video_orientation_get_vcenter (GstVideoOrientation *vo, gint *center)       \
   {                                                                                               \
     Type *this = (Type*) vo;                                                                      \
-    return gst_v4l2_video_orientation_get_vcenter (this->v4l2object, center);		          \
+    return gst_v4l2_video_orientation_get_vcenter (this->v4l2object, center);                 \
   }                                                                                               \
                                                                                                   \
   static gboolean                                                                                 \
   interface_as_function ## _video_orientation_set_hflip (GstVideoOrientation *vo, gboolean flip)        \
   {                                                                                               \
     Type *this = (Type*) vo;                                                                      \
-    return gst_v4l2_video_orientation_set_hflip (this->v4l2object, flip);		          \
+    return gst_v4l2_video_orientation_set_hflip (this->v4l2object, flip);                 \
   }                                                                                               \
                                                                                                   \
   static gboolean                                                                                 \
   interface_as_function ## _video_orientation_set_vflip (GstVideoOrientation *vo, gboolean flip)        \
   {                                                                                               \
     Type *this = (Type*) vo;                                                                      \
-    return gst_v4l2_video_orientation_set_vflip (this->v4l2object, flip);		          \
+    return gst_v4l2_video_orientation_set_vflip (this->v4l2object, flip);                 \
   }                                                                                               \
                                                                                                   \
   static gboolean                                                                                 \
   interface_as_function ## _video_orientation_set_hcenter (GstVideoOrientation *vo, gint center)        \
   {                                                                                               \
     Type *this = (Type*) vo;                                                                      \
-    return gst_v4l2_video_orientation_set_hcenter (this->v4l2object, center);		          \
+    return gst_v4l2_video_orientation_set_hcenter (this->v4l2object, center);                 \
   }                                                                                               \
                                                                                                   \
   static gboolean                                                                                 \
   interface_as_function ## _video_orientation_set_vcenter (GstVideoOrientation *vo, gint center)        \
   {                                                                                               \
     Type *this = (Type*) vo;                                                                      \
-    return gst_v4l2_video_orientation_set_vcenter (this->v4l2object, center);		          \
+    return gst_v4l2_video_orientation_set_vcenter (this->v4l2object, center);                 \
   }                                                                                               \
                                                                                                   \
   static void                                                                                     \

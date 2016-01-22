@@ -156,7 +156,7 @@ public class TextAreaSkin extends TextInputControlSkin<TextArea, TextAreaBehavio
                     prefHeight += Utils.computeTextHeight(
                             paragraphNode.getFont(),
                             paragraphNode.getText(),
-                            wrappingWidth, 
+                            wrappingWidth,
                             paragraphNode.getBoundsType());
                 }
 
@@ -196,7 +196,7 @@ public class TextAreaSkin extends TextInputControlSkin<TextArea, TextAreaBehavio
             double wrappingWidth = Math.max(width - (leftPadding + snappedRightInset()), 0);
 
             double y = topPadding;
-            
+
             final List<Node> paragraphNodesChildren = paragraphNodes.getChildren();
 
             for (int i = 0; i < paragraphNodesChildren.size(); i++) {
@@ -207,7 +207,7 @@ public class TextAreaSkin extends TextInputControlSkin<TextArea, TextAreaBehavio
                 Bounds bounds = paragraphNode.getBoundsInLocal();
                 paragraphNode.setLayoutX(leftPadding);
                 paragraphNode.setLayoutY(y);
-                
+
                 y += bounds.getHeight();
             }
 

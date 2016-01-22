@@ -44,10 +44,10 @@ import com.sun.javafx.scene.control.ReadOnlyUnbackedObservableList;
 
 
 /**
- * An abstract class that implements more of the abstract MultipleSelectionModel 
+ * An abstract class that implements more of the abstract MultipleSelectionModel
  * abstract class. However, this class is package-protected and not intended
  * for public use.
- * 
+ *
  * @param <T> The type of the underlying data model for the UI control.
  */
 abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
@@ -66,13 +66,13 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
             // cases over in MultipleSelectionModel.
             setSelectedItem(getModelItem(getSelectedIndex()));
         });
-        
+
         selectedIndices = new BitSet();
 
         selectedIndicesSeq = createListFromBitSet(selectedIndices);
-        
+
         final MappingChange.Map<Integer,T> map = f -> getModelItem(f);
-        
+
         selectedIndicesSeq.addListener(new ListChangeListener<Integer>() {
             @Override public void onChanged(final Change<? extends Integer> c) {
                 // when the selectedIndices ObservableList changes, we manually call
@@ -192,11 +192,11 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
      * indices is between 0 and whatever is returned by this method.
      */
     protected abstract int getItemCount();
-    
+
     /**
      * Returns the item at the given index. An example using ListView would be
      * <code>listView.getItems().get(index)</code>.
-     * 
+     *
      * @param index The index of the item that is requested from the underlying
      *      data model.
      * @return Returns null if the index is out of bounds, or an element of type
@@ -205,50 +205,50 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
     protected abstract T getModelItem(int index);
     protected abstract void focus(int index);
     protected abstract int getFocusedIndex();
-    
+
     static class ShiftParams {
         private final int clearIndex;
         private final int setIndex;
         private final boolean selected;
-        
+
         ShiftParams(int clearIndex, int setIndex, boolean selected) {
             this.clearIndex = clearIndex;
             this.setIndex = setIndex;
             this.selected = selected;
         }
-        
+
         public final int getClearIndex() {
             return clearIndex;
         }
-        
+
         public final int getSetIndex() {
             return setIndex;
         }
-        
+
         public final boolean isSelected() {
             return selected;
         }
     }
-    
+
     // package only
     void shiftSelection(int position, int shift, final Callback<ShiftParams, Void> callback) {
         // with no check here, we get RT-15024
         if (position < 0) return;
         if (shift == 0) return;
-        
+
         int selectedIndicesCardinality = selectedIndices.cardinality(); // number of true bits
         if (selectedIndicesCardinality == 0) return;
-        
-        int selectedIndicesSize = selectedIndices.size();   // number of bits reserved 
-        
+
+        int selectedIndicesSize = selectedIndices.size();   // number of bits reserved
+
         int[] perm = new int[selectedIndicesSize];
         int idx = 0;
         boolean hasPermutated = false;
-        
+
         if (shift > 0) {
             for (int i = selectedIndicesSize - 1; i >= position && i >= 0; i--) {
                 boolean selected = selectedIndices.get(i);
-                
+
                 if (callback == null) {
                     selectedIndices.clear(i);
                     selectedIndices.set(i + shift, selected);
@@ -267,7 +267,7 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
                 if ((i + shift) < 0) continue;
                 if ((i + 1 + shift) < position) continue;
                 boolean selected = selectedIndices.get(i + 1);
-                
+
                 if (callback == null) {
                     selectedIndices.clear(i + 1);
                     selectedIndices.set(i + 1 + shift, selected);
@@ -281,7 +281,7 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
                 }
             }
         }
-        
+
         // This ensure that the selection remains accurate when a shift occurs.
         final int selectedIndex = getSelectedIndex();
         if (selectedIndex >= position && selectedIndex > -1) {
@@ -310,9 +310,9 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
         if (hasPermutated) {
             selectedIndicesSeq.callObservers(
                 new NonIterableChange.SimplePermutationChange<Integer>(
-                        0, 
-                        selectedIndicesCardinality, 
-                        perm, 
+                        0,
+                        selectedIndicesCardinality,
+                        perm,
                         selectedIndicesSeq));
         }
     }
@@ -386,7 +386,7 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
         if (row < 0 || row >= getItemCount()) {
             return;
         }
-        
+
         boolean isSameRow = row == getSelectedIndex();
         T currentItem = getSelectedItem();
         T newItem = getModelItem(row);
@@ -410,7 +410,7 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
             int changeIndex = Math.max(0, selectedIndicesSeq.indexOf(row));
             selectedIndicesSeq.callObservers(new NonIterableChange.SimpleAddChange<Integer>(changeIndex, changeIndex+1, selectedIndicesSeq));
         }
-        
+
         if (fireUpdatedItemEvent) {
             setSelectedItem(newItem);
         }
@@ -418,12 +418,12 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
 
     @Override public void select(T obj) {
 //        if (getItemCount() <= 0) return;
-        
+
         if (obj == null && getSelectionMode() == SelectionMode.SINGLE) {
             clearSelection();
             return;
         }
-        
+
         // We have no option but to iterate through the model and select the
         // first occurrence of the given object. Once we find the first one, we
         // don't proceed to select any others.
@@ -490,7 +490,7 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
             selectedIndicesSeq.callObservers(new NonIterableChange.SimpleAddChange<Integer>(0, 1, selectedIndicesSeq));
         } else {
             final List<Integer> actualSelectedRows = new ArrayList<Integer>();
-            
+
             int lastIndex = -1;
             if (row >= 0 && row < rowCount) {
                 lastIndex = row;
@@ -504,7 +504,7 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
                 int index = rows[i];
                 if (index < 0 || index >= rowCount) continue;
                 lastIndex = index;
-                
+
                 if (! selectedIndices.get(index)) {
                     selectedIndices.set(index);
                     actualSelectedRows.add(index);
@@ -519,7 +519,7 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
 
             // need to come up with ranges based on the actualSelectedRows, and
             // then fire the appropriate number of changes. We also need to
-            // translate from a desired row to select to where that row is 
+            // translate from a desired row to select to where that row is
             // represented in the selectedIndices list. For example,
             // we may have requested to select row 5, and the selectedIndices
             // list may therefore have the following: [1,4,5], meaning row 5
@@ -529,18 +529,18 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
             selectedIndicesSeq.callObservers(change);
         }
     }
-    
+
     static Change<Integer> createRangeChange(final ObservableList<Integer> list, final List<Integer> addedItems, boolean splitChanges) {
         Change<Integer> change = new Change<Integer>(list) {
             private final int[] EMPTY_PERM = new int[0];
-            private final int addedSize = addedItems.size(); 
-            
+            private final int addedSize = addedItems.size();
+
             private boolean invalid = true;
-            
+
             private int pos = 0;
             private int from = pos;
             private int to = pos;
-            
+
             @Override public int getFrom() {
                 checkState();
                 return from;
@@ -560,14 +560,14 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
                 checkState();
                 return EMPTY_PERM;
             }
-            
+
             @Override public int getAddedSize() {
                 return to - from;
             }
 
             @Override public boolean next() {
                 if (pos >= addedSize) return false;
-                
+
                 // starting from pos, we keep going until the value is
                 // not the next value
                 int startValue = addedItems.get(pos++);
@@ -585,9 +585,9 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
 
                 if (invalid) {
                     invalid = false;
-                    return true; 
+                    return true;
                 }
-                
+
                 // we keep going until we've represented all changes!
                 return splitChanges && pos < addedSize;
             }
@@ -598,13 +598,13 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
                 to = 0;
                 from = 0;
             }
-            
+
             private void checkState() {
                 if (invalid) {
                     throw new IllegalStateException("Invalid Change state: next() must be called before inspecting the Change.");
                 }
             }
-            
+
         };
         return change;
     }
@@ -630,12 +630,12 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
             focus(focusedIndex);
         }
     }
-    
+
     @Override public void selectFirst() {
         if (getSelectionMode() == SINGLE) {
             quietClearSelection();
         }
-            
+
         if (getItemCount() > 0) {
             select(0);
         }
@@ -645,7 +645,7 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
         if (getSelectionMode() == SINGLE) {
             quietClearSelection();
         }
-            
+
         int numItems = getItemCount();
         if (numItems > 0 && getSelectedIndex() < numItems - 1) {
             select(numItems - 1);
@@ -654,12 +654,12 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
 
     @Override public void clearSelection(int index) {
         if (index < 0) return;
-        
+
         // TODO shouldn't directly access like this
         // TODO might need to update focus and / or selected index/item
         boolean wasEmpty = selectedIndices.isEmpty();
         selectedIndices.clear(index);
-        
+
         if (! wasEmpty && selectedIndices.isEmpty()) {
             clearSelection();
         }
@@ -716,7 +716,7 @@ abstract class MultipleSelectionModelBase<T> extends MultipleSelectionModel<T> {
         if (getSelectionMode() == SINGLE) {
             quietClearSelection();
         }
-        
+
         if (focusIndex == -1) {
             select(getItemCount() - 1);
         } else if (focusIndex > 0) {

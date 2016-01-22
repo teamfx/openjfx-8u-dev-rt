@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,19 +36,19 @@ Builder class for javafx.scene.control.ColorPicker
 public class ColorPickerBuilder<B extends javafx.scene.control.ColorPickerBuilder<B>> extends javafx.scene.control.ComboBoxBaseBuilder<javafx.scene.paint.Color, B> implements javafx.util.Builder<javafx.scene.control.ColorPicker> {
     protected ColorPickerBuilder() {
     }
-    
+
     /** Creates a new instance of ColorPickerBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.ColorPickerBuilder<?> create() {
         return new javafx.scene.control.ColorPickerBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.scene.control.ColorPicker x) {
         super.applyTo(x);
         if (__set) x.getCustomColors().addAll(this.customColors);
     }
-    
+
     private java.util.Collection<? extends javafx.scene.paint.Color> customColors;
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.ColorPicker#getCustomColors() customColors} property for the instance constructed by this builder.
@@ -59,14 +59,14 @@ public class ColorPickerBuilder<B extends javafx.scene.control.ColorPickerBuilde
         __set = true;
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.ColorPicker#getCustomColors() customColors} property for the instance constructed by this builder.
     */
     public B customColors(javafx.scene.paint.Color... x) {
         return customColors(java.util.Arrays.asList(x));
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.ColorPicker} based on the properties set on this builder.
     */

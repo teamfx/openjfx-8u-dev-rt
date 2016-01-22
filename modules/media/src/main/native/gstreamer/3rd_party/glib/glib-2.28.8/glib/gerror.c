@@ -163,7 +163,7 @@ GError*
 g_error_copy (const GError *error)
 {
   GError *copy;
- 
+
   g_return_val_if_fail (error != NULL, NULL);
 
   copy = g_slice_new (GError);
@@ -238,7 +238,7 @@ g_set_error (GError      **err,
   if (*err == NULL)
     *err = new;
   else
-    g_warning (ERROR_OVERWRITTEN_WARNING, new->message); 
+    g_warning (ERROR_OVERWRITTEN_WARNING, new->message);
 }
 
 /**
@@ -271,7 +271,7 @@ g_set_error_literal (GError      **err,
   if (*err == NULL)
     *err = new;
   else
-    g_warning (ERROR_OVERWRITTEN_WARNING, new->message); 
+    g_warning (ERROR_OVERWRITTEN_WARNING, new->message);
 }
 
 /**
@@ -284,10 +284,10 @@ g_set_error_literal (GError      **err,
  */
 void
 g_propagate_error (GError **dest,
-		   GError  *src)
+           GError  *src)
 {
   g_return_if_fail (src != NULL);
- 
+
   if (dest == NULL)
     {
       if (src)

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.image.ImageView
 public class ImageViewBuilder<B extends javafx.scene.image.ImageViewBuilder<B>> extends javafx.scene.NodeBuilder<B> implements javafx.util.Builder<javafx.scene.image.ImageView> {
     protected ImageViewBuilder() {
     }
-    
+
     /** Creates a new instance of ImageViewBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.image.ImageViewBuilder<?> create() {
         return new javafx.scene.image.ImageViewBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -65,7 +65,7 @@ public class ImageViewBuilder<B extends javafx.scene.image.ImageViewBuilder<B>> 
             }
         }
     }
-    
+
     private double fitHeight;
     /**
     Set the value of the {@link javafx.scene.image.ImageView#getFitHeight() fitHeight} property for the instance constructed by this builder.
@@ -76,7 +76,7 @@ public class ImageViewBuilder<B extends javafx.scene.image.ImageViewBuilder<B>> 
         __set(0);
         return (B) this;
     }
-    
+
     private double fitWidth;
     /**
     Set the value of the {@link javafx.scene.image.ImageView#getFitWidth() fitWidth} property for the instance constructed by this builder.
@@ -87,7 +87,7 @@ public class ImageViewBuilder<B extends javafx.scene.image.ImageViewBuilder<B>> 
         __set(1);
         return (B) this;
     }
-    
+
     private javafx.scene.image.Image image;
     /**
     Set the value of the {@link javafx.scene.image.ImageView#getImage() image} property for the instance constructed by this builder.
@@ -98,7 +98,7 @@ public class ImageViewBuilder<B extends javafx.scene.image.ImageViewBuilder<B>> 
         __set(2);
         return (B) this;
     }
-    
+
     private boolean preserveRatio;
     /**
     Set the value of the {@link javafx.scene.image.ImageView#isPreserveRatio() preserveRatio} property for the instance constructed by this builder.
@@ -109,7 +109,7 @@ public class ImageViewBuilder<B extends javafx.scene.image.ImageViewBuilder<B>> 
         __set(3);
         return (B) this;
     }
-    
+
     private boolean smooth;
     /**
     Set the value of the {@link javafx.scene.image.ImageView#isSmooth() smooth} property for the instance constructed by this builder.
@@ -120,7 +120,7 @@ public class ImageViewBuilder<B extends javafx.scene.image.ImageViewBuilder<B>> 
         __set(4);
         return (B) this;
     }
-    
+
     private javafx.geometry.Rectangle2D viewport;
     /**
     Set the value of the {@link javafx.scene.image.ImageView#getViewport() viewport} property for the instance constructed by this builder.
@@ -131,7 +131,7 @@ public class ImageViewBuilder<B extends javafx.scene.image.ImageViewBuilder<B>> 
         __set(5);
         return (B) this;
     }
-    
+
     private double x;
     /**
     Set the value of the {@link javafx.scene.image.ImageView#getX() x} property for the instance constructed by this builder.
@@ -142,7 +142,7 @@ public class ImageViewBuilder<B extends javafx.scene.image.ImageViewBuilder<B>> 
         __set(6);
         return (B) this;
     }
-    
+
     private double y;
     /**
     Set the value of the {@link javafx.scene.image.ImageView#getY() y} property for the instance constructed by this builder.
@@ -153,7 +153,7 @@ public class ImageViewBuilder<B extends javafx.scene.image.ImageViewBuilder<B>> 
         __set(7);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.image.ImageView} based on the properties set on this builder.
     */

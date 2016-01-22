@@ -195,7 +195,7 @@ uint32_t CGstPipelineFactory::CreateSourceElement(CLocator* locator, GstElement*
         {
             CLocatorStream* streamLocator = (CLocatorStream*)locator;
             CStreamCallbacks *callbacks = streamLocator->GetCallbacks();
-            
+
 #if TARGET_OS_MAC
             if ((CONTENT_TYPE_M3U8 == locator->GetContentType() || CONTENT_TYPE_M3U == locator->GetContentType()) && callbacks->Property(HLS_PROP_GET_MIMETYPE, 0) != HLS_VALUE_MIMETYPE_MP3)
             {

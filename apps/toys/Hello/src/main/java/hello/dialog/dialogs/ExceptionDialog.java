@@ -40,10 +40,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
 public class ExceptionDialog extends Dialog<ButtonType> {
-    
+
     public ExceptionDialog(Throwable exception) {
         final DialogPane dialogPane = getDialogPane();
-        
+
         setTitle("Exception Details");
         dialogPane.setGraphic(new ImageView(new Image(AccordionSkin.class.getResource("modena/dialog-error.png").toExternalForm())));
         dialogPane.getButtonTypes().addAll(ButtonType.OK);

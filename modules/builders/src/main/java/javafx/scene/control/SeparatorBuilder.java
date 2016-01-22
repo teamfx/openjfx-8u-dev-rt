@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.Separator
 public class SeparatorBuilder<B extends javafx.scene.control.SeparatorBuilder<B>> extends javafx.scene.control.ControlBuilder<B> implements javafx.util.Builder<javafx.scene.control.Separator> {
     protected SeparatorBuilder() {
     }
-    
+
     /** Creates a new instance of SeparatorBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.SeparatorBuilder<?> create() {
         return new javafx.scene.control.SeparatorBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.Separator x) {
         super.applyTo(x);
@@ -51,7 +51,7 @@ public class SeparatorBuilder<B extends javafx.scene.control.SeparatorBuilder<B>
         if ((set & (1 << 1)) != 0) x.setOrientation(this.orientation);
         if ((set & (1 << 2)) != 0) x.setValignment(this.valignment);
     }
-    
+
     private javafx.geometry.HPos halignment;
     /**
     Set the value of the {@link javafx.scene.control.Separator#getHalignment() halignment} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public class SeparatorBuilder<B extends javafx.scene.control.SeparatorBuilder<B>
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private javafx.geometry.Orientation orientation;
     /**
     Set the value of the {@link javafx.scene.control.Separator#getOrientation() orientation} property for the instance constructed by this builder.
@@ -73,7 +73,7 @@ public class SeparatorBuilder<B extends javafx.scene.control.SeparatorBuilder<B>
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private javafx.geometry.VPos valignment;
     /**
     Set the value of the {@link javafx.scene.control.Separator#getValignment() valignment} property for the instance constructed by this builder.
@@ -84,7 +84,7 @@ public class SeparatorBuilder<B extends javafx.scene.control.SeparatorBuilder<B>
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.Separator} based on the properties set on this builder.
     */

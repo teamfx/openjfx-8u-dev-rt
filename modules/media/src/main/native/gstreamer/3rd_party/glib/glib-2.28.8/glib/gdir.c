@@ -110,13 +110,13 @@ g_dir_open (const gchar  *path,
   errsv = errno;
 
   g_set_error (error,
-	       G_FILE_ERROR,
-	       g_file_error_from_errno (errsv),
-	       _("Error opening directory '%s': %s"),
-	       path, g_strerror (errsv));
-  
+           G_FILE_ERROR,
+           g_file_error_from_errno (errsv),
+           _("Error opening directory '%s': %s"),
+           path, g_strerror (errsv));
+
   g_free (dir);
-      
+
   return NULL;
 #else
   dir = g_new (GDir, 1);
@@ -130,13 +130,13 @@ g_dir_open (const gchar  *path,
   errsv = errno;
 
   utf8_path = g_filename_to_utf8 (path, -1,
-				  NULL, NULL, NULL);
+                  NULL, NULL, NULL);
 
   g_set_error (error,
                G_FILE_ERROR,
                g_file_error_from_errno (errsv),
                _("Error opening directory '%s': %s"),
-	       utf8_path, g_strerror (errsv));
+           utf8_path, g_strerror (errsv));
 
   g_free (utf8_path);
   g_free (dir);
@@ -182,7 +182,7 @@ g_dir_open (const gchar  *path,
  * Retrieves the name of another entry in the directory, or %NULL.
  * The order of entries returned from this function is not defined,
  * and may vary by file system or other operating-system dependent
- * factors. 
+ * factors.
  *
  * On Unix, the '.' and '..' entries are omitted, and the returned
  * name is in the on-disk encoding.
@@ -190,7 +190,7 @@ g_dir_open (const gchar  *path,
  * On Windows, as is true of all GLib functions which operate on
  * filenames, the returned name is in UTF-8.
  *
- * Return value: The entry's name or %NULL if there are no 
+ * Return value: The entry's name or %NULL if there are no
  *   more entries. The return value is owned by GLib and
  *   must not be modified or freed.
  **/
@@ -210,18 +210,18 @@ g_dir_read_name (GDir *dir)
   while (1)
     {
       wentry = _wreaddir (dir->wdirp);
-      while (wentry 
-	     && (0 == wcscmp (wentry->d_name, L".") ||
-		 0 == wcscmp (wentry->d_name, L"..")))
-	wentry = _wreaddir (dir->wdirp);
+      while (wentry
+         && (0 == wcscmp (wentry->d_name, L".") ||
+         0 == wcscmp (wentry->d_name, L"..")))
+    wentry = _wreaddir (dir->wdirp);
 
       if (wentry == NULL)
-	return NULL;
+    return NULL;
 
       utf8_name = g_utf16_to_utf8 (wentry->d_name, -1, NULL, NULL, NULL);
 
       if (utf8_name == NULL)
-	continue;		/* Huh, impossible? Skip it anyway */
+    continue;       /* Huh, impossible? Skip it anyway */
 
       strcpy (dir->utf8_buf, utf8_name);
       g_free (utf8_name);
@@ -230,7 +230,7 @@ g_dir_read_name (GDir *dir)
     }
 #else
   entry = readdir (dir->dirp);
-  while (entry 
+  while (entry
          && (0 == strcmp (entry->d_name, ".") ||
              0 == strcmp (entry->d_name, "..")))
     entry = readdir (dir->dirp);
@@ -257,19 +257,19 @@ g_dir_read_name (GDir *dir)
     {
       const gchar *utf8_name = g_dir_read_name_utf8 (dir);
       gchar *retval;
-      
+
       if (utf8_name == NULL)
-	return NULL;
+    return NULL;
 
       retval = g_locale_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
 
       if (retval != NULL)
-	{
-	  strcpy (dir->utf8_buf, retval);
-	  g_free (retval);
+    {
+      strcpy (dir->utf8_buf, retval);
+      g_free (retval);
 
-	  return dir->utf8_buf;
-	}
+      return dir->utf8_buf;
+    }
     }
 }
 
@@ -286,7 +286,7 @@ void
 g_dir_rewind (GDir *dir)
 {
   g_return_if_fail (dir != NULL);
-  
+
 #ifdef G_OS_WIN32
   _wrewinddir (dir->wdirp);
 #else

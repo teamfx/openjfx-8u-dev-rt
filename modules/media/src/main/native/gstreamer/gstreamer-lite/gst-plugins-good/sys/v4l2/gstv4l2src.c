@@ -120,7 +120,7 @@ static void
 gst_v4l2src_interface_init (GstImplementsInterfaceClass * klass)
 {
   /*
-   * default virtual functions 
+   * default virtual functions
    */
   klass->supported = gst_v4l2src_iface_supported;
 }
@@ -991,7 +991,7 @@ gst_v4l2src_create (GstPushSrc * src, GstBuffer ** buf)
       v4l2src->ctrl_time += v4l2src->duration;
     } else {
       /* this is not very good (as it should be the next timestamp),
-       * still good enough for linear fades (as long as it is not -1) 
+       * still good enough for linear fades (as long as it is not -1)
        */
       v4l2src->ctrl_time = timestamp;
     }

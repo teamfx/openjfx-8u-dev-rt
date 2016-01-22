@@ -64,7 +64,7 @@ public class TouchButtonTest extends ParameterizedTestBase {
         button.setOnMousePressed((e) -> button.requestFocus());
         if (setListeners) {
             button.addEventHandler(MouseEvent.ANY, e ->
-                TestLog.log(e.getEventType().getName() +": " 
+                TestLog.log(e.getEventType().getName() +": "
                                                      + (int) e.getScreenX()
                                                      + ", " + (int) e.getScreenY()));
             button.focusedProperty().addListener((observable, oldValue, newValue) ->
@@ -172,8 +172,8 @@ public class TouchButtonTest extends ParameterizedTestBase {
     }
 
     /**
-     * RT-34625 - we should get a click when tapping on a control, dragging the 
-     * finger and release the finger inside the control 
+     * RT-34625 - we should get a click when tapping on a control, dragging the
+     * finger and release the finger inside the control
      */
     @Test
     public void tapAndDrag() throws Exception {
@@ -189,7 +189,7 @@ public class TouchButtonTest extends ParameterizedTestBase {
 
         waitForFocusGainOn("button2");
 
-        //drag inside button         
+        //drag inside button
         for (; x > buttonBounds.getMinX(); x-- ) {
             device.setPoint(p, x, y);
             device.sync();
@@ -203,14 +203,14 @@ public class TouchButtonTest extends ParameterizedTestBase {
     }
 
     /**
-     * RT-34625 - Currently a control will not generate a click when tapping on 
-     * it, drag the finger outside the control and release the finger. 
-     * This might be a desired behavior, but sometime there are small 
+     * RT-34625 - Currently a control will not generate a click when tapping on
+     * it, drag the finger outside the control and release the finger.
+     * This might be a desired behavior, but sometime there are small
      * unintentional drags that resulting in a finger release outside the
      * control.
-     *  
+     *
      * This test should fail and throw RuntimeException
-     * 
+     *
      */
     @Ignore("RT-34625")
     @Test
@@ -227,7 +227,7 @@ public class TouchButtonTest extends ParameterizedTestBase {
 
         waitForFocusGainOn("button2");
 
-        //drag outside button         
+        //drag outside button
         for (; x > buttonBounds.getMinX() - device.getTapRadius() - 10; x-- ) {
             device.setPoint(p, x, y);
             device.sync();
@@ -256,7 +256,7 @@ public class TouchButtonTest extends ParameterizedTestBase {
             TestLog.reset();
         }
     }
-    
+
     /** utilities */
     public Bounds getButtonBounds(Node button) throws Exception {
         AtomicReference<Bounds> ref = new AtomicReference<>();

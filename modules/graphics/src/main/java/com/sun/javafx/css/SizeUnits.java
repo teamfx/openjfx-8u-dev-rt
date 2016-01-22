@@ -31,19 +31,19 @@ import javafx.scene.text.Font;
  * Represents a size specified in a particular unit, such as 14px or 0.2em.
  */
 public enum SizeUnits {
-    
+
     PERCENT(false) {
 
         @Override
-	public String toString() { return "%"; }
+    public String toString() { return "%"; }
 
         @Override
-	public double points(double value, double multiplier, Font font_not_used) {
+    public double points(double value, double multiplier, Font font_not_used) {
             return (value/100.0) * multiplier;
         }
 
         @Override
-	public double pixels(double value, double multiplier, Font font_not_used) {
+    public double pixels(double value, double multiplier, Font font_not_used) {
             return (value/100.0) * multiplier;
         }
 
@@ -51,15 +51,15 @@ public enum SizeUnits {
     IN(true) {
 
         @Override
-	public String toString() { return "in"; }
+    public String toString() { return "in"; }
 
         @Override
-	public double points(double value, double multiplier_not_used, Font font_not_used) {
+    public double points(double value, double multiplier_not_used, Font font_not_used) {
             return value * POINTS_PER_INCH;
         }
 
         @Override
-	public double pixels(double value, double multiplier_not_used, Font font_not_used) {
+    public double pixels(double value, double multiplier_not_used, Font font_not_used) {
             return value * DOTS_PER_INCH;
         }
 
@@ -67,15 +67,15 @@ public enum SizeUnits {
     CM(true) {
 
         @Override
-	public String toString() { return "cm"; }
+    public String toString() { return "cm"; }
 
         @Override
-	public double points(double value, double multiplier_not_used, Font font_not_used) {
+    public double points(double value, double multiplier_not_used, Font font_not_used) {
             return (value / CM_PER_INCH) * POINTS_PER_INCH;
         }
 
         @Override
-	public double pixels(double value, double multiplier_not_used, Font font_not_used) {
+    public double pixels(double value, double multiplier_not_used, Font font_not_used) {
             return (value / CM_PER_INCH) * DOTS_PER_INCH;
         }
 
@@ -83,15 +83,15 @@ public enum SizeUnits {
     MM(true) {
 
         @Override
-	public String toString() { return "mm"; }
+    public String toString() { return "mm"; }
 
         @Override
-	public double points(double value, double multiplier_not_used, Font font_not_used) {
+    public double points(double value, double multiplier_not_used, Font font_not_used) {
             return (value / MM_PER_INCH) * POINTS_PER_INCH;
         }
 
         @Override
-	public double pixels(double value, double multiplier_not_used, Font font_not_used) {
+    public double pixels(double value, double multiplier_not_used, Font font_not_used) {
             return (value / MM_PER_INCH) * DOTS_PER_INCH;
         }
 
@@ -99,15 +99,15 @@ public enum SizeUnits {
     EM(false) {
 
         @Override
-	public String toString() { return "em"; }
+    public String toString() { return "em"; }
 
         @Override
-	public double points(double value, double multiplier_not_used, Font font) {
+    public double points(double value, double multiplier_not_used, Font font) {
             return round(value * pointSize(font));
         }
 
         @Override
-	public double pixels(double value, double multiplier_not_used, Font font) {
+    public double pixels(double value, double multiplier_not_used, Font font) {
             return round(value * pixelSize(font));
         }
 
@@ -115,62 +115,62 @@ public enum SizeUnits {
     EX(false) {
 
         @Override
-	public String toString() { return "ex"; }
+    public String toString() { return "ex"; }
 
         // In the absence of font metrics, one ex is taken to be half an em
         @Override
-	public double points(double value, double multiplier_not_used, Font font) {
+    public double points(double value, double multiplier_not_used, Font font) {
             return round(value / 2.0 * pointSize(font));
         }
 
         // In the absence of font metrics, one ex is taken to be half an em
         @Override
-	public double pixels(double value, double multiplier_not_used, Font font) {
+    public double pixels(double value, double multiplier_not_used, Font font) {
             return round(value / 2.0 * pixelSize(font));
         }
 
     },
     PT(true) {
         @Override
-	public String toString() { return "pt"; }
+    public String toString() { return "pt"; }
 
         @Override
-	public double points(double value, double multiplier_not_used, Font font_not_used) {
+    public double points(double value, double multiplier_not_used, Font font_not_used) {
             return value;
         }
 
         @Override
-	public double pixels(double value, double multiplier_not_used, Font font_not_used) {
+    public double pixels(double value, double multiplier_not_used, Font font_not_used) {
             return value * (DOTS_PER_INCH / POINTS_PER_INCH);
         }
 
     },
     PC(true) {
         @Override
-	public String toString() { return "pc"; }
+    public String toString() { return "pc"; }
 
         @Override
-	public double points(double value, double multiplier_not_used, Font font_not_used) {
+    public double points(double value, double multiplier_not_used, Font font_not_used) {
             return value * POINTS_PER_PICA;
         }
 
         @Override
-	public double pixels(double value, double multiplier_not_used, Font font_not_used) {
+    public double pixels(double value, double multiplier_not_used, Font font_not_used) {
             return (value * POINTS_PER_PICA) * (DOTS_PER_INCH / POINTS_PER_INCH);
         }
 
     },
     PX(true) {
         @Override
-	public String toString() { return "px"; }
+    public String toString() { return "px"; }
 
         @Override
-	public double points(double value, double multiplier_not_used, Font font_not_used) {
+    public double points(double value, double multiplier_not_used, Font font_not_used) {
             return value * (POINTS_PER_INCH / DOTS_PER_INCH);
         }
 
         @Override
-	public double pixels(double value, double multiplier_not_used, Font font_not_used) {
+    public double pixels(double value, double multiplier_not_used, Font font_not_used) {
             return value;
         }
 
@@ -178,15 +178,15 @@ public enum SizeUnits {
 
     DEG(true) {
         @Override
-	public String toString() { return "deg"; }
+    public String toString() { return "deg"; }
 
         @Override
-	public double points(double value, double multiplier_not_used, Font font_not_used) {
+    public double points(double value, double multiplier_not_used, Font font_not_used) {
             return round(value);
         }
 
         @Override
-	public double pixels(double value, double multiplier_not_used, Font font_not_used) {
+    public double pixels(double value, double multiplier_not_used, Font font_not_used) {
             return round(value);
         }
 
@@ -195,16 +195,16 @@ public enum SizeUnits {
     GRAD(true) {
 
         @Override
-	public String toString() { return "grad"; }
+    public String toString() { return "grad"; }
 
         @Override
-	public double points(double value, double multiplier_not_used, Font font_not_used) {
+    public double points(double value, double multiplier_not_used, Font font_not_used) {
             // convert to degrees - 360deg = 400grad
             return round(value*9/10);
         }
 
         @Override
-	public double pixels(double value, double multiplier_not_used, Font font_not_used) {
+    public double pixels(double value, double multiplier_not_used, Font font_not_used) {
             // convert to degrees - 360deg = 400grad
             return round(value*9/10);
         }
@@ -214,16 +214,16 @@ public enum SizeUnits {
     RAD(true) {
 
         @Override
-	public String toString() { return "rad"; }
+    public String toString() { return "rad"; }
 
         @Override
-	public double points(double value, double multiplier_not_used, Font font_not_used) {
+    public double points(double value, double multiplier_not_used, Font font_not_used) {
             // convert to degrees - 360deg = 2pi rad
             return round(value*180/Math.PI);
         }
 
         @Override
-	public double pixels(double value, double multiplier_not_used, Font font_not_used) {
+    public double pixels(double value, double multiplier_not_used, Font font_not_used) {
             // convert to degrees - 360deg = 2pi rad
             return round(value*180/Math.PI);
         }
@@ -233,16 +233,16 @@ public enum SizeUnits {
     TURN(true) {
 
         @Override
-	public String toString() { return "turn"; }
+    public String toString() { return "turn"; }
 
         @Override
-	public double points(double value, double multiplier_not_used, Font font_not_used) {
+    public double points(double value, double multiplier_not_used, Font font_not_used) {
             // convert to degrees - 360deg = 1 turn
             return round(value*360);
         }
 
         @Override
-	public double pixels(double value, double multiplier_not_used, Font font_not_used) {
+    public double pixels(double value, double multiplier_not_used, Font font_not_used) {
             return round(value*360);
         }
 
@@ -317,7 +317,7 @@ public enum SizeUnits {
     private static double round(double d) {
 
         if (d == 0) return d;
-        
+
         final double r = (d < 0) ? -0.05 : 0.05;
         return ((long)((d + r) * 10)) / 10.0;
     }

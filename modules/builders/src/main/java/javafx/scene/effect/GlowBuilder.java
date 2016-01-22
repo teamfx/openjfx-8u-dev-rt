@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,20 +36,20 @@ Builder class for javafx.scene.effect.Glow
 public class GlowBuilder<B extends javafx.scene.effect.GlowBuilder<B>> implements javafx.util.Builder<javafx.scene.effect.Glow> {
     protected GlowBuilder() {
     }
-    
+
     /** Creates a new instance of GlowBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.effect.GlowBuilder<?> create() {
         return new javafx.scene.effect.GlowBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.effect.Glow x) {
         int set = __set;
         if ((set & (1 << 0)) != 0) x.setInput(this.input);
         if ((set & (1 << 1)) != 0) x.setLevel(this.level);
     }
-    
+
     private javafx.scene.effect.Effect input;
     /**
     Set the value of the {@link javafx.scene.effect.Glow#getInput() input} property for the instance constructed by this builder.
@@ -60,7 +60,7 @@ public class GlowBuilder<B extends javafx.scene.effect.GlowBuilder<B>> implement
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private double level;
     /**
     Set the value of the {@link javafx.scene.effect.Glow#getLevel() level} property for the instance constructed by this builder.
@@ -71,7 +71,7 @@ public class GlowBuilder<B extends javafx.scene.effect.GlowBuilder<B>> implement
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.effect.Glow} based on the properties set on this builder.
     */

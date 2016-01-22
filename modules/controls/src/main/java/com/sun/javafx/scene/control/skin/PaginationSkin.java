@@ -1083,7 +1083,7 @@ public class PaginationSkin extends BehaviorSkinBase<Pagination, PaginationBehav
             }
             double arrowGap = arrowButtonGap.get();
 
-            return left + leftArrowWidth + 2 *arrowGap + minButtonSize /*at least one button*/ 
+            return left + leftArrowWidth + 2 *arrowGap + minButtonSize /*at least one button*/
                     + 2 * spacing + rightArrowWidth + right + pageInformationWidth;
         }
 

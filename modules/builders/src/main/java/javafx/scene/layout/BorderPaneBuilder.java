@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.layout.BorderPane
 public class BorderPaneBuilder<B extends javafx.scene.layout.BorderPaneBuilder<B>> extends javafx.scene.layout.PaneBuilder<B> {
     protected BorderPaneBuilder() {
     }
-    
+
     /** Creates a new instance of BorderPaneBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.layout.BorderPaneBuilder<?> create() {
         return new javafx.scene.layout.BorderPaneBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.layout.BorderPane x) {
         super.applyTo(x);
@@ -53,7 +53,7 @@ public class BorderPaneBuilder<B extends javafx.scene.layout.BorderPaneBuilder<B
         if ((set & (1 << 3)) != 0) x.setRight(this.right);
         if ((set & (1 << 4)) != 0) x.setTop(this.top);
     }
-    
+
     private javafx.scene.Node bottom;
     /**
     Set the value of the {@link javafx.scene.layout.BorderPane#getBottom() bottom} property for the instance constructed by this builder.
@@ -64,7 +64,7 @@ public class BorderPaneBuilder<B extends javafx.scene.layout.BorderPaneBuilder<B
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private javafx.scene.Node center;
     /**
     Set the value of the {@link javafx.scene.layout.BorderPane#getCenter() center} property for the instance constructed by this builder.
@@ -75,7 +75,7 @@ public class BorderPaneBuilder<B extends javafx.scene.layout.BorderPaneBuilder<B
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private javafx.scene.Node left;
     /**
     Set the value of the {@link javafx.scene.layout.BorderPane#getLeft() left} property for the instance constructed by this builder.
@@ -86,7 +86,7 @@ public class BorderPaneBuilder<B extends javafx.scene.layout.BorderPaneBuilder<B
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private javafx.scene.Node right;
     /**
     Set the value of the {@link javafx.scene.layout.BorderPane#getRight() right} property for the instance constructed by this builder.
@@ -97,7 +97,7 @@ public class BorderPaneBuilder<B extends javafx.scene.layout.BorderPaneBuilder<B
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private javafx.scene.Node top;
     /**
     Set the value of the {@link javafx.scene.layout.BorderPane#getTop() top} property for the instance constructed by this builder.
@@ -108,7 +108,7 @@ public class BorderPaneBuilder<B extends javafx.scene.layout.BorderPaneBuilder<B
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.layout.BorderPane} based on the properties set on this builder.
     */

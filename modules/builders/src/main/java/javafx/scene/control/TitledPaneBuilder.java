@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.TitledPane
 public class TitledPaneBuilder<B extends javafx.scene.control.TitledPaneBuilder<B>> extends javafx.scene.control.LabeledBuilder<B> implements javafx.util.Builder<javafx.scene.control.TitledPane> {
     protected TitledPaneBuilder() {
     }
-    
+
     /** Creates a new instance of TitledPaneBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.TitledPaneBuilder<?> create() {
         return new javafx.scene.control.TitledPaneBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.TitledPane x) {
         super.applyTo(x);
@@ -52,7 +52,7 @@ public class TitledPaneBuilder<B extends javafx.scene.control.TitledPaneBuilder<
         if ((set & (1 << 2)) != 0) x.setContent(this.content);
         if ((set & (1 << 3)) != 0) x.setExpanded(this.expanded);
     }
-    
+
     private boolean animated;
     /**
     Set the value of the {@link javafx.scene.control.TitledPane#isAnimated() animated} property for the instance constructed by this builder.
@@ -63,7 +63,7 @@ public class TitledPaneBuilder<B extends javafx.scene.control.TitledPaneBuilder<
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private boolean collapsible;
     /**
     Set the value of the {@link javafx.scene.control.TitledPane#isCollapsible() collapsible} property for the instance constructed by this builder.
@@ -74,7 +74,7 @@ public class TitledPaneBuilder<B extends javafx.scene.control.TitledPaneBuilder<
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private javafx.scene.Node content;
     /**
     Set the value of the {@link javafx.scene.control.TitledPane#getContent() content} property for the instance constructed by this builder.
@@ -85,7 +85,7 @@ public class TitledPaneBuilder<B extends javafx.scene.control.TitledPaneBuilder<
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private boolean expanded;
     /**
     Set the value of the {@link javafx.scene.control.TitledPane#isExpanded() expanded} property for the instance constructed by this builder.
@@ -96,7 +96,7 @@ public class TitledPaneBuilder<B extends javafx.scene.control.TitledPaneBuilder<
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.TitledPane} based on the properties set on this builder.
     */

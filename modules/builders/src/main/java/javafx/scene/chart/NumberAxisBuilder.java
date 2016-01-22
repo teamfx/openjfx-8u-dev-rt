@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.chart.NumberAxis
 public final class NumberAxisBuilder extends javafx.scene.chart.ValueAxisBuilder<java.lang.Number, javafx.scene.chart.NumberAxisBuilder> {
     protected NumberAxisBuilder() {
     }
-    
+
     /** Creates a new instance of NumberAxisBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.chart.NumberAxisBuilder create() {
         return new javafx.scene.chart.NumberAxisBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.chart.NumberAxis x) {
         super.applyTo(x);
@@ -50,7 +50,7 @@ public final class NumberAxisBuilder extends javafx.scene.chart.ValueAxisBuilder
         if ((set & (1 << 0)) != 0) x.setForceZeroInRange(this.forceZeroInRange);
         if ((set & (1 << 1)) != 0) x.setTickUnit(this.tickUnit);
     }
-    
+
     private boolean forceZeroInRange;
     /**
     Set the value of the {@link javafx.scene.chart.NumberAxis#isForceZeroInRange() forceZeroInRange} property for the instance constructed by this builder.
@@ -60,7 +60,7 @@ public final class NumberAxisBuilder extends javafx.scene.chart.ValueAxisBuilder
         __set |= 1 << 0;
         return this;
     }
-    
+
     private double tickUnit;
     /**
     Set the value of the {@link javafx.scene.chart.NumberAxis#getTickUnit() tickUnit} property for the instance constructed by this builder.
@@ -70,7 +70,7 @@ public final class NumberAxisBuilder extends javafx.scene.chart.ValueAxisBuilder
         __set |= 1 << 1;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.chart.NumberAxis} based on the properties set on this builder.
     */

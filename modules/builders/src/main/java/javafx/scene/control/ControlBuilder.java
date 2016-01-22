@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,8 +36,8 @@ Builder class for javafx.scene.control.Control
 public abstract class ControlBuilder<B extends javafx.scene.control.ControlBuilder<B>> extends javafx.scene.ParentBuilder<B> {
     protected ControlBuilder() {
     }
-    
-    
+
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -61,7 +61,7 @@ public abstract class ControlBuilder<B extends javafx.scene.control.ControlBuild
             }
         }
     }
-    
+
     private javafx.scene.control.ContextMenu contextMenu;
     /**
     Set the value of the {@link javafx.scene.control.Control#getContextMenu() contextMenu} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public abstract class ControlBuilder<B extends javafx.scene.control.ControlBuild
         __set(0);
         return (B) this;
     }
-    
+
     private double maxHeight;
     /**
     Set the value of the {@link javafx.scene.control.Control#getMaxHeight() maxHeight} property for the instance constructed by this builder.
@@ -83,7 +83,7 @@ public abstract class ControlBuilder<B extends javafx.scene.control.ControlBuild
         __set(1);
         return (B) this;
     }
-    
+
     private double maxWidth;
     /**
     Set the value of the {@link javafx.scene.control.Control#getMaxWidth() maxWidth} property for the instance constructed by this builder.
@@ -94,7 +94,7 @@ public abstract class ControlBuilder<B extends javafx.scene.control.ControlBuild
         __set(2);
         return (B) this;
     }
-    
+
     private double minHeight;
     /**
     Set the value of the {@link javafx.scene.control.Control#getMinHeight() minHeight} property for the instance constructed by this builder.
@@ -105,7 +105,7 @@ public abstract class ControlBuilder<B extends javafx.scene.control.ControlBuild
         __set(3);
         return (B) this;
     }
-    
+
     private double minWidth;
     /**
     Set the value of the {@link javafx.scene.control.Control#getMinWidth() minWidth} property for the instance constructed by this builder.
@@ -116,7 +116,7 @@ public abstract class ControlBuilder<B extends javafx.scene.control.ControlBuild
         __set(4);
         return (B) this;
     }
-    
+
     private double prefHeight;
     /**
     Set the value of the {@link javafx.scene.control.Control#getPrefHeight() prefHeight} property for the instance constructed by this builder.
@@ -127,7 +127,7 @@ public abstract class ControlBuilder<B extends javafx.scene.control.ControlBuild
         __set(5);
         return (B) this;
     }
-    
+
     private double prefWidth;
     /**
     Set the value of the {@link javafx.scene.control.Control#getPrefWidth() prefWidth} property for the instance constructed by this builder.
@@ -138,7 +138,7 @@ public abstract class ControlBuilder<B extends javafx.scene.control.ControlBuild
         __set(6);
         return (B) this;
     }
-    
+
     private javafx.scene.control.Skin<?> skin;
     /**
     Set the value of the {@link javafx.scene.control.Control#getSkin() skin} property for the instance constructed by this builder.
@@ -149,7 +149,7 @@ public abstract class ControlBuilder<B extends javafx.scene.control.ControlBuild
         __set(7);
         return (B) this;
     }
-    
+
     private javafx.scene.control.Tooltip tooltip;
     /**
     Set the value of the {@link javafx.scene.control.Control#getTooltip() tooltip} property for the instance constructed by this builder.
@@ -160,5 +160,5 @@ public abstract class ControlBuilder<B extends javafx.scene.control.ControlBuild
         __set(8);
         return (B) this;
     }
-    
+
 }

@@ -44,7 +44,7 @@ public class BehaviorSkinBaseTest {
         b = new BehaviorBaseStub<>(c);
         s = new BehaviorSkinBaseStub<>(c, b);
     }
-    
+
     @Test public void skinNotAssignedToControlShouldStillHaveReferenceToControl() {
         assertSame(c, s.getSkinnable());
     }
@@ -53,7 +53,7 @@ public class BehaviorSkinBaseTest {
         c.setSkin(s);
         assertSame(c, s.getSkinnable());
     }
-    
+
     @Test public void skinRemovedFromControlShouldHaveNullReferenceToControl() {
         c.setSkin(s);
         c.setSkin(null);
@@ -71,10 +71,10 @@ public class BehaviorSkinBaseTest {
             super(control, behavior);
         }
     }
-    
+
     public static final class BehaviorBaseStub<C extends Control> extends BehaviorBase<C> {
         public BehaviorBaseStub(C control) {
             super(control, Collections.EMPTY_LIST);
-        }        
+        }
     }
 }

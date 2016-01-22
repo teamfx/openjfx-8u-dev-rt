@@ -1779,10 +1779,10 @@ g_variant_is_container (GVariant *value)
  * @G_VARIANT_CLASS_INT64: The #GVariant is a signed 64 bit integer.
  * @G_VARIANT_CLASS_UINT64: The #GVariant is an unsigned 64 bit integer.
  * @G_VARIANT_CLASS_HANDLE: The #GVariant is a file handle index.
- * @G_VARIANT_CLASS_DOUBLE: The #GVariant is a double precision floating 
+ * @G_VARIANT_CLASS_DOUBLE: The #GVariant is a double precision floating
  *                          point value.
  * @G_VARIANT_CLASS_STRING: The #GVariant is a normal string.
- * @G_VARIANT_CLASS_OBJECT_PATH: The #GVariant is a D-Bus object path 
+ * @G_VARIANT_CLASS_OBJECT_PATH: The #GVariant is a D-Bus object path
  *                               string.
  * @G_VARIANT_CLASS_SIGNATURE: The #GVariant is a D-Bus signature string.
  * @G_VARIANT_CLASS_VARIANT: The #GVariant is a variant.
@@ -1804,7 +1804,7 @@ g_variant_classify (GVariant *value)
 }
 
 /* Pretty printer {{{1 */
-/* This function is not introspectable because if @string is NULL, 
+/* This function is not introspectable because if @string is NULL,
    @returns is (transfer full), otherwise it is (transfer none), which
    is not supported by GObjectIntrospection */
 /**
@@ -2627,7 +2627,7 @@ GVariantIter *
 g_variant_iter_copy (GVariantIter *iter)
 {
   GVariantIter *copy;
-  
+
 #ifdef GSTREAMER_LITE
   if (iter == NULL) {
     return NULL;

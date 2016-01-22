@@ -115,7 +115,7 @@ public class RegionCSSTest {
         }
 
     }
-    
+
     @Before public void setUp() {
         region = new Region();
         scene = new Scene(region);
@@ -581,7 +581,7 @@ public class RegionCSSTest {
         b.append(NL + "]");
         return b.toString();
     }
-    
+
     private static String dump(BackgroundSize size) {
         StringBuilder b = new StringBuilder("BackgroundSize[");
         b.append(NL + "    width: " + size.getWidth());
@@ -593,7 +593,7 @@ public class RegionCSSTest {
         b.append(NL + "  ]");
         return b.toString();
     }
-    
+
     private static String dump(BackgroundPosition position) {
         StringBuilder b = new StringBuilder("BackgroundPosition[");
         b.append(NL + "    hSide: " + position.getHorizontalSide());
@@ -605,7 +605,7 @@ public class RegionCSSTest {
         b.append(NL + "  ]");
         return b.toString();
     }
-    
+
     @Test public void backgroundImagePosition_bottom_right() {
         region.setStyle(
                 "-fx-background-image: url('javafx/scene/layout/red.png');" +
@@ -3056,7 +3056,7 @@ public class RegionCSSTest {
                 null, Insets.EMPTY);
         assertEquals(expected, stroke);
     }
-    
+
     // Finally, the image borders!!
     // I probably have to rework things. The image border do depend on some settings from
     // the stroke borders (or at least, they can depend on them). As such I might not be

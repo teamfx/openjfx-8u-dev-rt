@@ -37,10 +37,10 @@ G_BEGIN_DECLS
 
 /* type macros */
 
-#define GST_TYPE_CONTROLLER	       (gst_controller_get_type ())
-#define GST_CONTROLLER(obj)	       (G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_CONTROLLER, GstController))
+#define GST_TYPE_CONTROLLER        (gst_controller_get_type ())
+#define GST_CONTROLLER(obj)        (G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_CONTROLLER, GstController))
 #define GST_CONTROLLER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GST_TYPE_CONTROLLER, GstControllerClass))
-#define GST_IS_CONTROLLER(obj)	       (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_CONTROLLER))
+#define GST_IS_CONTROLLER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_CONTROLLER))
 #define GST_IS_CONTROLLER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GST_TYPE_CONTROLLERE))
 #define GST_CONTROLLER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GST_TYPE_CONTROLLER, GstControllerClass))
 
@@ -86,7 +86,7 @@ GstController *gst_controller_new (GObject * object, ...) G_GNUC_NULL_TERMINATED
 gboolean gst_controller_remove_properties_valist (GstController * self,
     va_list var_args);
 gboolean gst_controller_remove_properties_list (GstController * self,
-						GList *list);
+                        GList *list);
 gboolean gst_controller_remove_properties (GstController * self, ...) G_GNUC_NULL_TERMINATED;
 
 void gst_controller_set_disabled (GstController *self, gboolean disabled);

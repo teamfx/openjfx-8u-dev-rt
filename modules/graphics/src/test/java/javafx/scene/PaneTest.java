@@ -31,7 +31,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class PaneTest {
-    
+
 
     @Test
     public void testPrefWidthWithResizableChild() {
@@ -60,9 +60,9 @@ public class PaneTest {
         Pane pane = new Pane();
         Rectangle rect = new Rectangle(50,50);
         pane.getChildren().add(rect);
-        
+
         rect.relocate(0, 0);
-        
+
         pane.layout();
 
         //min size is always equal to insets
@@ -85,7 +85,7 @@ public class PaneTest {
         assertEquals(100, pane.prefWidth(-1), 1e-100);
         assertEquals(200, pane.prefHeight(-1), 1e-100);
     }
-    
+
     @Test
     public void testPrefSizeRespectsBounds() {
         Pane pane = new Pane();
@@ -93,13 +93,13 @@ public class PaneTest {
         n1.relocate(10, 0);
         Node n2 = new MockRegion(0, 0, 200, 200, 100, 100);
         n2.relocate(0, 20);
-        
+
         pane.getChildren().addAll(n1, n2);
-        
+
         pane.layout();
-        
+
         assertEquals(110, pane.prefWidth(-1), 1e-100);
         assertEquals(120, pane.prefHeight(-1), 1e-100);
     }
-    
+
 }

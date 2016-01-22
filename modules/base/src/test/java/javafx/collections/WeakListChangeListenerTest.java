@@ -35,7 +35,7 @@ import java.util.Collections;
 import static org.junit.Assert.*;
 
 public class WeakListChangeListenerTest {
-	
+
     @Test(expected=NullPointerException.class)
     public void testConstructWithNull() {
         new WeakListChangeListener<Object>(null);

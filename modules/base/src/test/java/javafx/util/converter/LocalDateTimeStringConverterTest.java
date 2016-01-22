@@ -86,14 +86,14 @@ public class LocalDateTimeStringConverterTest {
         this.formatter = formatter;
         this.parser = parser;
     }
-    
+
     @Before public void setup() {
     }
-    
+
     /*********************************************************************
      * Test constructors
-     ********************************************************************/ 
-    
+     ********************************************************************/
+
     @Test public void testConstructor() {
         assertEquals(locale, converter.ldtConverter.locale);
         assertEquals((dateStyle != null) ? dateStyle : FormatStyle.SHORT, converter.ldtConverter.dateStyle);
@@ -107,20 +107,20 @@ public class LocalDateTimeStringConverterTest {
             assertEquals(formatter, converter.ldtConverter.parser);
         }
     }
-    
-    
+
+
     /*********************************************************************
      * Test toString / fromString methods
-     ********************************************************************/    
-   
+     ********************************************************************/
+
     @Test public void toString_to_fromString_testRoundtrip() {
         if (formatter == null) {
             // Only the default formatter/parser can guarantee roundtrip symmetry
             assertEquals(validDateTime, converter.fromString(converter.toString(validDateTime)));
         }
     }
-    
-    
+
+
     @Test(expected=RuntimeException.class)
     public void fromString_testInvalidInput() {
         converter.fromString("abcdefg");

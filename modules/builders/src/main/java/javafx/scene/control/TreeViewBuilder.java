@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.TreeView
 public class TreeViewBuilder<T, B extends javafx.scene.control.TreeViewBuilder<T, B>> extends javafx.scene.control.ControlBuilder<B> implements javafx.util.Builder<javafx.scene.control.TreeView<T>> {
     protected TreeViewBuilder() {
     }
-    
+
     /** Creates a new instance of TreeViewBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <T> javafx.scene.control.TreeViewBuilder<T, ?> create() {
         return new javafx.scene.control.TreeViewBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -66,7 +66,7 @@ public class TreeViewBuilder<T, B extends javafx.scene.control.TreeViewBuilder<T
             }
         }
     }
-    
+
     private javafx.util.Callback<javafx.scene.control.TreeView<T>,javafx.scene.control.TreeCell<T>> cellFactory;
     /**
     Set the value of the {@link javafx.scene.control.TreeView#getCellFactory() cellFactory} property for the instance constructed by this builder.
@@ -77,7 +77,7 @@ public class TreeViewBuilder<T, B extends javafx.scene.control.TreeViewBuilder<T
         __set(0);
         return (B) this;
     }
-    
+
     private boolean editable;
     /**
     Set the value of the {@link javafx.scene.control.TreeView#isEditable() editable} property for the instance constructed by this builder.
@@ -88,7 +88,7 @@ public class TreeViewBuilder<T, B extends javafx.scene.control.TreeViewBuilder<T
         __set(1);
         return (B) this;
     }
-    
+
     private javafx.scene.control.FocusModel<javafx.scene.control.TreeItem<T>> focusModel;
     /**
     Set the value of the {@link javafx.scene.control.TreeView#getFocusModel() focusModel} property for the instance constructed by this builder.
@@ -99,7 +99,7 @@ public class TreeViewBuilder<T, B extends javafx.scene.control.TreeViewBuilder<T
         __set(2);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.scene.control.TreeView.EditEvent<T>> onEditCancel;
     /**
     Set the value of the {@link javafx.scene.control.TreeView#getOnEditCancel() onEditCancel} property for the instance constructed by this builder.
@@ -110,7 +110,7 @@ public class TreeViewBuilder<T, B extends javafx.scene.control.TreeViewBuilder<T
         __set(3);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.scene.control.TreeView.EditEvent<T>> onEditCommit;
     /**
     Set the value of the {@link javafx.scene.control.TreeView#getOnEditCommit() onEditCommit} property for the instance constructed by this builder.
@@ -121,7 +121,7 @@ public class TreeViewBuilder<T, B extends javafx.scene.control.TreeViewBuilder<T
         __set(4);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.scene.control.TreeView.EditEvent<T>> onEditStart;
     /**
     Set the value of the {@link javafx.scene.control.TreeView#getOnEditStart() onEditStart} property for the instance constructed by this builder.
@@ -132,7 +132,7 @@ public class TreeViewBuilder<T, B extends javafx.scene.control.TreeViewBuilder<T
         __set(5);
         return (B) this;
     }
-    
+
     private javafx.scene.control.TreeItem<T> root;
     /**
     Set the value of the {@link javafx.scene.control.TreeView#getRoot() root} property for the instance constructed by this builder.
@@ -143,7 +143,7 @@ public class TreeViewBuilder<T, B extends javafx.scene.control.TreeViewBuilder<T
         __set(6);
         return (B) this;
     }
-    
+
     private javafx.scene.control.MultipleSelectionModel<javafx.scene.control.TreeItem<T>> selectionModel;
     /**
     Set the value of the {@link javafx.scene.control.TreeView#getSelectionModel() selectionModel} property for the instance constructed by this builder.
@@ -154,7 +154,7 @@ public class TreeViewBuilder<T, B extends javafx.scene.control.TreeViewBuilder<T
         __set(7);
         return (B) this;
     }
-    
+
     private boolean showRoot;
     /**
     Set the value of the {@link javafx.scene.control.TreeView#isShowRoot() showRoot} property for the instance constructed by this builder.
@@ -165,7 +165,7 @@ public class TreeViewBuilder<T, B extends javafx.scene.control.TreeViewBuilder<T
         __set(8);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.TreeView} based on the properties set on this builder.
     */

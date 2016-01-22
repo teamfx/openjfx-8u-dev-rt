@@ -62,7 +62,7 @@ import java.util.regex.Pattern;
 import static com.oracle.tools.packager.StandardBundlerParam.*;
 
 /**
- * 
+ *
  * Created by dferrin on 1/7/15.
  */
 public class JNLPBundler extends AbstractBundler {
@@ -126,7 +126,7 @@ public class JNLPBundler extends AbstractBundler {
             (Class<Map<File, File>>) (Object) Map.class,
             p -> new LinkedHashMap<>(),
             null);
-    
+
     public static final StandardBundlerParam<String> CODEBASE = new StandardBundlerParam<>(
             I18N.getString("param.codebase.name"),
             I18N.getString("param.codebase.description"),
@@ -134,7 +134,7 @@ public class JNLPBundler extends AbstractBundler {
             String.class,
             p -> null,
             null);
-    
+
     public static final StandardBundlerParam<String> PLACEHOLDER = new StandardBundlerParam<>(
             I18N.getString("param.placeholder.name"),
             I18N.getString("param.placeholder.description"),
@@ -150,7 +150,7 @@ public class JNLPBundler extends AbstractBundler {
                 }
                 return s;
             });
-    
+
     public static final StandardBundlerParam<Boolean> OFFLINE_ALLOWED = new StandardBundlerParam<>(
             I18N.getString("param.offline-allowed.name"),
             I18N.getString("param.offline-allowed.description"),
@@ -158,7 +158,7 @@ public class JNLPBundler extends AbstractBundler {
             Boolean.class,
             p -> true,
             (s, p) -> Boolean.valueOf(s));
-    
+
     public static final StandardBundlerParam<Boolean> ALL_PERMISSIONS = new StandardBundlerParam<>(
             I18N.getString("param.all-permissions.name"),
             I18N.getString("param.all-permissions.description"),
@@ -166,7 +166,7 @@ public class JNLPBundler extends AbstractBundler {
             Boolean.class,
             p -> false,
             (s, p) -> Boolean.valueOf(s));
-    
+
     public static final StandardBundlerParam<Integer> WIDTH = new StandardBundlerParam<>(
             I18N.getString("param.width.name"),
             I18N.getString("param.width.description"),
@@ -174,7 +174,7 @@ public class JNLPBundler extends AbstractBundler {
             Integer.class,
             p -> 0,
             (s, p) -> Integer.parseInt(s));
-    
+
     public static final StandardBundlerParam<Integer> HEIGHT = new StandardBundlerParam<>(
             I18N.getString("param.height.name"),
             I18N.getString("param.height.description"),
@@ -182,7 +182,7 @@ public class JNLPBundler extends AbstractBundler {
             Integer.class,
             p -> 0,
             (s, p) -> Integer.parseInt(s));
-    
+
     public static final StandardBundlerParam<String> EMBEDDED_WIDTH = new StandardBundlerParam<>(
             I18N.getString("param.embedded-width.name"),
             I18N.getString("param.embedded-width.description"),
@@ -190,7 +190,7 @@ public class JNLPBundler extends AbstractBundler {
             String.class,
             p -> Integer.toString(WIDTH.fetchFrom(p)),
             (s, p) -> s);
-    
+
     public static final StandardBundlerParam<String> EMBEDDED_HEIGHT = new StandardBundlerParam<>(
             I18N.getString("param.embedded-height.name"),
             I18N.getString("param.embedded-height.description"),
@@ -198,7 +198,7 @@ public class JNLPBundler extends AbstractBundler {
             String.class,
             p -> Integer.toString(HEIGHT.fetchFrom(p)),
             (s, p) -> s);
-    
+
     public static final StandardBundlerParam<String> FALLBACK_APP = new StandardBundlerParam<>(
             I18N.getString("param.fallback-app.name"),
             I18N.getString("param.fallback-app.description"),
@@ -206,7 +206,7 @@ public class JNLPBundler extends AbstractBundler {
             String.class,
             p -> null,
             (s, p) -> s);
-    
+
     public static final StandardBundlerParam<String> UPDATE_MODE = new StandardBundlerParam<>(
             I18N.getString("param.update-mode.name"),
             I18N.getString("param.update-mode.description"),
@@ -214,7 +214,7 @@ public class JNLPBundler extends AbstractBundler {
             String.class,
             p -> null,
             (s, p) -> s);
-    
+
     public static final StandardBundlerParam<String> FX_PLATFORM = new StandardBundlerParam<>(
             I18N.getString("param.fx-platform.name"),
             I18N.getString("param.fx-platform.description"),
@@ -222,7 +222,7 @@ public class JNLPBundler extends AbstractBundler {
             String.class,
             p -> "8.0",
             (s, p) -> s);
-    
+
     public static final StandardBundlerParam<String> JRE_PLATFORM = new StandardBundlerParam<>(
             I18N.getString("param.jre-platform.name"),
             I18N.getString("param.jre-platform.description"),
@@ -230,7 +230,7 @@ public class JNLPBundler extends AbstractBundler {
             String.class,
             p -> "8.0",
             (s, p) -> s);
-    
+
     @SuppressWarnings("unchecked")
     public static final StandardBundlerParam<List<Map<String, ? super Object>>> ICONS = new StandardBundlerParam<>(
             I18N.getString("param.icons.name"),
@@ -476,8 +476,8 @@ public class JNLPBundler extends AbstractBundler {
             //In case of FX app we will have one JNLP and one HTML
             //In case of Swing with FX we will have 2 JNLP files and one HTML
             String outfile = OUT_FILE.fetchFrom(params);
-            boolean isSwingApp = SWING_APP.fetchFrom(params); 
-            
+            boolean isSwingApp = SWING_APP.fetchFrom(params);
+
             String jnlp_filename_webstart = outfile + ".jnlp";
             String jnlp_filename_browser
                     = isSwingApp ?
@@ -488,7 +488,7 @@ public class JNLPBundler extends AbstractBundler {
             outputParentDir.mkdirs();
 
             boolean includeDT = INCLUDE_DT.fetchFrom(params);
-            
+
             if (includeDT && !extractWebFiles(outputParentDir)) {
                 throw new PackagerException("ERR_NoEmbeddedDT");
             }
@@ -563,7 +563,7 @@ public class JNLPBundler extends AbstractBundler {
             ex.printStackTrace();
             Log.debug(ex);
             return null;
-        }            
+        }
     }
 
     private static void copyFiles(RelativeFileSet resources, File outdir) throws IOException, PackagerException {
@@ -617,7 +617,7 @@ public class JNLPBundler extends AbstractBundler {
         String title = TITLE.fetchFrom(params);
         String vendor = VENDOR.fetchFrom(params);
         String description = DESCRIPTION.fetchFrom(params);
-        
+
         out.println("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
         //have to use "old" spec version or old javaws will fail
         // with "unknown" version exception ...
@@ -646,7 +646,7 @@ public class JNLPBundler extends AbstractBundler {
             String width =  ICONS_WIDTH.fetchFrom(iconInfo);
             String height = ICONS_HEIGHT.fetchFrom(iconInfo);
             String depth =  ICONS_DEPTH.fetchFrom(iconInfo);
-            
+
             out.println("    <icon href=\"" + href + "\" " +
                     ((kind != null) ?   " kind=\"" + kind + "\"" : "") +
                     ((width != null) ?  " width=\"" + width + "\"" : "") +
@@ -683,7 +683,7 @@ public class JNLPBundler extends AbstractBundler {
 
             String vmargs = getJvmArguments(params, false);
             vmargs = (vmargs == null) ? "" : " java-vm-args=\""+vmargs+"\" ";
-            
+
             out.println("    <j2se version=\"" + JRE_PLATFORM.fetchFrom(params) + "\"" +
                     vmargs + " href=\"http://java.sun.com/products/autodl/j2se\"/>");
             for (Map.Entry<String, String> entry : JVM_PROPERTIES.fetchFrom(params).entrySet()) {
@@ -701,7 +701,7 @@ public class JNLPBundler extends AbstractBundler {
                     ((currentOS == null && rfs.getOs() != null) ||
                             currentOS != null && !currentOS.equals(rfs.getOs())) ||
                     ((currentArch == null && rfs.getArch() != null) ||
-                            currentArch != null && !currentArch.equals(rfs.getArch()))) 
+                            currentArch != null && !currentArch.equals(rfs.getArch())))
             {
 
                 //we do not print right a way as it may be empty block
@@ -772,14 +772,14 @@ public class JNLPBundler extends AbstractBundler {
             out.println("  </resources>");
         }
 
-        boolean allPermissions = ALL_PERMISSIONS.fetchFrom(params); 
+        boolean allPermissions = ALL_PERMISSIONS.fetchFrom(params);
         if (allPermissions) {
             out.println("<security>");
             out.println("  <all-permissions/>");
             out.println("</security>");
         }
 
-        
+
         if (!isExtension) {
             Integer width = WIDTH.fetchFrom(params);
             Integer height = HEIGHT.fetchFrom(params);
@@ -917,7 +917,7 @@ public class JNLPBundler extends AbstractBundler {
         String appletParams = getAppletParameters(params);
         String jnlp_content_browser = null;
         String jnlp_content_webstart = null;
-        
+
         boolean embedJNLP = EMBED_JNLP.fetchFrom(params);
         boolean includeDT = INCLUDE_DT.fetchFrom(params);
 
@@ -954,11 +954,11 @@ public class JNLPBundler extends AbstractBundler {
             addToList(w_app, "params", "{"+appletParams+"}", false);
         }
 
-    
+
         for (Map.Entry<String, String> callbackEntry : JS_CALLBACKS.fetchFrom(params).entrySet()) {
             addToList(w_callback, callbackEntry.getKey(), callbackEntry.getValue(), false);
         }
-    
+
         //prepare content of launchApp function
         out_launch_code.append(poff2).append("dtjava.launch(");
         out_launch_code.append(listToString(w_app, poff3)).append(",\n");
@@ -1139,7 +1139,7 @@ public class JNLPBundler extends AbstractBundler {
     String quoteEscape(String s) {
         return s.replaceAll("(['\"\\\\])", "\\\\$1");
     }
-    
+
     private static String[] webFiles = {
             "javafx-loading-100x100.gif",
             dtFX,

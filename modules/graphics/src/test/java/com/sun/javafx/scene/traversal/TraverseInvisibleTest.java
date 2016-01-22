@@ -154,7 +154,7 @@ public final class TraverseInvisibleTest {
         public int getCallCounter() {
             return callCounter;
         }
-        
+
         public Node getLastNode() {
             return lastNode;
         }

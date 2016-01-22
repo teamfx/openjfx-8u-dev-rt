@@ -203,25 +203,25 @@ struct _GstRingBufferSpec
   gint      channels;
 
   guint64  latency_time;        /* the required/actual latency time, this is the
-				 * actual the size of one segment and the
-				 * minimum possible latency we can achieve. */
+                 * actual the size of one segment and the
+                 * minimum possible latency we can achieve. */
   guint64  buffer_time;         /* the required/actual time of the buffer, this is
-				 * the total size of the buffer and maximum
-				 * latency we can compensate for. */
+                 * the total size of the buffer and maximum
+                 * latency we can compensate for. */
   gint     segsize;             /* size of one buffer segment in bytes, this value
-				 * should be chosen to match latency_time as
-				 * well as possible. */
+                 * should be chosen to match latency_time as
+                 * well as possible. */
   gint     segtotal;            /* total number of segments, this value is the
-				 * number of segments of @segsize and should be
-				 * chosen so that it matches buffer_time as
-				 * close as possible. */
+                 * number of segments of @segsize and should be
+                 * chosen so that it matches buffer_time as
+                 * close as possible. */
   /* out */
   gint     bytes_per_sample;    /* number of bytes of one sample */
   guint8   silence_sample[32];  /* bytes representing silence */
 
   /* ABI added 0.10.20 */
   gint     seglatency;          /* number of segments queued in the lower
-				 * level device, defaults to segtotal. */
+                 * level device, defaults to segtotal. */
 
   /*< private >*/
   /* gpointer _gst_reserved[GST_PADDING]; */
@@ -346,7 +346,7 @@ void            gst_ring_buffer_debug_spec_buff (GstRingBufferSpec *spec);
 
 gboolean        gst_ring_buffer_convert         (GstRingBuffer * buf, GstFormat src_fmt,
                                                  gint64 src_val, GstFormat dest_fmt,
-						 gint64 * dest_val);
+                         gint64 * dest_val);
 
 /* device state */
 gboolean        gst_ring_buffer_open_device     (GstRingBuffer *buf);
@@ -385,8 +385,8 @@ void            gst_ring_buffer_clear_all       (GstRingBuffer *buf);
 guint           gst_ring_buffer_commit          (GstRingBuffer *buf, guint64 sample,
                                                  guchar *data, guint len);
 guint           gst_ring_buffer_commit_full     (GstRingBuffer * buf, guint64 *sample,
-		                                 guchar * data, gint in_samples,
-						 gint out_samples, gint * accum);
+                                         guchar * data, gint in_samples,
+                         gint out_samples, gint * accum);
 
 /* read samples */
 guint           gst_ring_buffer_read            (GstRingBuffer *buf, guint64 sample,

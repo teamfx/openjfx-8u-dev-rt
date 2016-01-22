@@ -62,23 +62,23 @@ public abstract class BehaviorSkinBase<C extends Control, BB extends BehaviorBas
      * implementations. For example, a ButtonSkin might require a ButtonBehavior.
      */
     private BB behavior;
-    
+
     /**
      * This is part of the workaround introduced during delomboking. We probably will
      * want to adjust the way listeners are added rather than continuing to use this
      * map (although it doesn't really do much harm).
      */
     private MultiplePropertyChangeListenerHandler changeListenerHandler;
-    
-    
-    
+
+
+
     /***************************************************************************
      *                                                                         *
      * Event Handlers / Listeners                                              *
      *                                                                         *
      **************************************************************************/
-    
-    
+
+
     /**
      * Forwards mouse events received by a MouseListener to the behavior.
      * Note that we use this pattern to remove some of the anonymous inner
@@ -107,7 +107,7 @@ public abstract class BehaviorSkinBase<C extends Control, BB extends BehaviorBas
                     behavior.contextMenuRequested(event);
                 }
             };
-    
+
     /***************************************************************************
      *                                                                         *
      * Constructor                                                             *
@@ -116,20 +116,20 @@ public abstract class BehaviorSkinBase<C extends Control, BB extends BehaviorBas
 
     /**
      * Constructor for all BehaviorSkinBase instances.
-     * 
+     *
      * @param control The control for which this Skin should attach to.
      * @param behavior The behavior for which this Skin should defer to.
      */
     protected BehaviorSkinBase(final C control, final BB behavior) {
         super(control);
-        
+
         if (behavior == null) {
             throw new IllegalArgumentException("Cannot pass null for behavior");
         }
 
         // Update the control and behavior
         this.behavior = behavior;
-        
+
         // We will auto-add listeners for wiring up Region mouse events to
         // be sent to the behavior
         control.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseHandler);
@@ -140,14 +140,14 @@ public abstract class BehaviorSkinBase<C extends Control, BB extends BehaviorBas
 
         control.addEventHandler(ContextMenuEvent.CONTEXT_MENU_REQUESTED, contextMenuHandler);
     }
-    
-    
+
+
 
     /***************************************************************************
      *                                                                         *
      * Public API (from Skin)                                                  *
      *                                                                         *
-     **************************************************************************/    
+     **************************************************************************/
 
     /** {@inheritDoc} */
     public final BB getBehavior() {
@@ -155,12 +155,12 @@ public abstract class BehaviorSkinBase<C extends Control, BB extends BehaviorBas
     }
 
     /** {@inheritDoc} */
-    @Override public void dispose() { 
+    @Override public void dispose() {
         // unhook listeners
         if (changeListenerHandler != null) {
             changeListenerHandler.dispose();
         }
-        
+
         C control = getSkinnable();
         if (control != null) {
             control.removeEventHandler(MouseEvent.MOUSE_ENTERED, mouseHandler);
@@ -177,13 +177,13 @@ public abstract class BehaviorSkinBase<C extends Control, BB extends BehaviorBas
 
         super.dispose();
     }
-    
+
     /***************************************************************************
      *                                                                         *
      * Public API                                                              *
      *                                                                         *
      **************************************************************************/
-    
+
     /**
      * Subclasses can invoke this method to register that we want to listen to
      * property change events for the given property.
@@ -200,7 +200,7 @@ public abstract class BehaviorSkinBase<C extends Control, BB extends BehaviorBas
         }
         changeListenerHandler.registerChangeListener(property, reference);
     }
-    
+
     /**
      * Skin subclasses will override this method to handle changes in corresponding
      * control's properties.

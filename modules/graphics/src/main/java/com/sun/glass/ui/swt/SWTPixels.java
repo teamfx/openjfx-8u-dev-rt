@@ -37,7 +37,7 @@ final class SWTPixels extends Pixels {
     public SWTPixels(int width, int height, IntBuffer data) {
         super(width, height, data);
     }
-    
+
     protected SWTPixels(int width, int height, IntBuffer data, float scale) {
         super(width, height, data, scale);
     }
@@ -46,7 +46,7 @@ final class SWTPixels extends Pixels {
     protected void _fillDirectByteBuffer(ByteBuffer bb) {
         //TODO - not implemented
     }
-    
+
     @Override
     protected void _attachInt(long ptr, int w, int h, IntBuffer ints, int[] array, int offset) {
         //TODO - not implemented

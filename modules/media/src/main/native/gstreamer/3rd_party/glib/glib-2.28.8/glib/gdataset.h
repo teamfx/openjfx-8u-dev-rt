@@ -8,7 +8,7 @@
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
@@ -46,16 +46,16 @@ typedef void            (*GDataForeachFunc)     (GQuark         key_id,
 void     g_datalist_init                (GData            **datalist);
 void     g_datalist_clear               (GData            **datalist);
 gpointer g_datalist_id_get_data         (GData            **datalist,
-					 GQuark             key_id);
+                     GQuark             key_id);
 void     g_datalist_id_set_data_full    (GData            **datalist,
-					 GQuark             key_id,
-					 gpointer           data,
-					 GDestroyNotify     destroy_func);
+                     GQuark             key_id,
+                     gpointer           data,
+                     GDestroyNotify     destroy_func);
 gpointer g_datalist_id_remove_no_notify (GData            **datalist,
-					 GQuark             key_id);
+                     GQuark             key_id);
 void     g_datalist_foreach             (GData            **datalist,
-					 GDataForeachFunc   func,
-					 gpointer           user_data);
+                     GDataForeachFunc   func,
+                     gpointer           user_data);
 
 /**
  * G_DATALIST_FLAGS_MASK:
@@ -67,9 +67,9 @@ void     g_datalist_foreach             (GData            **datalist,
 #define G_DATALIST_FLAGS_MASK 0x3
 
 void     g_datalist_set_flags           (GData            **datalist,
-					 guint              flags);
+                     guint              flags);
 void     g_datalist_unset_flags         (GData            **datalist,
-					 guint              flags);
+                     guint              flags);
 guint    g_datalist_get_flags           (GData            **datalist);
 
 #define   g_datalist_id_set_data(dl, q, d)      \

@@ -49,7 +49,7 @@ typedef struct _GstTunerChannelClass GstTunerChannelClass;
  * @GST_TUNER_CHANNEL_FREQUENCY: The channel has a frequency setting
  *                               and signal strength.
  * @GST_TUNER_CHANNEL_AUDIO: The channel carries audio.
- * 
+ *
  * An enumeration for flags indicating the available capabilities
  * of a #GstTunerChannel.
  */
@@ -64,7 +64,7 @@ typedef enum {
  * GST_TUNER_CHANNEL_HAS_FLAG:
  * @channel: A #GstTunerChannel
  * @flag: The flag to check for
- * 
+ *
  * Macro to check if the given flag is set on a channel
  */
 #define GST_TUNER_CHANNEL_HAS_FLAG(channel, flag) \
