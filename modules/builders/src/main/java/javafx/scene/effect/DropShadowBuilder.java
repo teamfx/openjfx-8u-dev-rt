@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.effect.DropShadow
 public class DropShadowBuilder<B extends javafx.scene.effect.DropShadowBuilder<B>> implements javafx.util.Builder<javafx.scene.effect.DropShadow> {
     protected DropShadowBuilder() {
     }
-    
+
     /** Creates a new instance of DropShadowBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.effect.DropShadowBuilder<?> create() {
         return new javafx.scene.effect.DropShadowBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -65,7 +65,7 @@ public class DropShadowBuilder<B extends javafx.scene.effect.DropShadowBuilder<B
             }
         }
     }
-    
+
     private javafx.scene.effect.BlurType blurType;
     /**
     Set the value of the {@link javafx.scene.effect.DropShadow#getBlurType() blurType} property for the instance constructed by this builder.
@@ -76,7 +76,7 @@ public class DropShadowBuilder<B extends javafx.scene.effect.DropShadowBuilder<B
         __set(0);
         return (B) this;
     }
-    
+
     private javafx.scene.paint.Color color;
     /**
     Set the value of the {@link javafx.scene.effect.DropShadow#getColor() color} property for the instance constructed by this builder.
@@ -87,7 +87,7 @@ public class DropShadowBuilder<B extends javafx.scene.effect.DropShadowBuilder<B
         __set(1);
         return (B) this;
     }
-    
+
     private double height;
     /**
     Set the value of the {@link javafx.scene.effect.DropShadow#getHeight() height} property for the instance constructed by this builder.
@@ -98,7 +98,7 @@ public class DropShadowBuilder<B extends javafx.scene.effect.DropShadowBuilder<B
         __set(2);
         return (B) this;
     }
-    
+
     private javafx.scene.effect.Effect input;
     /**
     Set the value of the {@link javafx.scene.effect.DropShadow#getInput() input} property for the instance constructed by this builder.
@@ -109,7 +109,7 @@ public class DropShadowBuilder<B extends javafx.scene.effect.DropShadowBuilder<B
         __set(3);
         return (B) this;
     }
-    
+
     private double offsetX;
     /**
     Set the value of the {@link javafx.scene.effect.DropShadow#getOffsetX() offsetX} property for the instance constructed by this builder.
@@ -120,7 +120,7 @@ public class DropShadowBuilder<B extends javafx.scene.effect.DropShadowBuilder<B
         __set(4);
         return (B) this;
     }
-    
+
     private double offsetY;
     /**
     Set the value of the {@link javafx.scene.effect.DropShadow#getOffsetY() offsetY} property for the instance constructed by this builder.
@@ -131,7 +131,7 @@ public class DropShadowBuilder<B extends javafx.scene.effect.DropShadowBuilder<B
         __set(5);
         return (B) this;
     }
-    
+
     private double radius;
     /**
     Set the value of the {@link javafx.scene.effect.DropShadow#getRadius() radius} property for the instance constructed by this builder.
@@ -142,7 +142,7 @@ public class DropShadowBuilder<B extends javafx.scene.effect.DropShadowBuilder<B
         __set(6);
         return (B) this;
     }
-    
+
     private double spread;
     /**
     Set the value of the {@link javafx.scene.effect.DropShadow#getSpread() spread} property for the instance constructed by this builder.
@@ -153,7 +153,7 @@ public class DropShadowBuilder<B extends javafx.scene.effect.DropShadowBuilder<B
         __set(7);
         return (B) this;
     }
-    
+
     private double width;
     /**
     Set the value of the {@link javafx.scene.effect.DropShadow#getWidth() width} property for the instance constructed by this builder.
@@ -164,7 +164,7 @@ public class DropShadowBuilder<B extends javafx.scene.effect.DropShadowBuilder<B
         __set(8);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.effect.DropShadow} based on the properties set on this builder.
     */

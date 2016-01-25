@@ -57,7 +57,7 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.Node;
 
 class GlassSystemMenu implements TKSystemMenu {
-        
+
     private List<MenuBase>      systemMenus = null;
     private MenuBar             glassSystemMenuBar = null;
 
@@ -78,11 +78,11 @@ class GlassSystemMenu implements TKSystemMenu {
             }
         }
     }
-    
+
     protected MenuBar getMenuBar() {
         return glassSystemMenuBar;
     }
-    
+
     @Override public boolean isSupported() {
         return Application.GetApplication().supportsSystemMenu();
     }
@@ -90,7 +90,7 @@ class GlassSystemMenu implements TKSystemMenu {
     @Override public void setMenus(List<MenuBase> menus) {
         systemMenus = menus;
         if (glassSystemMenuBar != null) {
-            
+
             /*
              * Remove existing menus
              */
@@ -105,7 +105,7 @@ class GlassSystemMenu implements TKSystemMenu {
                 clearMenu(menu);
                 glassSystemMenuBar.remove(index);
             }
-            
+
             for (MenuBase menu : menus) {
                 addMenu(null, menu);
             }
@@ -298,7 +298,7 @@ class GlassSystemMenu implements TKSystemMenu {
             ImageView iv = (ImageView)menuItem.getGraphic();
             Image     im = iv.getImage();
             if (im == null) return null;
-            
+
             String    url          = im.impl_getUrl();
 
             if (url == null || PixelUtils.supportedFormatType(url)) {
@@ -375,8 +375,8 @@ class GlassSystemMenu implements TKSystemMenu {
                 ret += KeyEvent.MODIFIER_FUNCTION;
             }
         }
-                       
+
         return (ret);
     }
-        
+
 }

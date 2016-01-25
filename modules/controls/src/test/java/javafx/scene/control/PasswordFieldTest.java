@@ -38,23 +38,23 @@ import org.junit.Test;
  */
 public class PasswordFieldTest {
     private PasswordField pwdField;//Empty string
-    
+
     @Before public void setup() {
         pwdField = new PasswordField();
     }
-    
+
     /*********************************************************************
      * Tests for the constructors                                        *
      ********************************************************************/
-    
+
     @Test public void defaultConstructorShouldHaveEmptyString() {
         assertEquals("", pwdField.getText());
     }
-    
+
     /*********************************************************************
      * Tests for overriden cut, copy                                         *
      ********************************************************************/
-    
+
     @Test public void checkCut() {
         pwdField.setText("sample");
         pwdField.selectRange(0, pwdField.getLength());
@@ -63,7 +63,7 @@ public class PasswordFieldTest {
         assertTrue(pwdField.getLength() != 0);//Because we cut the entire text still its not valid for PasswordField
         assertEquals(pwdField.getText().toString(), pwdField.getContent().get(0, pwdField.getLength()));
     }
-    
+
     @Test public void checkCopy() {
         pwdField.setText("sample");
         pwdField.selectRange(0, pwdField.getLength());
@@ -73,7 +73,7 @@ public class PasswordFieldTest {
         assertEquals(pwdField.getText().toString(), pwdField.getContent().get(0, pwdField.getLength()));
     }
 
-    
+
     /*********************************************************************
      * Tests for default values                                         *
      ********************************************************************/
@@ -81,7 +81,7 @@ public class PasswordFieldTest {
     @Test public void defaultConstructorShouldSetStyleClassTo_passwordfield() {
         assertStyleClassContains(pwdField, "password-field");
     }
-    
+
     /*********************************************************************
      * Miscellaneous Tests                                               *
      ********************************************************************/

@@ -126,7 +126,7 @@ static Class gMediaPlayerClass = nil;
 
     if ((self = [super init]) != nil) {
         movieURL = [source retain];
-        
+
         env->GetJavaVM(&javaPlayerVM);
 #if USE_WEAK_REFS
         javaPlayer = env->NewWeakGlobalRef(jp);
@@ -135,9 +135,9 @@ static Class gMediaPlayerClass = nil;
 #endif
         // set up the peer association
         [OSXMediaPlayer setPeer:self forJavaPlayer:javaPlayer andEnv:env];
-        
+
         eventHandler = hdlr;
-        
+
         // create the player object
         player = [[gMediaPlayerClass alloc] initWithURL:movieURL eventHandler:eventHandler];
     }
@@ -164,18 +164,18 @@ static Class gMediaPlayerClass = nil;
         [player dispose];
         [player release];
         player = nil;
-    
+
         if (eventHandler) {
             eventHandler->Dispose();
             delete eventHandler;
         }
         eventHandler = NULL;
-        
+
         [OSXMediaPlayer removePlayerPeers:self];
         if (javaPlayerVM && javaPlayer) {
             BOOL attached = NO;
             JNIEnv *env = GetJavaEnvironment(javaPlayerVM, &attached);
-            
+
             // remove peer association
             [OSXMediaPlayer removePlayerPeers:self];
 #if USE_WEAK_REFS
@@ -317,7 +317,7 @@ JNIEXPORT void JNICALL Java_com_sun_media_jfxmediaimpl_platform_osx_OSXMediaPlay
                            "OSXMediaPlayer: Unable to create sourceURIString");
         return;
     }
-    
+
     NSURL *mediaURL = [[NSURL alloc] initWithString:sourceURIString];
     if (!mediaURL) {
         LOGGER_WARNMSG("OSXMediaPlayer: Unable to create mediaURL\n");
@@ -325,7 +325,7 @@ JNIEXPORT void JNICALL Java_com_sun_media_jfxmediaimpl_platform_osx_OSXMediaPlay
                            "OSXMediaPlayer: Unable to create mediaURL");
         return;
     }
-    
+
     OSXMediaPlayer *player = [[OSXMediaPlayer alloc] initWithURL:mediaURL javaPlayer:playerObject andEnv:env eventHandler:eventHandler];
     if (!player) {
         LOGGER_WARNMSG("OSXMediaPlayer: Unable to create player\n");
@@ -671,7 +671,7 @@ JNIEXPORT void JNICALL Java_com_sun_media_jfxmediaimpl_platform_osx_OSXMediaPlay
     OSXMediaPlayer *player = [OSXMediaPlayer peerForPlayer:playerObject andEnv:env];
     if (player) {
         [player dispose];
-        
+
         // This should pop the last retain, aside from the autoreleased reference...
         [OSXMediaPlayer removePlayerPeers:player];
     }

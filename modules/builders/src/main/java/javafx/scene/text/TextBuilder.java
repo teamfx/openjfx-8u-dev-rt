@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.text.Text
 public class TextBuilder<B extends javafx.scene.text.TextBuilder<B>> extends javafx.scene.shape.ShapeBuilder<B> implements javafx.util.Builder<javafx.scene.text.Text> {
     protected TextBuilder() {
     }
-    
+
     /** Creates a new instance of TextBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.text.TextBuilder<?> create() {
         return new javafx.scene.text.TextBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -72,7 +72,7 @@ public class TextBuilder<B extends javafx.scene.text.TextBuilder<B>> extends jav
             }
         }
     }
-    
+
     private javafx.scene.text.TextBoundsType boundsType;
     /**
     Set the value of the {@link javafx.scene.text.Text#getBoundsType() boundsType} property for the instance constructed by this builder.
@@ -83,7 +83,7 @@ public class TextBuilder<B extends javafx.scene.text.TextBuilder<B>> extends jav
         __set(0);
         return (B) this;
     }
-    
+
     private javafx.scene.text.Font font;
     /**
     Set the value of the {@link javafx.scene.text.Text#getFont() font} property for the instance constructed by this builder.
@@ -94,7 +94,7 @@ public class TextBuilder<B extends javafx.scene.text.TextBuilder<B>> extends jav
         __set(1);
         return (B) this;
     }
-    
+
     private javafx.scene.text.FontSmoothingType fontSmoothingType;
     /**
     Set the value of the {@link javafx.scene.text.Text#getFontSmoothingType() fontSmoothingType} property for the instance constructed by this builder.
@@ -106,7 +106,7 @@ public class TextBuilder<B extends javafx.scene.text.TextBuilder<B>> extends jav
         __set(2);
         return (B) this;
     }
-    
+
     private boolean impl_caretBias;
     /**
     Set the value of the {@link javafx.scene.text.Text#isImpl_caretBias() impl_caretBias} property for the instance constructed by this builder.
@@ -119,7 +119,7 @@ public class TextBuilder<B extends javafx.scene.text.TextBuilder<B>> extends jav
         __set(3);
         return (B) this;
     }
-    
+
     private int impl_caretPosition;
     /**
     Set the value of the {@link javafx.scene.text.Text#getImpl_caretPosition() impl_caretPosition} property for the instance constructed by this builder.
@@ -158,7 +158,7 @@ public class TextBuilder<B extends javafx.scene.text.TextBuilder<B>> extends jav
         __set(8);
         return (B) this;
     }
-    
+
     private boolean strikethrough;
     /**
     Set the value of the {@link javafx.scene.text.Text#isStrikethrough() strikethrough} property for the instance constructed by this builder.
@@ -169,7 +169,7 @@ public class TextBuilder<B extends javafx.scene.text.TextBuilder<B>> extends jav
         __set(9);
         return (B) this;
     }
-    
+
     private java.lang.String text;
     /**
     Set the value of the {@link javafx.scene.text.Text#getText() text} property for the instance constructed by this builder.
@@ -180,7 +180,7 @@ public class TextBuilder<B extends javafx.scene.text.TextBuilder<B>> extends jav
         __set(10);
         return (B) this;
     }
-    
+
     private javafx.scene.text.TextAlignment textAlignment;
     /**
     Set the value of the {@link javafx.scene.text.Text#getTextAlignment() textAlignment} property for the instance constructed by this builder.
@@ -191,7 +191,7 @@ public class TextBuilder<B extends javafx.scene.text.TextBuilder<B>> extends jav
         __set(11);
         return (B) this;
     }
-    
+
     private javafx.geometry.VPos textOrigin;
     /**
     Set the value of the {@link javafx.scene.text.Text#getTextOrigin() textOrigin} property for the instance constructed by this builder.
@@ -202,7 +202,7 @@ public class TextBuilder<B extends javafx.scene.text.TextBuilder<B>> extends jav
         __set(12);
         return (B) this;
     }
-    
+
     private boolean underline;
     /**
     Set the value of the {@link javafx.scene.text.Text#isUnderline() underline} property for the instance constructed by this builder.
@@ -213,7 +213,7 @@ public class TextBuilder<B extends javafx.scene.text.TextBuilder<B>> extends jav
         __set(13);
         return (B) this;
     }
-    
+
     private double wrappingWidth;
     /**
     Set the value of the {@link javafx.scene.text.Text#getWrappingWidth() wrappingWidth} property for the instance constructed by this builder.
@@ -224,7 +224,7 @@ public class TextBuilder<B extends javafx.scene.text.TextBuilder<B>> extends jav
         __set(14);
         return (B) this;
     }
-    
+
     private double x;
     /**
     Set the value of the {@link javafx.scene.text.Text#getX() x} property for the instance constructed by this builder.
@@ -235,7 +235,7 @@ public class TextBuilder<B extends javafx.scene.text.TextBuilder<B>> extends jav
         __set(15);
         return (B) this;
     }
-    
+
     private double y;
     /**
     Set the value of the {@link javafx.scene.text.Text#getY() y} property for the instance constructed by this builder.
@@ -246,7 +246,7 @@ public class TextBuilder<B extends javafx.scene.text.TextBuilder<B>> extends jav
         __set(16);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.text.Text} based on the properties set on this builder.
     */

@@ -86,11 +86,11 @@ public class DistantLightTest extends LightTestBase {
         effect.setColor(Color.BLUE);
         assertEquals(Color.BLUE, effect.getColor());
         pulse();
-        Color4f c = ((com.sun.scenario.effect.light.DistantLight) effect.impl_getImpl()).getColor();        
+        Color4f c = ((com.sun.scenario.effect.light.DistantLight) effect.impl_getImpl()).getColor();
         assertEquals(0f, c.getRed(), 1e-5);
         assertEquals(0f, c.getGreen(), 1e-5);
         assertEquals(1f, c.getBlue(), 1e-5);
-        assertEquals(1f, c.getAlpha(), 1e-5); 
+        assertEquals(1f, c.getAlpha(), 1e-5);
     }
 
     @Test
@@ -99,11 +99,11 @@ public class DistantLightTest extends LightTestBase {
         assertEquals(Color.WHITE, effect.getColor());
         assertEquals(Color.WHITE, effect.colorProperty().get());
         pulse();
-        Color4f c = ((com.sun.scenario.effect.light.DistantLight) effect.impl_getImpl()).getColor();        
+        Color4f c = ((com.sun.scenario.effect.light.DistantLight) effect.impl_getImpl()).getColor();
         assertEquals(1f, c.getRed(), 1e-5);
         assertEquals(1f, c.getGreen(), 1e-5);
         assertEquals(1f, c.getBlue(), 1e-5);
-        assertEquals(1f, c.getAlpha(), 1e-5);      
+        assertEquals(1f, c.getAlpha(), 1e-5);
     }
 
     @Test
@@ -157,7 +157,7 @@ public class DistantLightTest extends LightTestBase {
         assertEquals(1f, c.getBlue(), 1e-5);
         assertEquals(1f, c.getAlpha(), 1e-5);
     }
-    
+
     @Test
     public void testCreateWithDefaultParams() {
         effect = new Light.Distant(45, 45, Color.RED);

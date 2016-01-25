@@ -105,7 +105,7 @@ public class LightingTest extends EffectsTestBase {
         pulse();
         assertEquals(0.3f, (float) ((com.sun.scenario.effect.PhongLighting) effect.impl_getImpl()).getSpecularConstant(), 1e-100);
     }
-    
+
     @Test
     public void testMinSpecularConstant() {
         // 0 should be ok
@@ -207,7 +207,7 @@ public class LightingTest extends EffectsTestBase {
         pulse();
         assertEquals(10f, (float) ((com.sun.scenario.effect.PhongLighting) effect.impl_getImpl()).getSurfaceScale(), 1e-100);
     }
-    
+
     @Test
     public void testBumpInput() {
         // default is not null
@@ -216,7 +216,7 @@ public class LightingTest extends EffectsTestBase {
         Effect e = effect.getBumpInput();
         assertTrue(e instanceof Shadow);
         assertEquals(10f, (float) ((Shadow)e).getRadius(), 1e-100);
-                
+
         // try setting input to some other effect
         Effect blur = new BoxBlur();
         effect.setBumpInput(blur);
@@ -240,7 +240,7 @@ public class LightingTest extends EffectsTestBase {
         effect.setContentInput(null);
         assertNull(effect.getContentInput());
     }
-    
+
     @Test
     public void testSetLight() {
         // try setting correct value
@@ -510,7 +510,7 @@ public class LightingTest extends EffectsTestBase {
         effect.setBumpInput(blur);
         assertEquals(box(-2, -2, 104, 104), n.getBoundsInLocal());
     }
-    
+
     @Test
     public void testCreateWithParams() {
         Light l = new Light.Point();

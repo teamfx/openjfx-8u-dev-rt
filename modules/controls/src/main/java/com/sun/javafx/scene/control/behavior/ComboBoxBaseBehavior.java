@@ -55,7 +55,7 @@ public class ComboBoxBaseBehavior<T> extends BehaviorBase<ComboBoxBase<T>> {
      **************************************************************************/
 
     private TwoLevelFocusComboBehavior tlFocus;
-    
+
     /**
      * Used to keep track of the most recent key event. This is used when
      * the event needs to be forwarded to the parent for bubbling up.
@@ -63,7 +63,7 @@ public class ComboBoxBaseBehavior<T> extends BehaviorBase<ComboBoxBase<T>> {
     private KeyEvent lastEvent;
 
     /**
-     * 
+     *
      */
     public ComboBoxBaseBehavior(final ComboBoxBase<T> comboBox, final List<KeyBinding> bindings) {
         super(comboBox, bindings);
@@ -189,7 +189,7 @@ public class ComboBoxBaseBehavior<T> extends BehaviorBase<ComboBoxBase<T>> {
             }
         }
     }
-    
+
     protected void forwardToParent(KeyEvent event) {
         if (getControl().getParent() != null) {
             getControl().getParent().fireEvent(event);
@@ -233,7 +233,7 @@ public class ComboBoxBaseBehavior<T> extends BehaviorBase<ComboBoxBase<T>> {
         disarm();
 
         // The showPopupOnMouseRelease boolean was added to resolve
-        // RT-18151: namely, clicking on the comboBox button shouldn't hide, 
+        // RT-18151: namely, clicking on the comboBox button shouldn't hide,
         // and then immediately show the popup, which was occurring because we
         // can't know whether the popup auto-hide was coming because of a MOUSE_PRESS
         // since PopupWindow calls hide() before it calls onAutoHide().
@@ -263,30 +263,30 @@ public class ComboBoxBaseBehavior<T> extends BehaviorBase<ComboBoxBase<T>> {
         mouseInsideButton = false;
         disarm();
     }
-    
+
     private void getFocus() {
         if (! getControl().isFocused() && getControl().isFocusTraversable()) {
             getControl().requestFocus();
         }
     }
-    
+
     private void arm(MouseEvent e) {
         boolean valid = (e.getButton() == MouseButton.PRIMARY &&
             ! (e.isMiddleButtonDown() || e.isSecondaryButtonDown() ||
              e.isShiftDown() || e.isControlDown() || e.isAltDown() || e.isMetaDown()));
-        
+
         if (! getControl().isArmed() && valid) {
             getControl().arm();
         }
     }
-    
+
     public void show() {
         if (! getControl().isShowing()) {
             getControl().requestFocus();
             getControl().show();
         }
     }
-    
+
     public void hide() {
         if (getControl().isShowing()) {
             getControl().hide();
@@ -310,7 +310,7 @@ public class ComboBoxBaseBehavior<T> extends BehaviorBase<ComboBoxBase<T>> {
             getControl().arm();
         }
     }
-    
+
     public void disarm() {
         if (! keyDown && getControl().isArmed()) {
             getControl().disarm();

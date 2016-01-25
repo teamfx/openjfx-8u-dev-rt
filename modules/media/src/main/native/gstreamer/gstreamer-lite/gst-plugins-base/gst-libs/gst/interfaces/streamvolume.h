@@ -58,7 +58,7 @@ struct _GstStreamVolumeInterface {
  *
  * Formulas to convert from a linear to a cubic or dB volume are
  * cbrt(val) and 20 * log10 (val).
- * 
+ *
  * Since: 0.10.25
  */
 typedef enum {

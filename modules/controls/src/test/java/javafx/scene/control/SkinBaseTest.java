@@ -39,7 +39,7 @@ public class SkinBaseTest {
         c = new ControlStub();
         s = new SkinBaseStub<ControlStub>(c);
     }
-    
+
     @Test public void skinNotAssignedToControlShouldStillHaveReferenceToControl() {
         assertSame(c, s.getSkinnable());
     }
@@ -48,7 +48,7 @@ public class SkinBaseTest {
         c.setSkin(s);
         assertSame(c, s.getSkinnable());
     }
-    
+
     @Test public void skinRemovedFromControlShouldHaveNullReferenceToControl() {
         c.setSkin(s);
         c.setSkin(null);

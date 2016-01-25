@@ -55,7 +55,7 @@ public class LabelSkinLayoutTest {
     private static final double GRAPHIC_HEIGHT = 32;
     private static final double LABEL_WIDTH = 300;
     private static final double LABEL_HEIGHT = 300;
-    
+
     @SuppressWarnings("rawtypes")
     @Parameters public static Collection implementations() {
         return Arrays.asList(new Object[][] {
@@ -98,7 +98,7 @@ public class LabelSkinLayoutTest {
     private Label label;
     private LabelSkin skin;
     private Text text;
-    
+
     public LabelSkinLayoutTest(int graphicTextGap) {
 //    public LabelSkinLayoutTest(HPos hpos, VPos vpos, int graphicTextGap) {
         this.graphicTextGap = graphicTextGap;
@@ -108,7 +108,7 @@ public class LabelSkinLayoutTest {
 
     // We will parameterize the hpos and vpos to use, but all of the other tests
     // are all done manually.
-    
+
     @Before public void setup() {
         label = new Label();
         label.resize(LABEL_WIDTH, LABEL_HEIGHT);
@@ -138,7 +138,7 @@ public class LabelSkinLayoutTest {
         }
         return b;
     }
-    
+
     private Bounds getNormalizedBounds(Bounds contentBounds, Node graphic) {
         Bounds b = graphic.getBoundsInParent();
         return new BoundingBox(
@@ -147,7 +147,7 @@ public class LabelSkinLayoutTest {
                 b.getWidth(),
                 b.getHeight());
     }
-    
+
     // Note that in Label, we pixel align so that the text is crisp, so do so here
     private void assertCenteredHorizontally(Bounds totalSpace, Bounds b) {
         if (b.getWidth() != totalSpace.getWidth()) {
@@ -163,7 +163,7 @@ public class LabelSkinLayoutTest {
             assertEquals(expected, b.getMinY(), 0.001);
         }
     }
-    
+
     private void assertContentAreaPositionedCorrectly(Bounds contentBounds) {
 //        switch (label.getVpos()) {
 //            //case BASELINE:
@@ -180,14 +180,14 @@ public class LabelSkinLayoutTest {
 //                System.err.println("Unhandled vpos case for LabelSkinLayoutTest");
 //        }
     }
-    
+
     @Test public void graphic_nullText_TOP() {
         Rectangle graphic = new Rectangle(GRAPHIC_WIDTH, GRAPHIC_HEIGHT);
         label.setGraphic(graphic);
         label.setText(null);
-        label.setContentDisplay(ContentDisplay.TOP);        
+        label.setContentDisplay(ContentDisplay.TOP);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds graphicBounds = getNormalizedBounds(contentBounds, graphic);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -203,7 +203,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.TOP);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds graphicBounds = getNormalizedBounds(contentBounds, graphic);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -220,7 +220,7 @@ public class LabelSkinLayoutTest {
         label.setFont(new Font("Amble Condensed", 12));
         label.setContentDisplay(ContentDisplay.TOP);
         label.layout();
-        
+
         // There is both a graphic & text node in this case. So we need to
         // compare their positions. Since this is TOP, the graphic should
         // be above the text by the amount specified in graphic-text-gap
@@ -242,7 +242,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.TOP);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -253,7 +253,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.TOP);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -264,7 +264,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.TOP);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds textBounds = getNormalizedBounds(contentBounds, text);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -278,7 +278,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.TOP);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -286,7 +286,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.TOP);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -294,7 +294,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.TOP);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds textBounds = getNormalizedBounds(contentBounds, text);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -311,7 +311,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.RIGHT);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds graphicBounds = getNormalizedBounds(contentBounds, graphic);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -327,7 +327,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.RIGHT);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds graphicBounds = getNormalizedBounds(contentBounds, graphic);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -343,7 +343,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.RIGHT);
         label.layout();
-        
+
         // There is both a graphic & text node in this case. So we need to
         // compare their positions. Since this is RIGHT, the graphic should
         // be right of the text by the amount specified in graphic-text-gap
@@ -365,7 +365,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.RIGHT);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -376,7 +376,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.RIGHT);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -387,7 +387,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.RIGHT);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds textBounds = getNormalizedBounds(contentBounds, text);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -401,7 +401,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.RIGHT);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -409,7 +409,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.RIGHT);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -417,7 +417,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.RIGHT);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds textBounds = getNormalizedBounds(contentBounds, text);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -434,7 +434,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.BOTTOM);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds graphicBounds = getNormalizedBounds(contentBounds, graphic);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -450,7 +450,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.BOTTOM);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds graphicBounds = getNormalizedBounds(contentBounds, graphic);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -467,7 +467,7 @@ public class LabelSkinLayoutTest {
         label.setFont(new Font("Amble Condensed", 12));
         label.setContentDisplay(ContentDisplay.BOTTOM);
         label.layout();
-        
+
         // There is both a graphic & text node in this case. So we need to
         // compare their positions. Since this is BOTTOM, the graphic should
         // be below the text by the amount specified in graphic-text-gap
@@ -489,7 +489,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.BOTTOM);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -500,7 +500,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.BOTTOM);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -511,7 +511,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.BOTTOM);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds textBounds = getNormalizedBounds(contentBounds, text);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -525,7 +525,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.BOTTOM);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -533,7 +533,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.BOTTOM);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -541,7 +541,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.BOTTOM);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds textBounds = getNormalizedBounds(contentBounds, text);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -558,7 +558,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.LEFT);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds graphicBounds = getNormalizedBounds(contentBounds, graphic);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -574,7 +574,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.LEFT);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds graphicBounds = getNormalizedBounds(contentBounds, graphic);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -590,7 +590,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.LEFT);
         label.layout();
-        
+
         // There is both a graphic & text node in this case. So we need to
         // compare their positions. Since this is LEFT, the graphic should
         // be left of the text by the amount specified in graphic-text-gap
@@ -612,7 +612,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.LEFT);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -623,7 +623,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.LEFT);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -634,7 +634,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.LEFT);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds textBounds = getNormalizedBounds(contentBounds, text);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -648,7 +648,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.LEFT);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -656,7 +656,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.LEFT);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -664,7 +664,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.LEFT);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds textBounds = getNormalizedBounds(contentBounds, text);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -681,7 +681,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.CENTER);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds graphicBounds = getNormalizedBounds(contentBounds, graphic);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -697,7 +697,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.CENTER);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds graphicBounds = getNormalizedBounds(contentBounds, graphic);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -714,7 +714,7 @@ public class LabelSkinLayoutTest {
         label.setFont(new Font("Amble Condensed", 12));
         label.setContentDisplay(ContentDisplay.CENTER);
         label.layout();
-        
+
         // There is both a graphic & text node in this case. So we need to
         // compare their positions. Since this is CENTER, the graphic and
         // text should overlap each other and be directly centered
@@ -736,7 +736,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.CENTER);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -747,7 +747,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.CENTER);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -758,7 +758,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.CENTER);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds textBounds = getNormalizedBounds(contentBounds, text);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -772,7 +772,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.CENTER);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -780,7 +780,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.CENTER);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -788,7 +788,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.CENTER);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds textBounds = getNormalizedBounds(contentBounds, text);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -805,7 +805,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds graphicBounds = getNormalizedBounds(contentBounds, graphic);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -821,7 +821,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds graphicBounds = getNormalizedBounds(contentBounds, graphic);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -837,7 +837,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds graphicBounds = getNormalizedBounds(contentBounds, graphic);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -854,7 +854,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -865,7 +865,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -876,7 +876,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -884,7 +884,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -892,7 +892,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -900,7 +900,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -911,7 +911,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.TEXT_ONLY);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -921,7 +921,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.TEXT_ONLY);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -931,7 +931,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.TEXT_ONLY);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds textBounds = getNormalizedBounds(contentBounds, text);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -948,7 +948,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.TEXT_ONLY);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -959,7 +959,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.TEXT_ONLY);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -970,7 +970,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.TEXT_ONLY);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds textBounds = getNormalizedBounds(contentBounds, text);
         assertContentAreaPositionedCorrectly(contentBounds);
@@ -984,7 +984,7 @@ public class LabelSkinLayoutTest {
         label.setText(null);
         label.setContentDisplay(ContentDisplay.TEXT_ONLY);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -992,7 +992,7 @@ public class LabelSkinLayoutTest {
         label.setText("");
         label.setContentDisplay(ContentDisplay.TEXT_ONLY);
         label.layout();
-        
+
         assertNull(getContentBounds());
     }
 
@@ -1000,7 +1000,7 @@ public class LabelSkinLayoutTest {
         label.setText("Falcon");
         label.setContentDisplay(ContentDisplay.TEXT_ONLY);
         label.layout();
-        
+
         Bounds contentBounds = getContentBounds();
         Bounds textBounds = getNormalizedBounds(contentBounds, text);
         assertContentAreaPositionedCorrectly(contentBounds);

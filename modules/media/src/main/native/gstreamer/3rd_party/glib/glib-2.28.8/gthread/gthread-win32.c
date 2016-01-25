@@ -45,11 +45,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define win32_check_for_error(what) G_STMT_START{			\
-  if (!(what))								\
-    g_error ("file %s: line %d (%s): error %s during %s",		\
-	     __FILE__, __LINE__, G_STRFUNC,				\
-	     g_win32_error_message (GetLastError ()), #what);		\
+#define win32_check_for_error(what) G_STMT_START{           \
+  if (!(what))                              \
+    g_error ("file %s: line %d (%s): error %s during %s",       \
+         __FILE__, __LINE__, G_STRFUNC,             \
+         g_win32_error_message (GetLastError ()), #what);       \
   }G_STMT_END
 
 #define G_MUTEX_SIZE (sizeof (gpointer))
@@ -169,7 +169,7 @@ g_mutex_trylock_win32_impl (GMutex * mutex)
 {
   DWORD result;
   win32_check_for_error (WAIT_FAILED !=
-			 (result = WaitForSingleObject (*(HANDLE *)mutex, 0)));
+             (result = WaitForSingleObject (*(HANDLE *)mutex, 0)));
   return result != WAIT_TIMEOUT;
 }
 
@@ -219,8 +219,8 @@ g_cond_broadcast_win32_impl (GCond * cond)
 
 static gboolean
 g_cond_wait_internal (GCond *cond,
-		      GMutex *entered_mutex,
-		      gulong milliseconds)
+              GMutex *entered_mutex,
+              gulong milliseconds)
 {
   gulong retval;
 #ifdef GSTREAMER_LITE
@@ -242,7 +242,7 @@ g_cond_wait_internal (GCond *cond,
           win32_check_for_error (event = CreateEvent (0, FALSE, FALSE, NULL));
           TlsSetValue (g_cond_event_tls, event);
       }
-  }  
+  }
 #else // GSTREAMER_LITE
   if (!event)
     {
@@ -262,7 +262,7 @@ g_cond_wait_internal (GCond *cond,
   g_thread_functions_for_glib_use_default.mutex_unlock (entered_mutex);
 
   win32_check_for_error (WAIT_FAILED !=
-			 (retval = WaitForSingleObject (event, milliseconds)));
+             (retval = WaitForSingleObject (event, milliseconds)));
 
   g_thread_functions_for_glib_use_default.mutex_lock (entered_mutex);
 
@@ -276,7 +276,7 @@ g_cond_wait_internal (GCond *cond,
        * it. retval is set again to honour the late arrival of the
        * signal */
       win32_check_for_error (WAIT_FAILED !=
-			     (retval = WaitForSingleObject (event, 0)));
+                 (retval = WaitForSingleObject (event, 0)));
 
       LeaveCriticalSection (&cond->lock);
     }
@@ -292,7 +292,7 @@ g_cond_wait_internal (GCond *cond,
 
 #ifdef GSTREAMER_LITE
   if (free_event)
-      win32_check_for_error (CloseHandle (event));  
+      win32_check_for_error (CloseHandle (event));
 #endif // GSTREAMER_LITE
 
   return retval != WAIT_TIMEOUT;
@@ -300,7 +300,7 @@ g_cond_wait_internal (GCond *cond,
 
 static void
 g_cond_wait_win32_impl (GCond *cond,
-			GMutex *entered_mutex)
+            GMutex *entered_mutex)
 {
   g_return_if_fail (cond != NULL);
   g_return_if_fail (entered_mutex != NULL);
@@ -310,8 +310,8 @@ g_cond_wait_win32_impl (GCond *cond,
 
 static gboolean
 g_cond_timed_wait_win32_impl (GCond *cond,
-			      GMutex *entered_mutex,
-			      GTimeVal *abs_time)
+                  GMutex *entered_mutex,
+                  GTimeVal *abs_time)
 {
   GTimeVal current_time;
   gulong to_wait;
@@ -325,12 +325,12 @@ g_cond_timed_wait_win32_impl (GCond *cond,
     {
       g_get_current_time (&current_time);
       if (abs_time->tv_sec < current_time.tv_sec ||
-	  (abs_time->tv_sec == current_time.tv_sec &&
-	   abs_time->tv_usec <= current_time.tv_usec))
-	to_wait = 0;
+      (abs_time->tv_sec == current_time.tv_sec &&
+       abs_time->tv_usec <= current_time.tv_usec))
+    to_wait = 0;
       else
-	to_wait = (abs_time->tv_sec - current_time.tv_sec) * 1000 +
-	  (abs_time->tv_usec - current_time.tv_usec) / 1000;
+    to_wait = (abs_time->tv_sec - current_time.tv_sec) * 1000 +
+      (abs_time->tv_usec - current_time.tv_usec) / 1000;
     }
 
   return g_cond_wait_internal (cond, entered_mutex, to_wait);
@@ -354,11 +354,11 @@ g_private_new_win32_impl (GDestroyNotify destructor)
 #ifdef G_ENABLE_DEBUG // GSTREAMER_LITE exception
         char buf[100];
       sprintf (buf,
-	       "Too many GPrivate allocated. Their number is limited to %d.",
-	       G_PRIVATE_MAX);
+           "Too many GPrivate allocated. Their number is limited to %d.",
+           G_PRIVATE_MAX);
       MessageBox (NULL, buf, NULL, MB_ICONERROR|MB_SETFOREGROUND);
       if (IsDebuggerPresent ())
-	G_BREAKPOINT ();
+    G_BREAKPOINT ();
 #endif // GSTREAMER_LITE exception
       abort ();
     }
@@ -412,7 +412,7 @@ g_thread_set_priority_win32_impl (gpointer thread, GThreadPriority priority)
   g_return_if_fail (priority <= G_THREAD_PRIORITY_URGENT);
 
   win32_check_for_error (SetThreadPriority (target->thread,
-					    g_thread_priority_map [priority]));
+                        g_thread_priority_map [priority]));
 }
 
 static void
@@ -427,8 +427,8 @@ g_thread_self_win32_impl (gpointer thread)
       HANDLE process = GetCurrentProcess ();
       self = g_new (GThreadData, 1);
       win32_check_for_error (DuplicateHandle (process, handle, process,
-					      &self->thread, 0, FALSE,
-					      DUPLICATE_SAME_ACCESS));
+                          &self->thread, 0, FALSE,
+                          DUPLICATE_SAME_ACCESS));
 #ifdef GSTREAMER_LITE
       win32_check_for_error (CloseHandle (self->thread));
 #endif // GSTREAMER_LITE
@@ -458,20 +458,20 @@ g_thread_exit_win32_impl (void)
       gboolean some_data_non_null;
 
       do {
-	some_data_non_null = FALSE;
-	for (i = 0; i < private_max; i++)
-	  {
-	    GDestroyNotify destructor = g_private_destructors[i];
-	    GDestroyNotify data = array[i];
+    some_data_non_null = FALSE;
+    for (i = 0; i < private_max; i++)
+      {
+        GDestroyNotify destructor = g_private_destructors[i];
+        GDestroyNotify data = array[i];
 
-	    if (data)
-	      some_data_non_null = TRUE;
+        if (data)
+          some_data_non_null = TRUE;
 
-	    array[i] = NULL;
+        array[i] = NULL;
 
-	    if (destructor && data)
-	      destructor (data);
-	  }
+        if (destructor && data)
+          destructor (data);
+      }
       } while (some_data_non_null);
 
       free (array);
@@ -482,10 +482,10 @@ g_thread_exit_win32_impl (void)
   if (self)
     {
       if (!self->joinable)
-	{
-	  win32_check_for_error (CloseHandle (self->thread));
-	  g_free (self);
-	}
+    {
+      win32_check_for_error (CloseHandle (self->thread));
+      g_free (self);
+    }
       win32_check_for_error (TlsSetValue (g_thread_self_tls, NULL));
     }
 
@@ -516,13 +516,13 @@ g_thread_proxy (gpointer data)
 
 static void
 g_thread_create_win32_impl (GThreadFunc func,
-			    gpointer data,
-			    gulong stack_size,
-			    gboolean joinable,
-			    gboolean bound,
-			    GThreadPriority priority,
-			    gpointer thread,
-			    GError **error)
+                gpointer data,
+                gulong stack_size,
+                gboolean joinable,
+                gboolean bound,
+                GThreadPriority priority,
+                gpointer thread,
+                GError **error)
 {
   guint ignore;
   GThreadData *retval;
@@ -538,7 +538,7 @@ g_thread_create_win32_impl (GThreadFunc func,
   retval->joinable = joinable;
 
   retval->thread = (HANDLE) _beginthreadex (NULL, stack_size, g_thread_proxy,
-					    retval, 0, &ignore);
+                        retval, 0, &ignore);
 
   if (retval->thread == NULL)
     {
@@ -569,7 +569,7 @@ g_thread_join_win32_impl (gpointer thread)
   g_return_if_fail (target->joinable);
 
   win32_check_for_error (WAIT_FAILED !=
-			 WaitForSingleObject (target->thread, INFINITE));
+             WaitForSingleObject (target->thread, INFINITE));
 
   win32_check_for_error (CloseHandle (target->thread));
   g_free (target);
@@ -629,11 +629,11 @@ g_thread_impl_init ()
   beenhere = TRUE;
 
   win32_check_for_error (TLS_OUT_OF_INDEXES !=
-			 (g_thread_self_tls = TlsAlloc ()));
+             (g_thread_self_tls = TlsAlloc ()));
   win32_check_for_error (TLS_OUT_OF_INDEXES !=
-			 (g_private_tls = TlsAlloc ()));
+             (g_private_tls = TlsAlloc ()));
   win32_check_for_error (TLS_OUT_OF_INDEXES !=
-			 (g_cond_event_tls = TlsAlloc ()));
+             (g_cond_event_tls = TlsAlloc ()));
   InitializeCriticalSection (&g_thread_global_spinlock);
 
   /* Here we are looking for TryEnterCriticalSection in KERNEL32.DLL,
@@ -645,25 +645,25 @@ g_thread_impl_init ()
   if (kernel32)
     {
       try_enter_critical_section = (GTryEnterCriticalSectionFunc)
-	GetProcAddress(kernel32, "TryEnterCriticalSection");
+    GetProcAddress(kernel32, "TryEnterCriticalSection");
 
       /* Even if TryEnterCriticalSection is found, it is not
        * necessarily working..., we have to check it */
       if (try_enter_critical_section &&
-	  try_enter_critical_section (&g_thread_global_spinlock))
-	{
-	  LeaveCriticalSection (&g_thread_global_spinlock);
+      try_enter_critical_section (&g_thread_global_spinlock))
+    {
+      LeaveCriticalSection (&g_thread_global_spinlock);
 
-	  g_thread_functions_for_glib_use_default.mutex_new =
-	    g_mutex_new_win32_cs_impl;
-	  g_thread_functions_for_glib_use_default.mutex_lock =
-	    g_mutex_lock_win32_cs_impl;
-	  g_thread_functions_for_glib_use_default.mutex_trylock =
-	    g_mutex_trylock_win32_cs_impl;
-	  g_thread_functions_for_glib_use_default.mutex_unlock =
-	    g_mutex_unlock_win32_cs_impl;
-	  g_thread_functions_for_glib_use_default.mutex_free =
-	    g_mutex_free_win32_cs_impl;
-	}
+      g_thread_functions_for_glib_use_default.mutex_new =
+        g_mutex_new_win32_cs_impl;
+      g_thread_functions_for_glib_use_default.mutex_lock =
+        g_mutex_lock_win32_cs_impl;
+      g_thread_functions_for_glib_use_default.mutex_trylock =
+        g_mutex_trylock_win32_cs_impl;
+      g_thread_functions_for_glib_use_default.mutex_unlock =
+        g_mutex_unlock_win32_cs_impl;
+      g_thread_functions_for_glib_use_default.mutex_free =
+        g_mutex_free_win32_cs_impl;
+    }
     }
 }

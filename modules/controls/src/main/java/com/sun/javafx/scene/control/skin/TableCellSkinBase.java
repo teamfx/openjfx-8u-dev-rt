@@ -61,7 +61,7 @@ public abstract class TableCellSkinBase<C extends IndexedCell, B extends CellBeh
 
     // Equivalent to tableColumn.visibleProperty()
     protected abstract BooleanProperty columnVisibleProperty();
-    
+
     boolean isDeferToParentForPrefWidth = false;
 
 
@@ -74,13 +74,13 @@ public abstract class TableCellSkinBase<C extends IndexedCell, B extends CellBeh
 
     public TableCellSkinBase(final C control, final B behavior) {
         super(control, behavior);
-        
+
         // init(control) should not be called here - it should be called by the
-        // subclass after initialising itself. This is to prevent NPEs (for 
+        // subclass after initialising itself. This is to prevent NPEs (for
         // example, getVisibleLeafColumns() throws a NPE as the control itself
         // is not yet set in subclasses).
     }
-    
+
     protected void init(C control) {
         // RT-22038
         Rectangle clip = new Rectangle();
@@ -88,14 +88,14 @@ public abstract class TableCellSkinBase<C extends IndexedCell, B extends CellBeh
         clip.heightProperty().bind(control.heightProperty());
         getSkinnable().setClip(clip);
         // --- end of RT-22038
-        
+
         ReadOnlyDoubleProperty columnWidthProperty = columnWidthProperty();
         if (columnWidthProperty != null) {
             columnWidthProperty.addListener(weakColumnWidthListener);
         }
 
         registerChangeListener(control.visibleProperty(), "VISIBLE");
-        
+
         if (control.getProperties().containsKey(DEFER_TO_PARENT_PREF_WIDTH)) {
             isDeferToParentForPrefWidth = true;
         }
@@ -130,16 +130,16 @@ public abstract class TableCellSkinBase<C extends IndexedCell, B extends CellBeh
             getSkinnable().setVisible(columnVisibleProperty().get());
         }
     }
-    
+
     @Override public void dispose() {
         ReadOnlyDoubleProperty columnWidthProperty = columnWidthProperty();
         if (columnWidthProperty != null) {
             columnWidthProperty.removeListener(weakColumnWidthListener);
         }
-        
+
         super.dispose();
     }
-    
+
     @Override protected void layoutChildren(final double x, final double y,
             final double w, final double h) {
         // fit the cell within this space

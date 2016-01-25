@@ -37,14 +37,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class ColorTest {
-    
+
     @Test
     public void testRedIsBoundedBy0And1() {
         try {
             Color c = new Color(-1, 0, 0, 0);
             assertTrue(false);
         } catch (Exception e) {}
-        
+
         try {
             Color c = new Color(100, 0, 0, 0);
             assertTrue(false);
@@ -63,7 +63,7 @@ public class ColorTest {
             assertTrue(false);
         } catch (Exception ee) {}
     }
-    
+
     @Test
     public void testBlueIsBoundedBy0And1() {
         try {
@@ -89,7 +89,7 @@ public class ColorTest {
             assertTrue(false);
         } catch (Exception ee) {}
     }
-    
+
     @Test
     public void testOfTheWay() {
         Color start = new Color(0, 0, 0, 0);
@@ -135,14 +135,14 @@ public class ColorTest {
         assertEquals(mid.getBlue(), .5, 0.0001);
         assertEquals(mid.getOpacity(), .5, 0.0001);
     }
-    
+
     @Test
     public void testColorIsBoundedBy0And1() {
         try {
             Color color = Color.color(-1, 0, 0, 0);
             assertTrue(false);
         } catch (Exception e) {}
-        
+
         try {
             Color color = Color.color(0, -1, 0, 0);
             assertTrue(false);
@@ -178,7 +178,7 @@ public class ColorTest {
             assertTrue(false);
         } catch (Exception eeeeeeee) {}
     }
-    
+
     @Test
     public void testColor() {
         Color color = Color.color(.1, .2, .3);
@@ -187,7 +187,7 @@ public class ColorTest {
         assertEquals(.3, color.getBlue(), 0.0001);
         assertEquals(1, color.getOpacity(), 0.0001);
     }
-    
+
     @Test
     public void testColorWithOpacity() {
         Color color = Color.color(.1, .2, .3, .4);
@@ -203,7 +203,7 @@ public class ColorTest {
             Color color = Color.rgb(-1, 0, 0, 0);
             assertTrue(false);
         } catch (Exception e) {}
-        
+
         try {
             Color color = Color.rgb(0, -1, 0, 0);
             assertTrue(false);
@@ -239,7 +239,7 @@ public class ColorTest {
             assertTrue(false);
         } catch (Exception eeeeeeee) {}
     }
-    
+
     @Test
     public void testRgb() {
         Color color = Color.rgb(255, 0, 255, 0);
@@ -252,7 +252,7 @@ public class ColorTest {
         assertEquals(hsb[1], color.getSaturation(), 0.0001);
         assertEquals(hsb[2], color.getBrightness(), 0.0001);
     }
-    
+
     @Test
     public void testGray() {
         Color color = Color.gray(0.5);
@@ -283,28 +283,28 @@ public class ColorTest {
     @Test
     public void testHsbIsBounded() {
         Color.hsb(10000, 0, 0); // this should work!
-    
+
         try {
             Color color = Color.hsb(100, -1, 0);
             assertTrue(false);
         } catch (Exception ee) {}
-    
+
         try {
             Color color = Color.hsb(100, 0, -1);
             assertTrue(false);
         } catch (Exception eee) {}
-    
+
         try {
             Color color = Color.hsb(100, 2, 0);
             assertTrue(false);
         } catch (Exception eeee) {}
-    
+
         try {
             Color color = Color.hsb(100, 0, 2);
             assertTrue(false);
         } catch (Exception eeeee) {}
     }
-    
+
     @Test
     public void testHsb() {
         Color color = Color.hsb(210, 1, .5);
@@ -368,7 +368,7 @@ public class ColorTest {
     public void testWebEmptyColor() {
         Color.web("", 0.5);
     }
-    
+
     @Test
     public void testWebHexNotation() {
         Color color = Color.web("0xaabbcc");
@@ -376,7 +376,7 @@ public class ColorTest {
         assertEquals(color.getGreen(), 187.0/255.0, 0.0001);
         assertEquals(color.getBlue(), 204.0/255.0, 0.0001);
     }
-    
+
     @Test
     public void testWebHexNotationWithAlpha() {
         Color color = Color.web("0xaabbcc80");
@@ -390,7 +390,7 @@ public class ColorTest {
     public void testWebHexNotationIllegalValue() {
         Color.web("0xaabbccddee");
     }
-    
+
     @Test
     public void testWebNamed() {
         Color color = Color.web("orangered");
@@ -404,7 +404,7 @@ public class ColorTest {
         assertEquals(hsb[1], color.getSaturation(), 0.001);
         assertEquals(hsb[2], color.getBrightness(), 0.001);
     }
-    
+
     @Test
     public void testWebNamedWithOpacity() {
         Color color = Color.web("orangered", 0.4);
@@ -424,7 +424,7 @@ public class ColorTest {
         assertTrue(expected.getBlue() == color.getBlue());
         assertTrue(expected.getOpacity() == color.getOpacity());
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void testWebNamedWrongName() {
         Color.web("foobar");
@@ -548,7 +548,7 @@ public class ColorTest {
         assertEquals(1.0, color.getBlue(), 0.0001);
         assertEquals(0.6, color.getOpacity(), 0.0001);
     }
-    
+
     @Test
     public void testWebRgbaPercentFloat() {
         Color color = Color.web("rgba(60.0%, 40.0%, 100.0%, 0.6)");
@@ -950,7 +950,7 @@ public class ColorTest {
     //function testOfTheWayHandlesNegatives() {
         // TODO should this be tested? What does it mean?
     //}
-    
+
     //function testOfTheWayHandlesLargeNumbers() {
         // TODO What should happen for numbers > 1?
     //}

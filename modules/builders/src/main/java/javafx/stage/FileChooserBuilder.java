@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.stage.FileChooser
 public final class FileChooserBuilder implements javafx.util.Builder<javafx.stage.FileChooser> {
     protected FileChooserBuilder() {
     }
-    
+
     /** Creates a new instance of FileChooserBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.stage.FileChooserBuilder create() {
         return new javafx.stage.FileChooserBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.stage.FileChooser x) {
         int set = __set;
@@ -50,7 +50,7 @@ public final class FileChooserBuilder implements javafx.util.Builder<javafx.stag
         if ((set & (1 << 1)) != 0) x.setInitialDirectory(this.initialDirectory);
         if ((set & (1 << 2)) != 0) x.setTitle(this.title);
     }
-    
+
     private java.util.Collection<? extends javafx.stage.FileChooser.ExtensionFilter> extensionFilters;
     /**
     Add the given items to the List of items in the {@link javafx.stage.FileChooser#getExtensionFilters() extensionFilters} property for the instance constructed by this builder.
@@ -60,14 +60,14 @@ public final class FileChooserBuilder implements javafx.util.Builder<javafx.stag
         __set |= 1 << 0;
         return this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.stage.FileChooser#getExtensionFilters() extensionFilters} property for the instance constructed by this builder.
     */
     public javafx.stage.FileChooserBuilder extensionFilters(javafx.stage.FileChooser.ExtensionFilter... x) {
         return extensionFilters(java.util.Arrays.asList(x));
     }
-    
+
     private java.io.File initialDirectory;
     /**
     Set the value of the {@link javafx.stage.FileChooser#getInitialDirectory() initialDirectory} property for the instance constructed by this builder.
@@ -77,7 +77,7 @@ public final class FileChooserBuilder implements javafx.util.Builder<javafx.stag
         __set |= 1 << 1;
         return this;
     }
-    
+
     private java.lang.String title;
     /**
     Set the value of the {@link javafx.stage.FileChooser#getTitle() title} property for the instance constructed by this builder.
@@ -87,7 +87,7 @@ public final class FileChooserBuilder implements javafx.util.Builder<javafx.stag
         __set |= 1 << 2;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.stage.FileChooser} based on the properties set on this builder.
     */

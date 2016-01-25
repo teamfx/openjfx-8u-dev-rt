@@ -72,9 +72,9 @@ struct _GstXOverlayClass {
 #endif /* not GST_DISABLE_DEPRECATED */
 
   void (* expose)              (GstXOverlay *overlay);
-  
+
   void (* handle_events)       (GstXOverlay *overlay,
-                                gboolean     handle_events);  
+                                gboolean     handle_events);
 
   void (* set_render_rectangle) (GstXOverlay *overlay,
                                  gint x, gint y,
@@ -90,7 +90,7 @@ GType   gst_x_overlay_get_type          (void);
 
 /* virtual class function wrappers */
 #ifndef GST_DISABLE_DEPRECATED
-void gst_x_overlay_set_xwindow_id      (GstXOverlay *overlay, 
+void gst_x_overlay_set_xwindow_id      (GstXOverlay *overlay,
                                         gulong xwindow_id);
 #endif
 
@@ -103,7 +103,7 @@ void gst_x_overlay_expose              (GstXOverlay *overlay);
 void gst_x_overlay_handle_events       (GstXOverlay *overlay,
                                         gboolean     handle_events);
 
-void gst_x_overlay_set_window_handle   (GstXOverlay *overlay, 
+void gst_x_overlay_set_window_handle   (GstXOverlay *overlay,
                                         guintptr handle);
 
 /* public methods to dispatch bus messages */

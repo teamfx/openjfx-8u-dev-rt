@@ -40,7 +40,7 @@ G_BEGIN_DECLS
 /* GIOChannel
  */
 
-typedef struct _GIOChannel	GIOChannel;
+typedef struct _GIOChannel  GIOChannel;
 typedef struct _GIOFuncs        GIOFuncs;
 
 typedef enum
@@ -85,21 +85,21 @@ typedef enum
 
 typedef enum /*< flags >*/
 {
-  G_IO_IN	GLIB_SYSDEF_POLLIN,
-  G_IO_OUT	GLIB_SYSDEF_POLLOUT,
-  G_IO_PRI	GLIB_SYSDEF_POLLPRI,
-  G_IO_ERR	GLIB_SYSDEF_POLLERR,
-  G_IO_HUP	GLIB_SYSDEF_POLLHUP,
-  G_IO_NVAL	GLIB_SYSDEF_POLLNVAL
+  G_IO_IN   GLIB_SYSDEF_POLLIN,
+  G_IO_OUT  GLIB_SYSDEF_POLLOUT,
+  G_IO_PRI  GLIB_SYSDEF_POLLPRI,
+  G_IO_ERR  GLIB_SYSDEF_POLLERR,
+  G_IO_HUP  GLIB_SYSDEF_POLLHUP,
+  G_IO_NVAL GLIB_SYSDEF_POLLNVAL
 } GIOCondition;
 
 typedef enum
 {
   G_IO_FLAG_APPEND = 1 << 0,
   G_IO_FLAG_NONBLOCK = 1 << 1,
-  G_IO_FLAG_IS_READABLE = 1 << 2,	/* Read only flag */
-  G_IO_FLAG_IS_WRITEABLE = 1 << 3,	/* Read only flag */
-  G_IO_FLAG_IS_SEEKABLE = 1 << 4,	/* Read only flag */
+  G_IO_FLAG_IS_READABLE = 1 << 2,   /* Read only flag */
+  G_IO_FLAG_IS_WRITEABLE = 1 << 3,  /* Read only flag */
+  G_IO_FLAG_IS_SEEKABLE = 1 << 4,   /* Read only flag */
   G_IO_FLAG_MASK = (1 << 5) - 1,
   G_IO_FLAG_GET_MASK = G_IO_FLAG_MASK,
   G_IO_FLAG_SET_MASK = G_IO_FLAG_APPEND | G_IO_FLAG_NONBLOCK
@@ -114,55 +114,55 @@ struct _GIOChannel
   gchar *encoding;
   GIConv read_cd;
   GIConv write_cd;
-  gchar *line_term;		/* String which indicates the end of a line of text */
-  guint line_term_len;		/* So we can have null in the line term */
+  gchar *line_term;     /* String which indicates the end of a line of text */
+  guint line_term_len;      /* So we can have null in the line term */
 
   gsize buf_size;
-  GString *read_buf;		/* Raw data from the channel */
+  GString *read_buf;        /* Raw data from the channel */
   GString *encoded_read_buf;    /* Channel data converted to UTF-8 */
-  GString *write_buf;		/* Data ready to be written to the file */
-  gchar partial_write_buf[6];	/* UTF-8 partial characters, null terminated */
+  GString *write_buf;       /* Data ready to be written to the file */
+  gchar partial_write_buf[6];   /* UTF-8 partial characters, null terminated */
 
   /* Group the flags together, immediately after partial_write_buf, to save memory */
 
-  guint use_buffer     : 1;	/* The encoding uses the buffers */
-  guint do_encode      : 1;	/* The encoding uses the GIConv coverters */
-  guint close_on_unref : 1;	/* Close the channel on final unref */
-  guint is_readable    : 1;	/* Cached GIOFlag */
-  guint is_writeable   : 1;	/* ditto */
-  guint is_seekable    : 1;	/* ditto */
+  guint use_buffer     : 1; /* The encoding uses the buffers */
+  guint do_encode      : 1; /* The encoding uses the GIConv coverters */
+  guint close_on_unref : 1; /* Close the channel on final unref */
+  guint is_readable    : 1; /* Cached GIOFlag */
+  guint is_writeable   : 1; /* ditto */
+  guint is_seekable    : 1; /* ditto */
 
-  gpointer reserved1;	
-  gpointer reserved2;	
+  gpointer reserved1;
+  gpointer reserved2;
 };
 
 typedef gboolean (*GIOFunc) (GIOChannel   *source,
-			     GIOCondition  condition,
-			     gpointer      data);
+                 GIOCondition  condition,
+                 gpointer      data);
 struct _GIOFuncs
 {
-  GIOStatus (*io_read)           (GIOChannel   *channel, 
-			          gchar        *buf, 
-				  gsize         count,
-				  gsize        *bytes_read,
-				  GError      **err);
-  GIOStatus (*io_write)          (GIOChannel   *channel, 
-				  const gchar  *buf, 
-				  gsize         count,
-				  gsize        *bytes_written,
-				  GError      **err);
-  GIOStatus (*io_seek)           (GIOChannel   *channel, 
-				  gint64        offset, 
-				  GSeekType     type,
-				  GError      **err);
+  GIOStatus (*io_read)           (GIOChannel   *channel,
+                      gchar        *buf,
+                  gsize         count,
+                  gsize        *bytes_read,
+                  GError      **err);
+  GIOStatus (*io_write)          (GIOChannel   *channel,
+                  const gchar  *buf,
+                  gsize         count,
+                  gsize        *bytes_written,
+                  GError      **err);
+  GIOStatus (*io_seek)           (GIOChannel   *channel,
+                  gint64        offset,
+                  GSeekType     type,
+                  GError      **err);
   GIOStatus  (*io_close)         (GIOChannel   *channel,
-				  GError      **err);
+                  GError      **err);
   GSource*   (*io_create_watch)  (GIOChannel   *channel,
-				  GIOCondition  condition);
+                  GIOCondition  condition);
   void       (*io_free)          (GIOChannel   *channel);
   GIOStatus  (*io_set_flags)     (GIOChannel   *channel,
                                   GIOFlags      flags,
-				  GError      **err);
+                  GError      **err);
   GIOFlags   (*io_get_flags)     (GIOChannel   *channel);
 };
 
@@ -171,106 +171,106 @@ GIOChannel *g_io_channel_ref    (GIOChannel    *channel);
 void        g_io_channel_unref  (GIOChannel    *channel);
 
 #ifndef G_DISABLE_DEPRECATED
-GIOError    g_io_channel_read   (GIOChannel    *channel, 
-			         gchar         *buf, 
-			         gsize          count,
-			         gsize         *bytes_read);
-GIOError  g_io_channel_write    (GIOChannel    *channel, 
-			         const gchar   *buf, 
-			         gsize          count,
-			         gsize         *bytes_written);
+GIOError    g_io_channel_read   (GIOChannel    *channel,
+                     gchar         *buf,
+                     gsize          count,
+                     gsize         *bytes_read);
+GIOError  g_io_channel_write    (GIOChannel    *channel,
+                     const gchar   *buf,
+                     gsize          count,
+                     gsize         *bytes_written);
 GIOError  g_io_channel_seek     (GIOChannel    *channel,
-			         gint64         offset, 
-			         GSeekType      type);
+                     gint64         offset,
+                     GSeekType      type);
 void      g_io_channel_close    (GIOChannel    *channel);
 #endif /* G_DISABLE_DEPRECATED */
 
 GIOStatus g_io_channel_shutdown (GIOChannel      *channel,
-				 gboolean         flush,
-				 GError         **err);
+                 gboolean         flush,
+                 GError         **err);
 guint     g_io_add_watch_full   (GIOChannel      *channel,
-				 gint             priority,
-				 GIOCondition     condition,
-				 GIOFunc          func,
-				 gpointer         user_data,
-				 GDestroyNotify   notify);
+                 gint             priority,
+                 GIOCondition     condition,
+                 GIOFunc          func,
+                 gpointer         user_data,
+                 GDestroyNotify   notify);
 GSource * g_io_create_watch     (GIOChannel      *channel,
-				 GIOCondition     condition);
+                 GIOCondition     condition);
 guint     g_io_add_watch        (GIOChannel      *channel,
-				 GIOCondition     condition,
-				 GIOFunc          func,
-				 gpointer         user_data);
+                 GIOCondition     condition,
+                 GIOFunc          func,
+                 gpointer         user_data);
 
 /* character encoding conversion involved functions.
  */
 
 void                  g_io_channel_set_buffer_size      (GIOChannel   *channel,
-							 gsize         size);
+                             gsize         size);
 gsize                 g_io_channel_get_buffer_size      (GIOChannel   *channel);
 GIOCondition          g_io_channel_get_buffer_condition (GIOChannel   *channel);
 GIOStatus             g_io_channel_set_flags            (GIOChannel   *channel,
-							 GIOFlags      flags,
-							 GError      **error);
+                             GIOFlags      flags,
+                             GError      **error);
 GIOFlags              g_io_channel_get_flags            (GIOChannel   *channel);
 void                  g_io_channel_set_line_term        (GIOChannel   *channel,
-							 const gchar  *line_term,
-							 gint          length);
+                             const gchar  *line_term,
+                             gint          length);
 G_CONST_RETURN gchar* g_io_channel_get_line_term        (GIOChannel   *channel,
-							 gint         *length);
-void		      g_io_channel_set_buffered		(GIOChannel   *channel,
-							 gboolean      buffered);
-gboolean	      g_io_channel_get_buffered		(GIOChannel   *channel);
+                             gint         *length);
+void              g_io_channel_set_buffered     (GIOChannel   *channel,
+                             gboolean      buffered);
+gboolean          g_io_channel_get_buffered     (GIOChannel   *channel);
 GIOStatus             g_io_channel_set_encoding         (GIOChannel   *channel,
-							 const gchar  *encoding,
-							 GError      **error);
+                             const gchar  *encoding,
+                             GError      **error);
 G_CONST_RETURN gchar* g_io_channel_get_encoding         (GIOChannel   *channel);
-void                  g_io_channel_set_close_on_unref	(GIOChannel   *channel,
-							 gboolean      do_close);
-gboolean              g_io_channel_get_close_on_unref	(GIOChannel   *channel);
+void                  g_io_channel_set_close_on_unref   (GIOChannel   *channel,
+                             gboolean      do_close);
+gboolean              g_io_channel_get_close_on_unref   (GIOChannel   *channel);
 
 
 GIOStatus   g_io_channel_flush            (GIOChannel   *channel,
-					   GError      **error);
+                       GError      **error);
 GIOStatus   g_io_channel_read_line        (GIOChannel   *channel,
-					   gchar       **str_return,
-					   gsize        *length,
-					   gsize        *terminator_pos,
-					   GError      **error);
+                       gchar       **str_return,
+                       gsize        *length,
+                       gsize        *terminator_pos,
+                       GError      **error);
 GIOStatus   g_io_channel_read_line_string (GIOChannel   *channel,
-					   GString      *buffer,
-					   gsize        *terminator_pos,
-					   GError      **error);
+                       GString      *buffer,
+                       gsize        *terminator_pos,
+                       GError      **error);
 GIOStatus   g_io_channel_read_to_end      (GIOChannel   *channel,
-					   gchar       **str_return,
-					   gsize        *length,
-					   GError      **error);
+                       gchar       **str_return,
+                       gsize        *length,
+                       GError      **error);
 GIOStatus   g_io_channel_read_chars       (GIOChannel   *channel,
-					   gchar        *buf,
-					   gsize         count,
-					   gsize        *bytes_read,
-					   GError      **error);
+                       gchar        *buf,
+                       gsize         count,
+                       gsize        *bytes_read,
+                       GError      **error);
 GIOStatus   g_io_channel_read_unichar     (GIOChannel   *channel,
-					   gunichar     *thechar,
-					   GError      **error);
+                       gunichar     *thechar,
+                       GError      **error);
 GIOStatus   g_io_channel_write_chars      (GIOChannel   *channel,
-					   const gchar  *buf,
-					   gssize        count,
-					   gsize        *bytes_written,
-					   GError      **error);
+                       const gchar  *buf,
+                       gssize        count,
+                       gsize        *bytes_written,
+                       GError      **error);
 GIOStatus   g_io_channel_write_unichar    (GIOChannel   *channel,
-					   gunichar      thechar,
-					   GError      **error);
+                       gunichar      thechar,
+                       GError      **error);
 GIOStatus   g_io_channel_seek_position    (GIOChannel   *channel,
-					   gint64        offset,
-					   GSeekType     type,
-					   GError      **error);
+                       gint64        offset,
+                       GSeekType     type,
+                       GError      **error);
 #ifdef G_OS_WIN32
 #define g_io_channel_new_file g_io_channel_new_file_utf8
 #endif
 
 GIOChannel* g_io_channel_new_file         (const gchar  *filename,
-					   const gchar  *mode,
-					   GError      **error);
+                       const gchar  *mode,
+                       GError      **error);
 
 /* Error handling */
 
@@ -317,15 +317,15 @@ GLIB_VAR GSourceFuncs g_io_watch_funcs;
  * recv().
  */
 void        g_io_channel_win32_make_pollfd (GIOChannel   *channel,
-					    GIOCondition  condition,
-					    GPollFD      *fd);
+                        GIOCondition  condition,
+                        GPollFD      *fd);
 
 /* This can be used to wait a until at least one of the channels is readable.
  * On Unix you would do a select() on the file descriptors of the channels.
  */
 gint        g_io_channel_win32_poll   (GPollFD    *fds,
-				       gint        n_fds,
-				       gint        timeout_);
+                       gint        n_fds,
+                       gint        timeout_);
 
 /* Create an IO channel for Windows messages for window handle hwnd. */
 #if GLIB_SIZEOF_VOID_P == 8

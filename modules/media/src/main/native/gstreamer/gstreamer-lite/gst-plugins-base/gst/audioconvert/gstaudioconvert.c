@@ -504,7 +504,7 @@ append_with_other_format (GstCaps * caps, GstStructure * s, gboolean isfloat)
     s2 = gst_structure_copy (s);
     gst_structure_set_name (s2, "audio/x-raw-int");
     s = make_lossless_changes (s2, FALSE);
-    /* If 64 bit float was allowed; remove width 64: we don't support it for 
+    /* If 64 bit float was allowed; remove width 64: we don't support it for
      * integer*/
     strip_width_64 (s);
     gst_caps_append_structure (caps, s2);
@@ -550,12 +550,12 @@ structure_has_fixed_channel_positions (GstStructure * s,
   return TRUE;
 }
 
-/* Audioconvert can perform all conversions on audio except for resampling. 
+/* Audioconvert can perform all conversions on audio except for resampling.
  * However, there are some conversions we _prefer_ not to do. For example, it's
  * better to convert format (float<->int, endianness, etc) than the number of
  * channels, as the latter conversion is not lossless.
  *
- * So, we return, in order (assuming input caps have only one structure; 
+ * So, we return, in order (assuming input caps have only one structure;
  * which is enforced by basetransform):
  *  - input caps with a different format (lossless conversions).
  *  - input caps with a different format (slightly lossy conversions).
@@ -610,7 +610,7 @@ gst_audio_convert_transform_caps (GstBaseTransform * base,
   GST_DEBUG_OBJECT (base, "  step1: (%d) %" GST_PTR_FORMAT,
       gst_caps_get_size (ret), ret);
 
-  /* We don't mind increasing width/depth/channels, but reducing them is 
+  /* We don't mind increasing width/depth/channels, but reducing them is
    * Very Bad. Only available if width, depth, channels are already fixed. */
   s = gst_structure_copy (s);
   if (!isfloat) {
@@ -652,8 +652,8 @@ gst_audio_convert_transform_caps (GstBaseTransform * base,
   /* Same, plus a float<->int conversion */
   append_with_other_format (ret, s, isfloat);
 
-  /* We'll reduce depth if we must. We reduce as low as 16 bits (for integer); 
-   * reducing to less than this is even worse than dropping channels. We only 
+  /* We'll reduce depth if we must. We reduce as low as 16 bits (for integer);
+   * reducing to less than this is even worse than dropping channels. We only
    * do this if we haven't already done the equivalent above. */
   if (!gst_structure_get_int (structure, "width", &width) || width > 16) {
     if (isfloat) {

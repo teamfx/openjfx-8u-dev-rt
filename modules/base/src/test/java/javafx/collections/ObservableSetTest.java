@@ -71,7 +71,7 @@ public class ObservableSetTest {
         observableSet = setFactory.call();
         observer = new MockSetObserver<String>();
         observableSet.addListener(observer);
-        
+
         useSetData("one", "two", "foo");
     }
 
@@ -169,7 +169,7 @@ public class ObservableSetTest {
         assertTrue(observableSet.contains("foo"));
         assertFalse(observableSet.contains("bar"));
     }
-    
+
     @Test
     public void testNull() {
         if (setFactory instanceof TestedObservableSets.CallableTreeSetImpl) {
@@ -177,9 +177,9 @@ public class ObservableSetTest {
         }
         observableSet.add(null);
         assertEquals(4, observableSet.size());
-        
+
         observer.assertAdded(tup((String)null));
-        
+
         observableSet.remove(null);
         assertEquals(3, observableSet.size());
         observer.assertRemoved(tup((String)null));
@@ -218,7 +218,7 @@ public class ObservableSetTest {
             ++counter;
         }
     }
-    
+
     @Test
     public void testEqualsAndHashCode() {
         final Set<String> other = new HashSet<>(Arrays.asList("one", "two", "foo"));

@@ -74,7 +74,7 @@ class GlassViewEventHandler extends View.EventHandler {
             scrollGestureEnabled = Boolean.valueOf(System.getProperty("com.sun.javafx.gestures.scroll", "false"));
             return null;
         });
-    }    
+    }
 
     private ViewScene scene;
     private final GlassSceneDnDEventHandler dndHandler;
@@ -82,7 +82,7 @@ class GlassViewEventHandler extends View.EventHandler {
 
     public GlassViewEventHandler(final ViewScene scene) {
         this.scene = scene;
-        
+
         dndHandler = new GlassSceneDnDEventHandler(scene);
 
         gestures = new GestureRecognizers();
@@ -172,7 +172,7 @@ class GlassViewEventHandler extends View.EventHandler {
 
                 javafx.scene.input.KeyEvent keyEvent = new javafx.scene.input.KeyEvent(
                         keyEventType(type),
-                        str, text, 
+                        str, text,
                         KeyCodeMap.valueOf(key) ,
                         shiftDown, controlDown, altDown, metaDown);
 
@@ -306,7 +306,7 @@ class GlassViewEventHandler extends View.EventHandler {
             if (PULSE_LOGGING_ENABLED) {
                 PulseLogger.newInput(mouseEventType(type).toString());
             }
-                    
+
             int buttonMask;
             switch (button) {
                 case MouseEvent.BUTTON_LEFT:
@@ -376,7 +376,7 @@ class GlassViewEventHandler extends View.EventHandler {
                     boolean secondaryButtonDown = (modifiers & KeyEvent.MODIFIER_BUTTON_SECONDARY) != 0;
                     Window w = view.getWindow();
                     double pScale = (w == null) ? 1.0 : w.getPlatformScale();
- 
+
                     scene.sceneListener.mouseEvent(mouseEventType(type),
                             x / pScale, y / pScale, xAbs / pScale, yAbs / pScale,
                             mouseEventButton(button), isPopupTrigger, isSynthesized,
@@ -733,7 +733,7 @@ class GlassViewEventHandler extends View.EventHandler {
     }
 
     private ClipboardAssistance dropSourceAssistant;
-    
+
     @Override public void handleDragStart(View view, final int button,
                                           final int x, final int y, final int xAbs, final int yAbs,
                                           final ClipboardAssistance assistant)

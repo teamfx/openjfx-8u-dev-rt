@@ -225,7 +225,7 @@ public class MacAppStoreBundlerTest {
 
         Map<String, Object> params = new HashMap<>();
         String version;
-        
+
         if (runtimeRoot == null) {
             version = System.getProperty("java.runtime.version");
         } else {
@@ -241,7 +241,7 @@ public class MacAppStoreBundlerTest {
 
         int majorVersion = Integer.parseInt(params.get(".runtime.version.major").toString());
         int updateVersion = Integer.parseInt(params.get(".runtime.version.update").toString());
-        
+
         if (majorVersion == 8 && updateVersion >= 40) {
             assertFalse("Insure JFX Media QuickTime Partition isn't packed in", output.contains("/libjfxmedia_qtkit.dylib"));
         } else {
@@ -395,7 +395,7 @@ public class MacAppStoreBundlerTest {
         }
 
         bundleParams.put(SIGN_BUNDLE.getID(), false);
-        
+
         bundler.validate(bundleParams);
     }
 }

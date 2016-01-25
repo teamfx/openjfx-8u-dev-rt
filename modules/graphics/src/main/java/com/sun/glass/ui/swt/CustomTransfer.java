@@ -32,16 +32,16 @@ import org.eclipse.swt.dnd.TransferData;
 
 public class CustomTransfer extends ByteArrayTransfer {
     private String name, mime;
-    
+
     public CustomTransfer (String name, String mime) {
         this.name = name;
         this.mime = mime;
     }
-    
+
     public String getName () {
         return name;
     }
-    
+
     public String getMime () {
         return mime;
     }
@@ -59,8 +59,8 @@ public class CustomTransfer extends ByteArrayTransfer {
         if (bytes == null) DND.error(DND.ERROR_INVALID_DATA);
         super.javaToNative(bytes, transferData);
     }
-    
-    public Object nativeToJava(TransferData transferData){  
+
+    public Object nativeToJava(TransferData transferData){
         if (isSupportedType(transferData)) {
             Object result = super.nativeToJava(transferData);
             if (result instanceof byte []) {
@@ -69,27 +69,27 @@ public class CustomTransfer extends ByteArrayTransfer {
         }
         return null;
     }
-    
+
     protected String[] getTypeNames(){
         return new String [] {name};
     }
-    
+
     protected int[] getTypeIds(){
         return new int [] {registerType(name)};
     }
-    
+
     boolean checkByteArray(Object object) {
         return (object != null && object instanceof byte[] && ((byte[])object).length > 0);
     }
-    
+
     boolean checkByteBuffer(Object object) {
         return (object != null && object instanceof ByteBuffer && ((ByteBuffer)object).limit() > 0);
     }
-    
+
     boolean checkCustom(Object object) {
         return checkByteArray(object) || checkByteBuffer(object);
     }
-    
+
     protected boolean validate(Object object) {
         return checkCustom(object);
     }

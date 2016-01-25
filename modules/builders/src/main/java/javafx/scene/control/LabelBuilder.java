@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,19 +36,19 @@ Builder class for javafx.scene.control.Label
 public class LabelBuilder<B extends javafx.scene.control.LabelBuilder<B>> extends javafx.scene.control.LabeledBuilder<B> implements javafx.util.Builder<javafx.scene.control.Label> {
     protected LabelBuilder() {
     }
-    
+
     /** Creates a new instance of LabelBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.LabelBuilder<?> create() {
         return new javafx.scene.control.LabelBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.scene.control.Label x) {
         super.applyTo(x);
         if (__set) x.setLabelFor(this.labelFor);
     }
-    
+
     private javafx.scene.Node labelFor;
     /**
     Set the value of the {@link javafx.scene.control.Label#getLabelFor() labelFor} property for the instance constructed by this builder.
@@ -59,7 +59,7 @@ public class LabelBuilder<B extends javafx.scene.control.LabelBuilder<B>> extend
         __set = true;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.Label} based on the properties set on this builder.
     */

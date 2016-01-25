@@ -91,7 +91,7 @@ public class TableColumnHeader extends Region {
      * Private Fields                                                          *
      *                                                                         *
      **************************************************************************/
-    
+
     private boolean autoSizeComplete = false;
 
     private double dragOffset;
@@ -127,7 +127,7 @@ public class TableColumnHeader extends Region {
     protected final Region columnReorderLine;
 
 
-    
+
     /***************************************************************************
      *                                                                         *
      * Constructor                                                             *
@@ -138,19 +138,19 @@ public class TableColumnHeader extends Region {
         this.skin = skin;
         this.column = tc;
         this.columnReorderLine = skin.getColumnReorderLine();
-        
+
         setFocusTraversable(false);
 
         updateColumnIndex();
         initUI();
-        
+
         // change listener for multiple properties
         changeListenerHandler = new MultiplePropertyChangeListenerHandler(p -> {
             handlePropertyChanged(p);
             return null;
         });
         changeListenerHandler.registerChangeListener(sceneProperty(), "SCENE");
-        
+
         if (column != null && skin != null) {
             updateSortPosition();
             skin.getSortOrder().addListener(weakSortOrderListener);
@@ -176,37 +176,37 @@ public class TableColumnHeader extends Region {
             setAccessibleRole(AccessibleRole.TABLE_COLUMN);
         }
     }
-    
-    
-    
+
+
+
     /***************************************************************************
      *                                                                         *
      * Listeners                                                               *
      *                                                                         *
      **************************************************************************/
-    
+
     protected final MultiplePropertyChangeListenerHandler changeListenerHandler;
-    
+
     private ListChangeListener<TableColumnBase<?,?>> sortOrderListener = c -> {
         updateSortPosition();
     };
-    
+
     private ListChangeListener<TableColumnBase<?,?>> visibleLeafColumnsListener = c -> {
         updateColumnIndex();
         updateSortPosition();
     };
-    
+
     private ListChangeListener<String> styleClassListener = c -> {
         updateStyleClass();
     };
-    
+
     private WeakListChangeListener<TableColumnBase<?,?>> weakSortOrderListener =
             new WeakListChangeListener<TableColumnBase<?,?>>(sortOrderListener);
     private final WeakListChangeListener<TableColumnBase<?,?>> weakVisibleLeafColumnsListener =
             new WeakListChangeListener<TableColumnBase<?,?>>(visibleLeafColumnsListener);
     private final WeakListChangeListener<String> weakStyleClassListener =
             new WeakListChangeListener<String>(styleClassListener);
-    
+
     private static final EventHandler<MouseEvent> mousePressedHandler = me -> {
         TableColumnHeader header = (TableColumnHeader) me.getSource();
 
@@ -219,7 +219,7 @@ public class TableColumnHeader extends Region {
         }
         me.consume();
     };
-    
+
     private static final EventHandler<MouseEvent> mouseDraggedHandler = me -> {
         TableColumnHeader header = (TableColumnHeader) me.getSource();
 
@@ -228,7 +228,7 @@ public class TableColumnHeader extends Region {
         }
         me.consume();
     };
-    
+
     private static final EventHandler<MouseEvent> mouseReleasedHandler = me -> {
         if (me.isPopupTrigger()) return;
 
@@ -244,7 +244,7 @@ public class TableColumnHeader extends Region {
         }
         me.consume();
     };
-    
+
     private static final EventHandler<ContextMenuEvent> contextMenuRequestedHandler = me -> {
         TableColumnHeader header = (TableColumnHeader) me.getSource();
         TableColumnBase tableColumn = header.getTableColumn();
@@ -282,8 +282,8 @@ public class TableColumnHeader extends Region {
                         throw new IllegalArgumentException("Size cannot be 0 or negative");
                     }
                 }
-                
-                
+
+
 
                 @Override public Object getBean() {
                     return TableColumnHeader.this;
@@ -302,7 +302,7 @@ public class TableColumnHeader extends Region {
     }
 
 
-    
+
     /***************************************************************************
      *                                                                         *
      * Public Methods                                                          *
@@ -343,7 +343,7 @@ public class TableColumnHeader extends Region {
             label.setGraphic(column.getGraphic());
         }
     }
-    
+
     protected TableViewSkinBase<?,?,?,?,?,TableColumnBase<?,?>> getTableViewSkin() {
         return skin;
     }
@@ -427,17 +427,17 @@ public class TableColumnHeader extends Region {
         return Math.max(getSize(), label.prefHeight(-1));
     }
 
-    
-    
+
+
     /***************************************************************************
      *                                                                         *
      * Private Implementation                                                  *
      *                                                                         *
-     **************************************************************************/   
-    
+     **************************************************************************/
+
     // RT-29682: When the sortable property of a TableColumnBase changes this
     // may impact other TableColumnHeaders, as they may need to change their
-    // sort order representation. Rather than install listeners across all 
+    // sort order representation. Rather than install listeners across all
     // TableColumn in the sortOrder list for their sortable property, we simply
     // update the sortPosition of all headers whenever the sortOrder property
     // changes, assuming the column is within the sortOrder list.
@@ -451,20 +451,20 @@ public class TableColumnHeader extends Region {
             header.updateSortPosition();
         }
     }
-    
+
     private void updateStyleClass() {
         // For now we leave the 'column-header' style class intact so that the
         // appropriate border styles are shown, etc.
         getStyleClass().setAll("column-header");
         getStyleClass().addAll(column.getStyleClass());
     }
-    
+
     private void updateScene() {
         // RT-17684: If the TableColumn widths are all currently the default,
         // we attempt to 'auto-size' based on the preferred width of the first
         // n rows (we can't do all rows, as that could conceivably be an unlimited
         // number of rows retrieved from a very slow (e.g. remote) data source.
-        // Obviously, the bigger the value of n, the more likely the default 
+        // Obviously, the bigger the value of n, the more likely the default
         // width will be suitable for most values in the column
         final int n = 30;
         if (! autoSizeComplete) {
@@ -475,7 +475,7 @@ public class TableColumnHeader extends Region {
             autoSizeComplete = true;
         }
     }
-    
+
     void dispose() {
         TableViewSkinBase skin = getTableViewSkin();
         if (skin != null) {
@@ -485,23 +485,23 @@ public class TableColumnHeader extends Region {
 
         changeListenerHandler.dispose();
     }
-    
+
     private boolean isSortingEnabled() {
         // this used to check if ! PlatformUtil.isEmbedded(), but has been changed
         // to always return true (for now), as we want to support column sorting
         // everywhere
         return true;
     }
-    
+
     private boolean isColumnReorderingEnabled() {
         // we only allow for column reordering if there are more than one column,
         return !BehaviorSkinBase.IS_TOUCH_SUPPORTED && getTableViewSkin().getVisibleLeafColumns().size() > 1;
     }
-    
+
     private void initUI() {
         // TableColumn will be null if we are dealing with the root NestedTableColumnHeader
         if (column == null) return;
-        
+
         // set up mouse events
         setOnMousePressed(mousePressedHandler);
         setOnMouseDragged(mouseDraggedHandler);
@@ -531,22 +531,22 @@ public class TableColumnHeader extends Region {
             getTableViewSkin().resizeColumnToFitContent(column, cellsToMeasure);
         }
     }
-    
+
     private void updateSortPosition() {
         this.sortPos = ! column.isSortable() ? -1 : getSortPosition();
         updateSortGrid();
     }
-    
+
     private void updateSortGrid() {
         // Fix for RT-14488
         if (this instanceof NestedTableColumnHeader) return;
-        
+
         getChildren().clear();
         getChildren().add(label);
-        
+
         // we do not support sorting in embedded devices
         if (! isSortingEnabled()) return;
-        
+
         isSortColumn = sortPos != -1;
         if (! isSortColumn) {
             if (sortArrow != null) {
@@ -554,14 +554,14 @@ public class TableColumnHeader extends Region {
             }
             return;
         }
-        
+
         // RT-28016: if the tablecolumn is not a visible leaf column, we should ignore this
         int visibleLeafIndex = skin.getVisibleLeafIndex(getTableColumn());
         if (visibleLeafIndex == -1) return;
-        
+
         final int sortColumnCount = getVisibleSortOrderColumnCount();
         boolean showSortOrderDots = sortPos <= 3 && sortColumnCount > 1;
-        
+
         Node _sortArrow = null;
         if (getTableColumn().getSortNode() != null) {
             _sortArrow = getTableColumn().getSortNode();
@@ -571,7 +571,7 @@ public class TableColumnHeader extends Region {
             _sortArrow = sortArrowGrid;
             sortArrowGrid.setPadding(new Insets(0, 3, 0, 0));
             getChildren().add(sortArrowGrid);
-            
+
             // if we are here, and the sort arrow is null, we better create it
             if (arrow == null) {
                 arrow = new Region();
@@ -580,9 +580,9 @@ public class TableColumnHeader extends Region {
                 arrow.setRotate(isAscending(column) ? 180.0F : 0.0F);
                 changeListenerHandler.registerChangeListener(getSortTypeProperty(column), "TABLE_COLUMN_SORT_TYPE");
             }
-            
+
             arrow.setVisible(isSortColumn);
-            
+
             if (sortPos > 2) {
                 if (sortOrderLabel == null) {
                     // ---- sort order label (for sort positions greater than 3)
@@ -590,7 +590,7 @@ public class TableColumnHeader extends Region {
                     sortOrderLabel.getStyleClass().add("sort-order");
                 }
 
-                // only show the label if the sortPos is greater than 3 (for sortPos 
+                // only show the label if the sortPos is greater than 3 (for sortPos
                 // values less than three, we show the sortOrderDots instead)
                 sortOrderLabel.setText("" + (sortPos + 1));
                 sortOrderLabel.setVisible(sortColumnCount > 1);
@@ -623,29 +623,29 @@ public class TableColumnHeader extends Region {
                 GridPane.setVgrow(arrow, Priority.ALWAYS);
             }
         }
-        
+
         sortArrow = _sortArrow;
         if (sortArrow != null) {
             sortArrow.setVisible(isSortColumn);
         }
-        
+
         requestLayout();
     }
-    
+
     private void updateSortOrderDots(int sortPos) {
         double arrowWidth = arrow.prefWidth(-1);
-        
+
         sortOrderDots.getChildren().clear();
 
         for (int i = 0; i <= sortPos; i++) {
             Region r = new Region();
             r.getStyleClass().add("sort-order-dot");
-            
+
             String sortTypeName = getSortTypeName(column);
             if (sortTypeName != null && ! sortTypeName.isEmpty()) {
                 r.getStyleClass().add(sortTypeName.toLowerCase(Locale.ROOT));
             }
-            
+
             sortOrderDots.getChildren().add(r);
 
             // RT-34914: fine tuning the placement of the sort dots. We could have gone to a custom layout, but for now
@@ -658,7 +658,7 @@ public class TableColumnHeader extends Region {
                 sortOrderDots.getChildren().add(spacer);
             }
         }
-        
+
         sortOrderDots.setAlignment(Pos.TOP_CENTER);
         sortOrderDots.setMaxWidth(arrowWidth);
     }
@@ -692,7 +692,7 @@ public class TableColumnHeader extends Region {
         List<TableColumnBase<?,?>> tempList = new ArrayList<>(columns);
         tempList.remove(column);
         tempList.add(actualNewColumnPos, column);
-        
+
         columns.setAll(tempList);
     }
 
@@ -724,11 +724,11 @@ public class TableColumnHeader extends Region {
         TableViewSkinBase skin = getTableViewSkin();
         TableColumnBase tc = getTableColumn();
         columnIndex = skin == null || tc == null ? -1 : skin.getVisibleLeafIndex(tc);
-        
+
         // update the pseudo class state regarding whether this is the last
-        // visible cell (i.e. the right-most). 
+        // visible cell (i.e. the right-most).
         isLastVisibleColumn = getTableColumn() != null &&
-                columnIndex != -1 && 
+                columnIndex != -1 &&
                 columnIndex == getTableViewSkin().getVisibleLeafColumns().size() - 1;
         pseudoClassStateChanged(PSEUDO_CLASS_LAST_VISIBLE, isLastVisibleColumn);
     }
@@ -850,12 +850,12 @@ public class TableColumnHeader extends Region {
      *                                                                         *
      * Private Implementation: Column Reordering                               *
      *                                                                         *
-     **************************************************************************/   
+     **************************************************************************/
 
     // package for testing
     void columnReorderingStarted(double dragOffset) {
         if (! column.impl_isReorderable()) return;
-        
+
         // Used to ensure the column ghost is positioned relative to where the
         // user clicked on the column header
         this.dragOffset = dragOffset;
@@ -929,10 +929,10 @@ public class TableColumnHeader extends Region {
         int currentPos = getIndex(column);
         newColumnPos += newColumnPos > currentPos && beforeMidPoint ?
             -1 : (newColumnPos < currentPos && !beforeMidPoint ? 1 : 0);
-        
+
         double lineX = getTableHeaderRow().sceneToLocal(hoverHeader.localToScene(hoverHeader.getBoundsInLocal())).getMinX();
         lineX = lineX + ((beforeMidPoint) ? (0) : (hoverHeader.getWidth()));
-        
+
         if (lineX >= -0.5 && lineX <= getTableViewSkin().getSkinnable().getWidth()) {
             columnReorderLine.setTranslateX(lineX);
 
@@ -942,17 +942,17 @@ public class TableColumnHeader extends Region {
             // effects become visible (ghost, transparent overlay, etc).
             columnReorderLine.setVisible(true);
         }
-        
+
         getTableHeaderRow().setReordering(true);
     }
 
     // package for testing
     void columnReorderingComplete() {
         if (! column.impl_isReorderable()) return;
-        
+
         // Move col from where it is now to the new position.
         moveColumn(getTableColumn(), newColumnPos);
-        
+
         // cleanup
         columnReorderLine.setTranslateX(0.0F);
         columnReorderLine.setLayoutX(0.0F);
@@ -972,8 +972,8 @@ public class TableColumnHeader extends Region {
      * Stylesheet Handling                                                     *
      *                                                                         *
      **************************************************************************/
-    
-    private static final PseudoClass PSEUDO_CLASS_LAST_VISIBLE = 
+
+    private static final PseudoClass PSEUDO_CLASS_LAST_VISIBLE =
             PseudoClass.getPseudoClass("last-visible");
 
     double getDragRectHeight() {
@@ -1003,7 +1003,7 @@ public class TableColumnHeader extends Region {
          private static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
          static {
 
-            final List<CssMetaData<? extends Styleable, ?>> styleables = 
+            final List<CssMetaData<? extends Styleable, ?>> styleables =
                 new ArrayList<CssMetaData<? extends Styleable, ?>>(Region.getClassCssMetaData());
             styleables.add(SIZE);
             STYLEABLES = Collections.unmodifiableList(styleables);

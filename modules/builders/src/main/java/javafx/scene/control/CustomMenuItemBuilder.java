@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.CustomMenuItem
 public class CustomMenuItemBuilder<B extends javafx.scene.control.CustomMenuItemBuilder<B>> extends javafx.scene.control.MenuItemBuilder<B> {
     protected CustomMenuItemBuilder() {
     }
-    
+
     /** Creates a new instance of CustomMenuItemBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.CustomMenuItemBuilder<?> create() {
         return new javafx.scene.control.CustomMenuItemBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.CustomMenuItem x) {
         super.applyTo(x);
@@ -50,7 +50,7 @@ public class CustomMenuItemBuilder<B extends javafx.scene.control.CustomMenuItem
         if ((set & (1 << 0)) != 0) x.setContent(this.content);
         if ((set & (1 << 1)) != 0) x.setHideOnClick(this.hideOnClick);
     }
-    
+
     private javafx.scene.Node content;
     /**
     Set the value of the {@link javafx.scene.control.CustomMenuItem#getContent() content} property for the instance constructed by this builder.
@@ -61,7 +61,7 @@ public class CustomMenuItemBuilder<B extends javafx.scene.control.CustomMenuItem
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private boolean hideOnClick;
     /**
     Set the value of the {@link javafx.scene.control.CustomMenuItem#isHideOnClick() hideOnClick} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public class CustomMenuItemBuilder<B extends javafx.scene.control.CustomMenuItem
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.CustomMenuItem} based on the properties set on this builder.
     */

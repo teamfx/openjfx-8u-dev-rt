@@ -1,4 +1,4 @@
-/* 
+/*
  * GStreamer
  * Copyright (C) 2007 Sebastian Dröge <slomo@circular-chaos.org>
  * Copyright (C) 2006 Stefan Kost <ensonic@users.sf.net>

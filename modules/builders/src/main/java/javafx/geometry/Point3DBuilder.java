@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.geometry.Point3D
 public class Point3DBuilder<B extends javafx.geometry.Point3DBuilder<B>> implements javafx.util.Builder<javafx.geometry.Point3D> {
     protected Point3DBuilder() {
     }
-    
+
     /** Creates a new instance of Point3DBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.geometry.Point3DBuilder<?> create() {
         return new javafx.geometry.Point3DBuilder();
     }
-    
+
     private double x;
     /**
     Set the value of the {@link javafx.geometry.Point3D#getX() x} property for the instance constructed by this builder.
@@ -52,7 +52,7 @@ public class Point3DBuilder<B extends javafx.geometry.Point3DBuilder<B>> impleme
         this.x = x;
         return (B) this;
     }
-    
+
     private double y;
     /**
     Set the value of the {@link javafx.geometry.Point3D#getY() y} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public class Point3DBuilder<B extends javafx.geometry.Point3DBuilder<B>> impleme
         this.y = x;
         return (B) this;
     }
-    
+
     private double z;
     /**
     Set the value of the {@link javafx.geometry.Point3D#getZ() z} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public class Point3DBuilder<B extends javafx.geometry.Point3DBuilder<B>> impleme
         this.z = x;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.geometry.Point3D} based on the properties set on this builder.
     */

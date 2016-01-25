@@ -141,7 +141,7 @@
 /* sign bit in the intermediate format */
 #define SIGNED  (1U<<31)
 
-/*** 
+/***
  * unpack code
  */
 #define MAKE_UNPACK_FUNC_NAME(name)                                     \
@@ -283,7 +283,7 @@ MAKE_UNPACK_FUNC_ORC_IF (s32_be_float, 4, 0, READ32_FROM_BE);
 /* One of the double_hq_* functions generated above is ineffecient, but it's
  * never used anyway.  The same is true for one of the s32_* functions. */
 
-/*** 
+/***
  * packing code
  */
 #define MAKE_PACK_FUNC_NAME(name)                                       \

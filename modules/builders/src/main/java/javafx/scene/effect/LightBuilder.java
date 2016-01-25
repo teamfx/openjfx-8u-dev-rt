@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.effect.Light
 public abstract class LightBuilder<B extends javafx.scene.effect.LightBuilder<B>> {
     protected LightBuilder() {
     }
-    
-    
+
+
     private boolean __set;
     public void applyTo(javafx.scene.effect.Light x) {
         if (__set) x.setColor(this.color);
     }
-    
+
     private javafx.scene.paint.Color color;
     /**
     Set the value of the {@link javafx.scene.effect.Light#getColor() color} property for the instance constructed by this builder.
@@ -53,5 +53,5 @@ public abstract class LightBuilder<B extends javafx.scene.effect.LightBuilder<B>
         __set = true;
         return (B) this;
     }
-    
+
 }

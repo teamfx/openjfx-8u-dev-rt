@@ -558,7 +558,7 @@ public class PlatformImpl {
             StyleManager.getInstance().removeUserAgentStylesheet(accessibilityTheme);
             accessibilityTheme = null;
         }
-        
+
         _setAccessibilityTheme(platformTheme);
 
         if (accessibilityTheme != null) {
@@ -611,7 +611,7 @@ public class PlatformImpl {
                             break;
                         default:
                     }
-                }   
+                }
             }
         }
     }
@@ -625,7 +625,7 @@ public class PlatformImpl {
         if (overrideStylesheetUrl != null) {
             stylesheetUrl = overrideStylesheetUrl;
         }
-        
+
         final List<String> uaStylesheets = new ArrayList<>();
 
         // check for named theme constants for modena and caspian
@@ -654,7 +654,7 @@ public class PlatformImpl {
 
             if (!isSupported(ConditionalFeature.TRANSPARENT_WINDOW)) {
                 uaStylesheets.add("com/sun/javafx/scene/control/skin/caspian/caspian-no-transparency.css");
-            }            
+            }
 
         } else if (Application.STYLESHEET_MODENA.equalsIgnoreCase(stylesheetUrl)) {
             isModena = true;
@@ -737,7 +737,7 @@ public class PlatformImpl {
                     if (isMediaSupported && PlatformUtil.isEmbedded()) {
                         AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
                             String s = System.getProperty(
-                                    "com.sun.javafx.experimental.embedded.media", 
+                                    "com.sun.javafx.experimental.embedded.media",
                                     "false");
                             isMediaSupported = Boolean.valueOf(s);
                             return null;
@@ -752,7 +752,7 @@ public class PlatformImpl {
                     if (isWebSupported && PlatformUtil.isEmbedded()) {
                         AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
                             String s = System.getProperty(
-                                    "com.sun.javafx.experimental.embedded.web", 
+                                    "com.sun.javafx.experimental.embedded.web",
                                     "false");
                             isWebSupported = Boolean.valueOf(s);
                             return null;

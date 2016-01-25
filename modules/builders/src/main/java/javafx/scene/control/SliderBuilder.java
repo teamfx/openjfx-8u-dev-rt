@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.Slider
 public class SliderBuilder<B extends javafx.scene.control.SliderBuilder<B>> extends javafx.scene.control.ControlBuilder<B> implements javafx.util.Builder<javafx.scene.control.Slider> {
     protected SliderBuilder() {
     }
-    
+
     /** Creates a new instance of SliderBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.SliderBuilder<?> create() {
         return new javafx.scene.control.SliderBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -69,7 +69,7 @@ public class SliderBuilder<B extends javafx.scene.control.SliderBuilder<B>> exte
             }
         }
     }
-    
+
     private double blockIncrement;
     /**
     Set the value of the {@link javafx.scene.control.Slider#getBlockIncrement() blockIncrement} property for the instance constructed by this builder.
@@ -80,7 +80,7 @@ public class SliderBuilder<B extends javafx.scene.control.SliderBuilder<B>> exte
         __set(0);
         return (B) this;
     }
-    
+
     private javafx.util.StringConverter<java.lang.Double> labelFormatter;
     /**
     Set the value of the {@link javafx.scene.control.Slider#getLabelFormatter() labelFormatter} property for the instance constructed by this builder.
@@ -91,7 +91,7 @@ public class SliderBuilder<B extends javafx.scene.control.SliderBuilder<B>> exte
         __set(1);
         return (B) this;
     }
-    
+
     private double majorTickUnit;
     /**
     Set the value of the {@link javafx.scene.control.Slider#getMajorTickUnit() majorTickUnit} property for the instance constructed by this builder.
@@ -102,7 +102,7 @@ public class SliderBuilder<B extends javafx.scene.control.SliderBuilder<B>> exte
         __set(2);
         return (B) this;
     }
-    
+
     private double max;
     /**
     Set the value of the {@link javafx.scene.control.Slider#getMax() max} property for the instance constructed by this builder.
@@ -113,7 +113,7 @@ public class SliderBuilder<B extends javafx.scene.control.SliderBuilder<B>> exte
         __set(3);
         return (B) this;
     }
-    
+
     private double min;
     /**
     Set the value of the {@link javafx.scene.control.Slider#getMin() min} property for the instance constructed by this builder.
@@ -124,7 +124,7 @@ public class SliderBuilder<B extends javafx.scene.control.SliderBuilder<B>> exte
         __set(4);
         return (B) this;
     }
-    
+
     private int minorTickCount;
     /**
     Set the value of the {@link javafx.scene.control.Slider#getMinorTickCount() minorTickCount} property for the instance constructed by this builder.
@@ -135,7 +135,7 @@ public class SliderBuilder<B extends javafx.scene.control.SliderBuilder<B>> exte
         __set(5);
         return (B) this;
     }
-    
+
     private javafx.geometry.Orientation orientation;
     /**
     Set the value of the {@link javafx.scene.control.Slider#getOrientation() orientation} property for the instance constructed by this builder.
@@ -146,7 +146,7 @@ public class SliderBuilder<B extends javafx.scene.control.SliderBuilder<B>> exte
         __set(6);
         return (B) this;
     }
-    
+
     private boolean showTickLabels;
     /**
     Set the value of the {@link javafx.scene.control.Slider#isShowTickLabels() showTickLabels} property for the instance constructed by this builder.
@@ -157,7 +157,7 @@ public class SliderBuilder<B extends javafx.scene.control.SliderBuilder<B>> exte
         __set(7);
         return (B) this;
     }
-    
+
     private boolean showTickMarks;
     /**
     Set the value of the {@link javafx.scene.control.Slider#isShowTickMarks() showTickMarks} property for the instance constructed by this builder.
@@ -168,7 +168,7 @@ public class SliderBuilder<B extends javafx.scene.control.SliderBuilder<B>> exte
         __set(8);
         return (B) this;
     }
-    
+
     private boolean snapToTicks;
     /**
     Set the value of the {@link javafx.scene.control.Slider#isSnapToTicks() snapToTicks} property for the instance constructed by this builder.
@@ -179,7 +179,7 @@ public class SliderBuilder<B extends javafx.scene.control.SliderBuilder<B>> exte
         __set(9);
         return (B) this;
     }
-    
+
     private double value;
     /**
     Set the value of the {@link javafx.scene.control.Slider#getValue() value} property for the instance constructed by this builder.
@@ -190,7 +190,7 @@ public class SliderBuilder<B extends javafx.scene.control.SliderBuilder<B>> exte
         __set(10);
         return (B) this;
     }
-    
+
     private boolean valueChanging;
     /**
     Set the value of the {@link javafx.scene.control.Slider#isValueChanging() valueChanging} property for the instance constructed by this builder.
@@ -201,7 +201,7 @@ public class SliderBuilder<B extends javafx.scene.control.SliderBuilder<B>> exte
         __set(11);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.Slider} based on the properties set on this builder.
     */

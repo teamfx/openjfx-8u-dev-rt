@@ -69,7 +69,7 @@ G_BEGIN_DECLS
  *
  * Since: 0.10.31
  */
-#define	GST_CHECK_PLUGINS_BASE_VERSION(major,minor,micro)	\
+#define GST_CHECK_PLUGINS_BASE_VERSION(major,minor,micro)   \
     (GST_PLUGINS_BASE_VERSION_MAJOR > (major) || \
      (GST_PLUGINS_BASE_VERSION_MAJOR == (major) && GST_PLUGINS_BASE_VERSION_MINOR > (minor)) || \
      (GST_PLUGINS_BASE_VERSION_MAJOR == (major) && GST_PLUGINS_BASE_VERSION_MINOR == (minor) && \

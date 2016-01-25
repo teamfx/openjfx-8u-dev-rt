@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.ProgressBar
 public class ProgressBarBuilder<B extends javafx.scene.control.ProgressBarBuilder<B>> extends javafx.scene.control.ProgressIndicatorBuilder<B> {
     protected ProgressBarBuilder() {
     }
-    
+
     /** Creates a new instance of ProgressBarBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.ProgressBarBuilder<?> create() {
         return new javafx.scene.control.ProgressBarBuilder();
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.ProgressBar} based on the properties set on this builder.
     */

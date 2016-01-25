@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.effect.Reflection
 public class ReflectionBuilder<B extends javafx.scene.effect.ReflectionBuilder<B>> implements javafx.util.Builder<javafx.scene.effect.Reflection> {
     protected ReflectionBuilder() {
     }
-    
+
     /** Creates a new instance of ReflectionBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.effect.ReflectionBuilder<?> create() {
         return new javafx.scene.effect.ReflectionBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.effect.Reflection x) {
         int set = __set;
@@ -52,7 +52,7 @@ public class ReflectionBuilder<B extends javafx.scene.effect.ReflectionBuilder<B
         if ((set & (1 << 3)) != 0) x.setTopOffset(this.topOffset);
         if ((set & (1 << 4)) != 0) x.setTopOpacity(this.topOpacity);
     }
-    
+
     private double bottomOpacity;
     /**
     Set the value of the {@link javafx.scene.effect.Reflection#getBottomOpacity() bottomOpacity} property for the instance constructed by this builder.
@@ -63,7 +63,7 @@ public class ReflectionBuilder<B extends javafx.scene.effect.ReflectionBuilder<B
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private double fraction;
     /**
     Set the value of the {@link javafx.scene.effect.Reflection#getFraction() fraction} property for the instance constructed by this builder.
@@ -74,7 +74,7 @@ public class ReflectionBuilder<B extends javafx.scene.effect.ReflectionBuilder<B
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private javafx.scene.effect.Effect input;
     /**
     Set the value of the {@link javafx.scene.effect.Reflection#getInput() input} property for the instance constructed by this builder.
@@ -85,7 +85,7 @@ public class ReflectionBuilder<B extends javafx.scene.effect.ReflectionBuilder<B
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private double topOffset;
     /**
     Set the value of the {@link javafx.scene.effect.Reflection#getTopOffset() topOffset} property for the instance constructed by this builder.
@@ -96,7 +96,7 @@ public class ReflectionBuilder<B extends javafx.scene.effect.ReflectionBuilder<B
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private double topOpacity;
     /**
     Set the value of the {@link javafx.scene.effect.Reflection#getTopOpacity() topOpacity} property for the instance constructed by this builder.
@@ -107,7 +107,7 @@ public class ReflectionBuilder<B extends javafx.scene.effect.ReflectionBuilder<B
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.effect.Reflection} based on the properties set on this builder.
     */

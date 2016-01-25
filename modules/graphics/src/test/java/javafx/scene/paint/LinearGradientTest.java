@@ -153,19 +153,19 @@ public class LinearGradientTest {
         assertNotNull(s);
         assertFalse(s.isEmpty());
     }
-    
+
     @Test
     public void testToStringEquals() {
         LinearGradient lg =
                 LinearGradient.valueOf("linear-gradient(from 0% 0% to 100% 100%, red  0% , blue 30%,  black 100%)");
         assertEquals(lg, LinearGradient.valueOf(lg.toString()));
-        
-        lg = LinearGradient.valueOf("linear-gradient(from 100px 0 to 200px 0px, red 0px, blue 50px,  black 100px)");        
+
+        lg = LinearGradient.valueOf("linear-gradient(from 100px 0 to 200px 0px, red 0px, blue 50px,  black 100px)");
         assertEquals(lg, LinearGradient.valueOf(lg.toString()));
 
         lg = LinearGradient.valueOf("linear-gradient(to top, red  0%, blue  30%,black 100%)");
         assertEquals(lg, LinearGradient.valueOf(lg.toString()));
-        
+
         lg = LinearGradient.valueOf("linear-gradient(from 10% 20% to 30% 40%, ff00ff 0%, 0xffffff 30%,black 100%)");
         assertEquals(lg, LinearGradient.valueOf(lg.toString()));
     }
@@ -174,7 +174,7 @@ public class LinearGradientTest {
     public void testImpl_getPlatformPaint() {
         LinearGradient gradient = new LinearGradient(1, 2, 3, 4, true,
                 CycleMethod.REPEAT, noStop);
-        
+
         Object paint = Toolkit.getPaintAccessor().getPlatformPaint(gradient);
         assertNotNull(paint);
         assertSame(paint, Toolkit.getPaintAccessor().getPlatformPaint(gradient));
@@ -213,7 +213,7 @@ public class LinearGradientTest {
         } catch (IllegalArgumentException iae) {
             // expected
         }
-        
+
         // stop can't be empty
         try {
             LinearGradient.valueOf("linear-gradient(from 0 100 to 100 100, red  0% ,,   black 100%)");
@@ -228,7 +228,7 @@ public class LinearGradientTest {
         } catch (IllegalArgumentException iae) {
             // expected
         }
-        
+
        // token can't be empty
         try {
             LinearGradient.valueOf("linear-gradient(, from 0 100 to 100 100, red  0% ,   black 100%)");
@@ -245,7 +245,7 @@ public class LinearGradientTest {
         }
 
     }
-    
+
     @Test
     public void testValueOfRelativeAbsoluteMixed() {
         try {
@@ -287,7 +287,7 @@ public class LinearGradientTest {
                 new Stop(.3, Color.BLUE),
                 new Stop(1.0, Color.BLACK));
         assertEquals(expected, actual);
-        
+
         actual = LinearGradient.valueOf("linear-gradient(reflect, red  0%, blue 30%, black 100%)");
         expected = new LinearGradient(0, 0, 0, 1,
                 true, CycleMethod.REFLECT,
@@ -307,7 +307,7 @@ public class LinearGradientTest {
                 new Stop(.3, Color.BLUE),
                 new Stop(1.0, Color.BLACK));
         assertEquals(expected, actual);
-        
+
         actual =
                 LinearGradient.valueOf("linear-gradient(from 10px 20px to 30px 40px, red  0%, blue 30%, black 100%)");
         expected = new LinearGradient(10, 20, 30, 40,
@@ -328,7 +328,7 @@ public class LinearGradientTest {
                 new Stop(.3, Color.BLUE),
                 new Stop(1.0, Color.BLACK));
         assertEquals(expected, actual);
-        
+
         actual =
                 LinearGradient.valueOf("linear-gradient(to bottom, red  0%, blue  30%,black 100%)");
         expected = new LinearGradient(0, 0, 0, 1,
@@ -337,7 +337,7 @@ public class LinearGradientTest {
                 new Stop(.3, Color.BLUE),
                 new Stop(1.0, Color.BLACK));
         assertEquals(expected, actual);
-        
+
         actual =
                 LinearGradient.valueOf("linear-gradient(to left, red  0%, blue  30%,black 100%)");
         expected = new LinearGradient(1, 0, 0, 0,
@@ -346,7 +346,7 @@ public class LinearGradientTest {
                 new Stop(.3, Color.BLUE),
                 new Stop(1.0, Color.BLACK));
         assertEquals(expected, actual);
-        
+
         actual =
                 LinearGradient.valueOf("linear-gradient(to right, red  0%, blue  30%,black 100%)");
         expected = new LinearGradient(0, 0, 1, 0,
@@ -355,7 +355,7 @@ public class LinearGradientTest {
                 new Stop(.3, Color.BLUE),
                 new Stop(1.0, Color.BLACK));
         assertEquals(expected, actual);
-        
+
         actual =
                 LinearGradient.valueOf("linear-gradient(to bottom left, red  0%, blue  30%,black 100%)");
         expected = new LinearGradient(1, 0, 0, 1,
@@ -364,7 +364,7 @@ public class LinearGradientTest {
                 new Stop(.3, Color.BLUE),
                 new Stop(1.0, Color.BLACK));
         assertEquals(expected, actual);
-        
+
         actual =
                 LinearGradient.valueOf("linear-gradient(to right top, red  0%, blue  30%,black 100%)");
         expected = new LinearGradient(0, 1, 1, 0,
@@ -374,7 +374,7 @@ public class LinearGradientTest {
                 new Stop(1.0, Color.BLACK));
         assertEquals(expected, actual);
     }
-    
+
     @Test
     public void testValueOfRelativeValues() {
         LinearGradient actual =
@@ -386,7 +386,7 @@ public class LinearGradientTest {
                 new Stop(1.0, Color.BLACK));
         assertEquals(expected, actual);
     }
-    
+
     @Test
     public void testValueOfAbsoluteValues() {
         LinearGradient actual =
@@ -398,7 +398,7 @@ public class LinearGradientTest {
                 new Stop(1.0, Color.BLACK));
         assertEquals(expected, actual);
     }
-    
+
     @Test
     public void testValueOfColor() {
         LinearGradient actual =

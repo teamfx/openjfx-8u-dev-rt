@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.effect.BoxBlur
 public class BoxBlurBuilder<B extends javafx.scene.effect.BoxBlurBuilder<B>> implements javafx.util.Builder<javafx.scene.effect.BoxBlur> {
     protected BoxBlurBuilder() {
     }
-    
+
     /** Creates a new instance of BoxBlurBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.effect.BoxBlurBuilder<?> create() {
         return new javafx.scene.effect.BoxBlurBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.effect.BoxBlur x) {
         int set = __set;
@@ -51,7 +51,7 @@ public class BoxBlurBuilder<B extends javafx.scene.effect.BoxBlurBuilder<B>> imp
         if ((set & (1 << 2)) != 0) x.setIterations(this.iterations);
         if ((set & (1 << 3)) != 0) x.setWidth(this.width);
     }
-    
+
     private double height;
     /**
     Set the value of the {@link javafx.scene.effect.BoxBlur#getHeight() height} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public class BoxBlurBuilder<B extends javafx.scene.effect.BoxBlurBuilder<B>> imp
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private javafx.scene.effect.Effect input;
     /**
     Set the value of the {@link javafx.scene.effect.BoxBlur#getInput() input} property for the instance constructed by this builder.
@@ -73,7 +73,7 @@ public class BoxBlurBuilder<B extends javafx.scene.effect.BoxBlurBuilder<B>> imp
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private int iterations;
     /**
     Set the value of the {@link javafx.scene.effect.BoxBlur#getIterations() iterations} property for the instance constructed by this builder.
@@ -84,7 +84,7 @@ public class BoxBlurBuilder<B extends javafx.scene.effect.BoxBlurBuilder<B>> imp
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private double width;
     /**
     Set the value of the {@link javafx.scene.effect.BoxBlur#getWidth() width} property for the instance constructed by this builder.
@@ -95,7 +95,7 @@ public class BoxBlurBuilder<B extends javafx.scene.effect.BoxBlurBuilder<B>> imp
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.effect.BoxBlur} based on the properties set on this builder.
     */

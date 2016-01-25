@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,20 +36,20 @@ Builder class for javafx.scene.media.Media
 public final class MediaBuilder implements javafx.util.Builder<javafx.scene.media.Media> {
     protected MediaBuilder() {
     }
-    
+
     /** Creates a new instance of MediaBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.media.MediaBuilder create() {
         return new javafx.scene.media.MediaBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.media.Media x) {
         int set = __set;
         if ((set & (1 << 0)) != 0) x.setOnError(this.onError);
         if ((set & (1 << 1)) != 0) x.getTracks().addAll(this.tracks);
     }
-    
+
     private java.lang.Runnable onError;
     /**
     Set the value of the {@link javafx.scene.media.Media#getOnError() onError} property for the instance constructed by this builder.
@@ -59,7 +59,7 @@ public final class MediaBuilder implements javafx.util.Builder<javafx.scene.medi
         __set |= 1 << 0;
         return this;
     }
-    
+
     private java.lang.String source;
     /**
     Set the value of the {@link javafx.scene.media.Media#getSource() source} property for the instance constructed by this builder.
@@ -68,7 +68,7 @@ public final class MediaBuilder implements javafx.util.Builder<javafx.scene.medi
         this.source = x;
         return this;
     }
-    
+
     private java.util.Collection<? extends javafx.scene.media.Track> tracks;
     /**
     Add the given items to the List of items in the {@link javafx.scene.media.Media#getTracks() tracks} property for the instance constructed by this builder.
@@ -78,14 +78,14 @@ public final class MediaBuilder implements javafx.util.Builder<javafx.scene.medi
         __set |= 1 << 1;
         return this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.media.Media#getTracks() tracks} property for the instance constructed by this builder.
     */
     public javafx.scene.media.MediaBuilder tracks(javafx.scene.media.Track... x) {
         return tracks(java.util.Arrays.asList(x));
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.media.Media} based on the properties set on this builder.
     */

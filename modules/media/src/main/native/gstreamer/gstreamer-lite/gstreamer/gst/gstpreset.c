@@ -442,7 +442,7 @@ gst_preset_default_get_property_names (GstPreset * preset)
 
   gclass = G_OBJECT_CLASS (GST_ELEMENT_GET_CLASS (preset));
 
-  /* get a list of normal properties. 
+  /* get a list of normal properties.
    * FIXME, change this for childproxy support. */
   props = g_object_class_list_properties (gclass, &n_props);
   if (!props)

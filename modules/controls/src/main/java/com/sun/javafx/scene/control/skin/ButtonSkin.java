@@ -62,12 +62,12 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
             ** don't laugh, it can happen....
             */
             setCancelButton(true);
-        }       
+        }
 
     }
 
 
-    @Override protected void handleControlPropertyChanged(String p) {     
+    @Override protected void handleControlPropertyChanged(String p) {
         super.handleControlPropertyChanged(p);
         if ("DEFAULT_BUTTON".equals(p)) {
             setDefaultButton(getSkinnable().isDefaultButton());
@@ -86,7 +86,7 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
                 }
            }
         } else if ("PARENT".equals(p)) {
-            if (getSkinnable().getParent() == null && getSkinnable().getScene() != null) {  
+            if (getSkinnable().getParent() == null && getSkinnable().getScene() != null) {
                 if (getSkinnable().isDefaultButton()) {
                     getSkinnable().getScene().getAccelerators().remove(defaultAcceleratorKeyCodeCombination);
                 }
@@ -110,7 +110,7 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
     };
 
     private KeyCodeCombination defaultAcceleratorKeyCodeCombination;
-    
+
     private void setDefaultButton(boolean value) {
         Scene scene = getSkinnable().getScene();
         if (scene != null) {
@@ -145,7 +145,7 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
         if (scene != null) {
             KeyCode acceleratorCode = KeyCode.ESCAPE;
             cancelAcceleratorKeyCodeCombination = new KeyCodeCombination(acceleratorCode);
-        
+
             Runnable oldCancel = scene.getAccelerators().get(cancelAcceleratorKeyCodeCombination);
             if (!value) {
                 /**

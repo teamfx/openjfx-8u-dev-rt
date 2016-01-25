@@ -101,14 +101,14 @@ GstCaps *gst_caps_load_thyself (xmlNodePtr parent);
   (g_atomic_int_get (&(caps)->refcount) == 1)
 
 /* same as gst_caps_is_any () */
-#define CAPS_IS_ANY(caps)				\
+#define CAPS_IS_ANY(caps)               \
   ((caps)->flags & GST_CAPS_FLAGS_ANY)
 
 /* same as gst_caps_is_empty () */
-#define CAPS_IS_EMPTY(caps)				\
+#define CAPS_IS_EMPTY(caps)             \
   (!CAPS_IS_ANY(caps) && CAPS_IS_EMPTY_SIMPLE(caps))
 
-#define CAPS_IS_EMPTY_SIMPLE(caps)					\
+#define CAPS_IS_EMPTY_SIMPLE(caps)                  \
   (((caps)->structs == NULL) || ((caps)->structs->len == 0))
 
 /* quick way to get a caps structure at an index without doing a type or array

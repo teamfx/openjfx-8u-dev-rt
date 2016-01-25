@@ -70,7 +70,7 @@ struct _GstOsxAudioSrc
   int deviceChannels;
 };
 
-struct _GstOsxAudioSrcClass 
+struct _GstOsxAudioSrcClass
 {
   GstBaseAudioSrcClass parent_class;
 };

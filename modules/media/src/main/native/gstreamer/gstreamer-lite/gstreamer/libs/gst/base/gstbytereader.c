@@ -94,7 +94,7 @@ gst_byte_reader_new_from_buffer (const GstBuffer * buffer)
  *
  * Frees a #GstByteReader instance, which was previously allocated by
  * gst_byte_reader_new() or gst_byte_reader_new_from_buffer().
- * 
+ *
  * Since: 0.10.22
  */
 void
@@ -114,7 +114,7 @@ gst_byte_reader_free (GstByteReader * reader)
  *
  * Initializes a #GstByteReader instance to read from @data. This function
  * can be called on already initialized instances.
- * 
+ *
  * Since: 0.10.22
  */
 void
@@ -134,7 +134,7 @@ gst_byte_reader_init (GstByteReader * reader, const guint8 * data, guint size)
  *
  * Initializes a #GstByteReader instance to read from @buffer. This function
  * can be called on already initialized instances.
- * 
+ *
  * Since: 0.10.22
  */
 void
@@ -156,7 +156,7 @@ gst_byte_reader_init_from_buffer (GstByteReader * reader,
  *
  * Returns: %TRUE if the position could be set successfully, %FALSE
  * otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 gboolean
@@ -179,7 +179,7 @@ gst_byte_reader_set_pos (GstByteReader * reader, guint pos)
  * Returns the current position of a #GstByteReader instance in bytes.
  *
  * Returns: The current position of @reader in bytes.
- * 
+ *
  * Since: 0.10.22
  */
 guint
@@ -195,7 +195,7 @@ gst_byte_reader_get_pos (const GstByteReader * reader)
  * Returns the remaining number of bytes of a #GstByteReader instance.
  *
  * Returns: The remaining number of bytes of @reader instance.
- * 
+ *
  * Since: 0.10.22
  */
 guint
@@ -211,7 +211,7 @@ gst_byte_reader_get_remaining (const GstByteReader * reader)
  * Returns the total number of bytes of a #GstByteReader instance.
  *
  * Returns: The total number of bytes of @reader instance.
- * 
+ *
  * Since: 0.10.26
  */
 guint
@@ -231,7 +231,7 @@ gst_byte_reader_get_size (const GstByteReader * reader)
  * Skips @nbytes bytes of the #GstByteReader instance.
  *
  * Returns: %TRUE if @nbytes bytes could be skipped, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 gboolean
@@ -248,7 +248,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * Read an unsigned 8 bit integer into @val and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -260,7 +260,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * Read a signed 8 bit integer into @val and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -272,7 +272,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * Read an unsigned 8 bit integer into @val but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -284,7 +284,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * Read a signed 8 bit integer into @val but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -297,7 +297,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -310,7 +310,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -323,7 +323,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -336,7 +336,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -349,7 +349,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -362,7 +362,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -375,7 +375,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -388,7 +388,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -401,7 +401,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -414,7 +414,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -427,7 +427,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -440,7 +440,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -453,7 +453,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -466,7 +466,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -479,7 +479,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -492,7 +492,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -506,7 +506,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -519,7 +519,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -532,7 +532,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -545,7 +545,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -558,7 +558,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -571,7 +571,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -584,7 +584,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -597,7 +597,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -610,7 +610,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -623,7 +623,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -636,7 +636,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -649,7 +649,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -662,7 +662,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -675,7 +675,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -688,7 +688,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -701,7 +701,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -752,7 +752,7 @@ GST_BYTE_READER_PEEK_GET(64,gint64,int64_be)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -765,7 +765,7 @@ GST_BYTE_READER_PEEK_GET(64,gint64,int64_be)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -778,7 +778,7 @@ GST_BYTE_READER_PEEK_GET(64,gint64,int64_be)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -791,7 +791,7 @@ GST_BYTE_READER_PEEK_GET(64,gint64,int64_be)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -804,7 +804,7 @@ GST_BYTE_READER_PEEK_GET(64,gint64,int64_be)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -817,7 +817,7 @@ GST_BYTE_READER_PEEK_GET(64,gint64,int64_be)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -830,7 +830,7 @@ GST_BYTE_READER_PEEK_GET(64,gint64,int64_be)
  * and update the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -843,7 +843,7 @@ GST_BYTE_READER_PEEK_GET(64,gint64,int64_be)
  * but keep the current position.
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 
@@ -867,7 +867,7 @@ GST_BYTE_READER_PEEK_GET(64,gdouble,float64_be)
  *
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 gboolean
@@ -890,7 +890,7 @@ gst_byte_reader_get_data (GstByteReader * reader, guint size,
  *
  *
  * Returns: %TRUE if successful, %FALSE otherwise.
- * 
+ *
  * Since: 0.10.22
  */
 gboolean

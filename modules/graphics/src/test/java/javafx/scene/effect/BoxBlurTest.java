@@ -52,7 +52,7 @@ public class BoxBlurTest extends EffectsTestBase {
         pulse();
         assertEquals(1, ((com.sun.scenario.effect.BoxBlur)effect.impl_getImpl()).getHorizontalSize());
     }
-    
+
     @Test
     public void testDefaultWidth() {
         // default value should be 5
@@ -61,7 +61,7 @@ public class BoxBlurTest extends EffectsTestBase {
         pulse();
         assertEquals(5, ((com.sun.scenario.effect.BoxBlur)effect.impl_getImpl()).getHorizontalSize());
     }
-    
+
     @Test
     public void testMinWidth() {
         // 0 should be ok
@@ -78,12 +78,12 @@ public class BoxBlurTest extends EffectsTestBase {
         // 255 should be ok
         effect.setWidth(255);
         // try setting value greater than maximal
-        effect.setWidth(255.1f); 
+        effect.setWidth(255.1f);
         assertEquals(255.1f, effect.getWidth(), 1e-100);
         pulse();
         assertEquals(255, ((com.sun.scenario.effect.BoxBlur)effect.impl_getImpl()).getHorizontalSize());
     }
-    
+
     @Test
     public void testSetHeight() {
         // try setting correct value
@@ -92,7 +92,7 @@ public class BoxBlurTest extends EffectsTestBase {
         pulse();
         assertEquals(1, ((com.sun.scenario.effect.BoxBlur)effect.impl_getImpl()).getVerticalSize());
     }
-    
+
     @Test
     public void testDefaultHeight() {
         // default value should be 5
@@ -101,7 +101,7 @@ public class BoxBlurTest extends EffectsTestBase {
         pulse();
         assertEquals(5, ((com.sun.scenario.effect.BoxBlur)effect.impl_getImpl()).getVerticalSize());
     }
-    
+
     @Test
     public void testMinHeight() {
         // 0 should be ok
@@ -118,12 +118,12 @@ public class BoxBlurTest extends EffectsTestBase {
         // 255 should be ok
         effect.setHeight(255);
         // try setting value greater than maximal
-        effect.setHeight(255.1f); 
+        effect.setHeight(255.1f);
         assertEquals(255.1f, effect.getHeight(), 1e-100);
         pulse();
         assertEquals(255, ((com.sun.scenario.effect.BoxBlur)effect.impl_getImpl()).getVerticalSize());
     }
-    
+
     @Test
     public void testSetIterations() {
         // try setting correct value
@@ -132,7 +132,7 @@ public class BoxBlurTest extends EffectsTestBase {
         pulse();
         assertEquals(2, ((com.sun.scenario.effect.BoxBlur)effect.impl_getImpl()).getPasses());
     }
-    
+
     @Test
     public void testDefaultIterations() {
         // default value should be 1
@@ -141,7 +141,7 @@ public class BoxBlurTest extends EffectsTestBase {
         pulse();
         assertEquals(1, ((com.sun.scenario.effect.BoxBlur)effect.impl_getImpl()).getPasses());
     }
-    
+
     @Test
     public void testMinIterations() {
         // 0 should be ok
@@ -158,7 +158,7 @@ public class BoxBlurTest extends EffectsTestBase {
         // 3 should be ok
         effect.setIterations(3);
         // try setting value greater than maximal
-        effect.setIterations(4); 
+        effect.setIterations(4);
         assertEquals(4, effect.getIterations());
         pulse();
         assertEquals(3, ((com.sun.scenario.effect.BoxBlur)effect.impl_getImpl()).getPasses());

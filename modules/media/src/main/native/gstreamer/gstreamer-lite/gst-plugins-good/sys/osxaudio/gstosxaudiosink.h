@@ -74,7 +74,7 @@ struct _GstOsxAudioSink
   double volume;
 };
 
-struct _GstOsxAudioSinkClass 
+struct _GstOsxAudioSinkClass
 {
   GstBaseAudioSinkClass parent_class;
 };

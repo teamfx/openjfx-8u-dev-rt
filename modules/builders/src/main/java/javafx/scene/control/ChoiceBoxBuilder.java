@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.ChoiceBox
 public class ChoiceBoxBuilder<T, B extends javafx.scene.control.ChoiceBoxBuilder<T, B>> extends javafx.scene.control.ControlBuilder<B> implements javafx.util.Builder<javafx.scene.control.ChoiceBox<T>> {
     protected ChoiceBoxBuilder() {
     }
-    
+
     /** Creates a new instance of ChoiceBoxBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <T> javafx.scene.control.ChoiceBoxBuilder<T, ?> create() {
         return new javafx.scene.control.ChoiceBoxBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.ChoiceBox<T> x) {
         super.applyTo(x);
@@ -52,7 +52,7 @@ public class ChoiceBoxBuilder<T, B extends javafx.scene.control.ChoiceBoxBuilder
         if ((set & (1 << 2)) != 0) x.setSelectionModel(this.selectionModel);
         if ((set & (1 << 3)) != 0) x.setValue(this.value);
     }
-    
+
     private javafx.util.StringConverter<T> converter;
     /**
     Set the value of the {@link javafx.scene.control.ChoiceBox#getConverter() converter} property for the instance constructed by this builder.
@@ -64,7 +64,7 @@ public class ChoiceBoxBuilder<T, B extends javafx.scene.control.ChoiceBoxBuilder
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private javafx.collections.ObservableList<T> items;
     /**
     Set the value of the {@link javafx.scene.control.ChoiceBox#getItems() items} property for the instance constructed by this builder.
@@ -75,7 +75,7 @@ public class ChoiceBoxBuilder<T, B extends javafx.scene.control.ChoiceBoxBuilder
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private javafx.scene.control.SingleSelectionModel<T> selectionModel;
     /**
     Set the value of the {@link javafx.scene.control.ChoiceBox#getSelectionModel() selectionModel} property for the instance constructed by this builder.
@@ -86,7 +86,7 @@ public class ChoiceBoxBuilder<T, B extends javafx.scene.control.ChoiceBoxBuilder
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private T value;
     /**
     Set the value of the {@link javafx.scene.control.ChoiceBox#getValue() value} property for the instance constructed by this builder.
@@ -98,7 +98,7 @@ public class ChoiceBoxBuilder<T, B extends javafx.scene.control.ChoiceBoxBuilder
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.ChoiceBox} based on the properties set on this builder.
     */

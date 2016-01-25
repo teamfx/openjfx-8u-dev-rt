@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.geometry.Point2D
 public class Point2DBuilder<B extends javafx.geometry.Point2DBuilder<B>> implements javafx.util.Builder<javafx.geometry.Point2D> {
     protected Point2DBuilder() {
     }
-    
+
     /** Creates a new instance of Point2DBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.geometry.Point2DBuilder<?> create() {
         return new javafx.geometry.Point2DBuilder();
     }
-    
+
     private double x;
     /**
     Set the value of the {@link javafx.geometry.Point2D#getX() x} property for the instance constructed by this builder.
@@ -52,7 +52,7 @@ public class Point2DBuilder<B extends javafx.geometry.Point2DBuilder<B>> impleme
         this.x = x;
         return (B) this;
     }
-    
+
     private double y;
     /**
     Set the value of the {@link javafx.geometry.Point2D#getY() y} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public class Point2DBuilder<B extends javafx.geometry.Point2DBuilder<B>> impleme
         this.y = x;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.geometry.Point2D} based on the properties set on this builder.
     */

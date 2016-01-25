@@ -52,15 +52,15 @@ import javafx.util.Callback;
 import com.sun.javafx.scene.control.behavior.TableViewBehavior;
 
 public class TableViewSkin<T> extends TableViewSkinBase<T, T, TableView<T>, TableViewBehavior<T>, TableRow<T>, TableColumn<T, ?>> {
-    
+
     private final TableView<T> tableView;
 
     public TableViewSkin(final TableView<T> tableView) {
         super(tableView, new TableViewBehavior<T>(tableView));
-        
+
         this.tableView = tableView;
         flow.setFixedCellSize(tableView.getFixedCellSize());
-        
+
         super.init(tableView);
 
         EventHandler<MouseEvent> ml = event -> {
@@ -113,23 +113,23 @@ public class TableViewSkin<T> extends TableViewSkinBase<T, T, TableView<T>, Tabl
      * Listeners                                                               *
      *                                                                         *
      **************************************************************************/
-    
-    
-    
+
+
+
     /***************************************************************************
      *                                                                         *
      * Internal Fields                                                         *
      *                                                                         *
      **************************************************************************/
 
-    
-    
+
+
     /***************************************************************************
      *                                                                         *
      * Public API                                                              *
      *                                                                         *
-     **************************************************************************/  
-    
+     **************************************************************************/
+
     /** {@inheritDoc} */
     @Override protected ObservableList<TableColumn<T, ?>> getVisibleLeafColumns() {
         return tableView.getVisibleLeafColumns();
@@ -138,11 +138,11 @@ public class TableViewSkin<T> extends TableViewSkinBase<T, T, TableView<T>, Tabl
     @Override protected int getVisibleLeafIndex(TableColumn<T, ?> tc) {
         return tableView.getVisibleLeafIndex(tc);
     }
-    
+
     @Override protected TableColumn<T, ?> getVisibleLeafColumn(int col) {
         return tableView.getVisibleLeafColumn(col);
     }
-    
+
     /** {@inheritDoc} */
     @Override protected TableViewFocusModel<T> getFocusModel() {
         return tableView.getFocusModel();
@@ -152,7 +152,7 @@ public class TableViewSkin<T> extends TableViewSkinBase<T, T, TableView<T>, Tabl
     @Override protected TablePosition<T, ?> getFocusedCell() {
         return tableView.getFocusModel().getFocusedCell();
     }
-    
+
     /** {@inheritDoc} */
     @Override protected TableSelectionModel<T> getSelectionModel() {
         return tableView.getSelectionModel();
@@ -214,32 +214,32 @@ public class TableViewSkin<T> extends TableViewSkinBase<T, T, TableView<T>, Tabl
 //        final TableColumn<T, ?> col = tc;
         List<?> items = itemsProperty().get();
         if (items == null || items.isEmpty()) return;
-    
+
         Callback/*<TableColumn<T, ?>, TableCell<T,?>>*/ cellFactory = tc.getCellFactory();
         if (cellFactory == null) return;
-    
+
         TableCell<T,?> cell = (TableCell<T, ?>) cellFactory.call(tc);
         if (cell == null) return;
-        
+
         // set this property to tell the TableCell we want to know its actual
         // preferred width, not the width of the associated TableColumnBase
         cell.getProperties().put(TableCellSkin.DEFER_TO_PARENT_PREF_WIDTH, Boolean.TRUE);
-        
+
         // determine cell padding
         double padding = 10;
         Node n = cell.getSkin() == null ? null : cell.getSkin().getNode();
         if (n instanceof Region) {
             Region r = (Region) n;
             padding = r.snappedLeftInset() + r.snappedRightInset();
-        } 
-        
+        }
+
         int rows = maxRows == -1 ? items.size() : Math.min(items.size(), maxRows);
         double maxWidth = 0;
         for (int row = 0; row < rows; row++) {
             cell.updateTableColumn(tc);
             cell.updateTableView(tableView);
             cell.updateIndex(row);
-            
+
             if ((cell.getText() != null && !cell.getText().isEmpty()) || cell.getGraphic() != null) {
                 getChildren().add(cell);
                 cell.applyCss();
@@ -259,7 +259,7 @@ public class TableViewSkin<T> extends TableViewSkinBase<T, T, TableView<T>, Tabl
         double headerGraphicWidth = graphic == null ? 0 : graphic.prefWidth(-1) + header.label.getGraphicTextGap();
         double headerWidth = headerTextWidth + headerGraphicWidth + 10 + header.snappedLeftInset() + header.snappedRightInset();
         maxWidth = Math.max(maxWidth, headerWidth);
-        
+
         // RT-23486
         maxWidth += padding;
         if(tableView.getColumnResizePolicy() == TableView.CONSTRAINED_RESIZE_POLICY) {
@@ -268,12 +268,12 @@ public class TableViewSkin<T> extends TableViewSkinBase<T, T, TableView<T>, Tabl
 
         tc.impl_setWidth(maxWidth);
     }
-    
+
     /** {@inheritDoc} */
     @Override public int getItemCount() {
         return tableView.getItems() == null ? 0 : tableView.getItems().size();
     }
-    
+
     /** {@inheritDoc} */
     @Override public TableRow<T> createCell() {
         TableRow<T> cell;
@@ -294,7 +294,7 @@ public class TableViewSkin<T> extends TableViewSkinBase<T, T, TableView<T>, Tabl
             flow.requestCellLayout();
         }
     }
-    
+
     @Override
     public Object queryAccessibleAttribute(AccessibleAttribute attribute, Object... parameters) {
         switch (attribute) {
@@ -349,14 +349,14 @@ public class TableViewSkin<T> extends TableViewSkinBase<T, T, TableView<T>, Tabl
      *                                                                         *
      * Layout                                                                  *
      *                                                                         *
-     **************************************************************************/    
-    
-    
-    
+     **************************************************************************/
+
+
+
     /***************************************************************************
      *                                                                         *
      * Private methods                                                         *
      *                                                                         *
      **************************************************************************/
-    
+
 }

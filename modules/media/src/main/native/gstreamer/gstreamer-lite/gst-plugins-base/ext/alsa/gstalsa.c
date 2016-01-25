@@ -321,7 +321,7 @@ gst_alsa_detect_channels (GstObject * obj, snd_pcm_hw_params_t * hw_params,
     /* the template caps might limit the number of channels (like alsasrc),
      * in which case we don't want to return a superset, so hack around this
      * for the two common cases where the channels are either a fixed number
-     * or a min/max range). Example: alsasrc template has channels = [1,2] and 
+     * or a min/max range). Example: alsasrc template has channels = [1,2] and
      * the detection will claim to support 8 channels for device 'plughw:0' */
     field_type = gst_structure_get_field_type (s, "channels");
     if (field_type == G_TYPE_INT) {

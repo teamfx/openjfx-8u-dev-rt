@@ -40,9 +40,9 @@ public class ComboBoxListViewBehavior<T> extends ComboBoxBaseBehavior<T> {
      * Constructors                                                            *
      *                                                                         *
      **************************************************************************/
-    
+
     /**
-     * 
+     *
      */
     public ComboBoxListViewBehavior(final ComboBox<T> comboBox) {
         super(comboBox, COMBO_BOX_BINDINGS);
@@ -70,7 +70,7 @@ public class ComboBoxListViewBehavior<T> extends ComboBoxBaseBehavior<T> {
             super.callAction(name);
         }
     }
-    
+
     private ComboBox<T> getComboBox() {
         return (ComboBox<T>) getControl();
     }
@@ -80,7 +80,7 @@ public class ComboBoxListViewBehavior<T> extends ComboBoxBaseBehavior<T> {
         if (sm == null) return;
         sm.selectPrevious();
     }
-    
+
     private void selectNext() {
         SelectionModel<T> sm = getComboBox().getSelectionModel();
         if (sm == null) return;

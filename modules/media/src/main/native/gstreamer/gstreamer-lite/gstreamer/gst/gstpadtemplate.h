@@ -41,13 +41,13 @@ typedef struct _GstPadTemplateClass GstPadTemplateClass;
 typedef struct _GstStaticPadTemplate GstStaticPadTemplate;
 
 #ifndef GSTREAMER_LITE
-#define GST_TYPE_STATIC_PAD_TEMPLATE	(gst_static_pad_template_get_type ())
+#define GST_TYPE_STATIC_PAD_TEMPLATE    (gst_static_pad_template_get_type ())
 #endif // GSTREAMER_LITE
 
-#define GST_TYPE_PAD_TEMPLATE		(gst_pad_template_get_type ())
-#define GST_PAD_TEMPLATE(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_PAD_TEMPLATE,GstPadTemplate))
-#define GST_PAD_TEMPLATE_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), GST_TYPE_PAD_TEMPLATE,GstPadTemplateClass))
-#define GST_IS_PAD_TEMPLATE(obj)	(G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_PAD_TEMPLATE))
+#define GST_TYPE_PAD_TEMPLATE       (gst_pad_template_get_type ())
+#define GST_PAD_TEMPLATE(obj)       (G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_PAD_TEMPLATE,GstPadTemplate))
+#define GST_PAD_TEMPLATE_CLASS(klass)   (G_TYPE_CHECK_CLASS_CAST ((klass), GST_TYPE_PAD_TEMPLATE,GstPadTemplateClass))
+#define GST_IS_PAD_TEMPLATE(obj)    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_PAD_TEMPLATE))
 #define GST_IS_PAD_TEMPLATE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GST_TYPE_PAD_TEMPLATE))
 
 /**
@@ -71,7 +71,7 @@ typedef enum {
  *
  * Get the nametemplate of the padtemplate.
  */
-#define GST_PAD_TEMPLATE_NAME_TEMPLATE(templ)	(((GstPadTemplate *)(templ))->name_template)
+#define GST_PAD_TEMPLATE_NAME_TEMPLATE(templ)   (((GstPadTemplate *)(templ))->name_template)
 
 /**
  * GST_PAD_TEMPLATE_DIRECTION:
@@ -79,7 +79,7 @@ typedef enum {
  *
  * Get the #GstPadDirection of the padtemplate.
  */
-#define GST_PAD_TEMPLATE_DIRECTION(templ)	(((GstPadTemplate *)(templ))->direction)
+#define GST_PAD_TEMPLATE_DIRECTION(templ)   (((GstPadTemplate *)(templ))->direction)
 
 /**
  * GST_PAD_TEMPLATE_PRESENCE:
@@ -87,7 +87,7 @@ typedef enum {
  *
  * Get the #GstPadPresence of the padtemplate.
  */
-#define GST_PAD_TEMPLATE_PRESENCE(templ)	(((GstPadTemplate *)(templ))->presence)
+#define GST_PAD_TEMPLATE_PRESENCE(templ)    (((GstPadTemplate *)(templ))->presence)
 
 /**
  * GST_PAD_TEMPLATE_CAPS:
@@ -95,7 +95,7 @@ typedef enum {
  *
  * Get a handle to the padtemplate #GstCaps
  */
-#define GST_PAD_TEMPLATE_CAPS(templ)		(((GstPadTemplate *)(templ))->caps)
+#define GST_PAD_TEMPLATE_CAPS(templ)        (((GstPadTemplate *)(templ))->caps)
 
 /**
  * GstPadTemplateFlags:
@@ -117,7 +117,7 @@ typedef enum {
  *
  * Check if the properties of the padtemplate are fixed
  */
-#define GST_PAD_TEMPLATE_IS_FIXED(templ)	(GST_OBJECT_FLAG_IS_SET(templ, GST_PAD_TEMPLATE_FIXED))
+#define GST_PAD_TEMPLATE_IS_FIXED(templ)    (GST_OBJECT_FLAG_IS_SET(templ, GST_PAD_TEMPLATE_FIXED))
 
 /**
  * GstPadTemplate:
@@ -125,12 +125,12 @@ typedef enum {
  * The padtemplate object.
  */
 struct _GstPadTemplate {
-  GstObject	   object;
+  GstObject    object;
 
   gchar           *name_template;
   GstPadDirection  direction;
   GstPadPresence   presence;
-  GstCaps	  *caps;
+  GstCaps     *caps;
 
   gpointer _gst_reserved[GST_PADDING];
 };
@@ -139,12 +139,12 @@ struct _GstPadTemplateClass {
   GstObjectClass   parent_class;
 
   /* signal callbacks */
-  void (*pad_created)	(GstPadTemplate *templ, GstPad *pad);
+  void (*pad_created)   (GstPadTemplate *templ, GstPad *pad);
 
   gpointer _gst_reserved[GST_PADDING];
 };
 
-/** 
+/**
  * GstStaticPadTemplate:
  * @name_template: the name of the template
  * @direction: the direction of the template
@@ -179,18 +179,18 @@ struct _GstStaticPadTemplate {
 }
 
 /* templates and factories */
-GType			gst_pad_template_get_type		(void);
+GType           gst_pad_template_get_type       (void);
 #ifndef GSTREAMER_LITE
-GType			gst_static_pad_template_get_type	(void);
+GType           gst_static_pad_template_get_type    (void);
 #endif // GSTREAMER_LITE
 
-GstPadTemplate*		gst_pad_template_new			(const gchar *name_template,
-								 GstPadDirection direction, GstPadPresence presence,
-								 GstCaps *caps);
+GstPadTemplate*     gst_pad_template_new            (const gchar *name_template,
+                                 GstPadDirection direction, GstPadPresence presence,
+                                 GstCaps *caps);
 
-GstPadTemplate *	gst_static_pad_template_get             (GstStaticPadTemplate *pad_template);
-GstCaps*		gst_static_pad_template_get_caps	(GstStaticPadTemplate *templ);
-GstCaps*		gst_pad_template_get_caps		(GstPadTemplate *templ);
+GstPadTemplate *    gst_static_pad_template_get             (GstStaticPadTemplate *pad_template);
+GstCaps*        gst_static_pad_template_get_caps    (GstStaticPadTemplate *templ);
+GstCaps*        gst_pad_template_get_caps       (GstPadTemplate *templ);
 
 void                    gst_pad_template_pad_created            (GstPadTemplate * templ, GstPad * pad);
 

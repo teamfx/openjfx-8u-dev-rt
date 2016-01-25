@@ -45,20 +45,20 @@ import static org.junit.Assert.*;
 public class TextFieldTest {
     private TextField txtField;//Empty string
     private TextField dummyTxtField;//With string value
-    
+
     @Before public void setup() {
         txtField = new TextField();
         dummyTxtField = new TextField("dummy");
     }
-    
+
     /*********************************************************************
      * Tests for the constructors                                        *
      ********************************************************************/
-    
+
     @Test public void defaultConstructorShouldHaveEmptyString() {
         assertEquals("", txtField.getText());
     }
-    
+
     @Test public void oneStrArgConstructorShouldHaveString() {
         assertEquals("dummy", dummyTxtField.getText());
     }
@@ -66,11 +66,11 @@ public class TextFieldTest {
     /*********************************************************************
      * Tests for the null checks                                         *
      ********************************************************************/
-    
+
     @Test public void checkContentNotNull() {
         assertNotNull(txtField.getContent());
     }
-    
+
     @Test public void checkCharNotNull() {
         assertNotNull(txtField.getCharacters());
     }
@@ -78,7 +78,7 @@ public class TextFieldTest {
     @Test public void checkDefPromptTextEmptyString() {
         assertEquals("", txtField.getPromptText());
     }
-    
+
     /*********************************************************************
      * Tests for default values                                         *
      ********************************************************************/
@@ -93,7 +93,7 @@ public class TextFieldTest {
     @Test public void defaultConstructorShouldSetStyleClassTo_textfield() {
         assertStyleClassContains(txtField, "text-field");
     }
-    
+
     @Test public void checkCharsSameAsText() {
         assertEquals(dummyTxtField.getCharacters().toString(), dummyTxtField.getText());
     }
@@ -109,7 +109,7 @@ public class TextFieldTest {
     @Test public void checkPromptTextPropertyName() {
         assertTrue(txtField.promptTextProperty().getName().equals("promptText"));
     }
-    
+
     @Test public void prefColCountCannotBeNegative() {
         try {
             txtField.setPrefColumnCount(-1);
@@ -123,7 +123,7 @@ public class TextFieldTest {
     @Test public void oneArgStrConstructorShouldSetStyleClassTo_textfield() {
         assertStyleClassContains(dummyTxtField, "text-field");
     }
-    
+
     @Test public void checkTextSetGet() {
         dummyTxtField.setText("junk");
         assertEquals(dummyTxtField.getText(), "junk");
@@ -182,7 +182,7 @@ public class TextFieldTest {
         strPr.setValue("newvalue");
         assertTrue("PromptText cannot be bound", txtField.getPromptText().equals("newvalue"));
     }
-    
+
     @Ignore("TODO: Please remove ignore annotation after RT-15799 is fixed.")
     @Test public void checkTextPropertyBind() {
         StringProperty strPr = new SimpleStringProperty("value");
@@ -191,7 +191,7 @@ public class TextFieldTest {
         strPr.setValue("newvalue");
         assertEquals("Text cannot be bound", txtField.getText(),  "newvalue");
     }
-    
+
     @Test public void checkOnActionPropertyBind() {
         ObjectProperty<EventHandler<ActionEvent>> op= new SimpleObjectProperty<EventHandler<ActionEvent>>();
         EventHandler<ActionEvent> ev = event -> {
@@ -225,17 +225,17 @@ public class TextFieldTest {
     @Test public void onActionPropertyHasName() {
         assertEquals("onAction", txtField.onActionProperty().getName());
     }
-    
+
     @Test public void setPromptTextAndSeeValueIsReflectedInModel() {
         txtField.setPromptText("tmp");
         assertEquals(txtField.promptTextProperty().getValue(), "tmp");
     }
-    
+
     @Test public void setPromptTextAndSeeValue() {
         txtField.setPromptText("tmp");
         assertEquals(txtField.getPromptText(), "tmp");
     }
-    
+
     @Test public void setTextAndSeeValueIsReflectedInModel() {
         txtField.setText("tmp");
         assertEquals(txtField.textProperty().getValue(), txtField.getText());
@@ -282,6 +282,6 @@ public class TextFieldTest {
         assertEquals("x", dummyTxtField.getText());
     }
 
-    
+
 
 }

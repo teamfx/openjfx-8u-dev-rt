@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.shape.Rectangle
 public class RectangleBuilder<B extends javafx.scene.shape.RectangleBuilder<B>> extends javafx.scene.shape.ShapeBuilder<B> implements javafx.util.Builder<javafx.scene.shape.Rectangle> {
     protected RectangleBuilder() {
     }
-    
+
     /** Creates a new instance of RectangleBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.shape.RectangleBuilder<?> create() {
         return new javafx.scene.shape.RectangleBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.shape.Rectangle x) {
         super.applyTo(x);
@@ -54,7 +54,7 @@ public class RectangleBuilder<B extends javafx.scene.shape.RectangleBuilder<B>> 
         if ((set & (1 << 4)) != 0) x.setX(this.x);
         if ((set & (1 << 5)) != 0) x.setY(this.y);
     }
-    
+
     private double arcHeight;
     /**
     Set the value of the {@link javafx.scene.shape.Rectangle#getArcHeight() arcHeight} property for the instance constructed by this builder.
@@ -65,7 +65,7 @@ public class RectangleBuilder<B extends javafx.scene.shape.RectangleBuilder<B>> 
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private double arcWidth;
     /**
     Set the value of the {@link javafx.scene.shape.Rectangle#getArcWidth() arcWidth} property for the instance constructed by this builder.
@@ -76,7 +76,7 @@ public class RectangleBuilder<B extends javafx.scene.shape.RectangleBuilder<B>> 
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double height;
     /**
     Set the value of the {@link javafx.scene.shape.Rectangle#getHeight() height} property for the instance constructed by this builder.
@@ -87,7 +87,7 @@ public class RectangleBuilder<B extends javafx.scene.shape.RectangleBuilder<B>> 
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private double width;
     /**
     Set the value of the {@link javafx.scene.shape.Rectangle#getWidth() width} property for the instance constructed by this builder.
@@ -98,7 +98,7 @@ public class RectangleBuilder<B extends javafx.scene.shape.RectangleBuilder<B>> 
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private double x;
     /**
     Set the value of the {@link javafx.scene.shape.Rectangle#getX() x} property for the instance constructed by this builder.
@@ -109,7 +109,7 @@ public class RectangleBuilder<B extends javafx.scene.shape.RectangleBuilder<B>> 
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     private double y;
     /**
     Set the value of the {@link javafx.scene.shape.Rectangle#getY() y} property for the instance constructed by this builder.
@@ -120,7 +120,7 @@ public class RectangleBuilder<B extends javafx.scene.shape.RectangleBuilder<B>> 
         __set |= 1 << 5;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.shape.Rectangle} based on the properties set on this builder.
     */

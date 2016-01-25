@@ -42,23 +42,23 @@ public class ValueAxisHelper {
 
     public ValueAxisHelper() {
     }
-    
+
     public void setValueAxis(ValueAxis axis) {
         this.axis = axis;
     }
-    
+
     public void setTwoValueAxis(ValueAxis axis) {
         this.twoValueAxis = axis;
     }
-    
+
     public void setThreeValueAxis(NumberAxis axis) {
         this.threeValueAxis = axis;
     }
-    
+
     public void setFourValueAxis(NumberAxis axis) {
         this.fourValueAxis = axis;
     }
-    
+
     public ValueAxis getDummyValueAxis() {
         return new ValueAxis() {
                 @Override
@@ -92,15 +92,15 @@ public class ValueAxisHelper {
             axis = getDummyValueAxis();
         }
     }
-    
+
     /*********************************************************************
      * Currently nothing                                                 *
      ********************************************************************/
-    
+
     void defaultCalculateMinorTickValues() {}
     void defaultRange() {}
     void defaultCalculateTickValues() {}
     void defaultTickMarkLabel() {}
-  
-    
+
+
 }

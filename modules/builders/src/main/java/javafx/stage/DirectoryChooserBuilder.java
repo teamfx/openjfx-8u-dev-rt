@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,20 +36,20 @@ Builder class for javafx.stage.DirectoryChooser
 public final class DirectoryChooserBuilder implements javafx.util.Builder<javafx.stage.DirectoryChooser> {
     protected DirectoryChooserBuilder() {
     }
-    
+
     /** Creates a new instance of DirectoryChooserBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.stage.DirectoryChooserBuilder create() {
         return new javafx.stage.DirectoryChooserBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.stage.DirectoryChooser x) {
         int set = __set;
         if ((set & (1 << 0)) != 0) x.setInitialDirectory(this.initialDirectory);
         if ((set & (1 << 1)) != 0) x.setTitle(this.title);
     }
-    
+
     private java.io.File initialDirectory;
     /**
     Set the value of the {@link javafx.stage.DirectoryChooser#getInitialDirectory() initialDirectory} property for the instance constructed by this builder.
@@ -59,7 +59,7 @@ public final class DirectoryChooserBuilder implements javafx.util.Builder<javafx
         __set |= 1 << 0;
         return this;
     }
-    
+
     private java.lang.String title;
     /**
     Set the value of the {@link javafx.stage.DirectoryChooser#getTitle() title} property for the instance constructed by this builder.
@@ -69,7 +69,7 @@ public final class DirectoryChooserBuilder implements javafx.util.Builder<javafx
         __set |= 1 << 1;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.stage.DirectoryChooser} based on the properties set on this builder.
     */

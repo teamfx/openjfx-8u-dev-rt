@@ -39,14 +39,14 @@ import org.eclipse.swt.widgets.*;
 final class SWTWindow extends Window {
     Shell shell;
     static SWTWindow focusWindow;
-    
+
     protected SWTWindow(Window owner, Screen screen, int styleMask) {
         super(owner, screen, styleMask);
     }
     protected SWTWindow(long parent) {
         super(parent);
     }
-    
+
     @Override protected long _createWindow(long ownerPtr, long screenPtr, int mask) {
         //int bits = SWT.SHELL_TRIM | SWT.NO_BACKGROUND | SWT.NO_REDRAW_RESIZE;
         int bits = SWT.NO_BACKGROUND | SWT.NO_REDRAW_RESIZE;
@@ -87,7 +87,7 @@ final class SWTWindow extends Window {
             shell.addListener(shellEvents[i], shellListener);
         }
         shell.setData(this);
-        
+
         return SWTApplication.getHandle(shell);
     }
 
@@ -103,7 +103,7 @@ final class SWTWindow extends Window {
                  * activate to the parent shell when the user clicks with the left
                  * mouse button in a child shell with the style SWT.NO_FOCUS.
                  * The fix is to avoid FOCUS_LOST during grab.
-                 * 
+                 *
                  * NOTE: This is probably not the correct code because FX gets
                  * a FOCUS_GAINED for the same stage when focus has not changed.
                  */
@@ -152,18 +152,18 @@ final class SWTWindow extends Window {
             }
         }
     }
-    
+
     @Override protected long _createChildWindow(long parent) {
         //TODO - implement child windows
         /* applet */
         return _createWindow(parent, 0, 0);
     }
-    
+
     @Override protected boolean _close(long ptr) {
         shell.dispose();
         return true;
     }
-    
+
     @Override protected boolean _setView(long ptr, View view) {
         //TODO - dispose the current view when set to null?
         if (view == null) return true;
@@ -177,13 +177,13 @@ final class SWTWindow extends Window {
         }
         return success;
     }
-    
-    @Override protected void _setBounds(long ptr, 
-            final int x, final int y, 
-            final boolean xSet, final boolean ySet, 
-            final int w, final int h, 
+
+    @Override protected void _setBounds(long ptr,
+            final int x, final int y,
+            final boolean xSet, final boolean ySet,
+            final int w, final int h,
             final int cw, final int ch, float xGravity, float yGravity) {
-        
+
         //TODO - using syncExec because of applet
         shell.getDisplay().syncExec(() -> {
             Rectangle rect = shell.getBounds();
@@ -217,7 +217,7 @@ final class SWTWindow extends Window {
             }
         });
     }
-    
+
     @Override protected boolean _setMenubar(long ptr, long menubarPtr) {
         return true;
     }
@@ -226,7 +226,7 @@ final class SWTWindow extends Window {
         shell.setMinimized(minimize);
         return shell.getMinimized();
     }
-    
+
     @Override protected boolean _maximize(long ptr, boolean maximize, boolean wasMaximized) {
         //TODO - what should be done with the wasMaximized flag
         shell.setMaximized(maximize);
@@ -250,54 +250,54 @@ final class SWTWindow extends Window {
         });
         return true;
     }
-    
+
     @Override protected boolean _setResizable(long ptr, boolean resizable) {
         //TODO - implement resizable
         return true;
     }
-    
+
     @Override protected boolean _requestFocus(long ptr, int event) {
         shell.setFocus();
         return true;
     }
-    
+
     @Override protected void _setFocusable(long ptr, boolean isFocusable) {
         //TODO - implement focus
     }
-    
+
     @Override protected boolean _setTitle(long ptr, String title) {
         shell.setText(title);
         return true;
     }
-    
+
     @Override protected void _setLevel(long ptr, int level) {
         //TODO - implement window stacking
     }
-    
+
     @Override protected void _setAlpha(long ptr, float alpha) {
         shell.setAlpha((int)(alpha * 255));
     }
-    
+
     @Override protected boolean _setBackground(long ptr, float r, float g, float b) {
         //TODO - implement background color
         return true;
     }
-    
+
     @Override protected void _setEnabled(long ptr, boolean enabled) {
         shell.setEnabled(enabled);
     }
-    
+
     @Override protected boolean _setMinimumSize(long ptr, int width, int height) {
         Point pt = new Point(width, height);
         shell.setMinimumSize(pt);
         return pt.equals(shell.getMinimumSize());
     }
-    
+
     @Override protected boolean _setMaximumSize(long ptr, int width, int height) {
         //TODO - implement maximum size
         return false;
     }
-    
+
     //TODO - implement icon
     @Override protected void _setIcon(long ptr, Pixels pixels) {
         Image oldImage = shell.getImage();
@@ -305,36 +305,36 @@ final class SWTWindow extends Window {
         shell.setImage(newImage);
         if (oldImage != null) oldImage.dispose();
     }
-    
+
     @Override protected void _toFront(long ptr) {
         shell.moveAbove(null);
     }
-    
+
     @Override protected void _toBack(long ptr) {
         shell.moveBelow(null);
     }
-    
+
     @Override protected void _enterModal(long ptr) {
         //TODO - implement modal
     }
-    
+
     @Override protected void _enterModalWithWindow(long dialog, long window) {
         //TODO - implement modal
     }
-    
+
     @Override protected void _exitModal(long ptr) {
         //TODO - implement modal
     }
-    
+
     @Override protected boolean _grabFocus(long ptr) {
         focusWindow = this;
         return true;
     }
-    
+
     @Override protected void _ungrabFocus(long ptr) {
         focusWindow = null;
     }
-    
+
     @Override
     protected void _setCursor(long ptr, Cursor cursor) {
         int id = SWT.CURSOR_ARROW;
@@ -389,15 +389,15 @@ final class SWTWindow extends Window {
                                                     double Mxx, double Mxy, double Mxz, double Mxt,
                                                     double Myx, double Myy, double Myz, double Myt,
                                                     double Mzx, double Mzy, double Mzz, double Mzt);
-    
+
     @Override
     native protected void _releaseInput(long ptr);
-    
+
     @Override protected int _getEmbeddedX(long ptr) {
         // TODO: implement for child windows
         return 0;
     }
-    
+
     @Override protected int _getEmbeddedY(long ptr) {
         // TODO: implement for child windows
         return 0;

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.geometry.Dimension2D
 public class Dimension2DBuilder<B extends javafx.geometry.Dimension2DBuilder<B>> implements javafx.util.Builder<javafx.geometry.Dimension2D> {
     protected Dimension2DBuilder() {
     }
-    
+
     /** Creates a new instance of Dimension2DBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.geometry.Dimension2DBuilder<?> create() {
         return new javafx.geometry.Dimension2DBuilder();
     }
-    
+
     private double height;
     /**
     Set the value of the {@link javafx.geometry.Dimension2D#getHeight() height} property for the instance constructed by this builder.
@@ -52,7 +52,7 @@ public class Dimension2DBuilder<B extends javafx.geometry.Dimension2DBuilder<B>>
         this.height = x;
         return (B) this;
     }
-    
+
     private double width;
     /**
     Set the value of the {@link javafx.geometry.Dimension2D#getWidth() width} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public class Dimension2DBuilder<B extends javafx.geometry.Dimension2DBuilder<B>>
         this.width = x;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.geometry.Dimension2D} based on the properties set on this builder.
     */

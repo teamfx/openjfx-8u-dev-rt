@@ -72,9 +72,9 @@ public class TreeViewSkin<T> extends VirtualContainerBase<TreeView<T>, TreeViewB
         flow.setCreateCell(flow1 -> TreeViewSkin.this.createCell());
         flow.setFixedCellSize(treeView.getFixedCellSize());
         getChildren().add(flow);
-        
+
         setRoot(getSkinnable().getRoot());
-        
+
         EventHandler<MouseEvent> ml = event -> {
             // RT-15127: cancel editing on scroll. This is a bit extreme
             // (we are cancelling editing on touching the scrollbars).
@@ -113,13 +113,13 @@ public class TreeViewSkin<T> extends VirtualContainerBase<TreeView<T>, TreeViewB
         registerChangeListener(treeView.showRootProperty(), "SHOW_ROOT");
         registerChangeListener(treeView.cellFactoryProperty(), "CELL_FACTORY");
         registerChangeListener(treeView.fixedCellSizeProperty(), "FIXED_CELL_SIZE");
-        
+
         updateRowCount();
     }
-    
+
     @Override protected void handleControlPropertyChanged(String p) {
         super.handleControlPropertyChanged(p);
-        
+
         if ("ROOT".equals(p)) {
             setRoot(getSkinnable().getRoot());
         } else if ("SHOW_ROOT".equals(p)) {
@@ -137,7 +137,7 @@ public class TreeViewSkin<T> extends VirtualContainerBase<TreeView<T>, TreeViewB
             flow.setFixedCellSize(getSkinnable().getFixedCellSize());
         }
     }
-    
+
 //    private boolean needItemCountUpdate = false;
     private boolean needCellsRebuilt = true;
     private boolean needCellsReconfigured = false;
@@ -150,7 +150,7 @@ public class TreeViewSkin<T> extends VirtualContainerBase<TreeView<T>, TreeViewB
             getSkinnable().getProperties().remove(RECREATE);
         }
     };
-    
+
     private EventHandler<TreeModificationEvent<T>> rootListener = e -> {
         if (e.wasAdded() && e.wasRemoved() && e.getAddedSize() == e.getRemovedSize()) {
             // Fix for RT-14842, where the children of a TreeItem were changing,
@@ -181,10 +181,10 @@ public class TreeViewSkin<T> extends VirtualContainerBase<TreeView<T>, TreeViewB
         // fix for RT-37853
         getSkinnable().edit(null);
     };
-    
+
     private WeakEventHandler<TreeModificationEvent<T>> weakRootListener;
-            
-    
+
+
     private WeakReference<TreeItem<T>> weakRoot;
     private TreeItem<T> getRoot() {
         return weakRoot == null ? null : weakRoot.get();
@@ -209,17 +209,17 @@ public class TreeViewSkin<T> extends VirtualContainerBase<TreeView<T>, TreeViewB
     @Override protected void updateRowCount() {
 //        int oldCount = flow.getCellCount();
         int newCount = getItemCount();
-        
-        // if this is not called even when the count is the same, we get a 
-        // memory leak in VirtualFlow.sheet.children. This can probably be 
+
+        // if this is not called even when the count is the same, we get a
+        // memory leak in VirtualFlow.sheet.children. This can probably be
         // optimised in the future when time permits.
         flow.setCellCount(newCount);
 
-        // Ideally we would be more nuanced here, toggling a cheaper needs* 
-        // field, but if we do we hit issues such as those identified in 
+        // Ideally we would be more nuanced here, toggling a cheaper needs*
+        // field, but if we do we hit issues such as those identified in
         // RT-27852, where the expended item count of the new root equals the
         // EIC of the old root, which would lead to the visuals not updating
-        // properly. 
+        // properly.
         needCellsRebuilt = true;
         getSkinnable().requestLayout();
     }
@@ -238,8 +238,8 @@ public class TreeViewSkin<T> extends VirtualContainerBase<TreeView<T>, TreeViewB
 
             /* This code is intentionally commented.
              * Currently as it stands it does provided any functionality and interferes
-             * with TreeView. The VO cursor move over the DISCLOSURE_NODE instead of the 
-             * tree item itself. This is possibly caused by the order of item's children 
+             * with TreeView. The VO cursor move over the DISCLOSURE_NODE instead of the
+             * tree item itself. This is possibly caused by the order of item's children
              * (the Labeled and the disclosure node).
              */
 //            final StackPane disclosureNode = new StackPane() {
@@ -269,20 +269,20 @@ public class TreeViewSkin<T> extends VirtualContainerBase<TreeView<T>, TreeViewB
     private TreeCell<T> createDefaultCellImpl() {
         return new TreeCell<T>() {
             private HBox hbox;
-            
+
             private WeakReference<TreeItem<T>> treeItemRef;
-            
+
             private InvalidationListener treeItemGraphicListener = observable -> {
                 updateDisplay(getItem(), isEmpty());
             };
-            
+
             private InvalidationListener treeItemListener = new InvalidationListener() {
                 @Override public void invalidated(Observable observable) {
                     TreeItem<T> oldTreeItem = treeItemRef == null ? null : treeItemRef.get();
                     if (oldTreeItem != null) {
                         oldTreeItem.graphicProperty().removeListener(weakTreeItemGraphicListener);
                     }
-                    
+
                     TreeItem<T> newTreeItem = getTreeItem();
                     if (newTreeItem != null) {
                         newTreeItem.graphicProperty().addListener(weakTreeItemGraphicListener);
@@ -290,21 +290,21 @@ public class TreeViewSkin<T> extends VirtualContainerBase<TreeView<T>, TreeViewB
                     }
                 }
             };
-            
+
             private WeakInvalidationListener weakTreeItemGraphicListener =
                     new WeakInvalidationListener(treeItemGraphicListener);
-            
+
             private WeakInvalidationListener weakTreeItemListener =
                     new WeakInvalidationListener(treeItemListener);
-            
+
             {
                 treeItemProperty().addListener(weakTreeItemListener);
-                
+
                 if (getTreeItem() != null) {
                     getTreeItem().graphicProperty().addListener(weakTreeItemGraphicListener);
                 }
             }
-            
+
             private void updateDisplay(T item, boolean empty) {
                 if (item == null || empty) {
                     hbox = null;
@@ -317,8 +317,8 @@ public class TreeViewSkin<T> extends VirtualContainerBase<TreeView<T>, TreeViewB
                     if (graphic != null) {
                         if (item instanceof Node) {
                             setText(null);
-                            
-                            // the item is a Node, and the graphic exists, so 
+
+                            // the item is a Node, and the graphic exists, so
                             // we must insert both into an HBox and present that
                             // to the user (see RT-15910)
                             if (hbox == null) {
@@ -341,16 +341,16 @@ public class TreeViewSkin<T> extends VirtualContainerBase<TreeView<T>, TreeViewB
                             setGraphic(null);
                         }
                     }
-                }                
+                }
             }
-            
+
             @Override public void updateItem(T item, boolean empty) {
                 super.updateItem(item, empty);
                 updateDisplay(item, empty);
             }
         };
     }
-    
+
     @Override protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
         return computePrefHeight(-1, topInset, rightInset, bottomInset, leftInset) * 0.618033987;
     }
@@ -363,19 +363,19 @@ public class TreeViewSkin<T> extends VirtualContainerBase<TreeView<T>, TreeViewB
     protected void layoutChildren(final double x, final double y,
             final double w, final double h) {
         super.layoutChildren(x, y, w, h);
-        
+
         if (needCellsRebuilt) {
             flow.rebuildCells();
         } else if (needCellsReconfigured) {
             flow.reconfigureCells();
-        } 
-        
+        }
+
         needCellsRebuilt = false;
         needCellsReconfigured = false;
-        
+
         flow.resizeRelocate(x, y, w, h);
     }
-    
+
     private void onFocusPreviousCell() {
         FocusModel<TreeItem<T>> fm = getSkinnable().getFocusModel();
         if (fm == null) return;

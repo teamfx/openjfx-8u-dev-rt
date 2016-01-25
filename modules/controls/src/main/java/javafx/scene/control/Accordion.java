@@ -89,7 +89,7 @@ public class Accordion extends Control {
         }
 
         // focusTraversable is styleable through css. Calling setFocusTraversable
-        // makes it look to css like the user set the value and css will not 
+        // makes it look to css like the user set the value and css will not
         // override. Initializing focusTraversable by calling applyStyle with null
         // StyleOrigin ensures that css will be able to override the value.
         ((StyleableProperty<Boolean>)(WritableValue<Boolean>)focusTraversableProperty()).applyStyle(null, Boolean.FALSE);
@@ -131,7 +131,7 @@ public class Accordion extends Control {
     private ObjectProperty<TitledPane> expandedPane = new ObjectPropertyBase<TitledPane>() {
 
         private TitledPane oldValue;
-        
+
         @Override
         protected void invalidated() {
             final TitledPane value = get();
@@ -154,7 +154,7 @@ public class Accordion extends Control {
         public Object getBean() {
             return Accordion.this;
         }
-        
+
     };
 
     /**
@@ -214,7 +214,7 @@ public class Accordion extends Control {
     /**
       * Most Controls return true for focusTraversable, so Control overrides
       * this method to return true, but Accordion returns false for
-      * focusTraversable's initial value; hence the override of the override. 
+      * focusTraversable's initial value; hence the override of the override.
       * This method is called from CSS code to get the correct initial value.
       * @treatAsPrivate implementation detail
       */

@@ -920,7 +920,7 @@ public class VirtualFlowTest {
     ** if we scroll the flow by a number of LINES,
     ** without having done anything to select a cell
     ** the flow should scroll.
-    */ 
+    */
     @Test public void testInitialScrollEventActuallyScrolls() {
         /*
         ** re-initialize this, as it must be the first
@@ -941,14 +941,14 @@ public class VirtualFlowTest {
                 return flow.isVertical() ? (c.getIndex() == 29 ? 100 : 25) : (c.getIndex() == 29 ? 200 : 100);
             }
         });
-        
+
         flow.setCellCount(100);
         flow.resize(300, 300);
         pulse();
-       
+
         double originalValue = flow.getPosition();
 
-        Event.fireEvent(flow, 
+        Event.fireEvent(flow,
               new ScrollEvent(ScrollEvent.SCROLL,
                           0.0, -10.0, 0.0, -10.0,
                           false, false, false, false, true, false,
@@ -1028,7 +1028,7 @@ public class VirtualFlowTest {
         assertNull(flow.getVisibleCell(0));
         assertMinimalNumberOfCellsAreUsed(flow);
     }
-    
+
     @Test
     public void test_RT39035() {
         flow.adjustPixels(250);
@@ -1067,7 +1067,7 @@ class CellStub extends IndexedCell {
 
     public CellStub(VirtualFlow flow) { init(flow); }
     public CellStub(VirtualFlow flow, String s) { init(flow); this.s = s; }
-    
+
     private void init(VirtualFlow flow) {
         this.flow = flow;
         setSkin(new SkinStub<CellStub>(this));
@@ -1077,7 +1077,7 @@ class CellStub extends IndexedCell {
     @Override
     public void updateIndex(int i) {
         super.updateIndex(i);
-        
+
         s = "Item " + getIndex();
 //        updateItem(getIndex(), getIndex() >= flow.getCellCount());
     }

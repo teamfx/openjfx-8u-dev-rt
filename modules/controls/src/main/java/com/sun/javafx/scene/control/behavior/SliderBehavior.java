@@ -89,7 +89,7 @@ public class SliderBehavior extends BehaviorBase<Slider> {
         }
         return action;
     }
-    
+
     @Override
     protected void callAction(String name) {
         if ("Home".equals(name)) home();
@@ -204,7 +204,7 @@ public class SliderBehavior extends BehaviorBase<Slider> {
         } else {
             slider.decrement();
         }
-        
+
     }
 
     void end() {

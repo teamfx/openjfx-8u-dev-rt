@@ -148,7 +148,7 @@ public class DisplacementMapTest extends EffectsTestBase {
 
         return map;
     }
-    
+
     @Test
     public void testSetMap() {
         int w = 100;
@@ -159,7 +159,7 @@ public class DisplacementMapTest extends EffectsTestBase {
         map.setHeight(h);
 
         effect.setMapData(map);
-        
+
         assertEquals(w, map.getWidth());
         assertEquals(h, map.getHeight());
         pulse();
@@ -167,7 +167,7 @@ public class DisplacementMapTest extends EffectsTestBase {
                 ((com.sun.scenario.effect.DisplacementMap) effect.impl_getImpl()).getMapData();
         assertNotNull(mapImpl);
         assertEquals(w, mapImpl.getWidth());
-        assertEquals(h, mapImpl.getHeight());      
+        assertEquals(h, mapImpl.getHeight());
     }
 
     @Test
@@ -262,7 +262,7 @@ public class DisplacementMapTest extends EffectsTestBase {
         effect.setInput(blur);
         assertEquals(box(-2, -2, 104, 104), n.getBoundsInLocal());
     }
-    
+
     @Test
     public void testCreateWithParams() {
         int w = 100;

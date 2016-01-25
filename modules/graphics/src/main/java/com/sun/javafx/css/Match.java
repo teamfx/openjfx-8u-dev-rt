@@ -62,7 +62,7 @@ final class Match implements Comparable<Match> {
         }
         specificity = (idCount << 8) | (styleClassCount << 4) | nPseudoClasses;
     }
-        
+
     @Override
     public int compareTo(Match o) {
         return specificity - o.specificity;

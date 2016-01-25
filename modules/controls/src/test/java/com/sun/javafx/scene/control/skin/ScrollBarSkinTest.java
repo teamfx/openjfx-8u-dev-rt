@@ -44,7 +44,7 @@ public class ScrollBarSkinTest {
         scrollbar.setSkin(skin);
     }
 
-    @Test public void onVerticalMaxWidthTracksPreferred() {        
+    @Test public void onVerticalMaxWidthTracksPreferred() {
         scrollbar.setOrientation(Orientation.VERTICAL);
         scrollbar.setPrefWidth(100);
         assertEquals(100, scrollbar.maxWidth(-1), 0);
@@ -55,14 +55,14 @@ public class ScrollBarSkinTest {
         scrollbar.setPrefHeight(100);
         assertEquals(100, scrollbar.maxHeight(-1), 0);
     }
-    
+
     public static final class ScrollBarSkinMock extends ScrollBarSkin {
         boolean propertyChanged = false;
         int propertyChangeCount = 0;
         public ScrollBarSkinMock(ScrollBar scrollbar) {
             super(scrollbar);
         }
-        
+
         @Override protected void handleControlPropertyChanged(String p) {
             super.handleControlPropertyChanged(p);
             propertyChanged = true;

@@ -84,7 +84,7 @@ public class FocusTest {
         // Just clean up focus instead.
         scene.focusCleanup();
     }
-    
+
     boolean T = true;
     boolean F = false;
 
@@ -642,9 +642,9 @@ public class FocusTest {
         nodes.get(0).requestFocus();
         fireTestPulse();
         assertEquals(nodes.get(0), scene.getFocusOwner());
-        assertFalse(nodes.get(0).isFocused());     
+        assertFalse(nodes.get(0).isFocused());
     }
-    
+
     /**
      * Test switching two scenes in one stage. Focus owner in scenes should
      * remain the same while focused node should change.

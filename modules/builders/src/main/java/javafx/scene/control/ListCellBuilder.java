@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.ListCell
 public class ListCellBuilder<T, B extends javafx.scene.control.ListCellBuilder<T, B>> extends javafx.scene.control.IndexedCellBuilder<T, B> {
     protected ListCellBuilder() {
     }
-    
+
     /** Creates a new instance of ListCellBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <T> javafx.scene.control.ListCellBuilder<T, ?> create() {
         return new javafx.scene.control.ListCellBuilder();
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.ListCell} based on the properties set on this builder.
     */

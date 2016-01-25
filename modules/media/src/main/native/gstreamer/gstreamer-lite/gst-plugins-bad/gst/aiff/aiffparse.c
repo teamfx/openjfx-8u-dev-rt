@@ -1041,7 +1041,7 @@ gst_aiff_parse_stream_headers (GstAiffParse * aiff)
   }
 
   /* We read all the chunks (in pull mode) or reached the SSND chunk
-   * (in push mode). We must have both COMM and SSND now; error out 
+   * (in push mode). We must have both COMM and SSND now; error out
    * otherwise.
    */
   if (!aiff->got_comm) {
@@ -1521,7 +1521,7 @@ gst_aiff_parse_sink_event (GstPad * pad, GstEvent * event)
 
   switch (GST_EVENT_TYPE (event)) {
     case GST_EVENT_NEWSEGMENT:
-    {			
+    {
       GstFormat format;
       gdouble rate, arate;
       gint64 start, stop, time, offset = 0, end_offset = -1;

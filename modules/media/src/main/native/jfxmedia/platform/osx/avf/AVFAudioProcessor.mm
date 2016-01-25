@@ -177,41 +177,41 @@ static bool FindAudioTap() {
         NSLog(@"Audio tap is not available, cannot post-process audio");
         return;
     }
-	if (!_mixer) {
-		AVMutableAudioMix *mixer = [AVMutableAudioMix audioMix];
-		if (mixer) {
-			AVMutableAudioMixInputParameters *audioMixInputParameters =
+    if (!_mixer) {
+        AVMutableAudioMix *mixer = [AVMutableAudioMix audioMix];
+        if (mixer) {
+            AVMutableAudioMixInputParameters *audioMixInputParameters =
                 [AVMutableAudioMixInputParameters audioMixInputParametersWithTrack:audioTrack];
-			if (audioMixInputParameters &&
+            if (audioMixInputParameters &&
                 [audioMixInputParameters respondsToSelector:@selector(setAudioTapProcessor:)]) {
-				__MTAudioTapCallbacks callbacks;
+                __MTAudioTapCallbacks callbacks;
 
-				callbacks.version = 0; // kMTAudioProcessingTapCallbacksVersion_0
-				callbacks.clientInfo = (__bridge void *)self,
-				callbacks.init = InitAudioTap;
-				callbacks.finalize = FinalizeAudioTap;
-				callbacks.prepare = PrepareAudioTap;
-				callbacks.unprepare = UnprepareAudioTap;
-				callbacks.process = ProcessAudioTap;
+                callbacks.version = 0; // kMTAudioProcessingTapCallbacksVersion_0
+                callbacks.clientInfo = (__bridge void *)self,
+                callbacks.init = InitAudioTap;
+                callbacks.finalize = FinalizeAudioTap;
+                callbacks.prepare = PrepareAudioTap;
+                callbacks.unprepare = UnprepareAudioTap;
+                callbacks.process = ProcessAudioTap;
 
-				CFTypeRef audioProcessingTap;
-				if (noErr == gAudioTapCreate(kCFAllocatorDefault, &callbacks,
+                CFTypeRef audioProcessingTap;
+                if (noErr == gAudioTapCreate(kCFAllocatorDefault, &callbacks,
                                              1, // kMTAudioProcessingTapCreationFlag_PreEffects
                                              &audioProcessingTap))
-				{
+                {
                     objc_msgSend(audioMixInputParameters,
                                  @selector(setAudioTapProcessor:),
                                  audioProcessingTap);
 
-					CFRelease(audioProcessingTap); // owned by the mixer now
+                    CFRelease(audioProcessingTap); // owned by the mixer now
 
-					mixer.inputParameters = @[audioMixInputParameters];
+                    mixer.inputParameters = @[audioMixInputParameters];
 
-					_mixer = mixer;
-				}
-			}
-		}
-	}
+                    _mixer = mixer;
+                }
+            }
+        }
+    }
 }
 
 - (void) setVolume:(float)volume {
@@ -253,7 +253,7 @@ void FinalizeAudioTap(CFTypeRef tapRef)
         // should not happen
         return;
     }
-	AVFTapContext *context = (AVFTapContext*)gAudioTapGetStorage(tapRef);
+    AVFTapContext *context = (AVFTapContext*)gAudioTapGetStorage(tapRef);
 
     if (context) {
         context->processor.tapStorage = NULL;
@@ -302,16 +302,16 @@ static OSStatus ConnectAudioUnits(AudioUnit source, AudioUnit sink) {
 }
 
 AudioUnit FindAudioUnit(OSType type, OSType subType, OSType manu) {
-	AudioUnit audioUnit = NULL;
+    AudioUnit audioUnit = NULL;
 
-	AudioComponentDescription audioComponentDescription;
-	audioComponentDescription.componentType = type;
-	audioComponentDescription.componentSubType = subType;
-	audioComponentDescription.componentManufacturer = manu;
-	audioComponentDescription.componentFlags = 0;
-	audioComponentDescription.componentFlagsMask = 0;
+    AudioComponentDescription audioComponentDescription;
+    audioComponentDescription.componentType = type;
+    audioComponentDescription.componentSubType = subType;
+    audioComponentDescription.componentManufacturer = manu;
+    audioComponentDescription.componentFlags = 0;
+    audioComponentDescription.componentFlagsMask = 0;
 
-	AudioComponent audioComponent = AudioComponentFindNext(NULL, &audioComponentDescription);
+    AudioComponent audioComponent = AudioComponentFindNext(NULL, &audioComponentDescription);
     if (audioComponent) {
         AudioComponentInstanceNew(audioComponent, &audioUnit);
     }
@@ -326,7 +326,7 @@ void PrepareAudioTap(CFTypeRef tapRef,
         // should not happen
         return;
     }
-	AVFTapContext *context = (AVFTapContext*)gAudioTapGetStorage(tapRef);
+    AVFTapContext *context = (AVFTapContext*)gAudioTapGetStorage(tapRef);
 
     // Validate the audio format before we enable the processor
 
@@ -479,7 +479,7 @@ void UnprepareAudioTap(CFTypeRef tapRef)
         // should not happen
         return;
     }
-	AVFTapContext *context = (AVFTapContext*)gAudioTapGetStorage(tapRef);
+    AVFTapContext *context = (AVFTapContext*)gAudioTapGetStorage(tapRef);
     context->enabled = NO;
     context->renderUnit = NULL;
 
@@ -516,7 +516,7 @@ void ProcessAudioTap(CFTypeRef tapRef,
         // should not happen
         return;
     }
-	AVFTapContext *context = (AVFTapContext*)gAudioTapGetStorage(tapRef);
+    AVFTapContext *context = (AVFTapContext*)gAudioTapGetStorage(tapRef);
     OSStatus status = noErr;
 
     if (context->renderUnit) {

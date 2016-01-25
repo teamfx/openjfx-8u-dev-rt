@@ -171,14 +171,14 @@ GST_DEBUG_CATEGORY_STATIC (gst_spectrum_debug);
 #endif // GSTREAMER_LITE
 
 /* Spectrum properties */
-#define DEFAULT_MESSAGE			TRUE
-#define DEFAULT_POST_MESSAGES			TRUE
-#define DEFAULT_MESSAGE_MAGNITUDE	TRUE
-#define DEFAULT_MESSAGE_PHASE		FALSE
-#define DEFAULT_INTERVAL		(GST_SECOND / 10)
-#define DEFAULT_BANDS			128
-#define DEFAULT_THRESHOLD		-60
-#define DEFAULT_MULTI_CHANNEL		FALSE
+#define DEFAULT_MESSAGE         TRUE
+#define DEFAULT_POST_MESSAGES           TRUE
+#define DEFAULT_MESSAGE_MAGNITUDE   TRUE
+#define DEFAULT_MESSAGE_PHASE       FALSE
+#define DEFAULT_INTERVAL        (GST_SECOND / 10)
+#define DEFAULT_BANDS           128
+#define DEFAULT_THRESHOLD       -60
+#define DEFAULT_MULTI_CHANNEL       FALSE
 
 enum
 {
@@ -1230,7 +1230,7 @@ gst_spectrum_transform_ip (GstBaseTransform * trans, GstBuffer * buffer)
 }
 
 #ifdef GSTREAMER_LITE
-gboolean 
+gboolean
 plugin_init_spectrum (GstPlugin * plugin)
 #else // GSTREAMER_LITE
 static gboolean

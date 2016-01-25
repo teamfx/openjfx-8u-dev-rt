@@ -23,7 +23,7 @@
 
 /**
  * SECTION:gsttypefindhelper
- * @short_description: Utility functions for typefinding 
+ * @short_description: Utility functions for typefinding
  *
  * Utility functions for elements doing typefinding:
  * gst_type_find_helper() does typefinding in pull mode, while
@@ -106,7 +106,7 @@ helper_find_peek (gpointer data, gint64 offset, guint size)
       guint buf_size = GST_BUFFER_SIZE (buf);
 
       /* buffers are kept sorted by end offset (highest first) in the list, so
-       * at this point we save the current position and stop searching if 
+       * at this point we save the current position and stop searching if
        * we're after the searched end offset */
       if (buf_offset <= offset) {
         if ((offset + size) < (buf_offset + buf_size)) {
@@ -566,7 +566,7 @@ gst_type_find_helper_for_buffer (GstObject * obj, GstBuffer * buf,
  * Returns: (transfer full): the #GstCaps corresponding to @extension, or
  *     #NULL if no type could be found. The caller should free the caps
  *     returned with gst_caps_unref().
- * 
+ *
  * Since: 0.10.23
  */
 GstCaps *

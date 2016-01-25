@@ -60,7 +60,7 @@ typedef enum
   G_FILE_ERROR_FAILED
 } GFileError;
 
-/* For backward-compat reasons, these are synced to an old 
+/* For backward-compat reasons, these are synced to an old
  * anonymous enum in libgnome. But don't use that enum
  * in new code.
  */
@@ -90,14 +90,14 @@ gboolean g_file_test         (const gchar  *filename,
                               GFileTest     test);
 gboolean g_file_get_contents (const gchar  *filename,
                               gchar       **contents,
-                              gsize        *length,    
+                              gsize        *length,
                               GError      **error);
 gboolean g_file_set_contents (const gchar *filename,
-			      const gchar *contents,
-			      gssize	     length,
-			      GError	   **error);
+                  const gchar *contents,
+                  gssize         length,
+                  GError       **error);
 gchar   *g_file_read_link    (const gchar  *filename,
-			      GError      **error);
+                  GError      **error);
 
 /* Wrapper / workalike for mkstemp() */
 gint    g_mkstemp            (gchar        *tmpl);
@@ -107,23 +107,23 @@ gint    g_mkstemp_full       (gchar        *tmpl,
 
 /* Wrapper for g_mkstemp */
 gint    g_file_open_tmp      (const gchar  *tmpl,
-			      gchar       **name_used,
-			      GError      **error);
+                  gchar       **name_used,
+                  GError      **error);
 
 char *g_format_size_for_display (goffset size);
 
 gchar *g_build_path     (const gchar *separator,
-			 const gchar *first_element,
-			 ...) G_GNUC_MALLOC G_GNUC_NULL_TERMINATED;
+             const gchar *first_element,
+             ...) G_GNUC_MALLOC G_GNUC_NULL_TERMINATED;
 gchar *g_build_pathv    (const gchar  *separator,
-			 gchar       **args) G_GNUC_MALLOC;
+             gchar       **args) G_GNUC_MALLOC;
 
 gchar *g_build_filename (const gchar *first_element,
-			 ...) G_GNUC_MALLOC G_GNUC_NULL_TERMINATED;
+             ...) G_GNUC_MALLOC G_GNUC_NULL_TERMINATED;
 gchar *g_build_filenamev (gchar      **args) G_GNUC_MALLOC;
 
 int    g_mkdir_with_parents (const gchar *pathname,
-			     int          mode);
+                 int          mode);
 
 G_END_DECLS
 

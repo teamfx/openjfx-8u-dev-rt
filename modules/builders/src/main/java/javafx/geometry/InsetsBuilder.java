@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.geometry.Insets
 public class InsetsBuilder<B extends javafx.geometry.InsetsBuilder<B>> implements javafx.util.Builder<javafx.geometry.Insets> {
     protected InsetsBuilder() {
     }
-    
+
     /** Creates a new instance of InsetsBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.geometry.InsetsBuilder<?> create() {
         return new javafx.geometry.InsetsBuilder();
     }
-    
+
     private double bottom;
     /**
     Set the value of the {@link javafx.geometry.Insets#getBottom() bottom} property for the instance constructed by this builder.
@@ -52,7 +52,7 @@ public class InsetsBuilder<B extends javafx.geometry.InsetsBuilder<B>> implement
         this.bottom = x;
         return (B) this;
     }
-    
+
     private double left;
     /**
     Set the value of the {@link javafx.geometry.Insets#getLeft() left} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public class InsetsBuilder<B extends javafx.geometry.InsetsBuilder<B>> implement
         this.left = x;
         return (B) this;
     }
-    
+
     private double right;
     /**
     Set the value of the {@link javafx.geometry.Insets#getRight() right} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public class InsetsBuilder<B extends javafx.geometry.InsetsBuilder<B>> implement
         this.right = x;
         return (B) this;
     }
-    
+
     private double top;
     /**
     Set the value of the {@link javafx.geometry.Insets#getTop() top} property for the instance constructed by this builder.
@@ -82,7 +82,7 @@ public class InsetsBuilder<B extends javafx.geometry.InsetsBuilder<B>> implement
         this.top = x;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.geometry.Insets} based on the properties set on this builder.
     */

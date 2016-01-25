@@ -42,18 +42,18 @@ public class WebPageTest extends TestBase {
 
         loadContent(HTML);
         assertEquals("HTML document", HTML, getHtml(page));
-        
+
         // With XML document, getHtml() should return null
         loadContent(XML, "application/xml");
         assertNull("XML document", getHtml(page));
-        
+
         loadContent("");
         assertEquals("Empty document", PLAIN, getHtml(page));
-        
+
         loadContent("", "text/plain");
         assertEquals("Empty text/plain document", PLAIN, getHtml(page));
     }
-    
+
     private String getHtml(final WebPage page) throws Exception {
         return submit(() -> page.getHtml(page.getMainFrame()));
     }
@@ -61,5 +61,5 @@ public class WebPageTest extends TestBase {
     @Test public void testGetHtmlIllegalFrameId() {
         WebPage page = getEngine().getPage();
         assertEquals(null, page.getHtml(1));
-    }    
+    }
 }

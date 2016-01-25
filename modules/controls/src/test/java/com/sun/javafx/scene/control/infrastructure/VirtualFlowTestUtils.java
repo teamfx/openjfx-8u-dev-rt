@@ -325,7 +325,7 @@ public class VirtualFlowTestUtils {
             assertFalse(match);
         }
     }
-    
+
     public static boolean BLOCK_STAGE_LOADER_DISPOSE = false;
 
     public static VirtualFlow<?> getVirtualFlow(Control control) {
@@ -344,7 +344,7 @@ public class VirtualFlowTestUtils {
         }
 
         flow = (VirtualFlow<?>)control.lookup("#virtual-flow");
-        
+
         if (stageLoaderCreated && sl != null && ! BLOCK_STAGE_LOADER_DISPOSE) {
             sl.dispose();
         }

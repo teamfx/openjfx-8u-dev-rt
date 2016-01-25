@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.Cell
 public class CellBuilder<T, B extends javafx.scene.control.CellBuilder<T, B>> extends javafx.scene.control.LabeledBuilder<B> implements javafx.util.Builder<javafx.scene.control.Cell<T>> {
     protected CellBuilder() {
     }
-    
+
     /** Creates a new instance of CellBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <T> javafx.scene.control.CellBuilder<T, ?> create() {
         return new javafx.scene.control.CellBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.Cell<T> x) {
         super.applyTo(x);
@@ -50,7 +50,7 @@ public class CellBuilder<T, B extends javafx.scene.control.CellBuilder<T, B>> ex
         if ((set & (1 << 0)) != 0) x.setEditable(this.editable);
         if ((set & (1 << 1)) != 0) x.setItem(this.item);
     }
-    
+
     private boolean editable;
     /**
     Set the value of the {@link javafx.scene.control.Cell#isEditable() editable} property for the instance constructed by this builder.
@@ -61,7 +61,7 @@ public class CellBuilder<T, B extends javafx.scene.control.CellBuilder<T, B>> ex
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private T item;
     /**
     Set the value of the {@link javafx.scene.control.Cell#getItem() item} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public class CellBuilder<T, B extends javafx.scene.control.CellBuilder<T, B>> ex
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.Cell} based on the properties set on this builder.
     */

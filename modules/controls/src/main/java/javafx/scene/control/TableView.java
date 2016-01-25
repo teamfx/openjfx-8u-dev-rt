@@ -95,49 +95,49 @@ import com.sun.javafx.scene.control.skin.TableViewSkinBase;
  *   <li>Column reordering by the user at runtime.
  *   <li>Built-in support for {@link TableColumn#getColumns() column nesting}
  *   </ul>
- * <li>Different {@link #columnResizePolicyProperty() resizing policies} to 
+ * <li>Different {@link #columnResizePolicyProperty() resizing policies} to
  *      dictate what happens when the user resizes columns.
- * <li>Support for {@link #getSortOrder() multiple column sorting} by clicking 
- *      the column header (hold down Shift keyboard key whilst clicking on a 
+ * <li>Support for {@link #getSortOrder() multiple column sorting} by clicking
+ *      the column header (hold down Shift keyboard key whilst clicking on a
  *      header to sort by multiple columns).
  * </ul>
  * </p>
  *
  * <p>Note that TableView is intended to be used to visualize data - it is not
  * intended to be used for laying out your user interface. If you want to lay
- * your user interface out in a grid-like fashion, consider the 
+ * your user interface out in a grid-like fashion, consider the
  * {@link javafx.scene.layout.GridPane} layout instead.</p>
  *
  * <h2>Creating a TableView</h2>
  *
  * <p>Creating a TableView is a multi-step process, and also depends on the
  * underlying data model needing to be represented. For this example we'll use
- * an ObservableList<Person>, as it is the simplest way of showing data in a 
+ * an ObservableList<Person>, as it is the simplest way of showing data in a
  * TableView. The <code>Person</code> class will consist of a first
  * name and last name properties. That is:
- * 
+ *
  * <pre>
  * {@code
  * public class Person {
  *     private StringProperty firstName;
  *     public void setFirstName(String value) { firstNameProperty().set(value); }
  *     public String getFirstName() { return firstNameProperty().get(); }
- *     public StringProperty firstNameProperty() { 
+ *     public StringProperty firstNameProperty() {
  *         if (firstName == null) firstName = new SimpleStringProperty(this, "firstName");
- *         return firstName; 
+ *         return firstName;
  *     }
- * 
+ *
  *     private StringProperty lastName;
  *     public void setLastName(String value) { lastNameProperty().set(value); }
  *     public String getLastName() { return lastNameProperty().get(); }
- *     public StringProperty lastNameProperty() { 
+ *     public StringProperty lastNameProperty() {
  *         if (lastName == null) lastName = new SimpleStringProperty(this, "lastName");
- *         return lastName; 
- *     } 
+ *         return lastName;
+ *     }
  * }}</pre>
- * 
+ *
  * <p>Firstly, a TableView instance needs to be defined, as such:
- * 
+ *
  * <pre>
  * {@code
  * TableView<Person> table = new TableView<Person>();}</pre>
@@ -150,48 +150,48 @@ import com.sun.javafx.scene.control.skin.TableViewSkinBase;
  * {@code
  * ObservableList<Person> teamMembers = getTeamMembers();
  * table.setItems(teamMembers);}</pre>
- * 
+ *
  * <p>With the items set as such, TableView will automatically update whenever
  * the <code>teamMembers</code> list changes. If the items list is available
  * before the TableView is instantiated, it is possible to pass it directly into
- * the constructor. 
- * 
- * <p>At this point we now have a TableView hooked up to observe the 
- * <code>teamMembers</code> observableList. The missing ingredient 
- * now is the means of splitting out the data contained within the model and 
- * representing it in one or more {@link TableColumn TableColumn} instances. To 
+ * the constructor.
+ *
+ * <p>At this point we now have a TableView hooked up to observe the
+ * <code>teamMembers</code> observableList. The missing ingredient
+ * now is the means of splitting out the data contained within the model and
+ * representing it in one or more {@link TableColumn TableColumn} instances. To
  * create a two-column TableView to show the firstName and lastName properties,
  * we extend the last code sample as follows:
- * 
+ *
  * <pre>
  * {@code
  * ObservableList<Person> teamMembers = ...;
  * table.setItems(teamMembers);
- * 
+ *
  * TableColumn<Person,String> firstNameCol = new TableColumn<Person,String>("First Name");
  * firstNameCol.setCellValueFactory(new PropertyValueFactory("firstName"));
  * TableColumn<Person,String> lastNameCol = new TableColumn<Person,String>("Last Name");
  * lastNameCol.setCellValueFactory(new PropertyValueFactory("lastName"));
- * 
+ *
  * table.getColumns().setAll(firstNameCol, lastNameCol);}</pre>
- * 
+ *
  * <p>With the code shown above we have fully defined the minimum properties
  * required to create a TableView instance. Running this code (assuming the
  * people ObservableList is appropriately created) will result in a TableView being
  * shown with two columns for firstName and lastName. Any other properties of the
  * Person class will not be shown, as no TableColumns are defined.
- * 
+ *
  * <h3>TableView support for classes that don't contain properties</h3>
  *
  * <p>The code shown above is the shortest possible code for creating a TableView
- * when the domain objects are designed with JavaFX properties in mind 
+ * when the domain objects are designed with JavaFX properties in mind
  * (additionally, {@link javafx.scene.control.cell.PropertyValueFactory} supports
- * normal JavaBean properties too, although there is a caveat to this, so refer 
- * to the class documentation for more information). When this is not the case, 
+ * normal JavaBean properties too, although there is a caveat to this, so refer
+ * to the class documentation for more information). When this is not the case,
  * it is necessary to provide a custom cell value factory. More information
- * about cell value factories can be found in the {@link TableColumn} API 
+ * about cell value factories can be found in the {@link TableColumn} API
  * documentation, but briefly, here is how a TableColumn could be specified:
- * 
+ *
  * <pre>
  * {@code
  * firstNameCol.setCellValueFactory(new Callback<CellDataFeatures<Person, String>, ObservableValue<String>>() {
@@ -201,48 +201,48 @@ import com.sun.javafx.scene.control.skin.TableViewSkinBase;
  *     }
  *  });
  * }}</pre>
- * 
+ *
  * <h3>TableView Selection / Focus APIs</h3>
  * <p>To track selection and focus, it is necessary to become familiar with the
  * {@link SelectionModel} and {@link FocusModel} classes. A TableView has at most
- * one instance of each of these classes, available from 
- * {@link #selectionModelProperty() selectionModel} and 
+ * one instance of each of these classes, available from
+ * {@link #selectionModelProperty() selectionModel} and
  * {@link #focusModelProperty() focusModel} properties respectively.
  * Whilst it is possible to use this API to set a new selection model, in
  * most circumstances this is not necessary - the default selection and focus
  * models should work in most circumstances.
- * 
+ *
  * <p>The default {@link SelectionModel} used when instantiating a TableView is
- * an implementation of the {@link MultipleSelectionModel} abstract class. 
+ * an implementation of the {@link MultipleSelectionModel} abstract class.
  * However, as noted in the API documentation for
  * the {@link MultipleSelectionModel#selectionModeProperty() selectionMode}
- * property, the default value is {@link SelectionMode#SINGLE}. To enable 
+ * property, the default value is {@link SelectionMode#SINGLE}. To enable
  * multiple selection in a default TableView instance, it is therefore necessary
  * to do the following:
- * 
+ *
  * <pre>
- * {@code 
+ * {@code
  * tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);}</pre>
  *
  * <h3>Customizing TableView Visuals</h3>
- * <p>The visuals of the TableView can be entirely customized by replacing the 
+ * <p>The visuals of the TableView can be entirely customized by replacing the
  * default {@link #rowFactoryProperty() row factory}. A row factory is used to
  * generate {@link TableRow} instances, which are used to represent an entire
- * row in the TableView. 
- * 
+ * row in the TableView.
+ *
  * <p>In many cases, this is not what is desired however, as it is more commonly
  * the case that cells be customized on a per-column basis, not a per-row basis.
- * It is therefore important to note that a {@link TableRow} is not a 
+ * It is therefore important to note that a {@link TableRow} is not a
  * {@link TableCell}. A  {@link TableRow} is simply a container for zero or more
- * {@link TableCell}, and in most circumstances it is more likely that you'll 
+ * {@link TableCell}, and in most circumstances it is more likely that you'll
  * want to create custom TableCells, rather than TableRows. The primary use case
  * for creating custom TableRow instances would most probably be to introduce
  * some form of column spanning support.
- * 
- * <p>You can create custom {@link TableCell} instances per column by assigning 
+ *
+ * <p>You can create custom {@link TableCell} instances per column by assigning
  * the appropriate function to the TableColumn
  * {@link TableColumn#cellFactoryProperty() cell factory} property.
- * 
+ *
  * <p>See the {@link Cell} class documentation for a more complete
  * description of how to write custom Cells.
  *
@@ -353,7 +353,7 @@ import com.sun.javafx.scene.control.skin.TableViewSkinBase;
  */
 @DefaultProperty("items")
 public class TableView<S> extends Control {
-    
+
     /***************************************************************************
      *                                                                         *
      * Static properties and methods                                           *
@@ -365,7 +365,7 @@ public class TableView<S> extends Control {
     // are also duplicated in the TableViewSkin class - so any changes to these
     // strings must also be duplicated there
     static final String SET_CONTENT_WIDTH = "TableView.contentWidth";
-    
+
     /**
      * <p>Very simple resize policy that just resizes the specified column by the
      * provided delta and shifts all other columns (to the right of the given column)
@@ -381,7 +381,7 @@ public class TableView<S> extends Control {
         @Override public String toString() {
             return "unconstrained-resize";
         }
-        
+
         @Override public Boolean call(ResizeFeatures prop) {
             double result = TableUtil.resize(prop.getColumn(), prop.getDelta());
             return Double.compare(result, 0.0) == 0;
@@ -389,9 +389,9 @@ public class TableView<S> extends Control {
     };
 
     /**
-     * <p>Simple policy that ensures the width of all visible leaf columns in 
+     * <p>Simple policy that ensures the width of all visible leaf columns in
      * this table sum up to equal the width of the table itself.
-     * 
+     *
      * <p>When the user resizes a column width with this policy, the table automatically
      * adjusts the width of the right hand side columns. When the user increases a
      * column width, the table decreases the width of the rightmost column until it
@@ -403,26 +403,26 @@ public class TableView<S> extends Control {
     public static final Callback<ResizeFeatures, Boolean> CONSTRAINED_RESIZE_POLICY = new Callback<ResizeFeatures, Boolean>() {
 
         private boolean isFirstRun = true;
-        
+
         @Override public String toString() {
             return "constrained-resize";
         }
-        
+
         @Override public Boolean call(ResizeFeatures prop) {
             TableView<?> table = prop.getTable();
             List<? extends TableColumnBase<?,?>> visibleLeafColumns = table.getVisibleLeafColumns();
-            Boolean result = TableUtil.constrainedResize(prop, 
-                                               isFirstRun, 
+            Boolean result = TableUtil.constrainedResize(prop,
+                                               isFirstRun,
                                                table.contentWidth,
                                                visibleLeafColumns);
             isFirstRun = ! isFirstRun ? false : ! result;
             return result;
         }
     };
-    
+
     /**
      * The default {@link #sortPolicyProperty() sort policy} that this TableView
-     * will use if no other policy is specified. The sort policy is a simple 
+     * will use if no other policy is specified. The sort policy is a simple
      * {@link Callback} that accepts a TableView as the sole argument and expects
      * a Boolean response representing whether the sort succeeded or not. A Boolean
      * response of true represents success, and a response of false (or null) will
@@ -478,17 +478,17 @@ public class TableView<S> extends Control {
                 // NullPointerException - if the specified element is null and this list does not permit null elements
                 // IllegalArgumentException - if some property of this element prevents it from being added to this list
 
-                // If we are here the list does not support sorting, so we gracefully 
+                // If we are here the list does not support sorting, so we gracefully
                 // fail the sort request and ensure the UI is put back to its previous
                 // state. This is handled in the code that calls the sort policy.
-                
+
                 return false;
             }
         }
     };
-    
-    
-    
+
+
+
     /***************************************************************************
      *                                                                         *
      * Constructors                                                            *
@@ -497,7 +497,7 @@ public class TableView<S> extends Control {
 
     /**
      * Creates a default TableView control with no content.
-     * 
+     *
      * <p>Refer to the {@link TableView} class documentation for details on the
      * default state of other properties.
      */
@@ -509,10 +509,10 @@ public class TableView<S> extends Control {
      * Creates a TableView with the content provided in the items ObservableList.
      * This also sets up an observer such that any changes to the items list
      * will be immediately reflected in the TableView itself.
-     * 
+     *
      * <p>Refer to the {@link TableView} class documentation for details on the
      * default state of other properties.
-     * 
+     *
      * @param items The items to insert into the TableView, and the list to watch
      *          for changes (to automatically show in the TableView).
      */
@@ -556,13 +556,13 @@ public class TableView<S> extends Control {
         isInited = true;
     }
 
-    
-    
+
+
     /***************************************************************************
      *                                                                         *
      * Instance Variables                                                      *
      *                                                                         *
-     **************************************************************************/    
+     **************************************************************************/
 
     // this is the only publicly writable list for columns. This represents the
     // columns as they are given initially by the developer.
@@ -572,8 +572,8 @@ public class TableView<S> extends Control {
     // only the leaf columns that are currently visible.
     private final ObservableList<TableColumn<S,?>> visibleLeafColumns = FXCollections.observableArrayList();
     private final ObservableList<TableColumn<S,?>> unmodifiableVisibleLeafColumns = FXCollections.unmodifiableObservableList(visibleLeafColumns);
-    
-    
+
+
     // Allows for multiple column sorting based on the order of the TableColumns
     // in this observableArrayList. Each TableColumn is responsible for whether it is
     // sorted using ascending or descending order.
@@ -581,20 +581,20 @@ public class TableView<S> extends Control {
 
     // width of VirtualFlow minus the vbar width
     private double contentWidth;
-    
+
     // Used to minimise the amount of work performed prior to the table being
     // completely initialised. In particular it reduces the amount of column
     // resize operations that occur, which slightly improves startup time.
     private boolean isInited = false;
-    
-    
-    
+
+
+
     /***************************************************************************
      *                                                                         *
      * Callbacks and Events                                                    *
      *                                                                         *
      **************************************************************************/
-    
+
     private final ListChangeListener<TableColumn<S,?>> columnsObserver = new ListChangeListener<TableColumn<S,?>>() {
         @Override public void onChanged(Change<? extends TableColumn<S,?>> c) {
             final List<TableColumn<S,?>> columns = getColumns();
@@ -632,32 +632,32 @@ public class TableView<S> extends Control {
             // We don't maintain a bind for leafColumns, we simply call this update
             // function behind the scenes in the appropriate places.
             updateVisibleLeafColumns();
-            
-            // Fix for RT-15194: Need to remove removed columns from the 
+
+            // Fix for RT-15194: Need to remove removed columns from the
             // sortOrder list.
             List<TableColumn<S,?>> toRemove = new ArrayList<>();
             while (c.next()) {
                 final List<? extends TableColumn<S, ?>> removed = c.getRemoved();
                 final List<? extends TableColumn<S, ?>> added = c.getAddedSubList();
-                
+
                 if (c.wasRemoved()) {
                     toRemove.addAll(removed);
                     for (TableColumn<S,?> tc : removed) {
                         tc.setTableView(null);
                     }
                 }
-                
+
                 if (c.wasAdded()) {
                     toRemove.removeAll(added);
                     for (TableColumn<S,?> tc : added) {
                         tc.setTableView(TableView.this);
                     }
                 }
-                
+
                 // set up listeners
                 TableUtil.removeColumnsListener(removed, weakColumnsObserver);
                 TableUtil.addColumnsListener(added, weakColumnsObserver);
-                
+
                 TableUtil.removeTableColumnListener(c.getRemoved(),
                         weakColumnVisibleObserver,
                         weakColumnSortableObserver,
@@ -669,7 +669,7 @@ public class TableView<S> extends Control {
                         weakColumnSortTypeObserver,
                         weakColumnComparatorObserver);
             }
-            
+
             sortOrder.removeAll(toRemove);
 
             // Fix for RT-38892.
@@ -755,11 +755,11 @@ public class TableView<S> extends Control {
     };
 
     private final WeakHashMap<TableColumn<S,?>, Integer> lastKnownColumnIndex = new WeakHashMap<>();
-    
+
     private final InvalidationListener columnVisibleObserver = valueModel -> {
         updateVisibleLeafColumns();
     };
-    
+
     private final InvalidationListener columnSortableObserver = valueModel -> {
         Object col = ((Property<?>)valueModel).getBean();
         if (! getSortOrder().contains(col)) return;
@@ -771,41 +771,41 @@ public class TableView<S> extends Control {
         if (! getSortOrder().contains(col)) return;
         doSort(TableUtil.SortEventType.COLUMN_SORT_TYPE_CHANGE, col);
     };
-    
+
     private final InvalidationListener columnComparatorObserver = valueModel -> {
         Object col = ((Property<?>)valueModel).getBean();
         if (! getSortOrder().contains(col)) return;
         doSort(TableUtil.SortEventType.COLUMN_COMPARATOR_CHANGE, col);
     };
-    
+
     /* proxy pseudo-class state change from selectionModel's cellSelectionEnabledProperty */
     private final InvalidationListener cellSelectionModelInvalidationListener = o -> {
         final boolean isCellSelection = ((BooleanProperty)o).get();
         pseudoClassStateChanged(PSEUDO_CLASS_CELL_SELECTION,  isCellSelection);
         pseudoClassStateChanged(PSEUDO_CLASS_ROW_SELECTION,  !isCellSelection);
     };
-    
-    
-    private final WeakInvalidationListener weakColumnVisibleObserver = 
+
+
+    private final WeakInvalidationListener weakColumnVisibleObserver =
             new WeakInvalidationListener(columnVisibleObserver);
-    
-    private final WeakInvalidationListener weakColumnSortableObserver = 
+
+    private final WeakInvalidationListener weakColumnSortableObserver =
             new WeakInvalidationListener(columnSortableObserver);
-    
-    private final WeakInvalidationListener weakColumnSortTypeObserver = 
+
+    private final WeakInvalidationListener weakColumnSortTypeObserver =
             new WeakInvalidationListener(columnSortTypeObserver);
-    
-    private final WeakInvalidationListener weakColumnComparatorObserver = 
+
+    private final WeakInvalidationListener weakColumnComparatorObserver =
             new WeakInvalidationListener(columnComparatorObserver);
-    
-    private final WeakListChangeListener<TableColumn<S,?>> weakColumnsObserver = 
+
+    private final WeakListChangeListener<TableColumn<S,?>> weakColumnsObserver =
             new WeakListChangeListener<TableColumn<S,?>>(columnsObserver);
-    
-    private final WeakInvalidationListener weakCellSelectionModelInvalidationListener = 
+
+    private final WeakInvalidationListener weakCellSelectionModelInvalidationListener =
             new WeakInvalidationListener(cellSelectionModelInvalidationListener);
 
 
-    
+
     /***************************************************************************
      *                                                                         *
      * Properties                                                              *
@@ -819,7 +819,7 @@ public class TableView<S> extends Control {
      * type that must match the type of the TableView itself.
      */
     public final ObjectProperty<ObservableList<S>> itemsProperty() { return items; }
-    private ObjectProperty<ObservableList<S>> items = 
+    private ObjectProperty<ObservableList<S>> items =
         new SimpleObjectProperty<ObservableList<S>>(this, "items") {
             WeakReference<ObservableList<S>> oldItemsRef;
 
@@ -842,8 +842,8 @@ public class TableView<S> extends Control {
         };
     public final void setItems(ObservableList<S> value) { itemsProperty().set(value); }
     public final ObservableList<S> getItems() {return items.get(); }
-    
-    
+
+
     // --- Table menu button visible
     private BooleanProperty tableMenuButtonVisible;
     /**
@@ -864,8 +864,8 @@ public class TableView<S> extends Control {
     public final boolean isTableMenuButtonVisible() {
         return tableMenuButtonVisible == null ? false : tableMenuButtonVisible.get();
     }
-    
-    
+
+
     // --- Column Resize Policy
     private ObjectProperty<Callback<ResizeFeatures, Boolean>> columnResizePolicy;
     public final void setColumnResizePolicy(Callback<ResizeFeatures, Boolean> callback) {
@@ -885,7 +885,7 @@ public class TableView<S> extends Control {
         if (columnResizePolicy == null) {
             columnResizePolicy = new SimpleObjectProperty<Callback<ResizeFeatures, Boolean>>(this, "columnResizePolicy", UNCONSTRAINED_RESIZE_POLICY) {
                 private Callback<ResizeFeatures, Boolean> oldPolicy;
-                
+
                 @Override protected void invalidated() {
                     if (isInited) {
                         get().call(new ResizeFeatures(TableView.this, null, 0.0));
@@ -905,8 +905,8 @@ public class TableView<S> extends Control {
         }
         return columnResizePolicy;
     }
-    
-    
+
+
     // --- Row Factory
     private ObjectProperty<Callback<TableView<S>, TableRow<S>>> rowFactory;
 
@@ -937,8 +937,8 @@ public class TableView<S> extends Control {
     public final Callback<TableView<S>, TableRow<S>> getRowFactory() {
         return rowFactory == null ? null : rowFactory.get();
     }
-    
-    
+
+
     // --- Placeholder Node
     private ObjectProperty<Node> placeholder;
     /**
@@ -963,27 +963,27 @@ public class TableView<S> extends Control {
 
 
     // --- Selection Model
-    private ObjectProperty<TableViewSelectionModel<S>> selectionModel 
+    private ObjectProperty<TableViewSelectionModel<S>> selectionModel
             = new SimpleObjectProperty<TableViewSelectionModel<S>>(this, "selectionModel") {
 
         TableViewSelectionModel<S> oldValue = null;
-        
+
         @Override protected void invalidated() {
-            
+
             if (oldValue != null) {
                 oldValue.cellSelectionEnabledProperty().removeListener(weakCellSelectionModelInvalidationListener);
             }
-            
+
             oldValue = get();
-            
+
             if (oldValue != null) {
                 oldValue.cellSelectionEnabledProperty().addListener(weakCellSelectionModelInvalidationListener);
                 // fake an invalidation to ensure updated pseudo-class state
                 weakCellSelectionModelInvalidationListener.invalidated(oldValue.cellSelectionEnabledProperty());
-            } 
+            }
         }
     };
-    
+
     /**
      * The SelectionModel provides the API through which it is possible
      * to select single or multiple items within a TableView, as  well as inspect
@@ -1001,7 +1001,7 @@ public class TableView<S> extends Control {
         return selectionModel.get();
     }
 
-    
+
     // --- Focus Model
     private ObjectProperty<TableViewFocusModel<S>> focusModel;
     public final void setFocusModel(TableViewFocusModel<S> value) {
@@ -1021,10 +1021,10 @@ public class TableView<S> extends Control {
         }
         return focusModel;
     }
-    
-    
+
+
 //    // --- Span Model
-//    private ObjectProperty<SpanModel<S>> spanModel 
+//    private ObjectProperty<SpanModel<S>> spanModel
 //            = new SimpleObjectProperty<SpanModel<S>>(this, "spanModel") {
 //
 //        @Override protected void invalidated() {
@@ -1047,7 +1047,7 @@ public class TableView<S> extends Control {
 //    public final SpanModel<S> getSpanModel() {
 //        return spanModel.get();
 //    }
-    
+
     // --- Editable
     private BooleanProperty editable;
     public final void setEditable(boolean value) {
@@ -1058,7 +1058,7 @@ public class TableView<S> extends Control {
     }
     /**
      * Specifies whether this TableView is editable - only if the TableView, the
-     * TableColumn (if applicable) and the TableCells within it are both 
+     * TableColumn (if applicable) and the TableCells within it are both
      * editable will a TableCell be able to go into their editing state.
      */
     public final BooleanProperty editableProperty() {
@@ -1163,7 +1163,7 @@ public class TableView<S> extends Control {
         return editingCell;
     }
 
-    
+
     // --- Comparator (built via sortOrder list, so read-only)
     /**
      * The comparator property is a read-only property that is representative of the
@@ -1188,20 +1188,20 @@ public class TableView<S> extends Control {
         }
         return comparator;
     }
-    
-    
+
+
     // --- sortPolicy
     /**
      * The sort policy specifies how sorting in this TableView should be performed.
-     * For example, a basic sort policy may just call 
+     * For example, a basic sort policy may just call
      * {@code FXCollections.sort(tableView.getItems())}, whereas a more advanced
      * sort policy may call to a database to perform the necessary sorting on the
      * server-side.
-     * 
+     *
      * <p>TableView ships with a {@link TableView#DEFAULT_SORT_POLICY default
      * sort policy} that does precisely as mentioned above: it simply attempts
      * to sort the items list in-place.
-     * 
+     *
      * <p>It is recommended that rather than override the {@link TableView#sort() sort}
      * method that a different sort policy be provided instead.
      * @since JavaFX 8.0
@@ -1210,10 +1210,10 @@ public class TableView<S> extends Control {
     public final void setSortPolicy(Callback<TableView<S>, Boolean> callback) {
         sortPolicyProperty().set(callback);
     }
-    @SuppressWarnings("unchecked") 
+    @SuppressWarnings("unchecked")
     public final Callback<TableView<S>, Boolean> getSortPolicy() {
-        return sortPolicy == null ? 
-                (Callback<TableView<S>, Boolean>)(Object) DEFAULT_SORT_POLICY : 
+        return sortPolicy == null ?
+                (Callback<TableView<S>, Boolean>)(Object) DEFAULT_SORT_POLICY :
                 sortPolicy.get();
     }
     @SuppressWarnings("unchecked")
@@ -1228,26 +1228,26 @@ public class TableView<S> extends Control {
         }
         return sortPolicy;
     }
-    
-    
+
+
     // onSort
     /**
      * Called when there's a request to sort the control.
      * @since JavaFX 8.0
      */
     private ObjectProperty<EventHandler<SortEvent<TableView<S>>>> onSort;
-    
+
     public void setOnSort(EventHandler<SortEvent<TableView<S>>> value) {
         onSortProperty().set(value);
     }
-    
+
     public EventHandler<SortEvent<TableView<S>>> getOnSort() {
         if( onSort != null ) {
             return onSort.get();
         }
         return null;
     }
-    
+
     public ObjectProperty<EventHandler<SortEvent<TableView<S>>>> onSortProperty() {
         if( onSort == null ) {
             onSort = new ObjectPropertyBase<EventHandler<SortEvent<TableView<S>>>>() {
@@ -1256,7 +1256,7 @@ public class TableView<S> extends Control {
                     EventHandler<SortEvent<TableView<S>>> eventHandler = get();
                     setEventHandler(eventType, eventHandler);
                 }
-                
+
                 @Override public Object getBean() {
                     return TableView.this;
                 }
@@ -1269,7 +1269,7 @@ public class TableView<S> extends Control {
         return onSort;
     }
 
-    
+
     /***************************************************************************
      *                                                                         *
      * Public API                                                              *
@@ -1286,28 +1286,28 @@ public class TableView<S> extends Control {
     public final ObservableList<TableColumn<S,?>> getColumns() {
         return columns;
     }
-    
+
     /**
      * The sortOrder list defines the order in which {@link TableColumn} instances
      * are sorted. An empty sortOrder list means that no sorting is being applied
-     * on the TableView. If the sortOrder list has one TableColumn within it, 
-     * the TableView will be sorted using the 
+     * on the TableView. If the sortOrder list has one TableColumn within it,
+     * the TableView will be sorted using the
      * {@link TableColumn#sortTypeProperty() sortType} and
      * {@link TableColumn#comparatorProperty() comparator} properties of this
-     * TableColumn (assuming 
+     * TableColumn (assuming
      * {@link TableColumn#sortableProperty() TableColumn.sortable} is true).
      * If the sortOrder list contains multiple TableColumn instances, then
-     * the TableView is firstly sorted based on the properties of the first 
+     * the TableView is firstly sorted based on the properties of the first
      * TableColumn. If two elements are considered equal, then the second
      * TableColumn in the list is used to determine ordering. This repeats until
      * the results from all TableColumn comparators are considered, if necessary.
-     * 
+     *
      * @return An ObservableList containing zero or more TableColumn instances.
      */
     public final ObservableList<TableColumn<S,?>> getSortOrder() {
         return sortOrder;
     }
-    
+
     /**
      * Scrolls the TableView so that the given index is visible within the viewport.
      * @param index The index of an item that should be visible to the user.
@@ -1315,7 +1315,7 @@ public class TableView<S> extends Control {
     public void scrollTo(int index) {
        ControlUtils.scrollToIndex(this, index);
     }
-    
+
     /**
      * Scrolls the TableView so that the given object is visible within the viewport.
      * @param object The object that should be visible to the user.
@@ -1325,29 +1325,29 @@ public class TableView<S> extends Control {
         if( getItems() != null ) {
             int idx = getItems().indexOf(object);
             if( idx >= 0 ) {
-                ControlUtils.scrollToIndex(this, idx);        
+                ControlUtils.scrollToIndex(this, idx);
             }
         }
     }
-    
+
     /**
      * Called when there's a request to scroll an index into view using {@link #scrollTo(int)}
      * or {@link #scrollTo(Object)}
      * @since JavaFX 8.0
      */
     private ObjectProperty<EventHandler<ScrollToEvent<Integer>>> onScrollTo;
-    
+
     public void setOnScrollTo(EventHandler<ScrollToEvent<Integer>> value) {
         onScrollToProperty().set(value);
     }
-    
+
     public EventHandler<ScrollToEvent<Integer>> getOnScrollTo() {
         if( onScrollTo != null ) {
             return onScrollTo.get();
         }
         return null;
     }
-    
+
     public ObjectProperty<EventHandler<ScrollToEvent<Integer>>> onScrollToProperty() {
         if( onScrollTo == null ) {
             onScrollTo = new ObjectPropertyBase<EventHandler<ScrollToEvent<Integer>>>() {
@@ -1368,7 +1368,7 @@ public class TableView<S> extends Control {
         }
         return onScrollTo;
     }
-    
+
     /**
      * Scrolls the TableView so that the given column is visible within the viewport.
      * @param column The column that should be visible to the user.
@@ -1377,7 +1377,7 @@ public class TableView<S> extends Control {
     public void scrollToColumn(TableColumn<S, ?> column) {
         ControlUtils.scrollToColumn(this, column);
     }
-    
+
     /**
      * Scrolls the TableView so that the given index is visible within the viewport.
      * @param columnIndex The index of a column that should be visible to the user.
@@ -1388,25 +1388,25 @@ public class TableView<S> extends Control {
             ControlUtils.scrollToColumn(this, getColumns().get(columnIndex));
         }
     }
-    
+
     /**
-     * Called when there's a request to scroll a column into view using {@link #scrollToColumn(TableColumn)} 
+     * Called when there's a request to scroll a column into view using {@link #scrollToColumn(TableColumn)}
      * or {@link #scrollToColumnIndex(int)}
      * @since JavaFX 8.0
      */
     private ObjectProperty<EventHandler<ScrollToEvent<TableColumn<S, ?>>>> onScrollToColumn;
-    
+
     public void setOnScrollToColumn(EventHandler<ScrollToEvent<TableColumn<S, ?>>> value) {
         onScrollToColumnProperty().set(value);
     }
-    
+
     public EventHandler<ScrollToEvent<TableColumn<S, ?>>> getOnScrollToColumn() {
         if( onScrollToColumn != null ) {
             return onScrollToColumn.get();
         }
         return null;
     }
-    
+
     public ObjectProperty<EventHandler<ScrollToEvent<TableColumn<S, ?>>>> onScrollToColumnProperty() {
         if( onScrollToColumn == null ) {
             onScrollToColumn = new ObjectPropertyBase<EventHandler<ScrollToEvent<TableColumn<S, ?>>>>() {
@@ -1414,7 +1414,7 @@ public class TableView<S> extends Control {
                     EventType<ScrollToEvent<TableColumn<S, ?>>> type = ScrollToEvent.scrollToColumn();
                     setEventHandler(type, get());
                 }
-                
+
                 @Override public Object getBean() {
                     return TableView.this;
                 }
@@ -1426,7 +1426,7 @@ public class TableView<S> extends Control {
         }
         return onScrollToColumn;
     }
-    
+
     /**
      * Applies the currently installed resize policy against the given column,
      * resizing it based on the delta value provided.
@@ -1442,7 +1442,7 @@ public class TableView<S> extends Control {
 
     /**
      * Causes the cell at the given row/column view indexes to switch into
-     * its editing state, if it is not already in it, and assuming that the 
+     * its editing state, if it is not already in it, and assuming that the
      * TableView and column are also editable.
      *
      * <p><strong>Note:</strong> This method will cancel editing if the given row
@@ -1459,7 +1459,7 @@ public class TableView<S> extends Control {
             setEditingCell(new TablePosition<>(this, row, column));
         }
     }
-    
+
     /**
      * Returns an unmodifiable list containing the currently visible leaf columns.
      */
@@ -1467,9 +1467,9 @@ public class TableView<S> extends Control {
     public ObservableList<TableColumn<S,?>> getVisibleLeafColumns() {
         return unmodifiableVisibleLeafColumns;
     }
-    
+
     /**
-     * Returns the position of the given column, relative to all other 
+     * Returns the position of the given column, relative to all other
      * visible leaf columns.
      */
     public int getVisibleLeafIndex(TableColumn<S,?> column) {
@@ -1489,20 +1489,20 @@ public class TableView<S> extends Control {
     @Override protected Skin<?> createDefaultSkin() {
         return new TableViewSkin<S>(this);
     }
-    
+
     /**
-     * The sort method forces the TableView to re-run its sorting algorithm. More 
+     * The sort method forces the TableView to re-run its sorting algorithm. More
      * often than not it is not necessary to call this method directly, as it is
-     * automatically called when the {@link #getSortOrder() sort order}, 
-     * {@link #sortPolicyProperty() sort policy}, or the state of the 
-     * TableColumn {@link TableColumn#sortTypeProperty() sort type} properties 
+     * automatically called when the {@link #getSortOrder() sort order},
+     * {@link #sortPolicyProperty() sort policy}, or the state of the
+     * TableColumn {@link TableColumn#sortTypeProperty() sort type} properties
      * change. In other words, this method should only be called directly when
      * something external changes and a sort is required.
      * @since JavaFX 8.0
      */
     public void sort() {
         final ObservableList<? extends TableColumnBase<S,?>> sortOrder = getSortOrder();
-        
+
         // update the Comparator property
         final Comparator<S> oldComparator = getComparator();
         setComparator(sortOrder.isEmpty() ? null : new TableColumnComparator(sortOrder));
@@ -1513,9 +1513,9 @@ public class TableView<S> extends Control {
         fireEvent(sortEvent);
         if (sortEvent.isConsumed()) {
             // if the sort is consumed we could back out the last action (the code
-            // is commented out right below), but we don't as we take it as a 
+            // is commented out right below), but we don't as we take it as a
             // sign that the developer has decided to handle the event themselves.
-            
+
             // sortLock = true;
             // TableUtil.handleSortFailure(sortOrder, lastSortEventType, lastSortEventSupportInfo);
             // sortLock = false;
@@ -1536,7 +1536,7 @@ public class TableView<S> extends Control {
         Boolean success = sortPolicy.call(this);
 
         getSelectionModel().stopAtomic();
-        
+
         if (success == null || ! success) {
             // the sort was a failure. Need to backout if possible
             sortLock = true;
@@ -1585,24 +1585,24 @@ public class TableView<S> extends Control {
     public void refresh() {
         getProperties().put(TableViewSkinBase.RECREATE, Boolean.TRUE);
     }
-    
-    
+
+
 
     /***************************************************************************
      *                                                                         *
      * Private Implementation                                                  *
      *                                                                         *
      **************************************************************************/
-    
+
     private boolean sortLock = false;
     private TableUtil.SortEventType lastSortEventType = null;
     private Object[] lastSortEventSupportInfo = null;
-    
+
     private void doSort(final TableUtil.SortEventType sortEventType, final Object... supportInfo) {
         if (sortLock) {
             return;
         }
-        
+
         this.lastSortEventType = sortEventType;
         this.lastSortEventSupportInfo = supportInfo;
         sort();
@@ -1623,7 +1623,7 @@ public class TableView<S> extends Control {
             getColumnResizePolicy().call(new ResizeFeatures<S>(TableView.this, null, 0.0));
         }
     }
-    
+
     /**
      * Recomputes the currently visible leaf columns in this TableView.
      */
@@ -1654,9 +1654,9 @@ public class TableView<S> extends Control {
             }
         }
     }
-    
 
-    
+
+
     /***************************************************************************
      *                                                                         *
      * Stylesheet Handling                                                     *
@@ -1771,7 +1771,7 @@ public class TableView<S> extends Control {
      **************************************************************************/
 
      /**
-      * An immutable wrapper class for use in the TableView 
+      * An immutable wrapper class for use in the TableView
      * {@link TableView#columnResizePolicyProperty() column resize} functionality.
       * @since JavaFX 2.0
       */
@@ -1779,36 +1779,36 @@ public class TableView<S> extends Control {
         private TableView<S> table;
 
         /**
-         * Creates an instance of this class, with the provided TableView, 
+         * Creates an instance of this class, with the provided TableView,
          * TableColumn and delta values being set and stored in this immutable
          * instance.
-         * 
+         *
          * @param table The TableView upon which the resize operation is occurring.
          * @param column The column upon which the resize is occurring, or null
          *      if this ResizeFeatures instance is being created as a result of a
          *      TableView resize operation.
-         * @param delta The amount of horizontal space added or removed in the 
+         * @param delta The amount of horizontal space added or removed in the
          *      resize operation.
          */
         public ResizeFeatures(TableView<S> table, TableColumn<S,?> column, Double delta) {
             super(column, delta);
             this.table = table;
         }
-        
+
         /**
          * Returns the column upon which the resize is occurring, or null
          * if this ResizeFeatures instance was created as a result of a
          * TableView resize operation.
          */
-        @Override public TableColumn<S,?> getColumn() { 
-            return (TableColumn<S,?>) super.getColumn(); 
+        @Override public TableColumn<S,?> getColumn() {
+            return (TableColumn<S,?>) super.getColumn();
         }
-        
+
         /**
          * Returns the TableView upon which the resize operation is occurring.
          */
-        public TableView<S> getTable() { 
-            return table; 
+        public TableView<S> getTable() {
+            return table;
         }
     }
 
@@ -1820,7 +1820,7 @@ public class TableView<S> extends Control {
      *                                                                         *
      **************************************************************************/
 
-     
+
     /**
      * A simple extension of the {@link SelectionModel} abstract class to
      * allow for special support for TableView controls.
@@ -1870,7 +1870,7 @@ public class TableView<S> extends Control {
          **********************************************************************/
 
         /**
-         * A read-only ObservableList representing the currently selected cells 
+         * A read-only ObservableList representing the currently selected cells
          * in this TableView. Rather than directly modify this list, please
          * use the other methods provided in the TableViewSelectionModel.
          */
@@ -2017,8 +2017,8 @@ public class TableView<S> extends Control {
             return getTableView().getFocusModel().getFocusedCell();
         }
     }
-    
-    
+
+
 
     /**
      * A primitive selection model implementation, using a List<Integer> to store all
@@ -2026,7 +2026,7 @@ public class TableView<S> extends Control {
      */
     // package for testing
     static class TableViewArrayListSelectionModel<S> extends TableViewSelectionModel<S> {
-        
+
         private int itemCount = 0;
 
         private final MappingChange.Map<TablePosition<S,?>,S> cellToItemsMap = f -> getModelItem(f.getRow());
@@ -2068,7 +2068,7 @@ public class TableView<S> extends Control {
                     return getSelectedIndices().size();
                 }
             };
-            
+
             selectedCellsSeq = new ReadOnlyUnbackedObservableList<TablePosition<S,?>>() {
                 @Override public TablePosition<S,?> get(int i) {
                     return selectedCellsMap.get(i);
@@ -2105,9 +2105,9 @@ public class TableView<S> extends Control {
                 TableCellBehaviorBase.setAnchor(tableView, getFocusedCell(), true);
             });
         }
-        
+
         private final TableView<S> tableView;
-        
+
         final ListChangeListener<S> itemsContentListener = c -> {
             updateItemCount();
 
@@ -2149,10 +2149,10 @@ public class TableView<S> extends Control {
 
             updateSelection(c);
         };
-        
-        final WeakListChangeListener<S> weakItemsContentListener 
+
+        final WeakListChangeListener<S> weakItemsContentListener
                 = new WeakListChangeListener<>(itemsContentListener);
-        
+
 
 
         /***********************************************************************
@@ -2160,7 +2160,7 @@ public class TableView<S> extends Control {
          * Observable properties (and getters/setters)                         *
          *                                                                     *
          **********************************************************************/
-        
+
         // the only 'proper' internal data structure, selectedItems and selectedIndices
         // are both 'read-only and unbacked'.
         private final SelectedCellsMap<TablePosition<S,?>> selectedCellsMap;
@@ -2187,9 +2187,9 @@ public class TableView<S> extends Control {
          **********************************************************************/
 
         private int previousModelSize = 0;
-        
-        // Listen to changes in the tableview items list, such that when it 
-        // changes we can update the selected indices list to refer to the 
+
+        // Listen to changes in the tableview items list, such that when it
+        // changes we can update the selected indices list to refer to the
         // new indices.
         private void updateSelection(ListChangeListener.Change<? extends S> c) {
             c.reset();
@@ -2203,7 +2203,7 @@ public class TableView<S> extends Control {
                         clearSelection();
                     } else {
                         int index = getSelectedIndex();
-                        
+
                         if (previousModelSize == c.getRemovedSize()) {
                             // all items were removed from the model
                             clearSelection();
@@ -2329,7 +2329,7 @@ public class TableView<S> extends Control {
                     blockFocusCall = false;
                 }
             }
-            
+
             previousModelSize = getItemCount();
         }
 
@@ -2442,7 +2442,7 @@ public class TableView<S> extends Control {
             }
 
             TablePosition<S,?> pos = new TablePosition<>(getTableView(), row, column);
-            
+
             if (getSelectionMode() == SelectionMode.SINGLE) {
                 startAtomic();
                 quietClearSelection();
@@ -2464,7 +2464,7 @@ public class TableView<S> extends Control {
                 clearSelection();
                 return;
             }
-            
+
             // We have no option but to iterate through the model and select the
             // first occurrence of the given object. Once we find the first one, we
             // don't proceed to select any others.
@@ -2573,7 +2573,7 @@ public class TableView<S> extends Control {
                 }
 
                 selectedCellsMap.addAll(positions);
-                
+
                 if (lastIndex != -1) {
                     select(lastIndex);
                 }
@@ -2595,7 +2595,7 @@ public class TableView<S> extends Control {
                     }
                 }
                 selectedCellsMap.setAll(indices);
-                
+
                 if (tp != null) {
                     select(tp.getRow(), tp.getTableColumn());
                     focus(tp.getRow(), tp.getTableColumn());
@@ -2606,7 +2606,7 @@ public class TableView<S> extends Control {
                     indices.add(new TablePosition<>(getTableView(), i, null));
                 }
                 selectedCellsMap.setAll(indices);
-                
+
                 int focusedIndex = getFocusedIndex();
                 if (focusedIndex == -1) {
                     final int itemCount = getItemCount();
@@ -2929,11 +2929,11 @@ public class TableView<S> extends Control {
             select(newSelectionIndex, isCellSelectionEnabled() ? getTableColumn(0) : null);
             focus(newFocusIndex, isCellSelectionEnabled() ? getTableColumn(0) : null);
         }
-        
+
         private TableColumn<S,?> getTableColumn(int pos) {
             return getTableView().getVisibleLeafColumn(pos);
         }
-        
+
         // Gets a table column to the left or right of the current one, given an offset
         private TableColumn<S,?> getTableColumn(TableColumn<S,?> column, int offset) {
             int columnIndex = getTableView().getVisibleLeafIndex(column);
@@ -2945,7 +2945,7 @@ public class TableView<S> extends Control {
             setSelectedIndex(row);
             setSelectedItem(getModelItem(row));
         }
-        
+
         /** {@inheritDoc} */
         @Override protected int getItemCount() {
             return itemCount;
@@ -3109,14 +3109,14 @@ public class TableView<S> extends Control {
             c.reset();
         }
     }
-    
-    
-    
-    
+
+
+
+
     /**
      * A {@link FocusModel} with additional functionality to support the requirements
      * of a TableView control.
-     * 
+     *
      * @see TableView
      * @since JavaFX 2.0
      */
@@ -3129,7 +3129,7 @@ public class TableView<S> extends Control {
         /**
          * Creates a default TableViewFocusModel instance that will be used to
          * manage focus of the provided TableView control.
-         * 
+         *
          * @param tableView The tableView upon which this focus model operates.
          * @throws NullPointerException The TableView argument can not be null.
          */
@@ -3157,7 +3157,7 @@ public class TableView<S> extends Control {
 
             updateDefaultFocus();
         }
-        
+
         // Listen to changes in the tableview items list, such that when it
         // changes we can update the focused index to refer to the new indices.
         private final ListChangeListener<S> itemsContentListener = c -> {
@@ -3193,10 +3193,10 @@ public class TableView<S> extends Control {
                 }
             }
         };
-        
-        private WeakListChangeListener<S> weakItemsContentListener 
+
+        private WeakListChangeListener<S> weakItemsContentListener
                 = new WeakListChangeListener<>(itemsContentListener);
-        
+
         private void updateItemsObserver(ObservableList<S> oldList, ObservableList<S> newList) {
             // the tableview items list has changed, we need to observe
             // the new list, and remove any observer we had from the old list
@@ -3286,7 +3286,7 @@ public class TableView<S> extends Control {
         /**
          * Convenience method for setting focus on a particular row or cell
          * using a {@link TablePosition}.
-         * 
+         *
          * @param pos The table position where focus should be set.
          */
         public void focus(TablePosition pos) {

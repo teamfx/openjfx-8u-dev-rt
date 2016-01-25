@@ -292,7 +292,7 @@ public class MacAppStoreBundler extends MacBaseInstallerBundler {
 
         int majorVersion;
         int updateVersion;
-        
+
         try {
             majorVersion = Integer.parseInt(params.get(".runtime.version.major").toString());
             updateVersion = Integer.parseInt(params.get(".runtime.version.update").toString());
@@ -301,7 +301,7 @@ public class MacAppStoreBundler extends MacBaseInstallerBundler {
             majorVersion = 8;
             updateVersion = 60;
         }
-        
+
         // Quicktime
         // before 8u40 it was all of media
         // after 8u40 QTKit dependencies are isolated in it's own library
@@ -310,13 +310,13 @@ public class MacAppStoreBundler extends MacBaseInstallerBundler {
         } else {
             rules.add(JreUtils.Rule.suffixNeg("/lib/libjfxmedia.dylib"));
         }
-        
+
         // webkit
         // 8u60 webkit started using an API Apple didn't like
         if (majorVersion == 8 && updateVersion >= 60) {
             rules.add(JreUtils.Rule.suffixNeg("/lib/libjfxwebkit.dylib"));
         }
-        
+
         return rules.toArray(new JreUtils.Rule[rules.size()]);
     }
 

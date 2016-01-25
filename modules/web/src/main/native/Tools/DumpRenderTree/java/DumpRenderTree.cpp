@@ -40,14 +40,14 @@ JNIEXPORT void JNICALL Java_com_sun_javafx_webkit_drt_DumpRenderTree_didClearWin
     ASSERT(pContext);
     ASSERT(pWindowObject);
     ASSERT(eventSender);
-    
+
     JSGlobalContextRef context =
             static_cast<JSGlobalContextRef>(jlong_to_ptr(pContext));
     JSObjectRef windowObject =
             static_cast<JSObjectRef>(jlong_to_ptr(pWindowObject));
-    
+
     JSValueRef exception = 0;
-    
+
     gTestRunner->makeWindowObject(context, windowObject, &exception);
     ASSERT(!exception);
 

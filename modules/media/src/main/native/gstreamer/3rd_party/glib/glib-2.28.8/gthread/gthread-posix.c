@@ -47,37 +47,37 @@
 #include <sched.h>
 #endif
 
-#define posix_check_err(err, name) G_STMT_START{			\
-  int error = (err); 							\
-  if (error)	 		 		 			\
-    g_error ("file %s: line %d (%s): error '%s' during '%s'",		\
-           __FILE__, __LINE__, G_STRFUNC,				\
-           g_strerror (error), name);					\
+#define posix_check_err(err, name) G_STMT_START{            \
+  int error = (err);                            \
+  if (error)                                \
+    g_error ("file %s: line %d (%s): error '%s' during '%s'",       \
+           __FILE__, __LINE__, G_STRFUNC,               \
+           g_strerror (error), name);                   \
   }G_STMT_END
 
 #define posix_check_cmd(cmd) posix_check_err (posix_error (cmd), #cmd)
 
 #ifdef G_ENABLE_DEBUG
 static gboolean posix_check_cmd_prio_warned = FALSE;
-# define posix_check_cmd_prio(cmd) G_STMT_START{			\
-    int err = posix_error (cmd);					\
-    if (err == EPERM)		 		 			\
-      { 	 			 				\
-        if (!posix_check_cmd_prio_warned) 		 		\
-          { 	 				 			\
-            posix_check_cmd_prio_warned = TRUE;		 		\
-            g_warning ("Priorities can only be changed " 		\
-                        "(resp. increased) by root."); 			\
-          }			 					\
-      }			 						\
-    else  		 						\
-      posix_check_err (err, #cmd);					\
+# define posix_check_cmd_prio(cmd) G_STMT_START{            \
+    int err = posix_error (cmd);                    \
+    if (err == EPERM)                           \
+      {                                 \
+        if (!posix_check_cmd_prio_warned)               \
+          {                                 \
+            posix_check_cmd_prio_warned = TRUE;             \
+            g_warning ("Priorities can only be changed "        \
+                        "(resp. increased) by root.");          \
+          }                             \
+      }                                 \
+    else                                \
+      posix_check_err (err, #cmd);                  \
      }G_STMT_END
 #else /* G_ENABLE_DEBUG */
-# define posix_check_cmd_prio(cmd) G_STMT_START{			\
-    int err = posix_error (cmd);					\
-    if (err != EPERM)		 		 			\
-      posix_check_err (err, #cmd);					\
+# define posix_check_cmd_prio(cmd) G_STMT_START{            \
+    int err = posix_error (cmd);                    \
+    if (err != EPERM)                           \
+      posix_check_err (err, #cmd);                  \
      }G_STMT_END
 #endif /* G_ENABLE_DEBUG */
 
@@ -119,7 +119,7 @@ static gulong g_thread_min_stack_size = 0;
 
 #define G_MUTEX_SIZE (sizeof (pthread_mutex_t))
 
-#if defined(HAVE_CLOCK_GETTIME) && defined(HAVE_MONOTONIC_CLOCK) 
+#if defined(HAVE_CLOCK_GETTIME) && defined(HAVE_MONOTONIC_CLOCK)
 #define USE_CLOCK_GETTIME 1
 static gint posix_clock = 0;
 #endif
@@ -142,8 +142,8 @@ g_thread_impl_init(void)
   }
 # else /* G_THREADS_IMPL_DCE */
   posix_check_cmd (priority_normal_value =
-		   pthread_getprio (*(pthread_t*)thread,
-				    g_thread_priority_map [priority]));
+           pthread_getprio (*(pthread_t*)thread,
+                    g_thread_priority_map [priority]));
 # endif
 #endif /* HAVE_PRIORITIES */
 
@@ -161,7 +161,7 @@ g_mutex_new_posix_impl (void)
 {
   GMutex *result = (GMutex *) g_new (pthread_mutex_t, 1);
   posix_check_cmd (pthread_mutex_init ((pthread_mutex_t *) result,
-				       mutexattr_default));
+                       mutexattr_default));
   return result;
 }
 
@@ -203,7 +203,7 @@ g_cond_new_posix_impl (void)
 {
   GCond *result = (GCond *) g_new (pthread_cond_t, 1);
   posix_check_cmd (pthread_cond_init ((pthread_cond_t *) result,
-				      condattr_default));
+                      condattr_default));
   return result;
 }
 
@@ -216,8 +216,8 @@ g_cond_new_posix_impl (void)
 
 static gboolean
 g_cond_timed_wait_posix_impl (GCond * cond,
-			      GMutex * entered_mutex,
-			      GTimeVal * abs_time)
+                  GMutex * entered_mutex,
+                  GTimeVal * abs_time)
 {
   int result;
   struct timespec end_time;
@@ -292,7 +292,7 @@ g_private_get_posix_impl (GPrivate * private_key)
   {
     void* data;
     posix_check_cmd (pthread_getspecific (*(pthread_key_t *) private_key,
-					  &data));
+                      &data));
     return data;
   }
 #endif
@@ -300,13 +300,13 @@ g_private_get_posix_impl (GPrivate * private_key)
 
 static void
 g_thread_create_posix_impl (GThreadFunc thread_func,
-			    gpointer arg,
-			    gulong stack_size,
-			    gboolean joinable,
-			    gboolean bound,
-			    GThreadPriority priority,
-			    gpointer thread,
-			    GError **error)
+                gpointer arg,
+                gulong stack_size,
+                gboolean joinable,
+                gboolean bound,
+                GThreadPriority priority,
+                gpointer thread,
+                GError **error)
 {
   pthread_attr_t attr;
   gint ret;
@@ -353,14 +353,14 @@ g_thread_create_posix_impl (GThreadFunc thread_func,
 # endif /* G_THREADS_IMPL_DCE */
 #endif /* HAVE_PRIORITIES */
   ret = posix_error (pthread_create (thread, &attr,
-				     (void* (*)(void*))thread_func, arg));
+                     (void* (*)(void*))thread_func, arg));
 
   posix_check_cmd (pthread_attr_destroy (&attr));
 
   if (ret == EAGAIN)
     {
-      g_set_error (error, G_THREAD_ERROR, G_THREAD_ERROR_AGAIN, 
-		   "Error creating thread: %s", g_strerror (ret));
+      g_set_error (error, G_THREAD_ERROR, G_THREAD_ERROR_AGAIN,
+           "Error creating thread: %s", g_strerror (ret));
       return;
     }
 
@@ -402,14 +402,14 @@ g_thread_set_priority_posix_impl (gpointer thread, GThreadPriority priority)
     struct sched_param sched;
     int policy;
     posix_check_cmd (pthread_getschedparam (*(pthread_t*)thread, &policy,
-					    &sched));
+                        &sched));
     sched.sched_priority = g_thread_priority_map [priority];
     posix_check_cmd_prio (pthread_setschedparam (*(pthread_t*)thread, policy,
-						 &sched));
+                         &sched));
   }
 # else /* G_THREADS_IMPL_DCE */
   posix_check_cmd_prio (pthread_setprio (*(pthread_t*)thread,
-					 g_thread_priority_map [priority]));
+                     g_thread_priority_map [priority]));
 # endif
 #endif /* HAVE_PRIORITIES */
 }
@@ -426,7 +426,7 @@ g_thread_equal_posix_impl (gpointer thread1, gpointer thread2)
   return (pthread_equal (*(pthread_t*)thread1, *(pthread_t*)thread2) != 0);
 }
 
-#ifdef USE_CLOCK_GETTIME 
+#ifdef USE_CLOCK_GETTIME
 static guint64
 gettime (void)
 {

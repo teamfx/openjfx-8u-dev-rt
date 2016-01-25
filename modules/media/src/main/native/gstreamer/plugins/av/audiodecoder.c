@@ -202,13 +202,13 @@ static gboolean audiodecoder_init_state(AudioDecoder *decoder)
 #else
     decoder->codec_id = CODEC_ID_NONE;
 #endif
-    
+
 #if !DECODE_AUDIO4
     decoder->samples = av_mallocz(AVCODEC_MAX_AUDIO_FRAME_SIZE + FF_INPUT_BUFFER_PADDING_SIZE);
     if (!decoder->samples)
         return FALSE;
 #endif
-    
+
     decoder->total_samples = 0;
     decoder->initial_offset = GST_BUFFER_OFFSET_NONE;
     decoder->duration = GST_CLOCK_TIME_NONE;
@@ -245,7 +245,7 @@ static void audiodecoder_close_decoder(AudioDecoder *decoder)
         decoder->samples = NULL;
     }
 #endif
-    
+
     basedecoder_close_decoder(BASEDECODER(decoder));
 }
 
@@ -585,7 +585,7 @@ static gboolean audiodecoder_open_init(AudioDecoder *decoder, GstBuffer *buffer)
     // Limit the number of output channels to 2 because audiopanorama element accepts only up to 2 channels
     if (decoder->num_channels > AUDIODECODER_OUT_NUM_CHANNELS)
         decoder->num_channels = AUDIODECODER_OUT_NUM_CHANNELS;
-    
+
     // Source caps: PCM audio.
     caps = gst_caps_new_simple("audio/x-raw-int",
                                "rate", G_TYPE_INT,
@@ -630,13 +630,13 @@ static GstFlowReturn audiodecoder_chain(GstPad *pad, GstBuffer *buf)
  #else
     gint          outbuf_size = AVCODEC_MAX_AUDIO_FRAME_SIZE;
 #endif
-    
+
 #ifdef VERBOSE_DEBUG
     g_print("audiodecoder: incoming size=%d, ts=%.4f, duration=%.4f ", GST_BUFFER_SIZE(buf),
             GST_BUFFER_TIMESTAMP_IS_VALID(buf) ? (double)GST_BUFFER_TIMESTAMP(buf)/GST_SECOND : -1.0,
             GST_BUFFER_DURATION_IS_VALID(buf) ? (double)GST_BUFFER_DURATION(buf)/GST_SECOND : -1.0);
 #endif
-   
+
     // If we have incoming buffers with PTS, then use them.
     decoder->generate_pts = !GST_BUFFER_TIMESTAMP_IS_VALID(buf);
 
@@ -681,7 +681,7 @@ static GstFlowReturn audiodecoder_chain(GstPad *pad, GstBuffer *buf)
     num_dec = avcodec_decode_audio3(base->context, (int16_t*)decoder->samples, &outbuf_size, &decoder->packet);
 #endif
 
-    
+
 #if DECODE_AUDIO4
     if (num_dec < 0 || !got_frame)
 #else
@@ -702,7 +702,7 @@ static GstFlowReturn audiodecoder_chain(GstPad *pad, GstBuffer *buf)
                                  g_strdup("Unsupported decoded audio format"), NULL, ("audiodecoder.c"), ("audiodecoder_chain"), 0);
         goto _exit;
     }
-    
+
     int outbuf_size = av_samples_get_buffer_size(NULL, decoder->num_channels, base->frame->nb_samples, AV_SAMPLE_FMT_S16, 1);
     if (outbuf_size < 0) {
         goto _exit;
@@ -731,9 +731,9 @@ static GstFlowReturn audiodecoder_chain(GstPad *pad, GstBuffer *buf)
         for (sample = 0; sample < base->frame->nb_samples; sample++)
         {
             int cc = decoder->num_channels;
-            for (ci = 0; ci < cc && ci < AUDIODECODER_OUT_NUM_CHANNELS; ci++) 
+            for (ci = 0; ci < cc && ci < AUDIODECODER_OUT_NUM_CHANNELS; ci++)
             {
-                switch (base->frame->format) 
+                switch (base->frame->format)
                 {
                     case AV_SAMPLE_FMT_S16P:
                         buffer[cc * sample + ci] = ((int16_t*)base->frame->data[ci])[sample];
@@ -744,21 +744,21 @@ static GstFlowReturn audiodecoder_chain(GstPad *pad, GstBuffer *buf)
                 }
             }
         }
-    } 
+    }
     else if (base->frame->format == AV_SAMPLE_FMT_S16)
         memcpy(GST_BUFFER_DATA(outbuf), base->frame->data[0], GST_BUFFER_SIZE(outbuf));
-    else 
+    else
     {
         gst_element_message_full(GST_ELEMENT(decoder), GST_MESSAGE_ERROR, GST_RESOURCE_ERROR, GST_RESOURCE_ERROR_NO_SPACE_LEFT,
                                  g_strdup("Unsupported decoder output format"), NULL, ("audiodecoder.c"), ("audiodecoder_chain"), 0);
         ret = GST_FLOW_ERROR;
         goto _exit;
-    }    
-        
+    }
+
 #else
     memcpy(GST_BUFFER_DATA(outbuf), decoder->samples, GST_BUFFER_SIZE(outbuf));
 #endif
-    
+
     // Set output buffer properties.
     if (decoder->generate_pts)
     {
@@ -794,12 +794,12 @@ static GstFlowReturn audiodecoder_chain(GstPad *pad, GstBuffer *buf)
     }
 
 #ifdef VERBOSE_DEBUG
-    g_print("ret=%s, num_dec=%d, Buffer: size=%d, ts=%.4f, duration=%.4f, offset=%ld, offset_end=%ld\n", 
+    g_print("ret=%s, num_dec=%d, Buffer: size=%d, ts=%.4f, duration=%.4f, offset=%ld, offset_end=%ld\n",
             gst_flow_get_name(ret), num_dec, outbuf_size,
             (double)GST_BUFFER_TIMESTAMP(outbuf)/GST_SECOND, (double)GST_BUFFER_DURATION(outbuf)/GST_SECOND,
             GST_BUFFER_OFFSET(outbuf), GST_BUFFER_OFFSET_END(outbuf));
 #endif
-    
+
     ret = gst_pad_push(base->srcpad, outbuf);
 
 _exit:
@@ -810,7 +810,7 @@ _exit:
 }
 
 #if DECODE_AUDIO4
-static gboolean audiodecoder_is_oformat_supported(int format) 
+static gboolean audiodecoder_is_oformat_supported(int format)
 {
     return (format == AV_SAMPLE_FMT_S16P || format == AV_SAMPLE_FMT_FLTP ||
             format == AV_SAMPLE_FMT_S16);

@@ -42,7 +42,7 @@ final class SWTMenuBarDelegate implements MenuBarDelegate {
     //TODO = add 0, 1, 2, 3 => remove 3, 2, 1, leaving 0
     //TODO - for that point on, indexing starts from one
     boolean firstRemove = true;
-    
+
     public boolean insert(MenuDelegate menu, int pos) {
         //System.out.println("INSERT: " + pos);
         if (!firstRemove) --pos;

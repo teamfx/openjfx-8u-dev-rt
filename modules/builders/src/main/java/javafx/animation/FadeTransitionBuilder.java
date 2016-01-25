@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.animation.FadeTransition
 public final class FadeTransitionBuilder extends javafx.animation.TransitionBuilder<javafx.animation.FadeTransitionBuilder> implements javafx.util.Builder<javafx.animation.FadeTransition> {
     protected FadeTransitionBuilder() {
     }
-    
+
     /** Creates a new instance of FadeTransitionBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.animation.FadeTransitionBuilder create() {
         return new javafx.animation.FadeTransitionBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.animation.FadeTransition x) {
         super.applyTo(x);
@@ -53,7 +53,7 @@ public final class FadeTransitionBuilder extends javafx.animation.TransitionBuil
         if ((set & (1 << 3)) != 0) x.setNode(this.node);
         if ((set & (1 << 4)) != 0) x.setToValue(this.toValue);
     }
-    
+
     private double byValue;
     /**
     Set the value of the {@link javafx.animation.FadeTransition#getByValue() byValue} property for the instance constructed by this builder.
@@ -63,7 +63,7 @@ public final class FadeTransitionBuilder extends javafx.animation.TransitionBuil
         __set |= 1 << 0;
         return this;
     }
-    
+
     private javafx.util.Duration duration;
     /**
     Set the value of the {@link javafx.animation.FadeTransition#getDuration() duration} property for the instance constructed by this builder.
@@ -73,7 +73,7 @@ public final class FadeTransitionBuilder extends javafx.animation.TransitionBuil
         __set |= 1 << 1;
         return this;
     }
-    
+
     private double fromValue;
     /**
     Set the value of the {@link javafx.animation.FadeTransition#getFromValue() fromValue} property for the instance constructed by this builder.
@@ -83,7 +83,7 @@ public final class FadeTransitionBuilder extends javafx.animation.TransitionBuil
         __set |= 1 << 2;
         return this;
     }
-    
+
     private javafx.scene.Node node;
     /**
     Set the value of the {@link javafx.animation.FadeTransition#getNode() node} property for the instance constructed by this builder.
@@ -93,7 +93,7 @@ public final class FadeTransitionBuilder extends javafx.animation.TransitionBuil
         __set |= 1 << 3;
         return this;
     }
-    
+
     private double toValue;
     /**
     Set the value of the {@link javafx.animation.FadeTransition#getToValue() toValue} property for the instance constructed by this builder.
@@ -103,7 +103,7 @@ public final class FadeTransitionBuilder extends javafx.animation.TransitionBuil
         __set |= 1 << 4;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.animation.FadeTransition} based on the properties set on this builder.
     */

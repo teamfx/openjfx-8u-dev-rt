@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.layout.VBox
 public class VBoxBuilder<B extends javafx.scene.layout.VBoxBuilder<B>> extends javafx.scene.layout.PaneBuilder<B> {
     protected VBoxBuilder() {
     }
-    
+
     /** Creates a new instance of VBoxBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.layout.VBoxBuilder<?> create() {
         return new javafx.scene.layout.VBoxBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.layout.VBox x) {
         super.applyTo(x);
@@ -51,7 +51,7 @@ public class VBoxBuilder<B extends javafx.scene.layout.VBoxBuilder<B>> extends j
         if ((set & (1 << 1)) != 0) x.setFillWidth(this.fillWidth);
         if ((set & (1 << 2)) != 0) x.setSpacing(this.spacing);
     }
-    
+
     private javafx.geometry.Pos alignment;
     /**
     Set the value of the {@link javafx.scene.layout.VBox#getAlignment() alignment} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public class VBoxBuilder<B extends javafx.scene.layout.VBoxBuilder<B>> extends j
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private boolean fillWidth;
     /**
     Set the value of the {@link javafx.scene.layout.VBox#isFillWidth() fillWidth} property for the instance constructed by this builder.
@@ -73,7 +73,7 @@ public class VBoxBuilder<B extends javafx.scene.layout.VBoxBuilder<B>> extends j
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double spacing;
     /**
     Set the value of the {@link javafx.scene.layout.VBox#getSpacing() spacing} property for the instance constructed by this builder.
@@ -84,7 +84,7 @@ public class VBoxBuilder<B extends javafx.scene.layout.VBoxBuilder<B>> extends j
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.layout.VBox} based on the properties set on this builder.
     */

@@ -108,7 +108,7 @@ public final class ImageCursorTest {
 
         assertCursorEquals(testCursor, testImage, 47, 24);
     }
-    
+
     @Test
     public void getBestSizeTest() {
         toolkit.setCursorSizeConverter(CursorSizeConverter.IDENTITY_CONVERTER);
@@ -195,7 +195,7 @@ public final class ImageCursorTest {
         final Image asyncImage32x48 = new Image(url32x48, true);
         final StubAsyncImageLoader asyncImage32x48loader =
                 imageLoaderFactory.getLastAsyncImageLoader();
-        
+
         final Image asyncImage48x48 = new Image(url48x48, true);
         final StubAsyncImageLoader asyncImage48x48loader =
                 imageLoaderFactory.getLastAsyncImageLoader();

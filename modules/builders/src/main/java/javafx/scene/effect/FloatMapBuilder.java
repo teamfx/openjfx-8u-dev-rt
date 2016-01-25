@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,20 +36,20 @@ Builder class for javafx.scene.effect.FloatMap
 public class FloatMapBuilder<B extends javafx.scene.effect.FloatMapBuilder<B>> implements javafx.util.Builder<javafx.scene.effect.FloatMap> {
     protected FloatMapBuilder() {
     }
-    
+
     /** Creates a new instance of FloatMapBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.effect.FloatMapBuilder<?> create() {
         return new javafx.scene.effect.FloatMapBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.effect.FloatMap x) {
         int set = __set;
         if ((set & (1 << 0)) != 0) x.setHeight(this.height);
         if ((set & (1 << 1)) != 0) x.setWidth(this.width);
     }
-    
+
     private int height;
     /**
     Set the value of the {@link javafx.scene.effect.FloatMap#getHeight() height} property for the instance constructed by this builder.
@@ -60,7 +60,7 @@ public class FloatMapBuilder<B extends javafx.scene.effect.FloatMapBuilder<B>> i
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private int width;
     /**
     Set the value of the {@link javafx.scene.effect.FloatMap#getWidth() width} property for the instance constructed by this builder.
@@ -71,7 +71,7 @@ public class FloatMapBuilder<B extends javafx.scene.effect.FloatMapBuilder<B>> i
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.effect.FloatMap} based on the properties set on this builder.
     */

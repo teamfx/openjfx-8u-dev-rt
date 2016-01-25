@@ -31,7 +31,7 @@ import javafx.scene.Node;
 
 
 public abstract class XYChartTestBase extends ChartTestBase {
-    
+
     protected int countSymbols(XYChart chart, String style) {
         int numSymbols = 0;
         ObservableList<Node> childrenList = chart.getPlotChildren();

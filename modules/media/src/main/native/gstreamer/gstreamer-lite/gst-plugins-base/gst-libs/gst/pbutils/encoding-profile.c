@@ -102,7 +102,7 @@
  *   gchar *category = (gchar *) tmpc->data;
  *
  *   ... and we can list all targets within that category ...
- *   
+ *
  *   targets = gst_encoding_target_list_all (category);
  *
  *   ... and show a list to our users ...
@@ -653,7 +653,7 @@ gst_encoding_container_profile_contains_profile (GstEncodingContainerProfile *
  * @profile: the #GstEncodingProfile to add.
  *
  * Add a #GstEncodingProfile to the list of profiles handled by @container.
- * 
+ *
  * No copy of @profile will be made, if you wish to use it elsewhere after this
  * method you should increment its reference count.
  *

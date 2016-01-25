@@ -566,7 +566,7 @@ public class SequentialTransitionPlayTest {
 
     }
 
-    
+
     @Test
     public void testCycle() {
         st.getChildren().addAll(child1X, child1Y);
@@ -928,7 +928,7 @@ public class SequentialTransitionPlayTest {
         assertEquals(0, yProperty.get());
 
     }
-    
+
     @Test
     public void testPlayFromStartSynchronization() {
         st.getChildren().addAll(child1Y, childByX);
@@ -953,7 +953,7 @@ public class SequentialTransitionPlayTest {
         assertEquals(2000, xProperty.get());
 
     }
-    
+
     @Test
     public void testCycleSynchronization() {
         st.getChildren().addAll(childByX, childByX2);

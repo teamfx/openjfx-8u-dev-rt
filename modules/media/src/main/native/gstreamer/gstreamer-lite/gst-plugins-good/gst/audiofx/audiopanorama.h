@@ -1,4 +1,4 @@
-/* 
+/*
  * GStreamer
  * Copyright (C) 2006 Stefan Kost <ensonic@users.sf.net>
  *
@@ -17,7 +17,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
- 
+
 #ifndef __GST_AUDIO_PANORAMA_H__
 #define __GST_AUDIO_PANORAMA_H__
 
@@ -42,7 +42,7 @@ struct _GstAudioPanorama {
   GstBaseTransform element;
 
   gfloat panorama;
-  
+
   /* < private > */
   GstAudioPanoramaProcessFunc process;
   gint channels;

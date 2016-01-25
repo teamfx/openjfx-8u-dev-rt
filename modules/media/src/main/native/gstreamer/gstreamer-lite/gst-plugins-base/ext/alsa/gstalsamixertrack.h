@@ -51,11 +51,11 @@ typedef struct _GstAlsaMixerTrackClass GstAlsaMixerTrackClass;
 struct _GstAlsaMixerTrack {
   GstMixerTrack          parent;
   snd_mixer_elem_t      *element;    /* the ALSA mixer element for this track */
-  GstAlsaMixerTrack     *shared_mute;  
+  GstAlsaMixerTrack     *shared_mute;
   gint                  track_num;
   guint32               alsa_flags;                /* alsa track capabilities */
-  gint                  alsa_channels;  
-  gint                  capture_group;  
+  gint                  alsa_channels;
+  gint                  capture_group;
   gint                  volumes[GST_ALSA_MAX_CHANNELS];
 };
 

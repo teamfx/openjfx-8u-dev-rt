@@ -42,11 +42,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public  class CSSNode extends Node {
-    
+
     public CSSNode() {
         setContentSize(100);
     }
-    
+
     /**
      * This variable can be set from CSS and represents the fill
      */
@@ -69,8 +69,8 @@ public  class CSSNode extends Node {
                 public CssMetaData getCssMetaData() {
                     return StyleableProperties.FILL;
                 }
-                
-            };                    
+
+            };
         }
         return fill;
     }
@@ -80,7 +80,7 @@ public  class CSSNode extends Node {
     public Paint getFill() {
         return (fill == null ? Color.BLACK : fill.get());
     }
-    
+
     /**
      * This variable can be set from CSS and represents the stroke fill
      */
@@ -103,8 +103,8 @@ public  class CSSNode extends Node {
                 public CssMetaData getCssMetaData() {
                     return StyleableProperties.STROKE;
                 }
-                
-            };                    
+
+            };
         }
         return stroke;
     }
@@ -114,7 +114,7 @@ public  class CSSNode extends Node {
     public Paint getStroke() {
         return (stroke == null ? Color.BLACK : stroke.get());
     }
-    
+
     /**
      * This variable can be set from CSS and is a simple number. For testing,
      * this can be font-based, absolute, or percentage based. The CSSNode has
@@ -242,8 +242,8 @@ public  class CSSNode extends Node {
     }
 
     public static class StyleableProperties {
-        
-        public static final CssMetaData<CSSNode,Paint> FILL = 
+
+        public static final CssMetaData<CSSNode,Paint> FILL =
             new CssMetaData<CSSNode,Paint>("fill", PaintConverter.getInstance()) {
 
             @Override
@@ -256,8 +256,8 @@ public  class CSSNode extends Node {
                 return (StyleableProperty<Paint>)n.fillProperty();
             }
         };
-        
-        public static final CssMetaData<CSSNode,Paint> STROKE = 
+
+        public static final CssMetaData<CSSNode,Paint> STROKE =
             new CssMetaData<CSSNode,Paint>("stroke", PaintConverter.getInstance()) {
 
             @Override
@@ -270,8 +270,8 @@ public  class CSSNode extends Node {
                 return (StyleableProperty<Paint>)n.strokeProperty();
             }
         };
-        
-        public static final CssMetaData<CSSNode,Number> PADDING = 
+
+        public static final CssMetaData<CSSNode,Number> PADDING =
             new CssMetaData<CSSNode,Number>("padding", SizeConverter.getInstance()) {
 
             @Override
@@ -284,7 +284,7 @@ public  class CSSNode extends Node {
                 return (StyleableProperty<Number>)n.paddingProperty();
             }
         };
-        
+
         private static List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
         static {
             final List<CssMetaData<? extends Styleable, ?>> styleables =
@@ -292,9 +292,9 @@ public  class CSSNode extends Node {
             styleables.add(FILL);
             styleables.add(STROKE);
             styleables.add(PADDING);
-            
+
         }
-        
+
     }
 
     /**
@@ -309,8 +309,8 @@ public  class CSSNode extends Node {
      * {@inheritDoc}
      *
      */
-    
-    
+
+
     @Override
     public List<CssMetaData<? extends Styleable, ?>> getCssMetaData() {
         return getClassCssMetaData();

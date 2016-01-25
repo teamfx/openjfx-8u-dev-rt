@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.MenuButton
 public class MenuButtonBuilder<B extends javafx.scene.control.MenuButtonBuilder<B>> extends javafx.scene.control.ButtonBaseBuilder<B> implements javafx.util.Builder<javafx.scene.control.MenuButton> {
     protected MenuButtonBuilder() {
     }
-    
+
     /** Creates a new instance of MenuButtonBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.MenuButtonBuilder<?> create() {
         return new javafx.scene.control.MenuButtonBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.MenuButton x) {
         super.applyTo(x);
@@ -50,7 +50,7 @@ public class MenuButtonBuilder<B extends javafx.scene.control.MenuButtonBuilder<
         if ((set & (1 << 0)) != 0) x.getItems().addAll(this.items);
         if ((set & (1 << 1)) != 0) x.setPopupSide(this.popupSide);
     }
-    
+
     private java.util.Collection<? extends javafx.scene.control.MenuItem> items;
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.MenuButton#getItems() items} property for the instance constructed by this builder.
@@ -61,14 +61,14 @@ public class MenuButtonBuilder<B extends javafx.scene.control.MenuButtonBuilder<
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.MenuButton#getItems() items} property for the instance constructed by this builder.
     */
     public B items(javafx.scene.control.MenuItem... x) {
         return items(java.util.Arrays.asList(x));
     }
-    
+
     private javafx.geometry.Side popupSide;
     /**
     Set the value of the {@link javafx.scene.control.MenuButton#getPopupSide() popupSide} property for the instance constructed by this builder.
@@ -79,7 +79,7 @@ public class MenuButtonBuilder<B extends javafx.scene.control.MenuButtonBuilder<
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.MenuButton} based on the properties set on this builder.
     */

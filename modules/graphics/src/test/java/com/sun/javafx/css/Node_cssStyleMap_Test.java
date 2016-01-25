@@ -58,7 +58,7 @@ import org.junit.Test;
 
 @Ignore
 public class Node_cssStyleMap_Test {
-    
+
     public Node_cssStyleMap_Test() {
     }
 
@@ -91,7 +91,7 @@ public class Node_cssStyleMap_Test {
         assert(style.getDeclaration() == declaration);
 
     }
-    
+
     @Test
     public void testStyleMap() {
 
@@ -202,50 +202,50 @@ public class Node_cssStyleMap_Test {
     public void testRT_21212() {
 
         final List<Declaration> rootDecls = new ArrayList<Declaration>();
-        Collections.addAll(rootDecls, 
+        Collections.addAll(rootDecls,
             new Declaration("-fx-font-size", new ParsedValueImpl<ParsedValue<?,Size>,Number>(
-                new ParsedValueImpl<Size,Size>(new Size(12, SizeUnits.PX), null), 
+                new ParsedValueImpl<Size,Size>(new Size(12, SizeUnits.PX), null),
                 SizeConverter.getInstance()), false)
         );
-        
+
         final List<Selector> rootSels = new ArrayList<Selector>();
-        Collections.addAll(rootSels, 
+        Collections.addAll(rootSels,
             Selector.createSelector(".root")
         );
-        
-        Rule rootRule = new Rule(rootSels, rootDecls);        
-        
+
+        Rule rootRule = new Rule(rootSels, rootDecls);
+
         Stylesheet stylesheet = new Stylesheet("testRT_21212");
         stylesheet.setOrigin(StyleOrigin.USER_AGENT);
         stylesheet.getRules().add(rootRule);
 
         Group group = new Group();
         group.getStyleClass().add("root");
-        
-        
+
+
         final ParsedValue[] fontValues = new ParsedValue[] {
             new ParsedValueImpl<String,String>("system", null),
             new ParsedValueImpl<ParsedValue<?,Size>,Number>(
                 new ParsedValueImpl<Size,Size>(new Size(1.5, SizeUnits.EM), null),
                 SizeConverter.getInstance()
-            ), 
+            ),
             null,
             null
         };
         final List<Declaration> textDecls = new ArrayList<Declaration>();
-        Collections.addAll(textDecls, 
+        Collections.addAll(textDecls,
             new Declaration("-fx-font", new ParsedValueImpl<ParsedValue[], Font>(
                 fontValues, FontConverter.getInstance()), false)
         );
-        
+
         final List<Selector> textSels = new ArrayList<Selector>();
-        Collections.addAll(textSels, 
+        Collections.addAll(textSels,
             Selector.createSelector(".text")
         );
-        
-        Rule textRule = new Rule(textSels, textDecls);        
+
+        Rule textRule = new Rule(textSels, textDecls);
         stylesheet.getRules().add(textRule);
-                
+
         Text text = new Text("HelloWorld");
         text.getStyleClass().add("text");
         group.getChildren().add(text);

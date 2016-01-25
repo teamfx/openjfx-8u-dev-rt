@@ -72,7 +72,7 @@ public class CullingTest extends NGTestBase {
         bn.markCullRegions(drc, -1, BaseTransform.IDENTITY_TRANSFORM, new GeneralTransform3D());
         Assert.assertEquals(2 | (2 << 2), bn.cullingBits);
     }
-    
+
     @Test
     public void test_setCullBits_region_within() {
         NGNode bn = createRectangle(0, 0, 100, 100);
@@ -148,12 +148,12 @@ public class CullingTest extends NGTestBase {
 
         //check group
         Assert.assertEquals(1 | (1 << 2), gbn.cullingBits);
-        
-        //check children               
+
+        //check children
         Assert.assertEquals(2, bn1.cullingBits);
         Assert.assertEquals(2 << 2, bn2.cullingBits);
     }
-    
+
     @Test
     public void test_group_within() {
         NGNode bn1 = createRectangle(50, 50, 30, 30);
@@ -166,12 +166,12 @@ public class CullingTest extends NGTestBase {
 
         //check group
         Assert.assertEquals(2, gbn.cullingBits);
-        
-        //check children (as the group is "completely covered", the children should not have been processed)          
+
+        //check children (as the group is "completely covered", the children should not have been processed)
         Assert.assertEquals(0, bn1.cullingBits);
         Assert.assertEquals(0, bn2.cullingBits);
     }
-    
+
     @Test
     public void test_region_within_group() {
         NGNode bn1 = createRectangle(50, 10, 100, 100);

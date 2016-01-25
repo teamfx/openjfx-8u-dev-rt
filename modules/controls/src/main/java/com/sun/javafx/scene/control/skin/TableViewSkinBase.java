@@ -152,9 +152,9 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
 
     public TableViewSkinBase(final C control, final B behavior) {
         super(control, behavior);
-        
+
         // init(control) should not be called here - it should be called by the
-        // subclass after initialising itself. This is to prevent NPEs (for 
+        // subclass after initialising itself. This is to prevent NPEs (for
         // example, getVisibleLeafColumns() throws a NPE as the control itself
         // is not yet set in subclasses).
     }
@@ -164,7 +164,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
         // init the VirtualFlow
         flow.setPannable(IS_PANNABLE);
         flow.setCreateCell(flow1 -> TableViewSkinBase.this.createCell());
-        
+
         /*
          * Listening for scrolling along the X axis, but we need to be careful
          * to handle the situation appropriately when the hbar is invisible.
@@ -202,7 +202,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
         });
 
         getVisibleLeafColumns().addListener(weakVisibleLeafColumnsListener);
-        
+
         updateTableItems(null, itemsProperty().get());
         itemsChangeListener = new InvalidationListener() {
             private WeakReference<ObservableList<S>> weakItemsRef = new WeakReference<>(itemsProperty().get());
@@ -220,7 +220,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
         properties.remove(REFRESH);
         properties.remove(RECREATE);
         properties.addListener(propertiesMapListener);
-        
+
         control.addEventHandler(ScrollToEvent.<TC>scrollToColumn(), event -> {
             scrollHorizontally(event.getScrollTarget());
         });
@@ -238,7 +238,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
         registerChangeListener(control.widthProperty(), "WIDTH");
         registerChangeListener(flow.getVbar().visibleProperty(), "VBAR_VISIBLE");
     }
-    
+
 
 
     /***************************************************************************
@@ -258,7 +258,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
             getSkinnable().getProperties().remove(RECREATE);
         }
     };
-    
+
     private ListChangeListener<S> rowCountListener = c -> {
         while (c.next()) {
             if (c.wasReplaced()) {
@@ -296,7 +296,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
         rowCountDirty = true;
         getSkinnable().requestLayout();
     };
-    
+
     private ListChangeListener<TC> visibleLeafColumnsListener =
             c -> {
                 updateVisibleColumnCount();
@@ -304,7 +304,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
                     updateVisibleLeafColumnWidthListeners(c.getAddedSubList(), c.getRemoved());
                 }
             };
-    
+
     private InvalidationListener widthListener = observable -> {
         // This forces the horizontal scrollbar to show when the column
         // resizing occurs. It is not ideal, but will work for now.
@@ -316,19 +316,19 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
             getSkinnable().requestLayout();
         }
     };
-    
+
     private InvalidationListener itemsChangeListener;
-    
+
     private WeakListChangeListener<S> weakRowCountListener =
             new WeakListChangeListener<S>(rowCountListener);
     private WeakListChangeListener<TC> weakVisibleLeafColumnsListener =
             new WeakListChangeListener<TC>(visibleLeafColumnsListener);
-    private WeakInvalidationListener weakWidthListener = 
+    private WeakInvalidationListener weakWidthListener =
             new WeakInvalidationListener(widthListener);
     private WeakInvalidationListener weakItemsChangeListener;
-    
-    
-    
+
+
+
     /***************************************************************************
      *                                                                         *
      * Abstract Methods                                                        *
@@ -384,9 +384,9 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
     protected abstract void resizeColumnToFitContent(TC tc, int maxRows);
 
     protected abstract void edit(int index, TC column);
-    
-    
-    
+
+
+
     /***************************************************************************
      *                                                                         *
      * Public API                                                              *
@@ -426,7 +426,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
     }
 
     /**
-     * 
+     *
      */
     public TableHeaderRow getTableHeaderRow() {
         return tableHeaderRow;
@@ -435,7 +435,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
     public Region getColumnReorderLine() {
         return columnReorderLine;
     }
-    
+
     /**
      * Function used to scroll the container down by one 'page', although
      * if this is a horizontal container, then the scrolling will be to the right.
@@ -448,14 +448,14 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
 
         I lastVisibleCell = flow.getLastVisibleCellWithinViewPort();
         if (lastVisibleCell == null) return -1;
-        
+
         int lastVisibleCellIndex = lastVisibleCell.getIndex();
 
         // we include this test here as the virtual flow will return cells that
         // exceed past the item count, so we need to clamp here (and further down
         // in this method also). See RT-19053 for more information.
         lastVisibleCellIndex = lastVisibleCellIndex >= itemCount ? itemCount - 1 : lastVisibleCellIndex;
-        
+
         // isSelected represents focus OR selection
         boolean isSelected;
         if (isFocusDriven) {
@@ -463,7 +463,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
         } else {
             isSelected = lastVisibleCell.isSelected() || isCellSelected(lastVisibleCellIndex);
         }
-        
+
         if (isSelected) {
             boolean isLeadIndex = isLeadIndex(isFocusDriven, lastVisibleCellIndex);
 
@@ -475,7 +475,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
                 I newLastVisibleCell = flow.getLastVisibleCellWithinViewPort();
                 lastVisibleCell = newLastVisibleCell == null ? lastVisibleCell : newLastVisibleCell;
             }
-        } 
+        }
 
         int newSelectionIndex = lastVisibleCell.getIndex();
         newSelectionIndex = newSelectionIndex >= itemCount ? itemCount - 1 : newSelectionIndex;
@@ -526,11 +526,11 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
         return (isFocusDriven && fm.getFocusedIndex() == index)
                 || (! isFocusDriven && sm.getSelectedIndex() == index);
     }
-    
+
      boolean isColumnPartiallyOrFullyVisible(TC col) {
         if (col == null || !col.isVisible()) return false;
-        
-        double scrollX = flow.getHbar().getValue(); 
+
+        double scrollX = flow.getHbar().getValue();
 
         // work out where this column header is, and it's width (start -> end)
         double start = 0;
@@ -545,7 +545,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
         // determine the width of the table
         final Insets padding = getSkinnable().getPadding();
         double headerWidth = getSkinnable().getWidth() - padding.getLeft() + padding.getRight();
-        
+
         return (start >= scrollX || end > scrollX) && (start < (headerWidth + scrollX) || end <= (headerWidth + scrollX));
     }
 
@@ -645,8 +645,8 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
      *                                                                         *
      * Layout                                                                  *
      *                                                                         *
-     **************************************************************************/    
-    
+     **************************************************************************/
+
     private static final double GOLDEN_RATIO_MULTIPLIER = 0.618033987;
 
     private void checkContentWidthState() {
@@ -666,11 +666,11 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
     /** {@inheritDoc} */
     @Override protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
         double prefHeight = computePrefHeight(-1, topInset, rightInset, bottomInset, leftInset);
-        
+
         List<? extends TC> cols = getVisibleLeafColumns();
         if (cols == null || cols.isEmpty()) {
             return prefHeight * GOLDEN_RATIO_MULTIPLIER;
-        } 
+        }
 
         double pw = leftInset + rightInset;
         for (int i = 0, max = cols.size(); i < max; i++) {
@@ -680,7 +680,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
 //        return pw;
         return Math.max(pw, prefHeight * GOLDEN_RATIO_MULTIPLIER);
     }
-    
+
     /** {@inheritDoc} */
     @Override protected void layoutChildren(final double x, double y,
             final double w, final double h) {
@@ -694,7 +694,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
         }
 
         super.layoutChildren(x, y, w, h);
-        
+
         if (needCellsRecreated) {
             flow.recreateCells();
         } else if (needCellsRebuilt) {
@@ -711,13 +711,13 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
 
         // position the table header
         double tableHeaderRowHeight = tableHeaderRow.prefHeight(-1);
-        layoutInArea(tableHeaderRow, x, y, w, tableHeaderRowHeight, baselineOffset, 
+        layoutInArea(tableHeaderRow, x, y, w, tableHeaderRowHeight, baselineOffset,
                 HPos.CENTER, VPos.CENTER);
         y += tableHeaderRowHeight;
 
         // let the virtual flow take up all remaining space
         // TODO this calculation is to ensure the bottom border is visible when
-        // placed in a Pane. It is not ideal, but will suffice for now. See 
+        // placed in a Pane. It is not ideal, but will suffice for now. See
         // RT-14335 for more information.
         double flowHeight = Math.floor(h - tableHeaderRowHeight);
         if (getItemCount() == 0 || visibleColCount == 0) {
@@ -730,17 +730,17 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
                     w, flowHeight,
                     baselineOffset, HPos.CENTER, VPos.CENTER);
         }
-        
+
         // painting the overlay over the column being reordered
         if (tableHeaderRow.getReorderingRegion() != null) {
             TableColumnHeader reorderingColumnHeader = tableHeaderRow.getReorderingRegion();
             TableColumnBase reorderingColumn = reorderingColumnHeader.getTableColumn();
             if (reorderingColumn != null) {
                 Node n = tableHeaderRow.getReorderingRegion();
-                
-                // determine where to draw the column header overlay, it's 
+
+                // determine where to draw the column header overlay, it's
                 // either from the left-edge of the column, or 0, if the column
-                // is off the left-side of the TableView (i.e. horizontal 
+                // is off the left-side of the TableView (i.e. horizontal
                 // scrolling has occured).
                 double minX = tableHeaderRow.sceneToLocal(n.localToScene(n.getBoundsInLocal())).getMinX();
                 double overlayWidth = reorderingColumnHeader.getWidth();
@@ -748,48 +748,48 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
                     overlayWidth += minX;
                 }
                 minX = minX < 0 ? 0 : minX;
-                
-                // prevent the overlay going out the right-hand side of the 
+
+                // prevent the overlay going out the right-hand side of the
                 // TableView
                 if (minX + overlayWidth > w) {
                     overlayWidth = w - minX;
-                    
+
                     if (flow.getVbar().isVisible()) {
                         overlayWidth -= flow.getVbar().getWidth() - 1;
                     }
                 }
-                
+
                 double contentAreaHeight = flowHeight;
                 if (flow.getHbar().isVisible()) {
                     contentAreaHeight -= flow.getHbar().getHeight();
                 }
-                
+
                 columnReorderOverlay.resize(overlayWidth, contentAreaHeight);
-                
+
                 columnReorderOverlay.setLayoutX(minX);
                 columnReorderOverlay.setLayoutY(tableHeaderRow.getHeight());
             }
-            
+
             // paint the reorder line as well
             double cw = columnReorderLine.snappedLeftInset() + columnReorderLine.snappedRightInset();
             double lineHeight = h - (flow.getHbar().isVisible() ? flow.getHbar().getHeight() - 1 : 0);
             columnReorderLine.resizeRelocate(0, columnReorderLine.snappedTopInset(), cw, lineHeight);
         }
-        
+
         columnReorderLine.setVisible(tableHeaderRow.isReordering());
         columnReorderOverlay.setVisible(tableHeaderRow.isReordering());
 
         checkContentWidthState();
     }
-    
-    
-    
+
+
+
     /***************************************************************************
      *                                                                         *
      * Private methods                                                         *
      *                                                                         *
      **************************************************************************/
-    
+
     /**
      * Keeps track of how many leaf columns are currently visible in this table.
      */
@@ -800,10 +800,10 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
         needCellsRebuilt = true;
         getSkinnable().requestLayout();
     }
-    
+
     private void updateVisibleLeafColumnWidthListeners(
             List<? extends TC> added, List<? extends TC> removed) {
-        
+
         for (int i = 0, max = removed.size(); i < max; i++) {
             TC tc = removed.get(i);
             tc.widthProperty().removeListener(weakWidthListener);
@@ -818,14 +818,14 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
 
     protected final void updatePlaceholderRegionVisibility() {
         boolean visible = visibleColCount == 0 || getItemCount() == 0;
-        
+
         if (visible) {
             if (placeholderRegion == null) {
                 placeholderRegion = new StackPane();
                 placeholderRegion.getStyleClass().setAll("placeholder");
                 getChildren().add(placeholderRegion);
             }
-            
+
             Node placeholderNode = placeholderProperty().get();
 
             if (placeholderNode == null) {
@@ -854,11 +854,11 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
      */
     private void updateContentWidth() {
         double contentWidth = flow.getWidth();
-        
+
         if (flow.getVbar().isVisible()) {
             contentWidth -= flow.getVbar().getWidth();
         }
-        
+
         if (contentWidth <= 0) {
             // Fix for RT-14855 when there is no content in the TableView.
             Control c = getSkinnable();
@@ -893,7 +893,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
 
     protected void scrollHorizontally(TC col) {
         if (col == null || !col.isVisible()) return;
-        
+
         final Control control = getSkinnable();
 
         // RT-37060 - if we are trying to scroll to a column that has not
@@ -925,7 +925,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
         double pos = flow.getHbar().getValue();
         double max = flow.getHbar().getMax();
         double newPos;
-        
+
         if (start < pos && start >= 0) {
             newPos = start;
         } else {
@@ -954,7 +954,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
 
         return false;
     }
-    
+
     private boolean isCellFocused(int row) {
         TableFocusModel<S,TC> fm = getFocusModel();
         if (fm == null) return false;
@@ -965,7 +965,7 @@ public abstract class TableViewSkinBase<M, S, C extends Control, B extends Behav
                 return true;
             }
         }
-        
+
         return false;
     }
 

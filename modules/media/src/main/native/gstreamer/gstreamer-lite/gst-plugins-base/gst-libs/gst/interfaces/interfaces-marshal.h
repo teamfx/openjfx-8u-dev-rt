@@ -1,9 +1,9 @@
-#include "gst/gstconfig.h" 
+#include "gst/gstconfig.h"
 
 #ifndef __gst_interfaces_marshal_MARSHAL_H__
 #define __gst_interfaces_marshal_MARSHAL_H__
 
-#include	<glib-object.h>
+#include    <glib-object.h>
 
 G_BEGIN_DECLS
 

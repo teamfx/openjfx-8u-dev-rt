@@ -2,24 +2,24 @@
 #ifndef __gst_marshal_MARSHAL_H__
 #define __gst_marshal_MARSHAL_H__
 
-#include	<glib-object.h>
+#include    <glib-object.h>
 
 G_BEGIN_DECLS
 
 /* VOID:VOID (gstmarshal.list:1) */
-#define gst_marshal_VOID__VOID	g_cclosure_marshal_VOID__VOID
+#define gst_marshal_VOID__VOID  g_cclosure_marshal_VOID__VOID
 
 /* VOID:BOOLEAN (gstmarshal.list:2) */
-#define gst_marshal_VOID__BOOLEAN	g_cclosure_marshal_VOID__BOOLEAN
+#define gst_marshal_VOID__BOOLEAN   g_cclosure_marshal_VOID__BOOLEAN
 
 /* VOID:INT (gstmarshal.list:3) */
-#define gst_marshal_VOID__INT	g_cclosure_marshal_VOID__INT
+#define gst_marshal_VOID__INT   g_cclosure_marshal_VOID__INT
 
 /* VOID:STRING (gstmarshal.list:4) */
-#define gst_marshal_VOID__STRING	g_cclosure_marshal_VOID__STRING
+#define gst_marshal_VOID__STRING    g_cclosure_marshal_VOID__STRING
 
 /* VOID:BOXED (gstmarshal.list:5) */
-#define gst_marshal_VOID__BOXED	g_cclosure_marshal_VOID__BOXED
+#define gst_marshal_VOID__BOXED g_cclosure_marshal_VOID__BOXED
 
 /* VOID:BOXED,OBJECT (gstmarshal.list:6) */
 extern void gst_marshal_VOID__BOXED_OBJECT (GClosure     *closure,
@@ -30,7 +30,7 @@ extern void gst_marshal_VOID__BOXED_OBJECT (GClosure     *closure,
                                             gpointer      marshal_data);
 
 /* VOID:POINTER (gstmarshal.list:7) */
-#define gst_marshal_VOID__POINTER	g_cclosure_marshal_VOID__POINTER
+#define gst_marshal_VOID__POINTER   g_cclosure_marshal_VOID__POINTER
 
 /* VOID:POINTER,OBJECT (gstmarshal.list:8) */
 extern void gst_marshal_VOID__POINTER_OBJECT (GClosure     *closure,
@@ -41,7 +41,7 @@ extern void gst_marshal_VOID__POINTER_OBJECT (GClosure     *closure,
                                               gpointer      marshal_data);
 
 /* VOID:OBJECT (gstmarshal.list:9) */
-#define gst_marshal_VOID__OBJECT	g_cclosure_marshal_VOID__OBJECT
+#define gst_marshal_VOID__OBJECT    g_cclosure_marshal_VOID__OBJECT
 
 /* VOID:OBJECT,OBJECT (gstmarshal.list:10) */
 extern void gst_marshal_VOID__OBJECT_OBJECT (GClosure     *closure,
@@ -124,7 +124,7 @@ extern void gst_marshal_VOID__UINT_BOXED (GClosure     *closure,
                                           gpointer      marshal_data);
 
 /* VOID:UINT,POINTER (gstmarshal.list:20) */
-#define gst_marshal_VOID__UINT_POINTER	g_cclosure_marshal_VOID__UINT_POINTER
+#define gst_marshal_VOID__UINT_POINTER  g_cclosure_marshal_VOID__UINT_POINTER
 
 /* BOOLEAN:VOID (gstmarshal.list:21) */
 extern void gst_marshal_BOOLEAN__VOID (GClosure     *closure,

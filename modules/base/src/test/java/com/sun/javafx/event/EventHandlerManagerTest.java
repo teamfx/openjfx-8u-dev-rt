@@ -138,7 +138,7 @@ public final class EventHandlerManagerTest {
         eventHandlerManager.addEventHandler(
                 ValueEvent.VALUE_C,
                 new EventChangingHandler(Operation.mul(6)));
-        
+
         final EventCountingHandler<EmptyEvent> emptyEventCountingHandler =
                 new EventCountingHandler<EmptyEvent>();
         eventHandlerManager.addEventHandler(
@@ -255,7 +255,7 @@ public final class EventHandlerManagerTest {
 
         eventHandlerManager.removeEventHandler(
                 ValueEvent.VALUE_A, eventHandler);
-        
+
         testValueEventDispatch(
                 eventHandlerManager, ValueEvent.VALUE_A, 1, 1);
         testValueEventDispatch(
@@ -443,14 +443,14 @@ public final class EventHandlerManagerTest {
                 StubEventDispatchChain.EMPTY_CHAIN
                                       .append(eventHandlerManager)
                                       .append(eventCountingDispatcher);
-        
+
         final EventCountingHandler<Event> eventCountingFilter =
                 new EventCountingHandler<Event>();
         final EventConsumingHandler eventConsumingFilter =
                 new EventConsumingHandler();
         final EventCountingHandler<Event> eventCountingHandler =
                 new EventCountingHandler<Event>();
-        
+
         eventHandlerManager.addEventHandler(Event.ANY, eventCountingHandler);
 
         // add counting first, consuming second

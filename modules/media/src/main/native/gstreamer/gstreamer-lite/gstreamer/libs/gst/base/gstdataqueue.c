@@ -368,7 +368,7 @@ gst_data_queue_is_full (GstDataQueue * queue)
  * Sets the queue to flushing state if @flushing is #TRUE. If set to flushing
  * state, any incoming data on the @queue will be discarded. Any call currently
  * blocking on #gst_data_queue_push or #gst_data_queue_pop will return straight
- * away with a return value of #FALSE. While the @queue is in flushing state, 
+ * away with a return value of #FALSE. While the @queue is in flushing state,
  * all calls to those two functions will return #FALSE.
  *
  * MT Safe.
@@ -587,7 +587,7 @@ done:
 
 /**
  * gst_data_queue_limits_changed:
- * @queue: The #GstDataQueue 
+ * @queue: The #GstDataQueue
  *
  * Inform the queue that the limits for the fullness check have changed and that
  * any blocking gst_data_queue_push() should be unblocked to recheck the limts.

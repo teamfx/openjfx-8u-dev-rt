@@ -321,12 +321,12 @@ typedef enum {
  *    type is also used when buffers arrive early or in time.
  * @GST_QOS_TYPE_UNDERFLOW: The QoS event type that is produced when downstream
  *    elements are producing data too slowly and need to speed up their processing
- *    rate. 
+ *    rate.
  * @GST_QOS_TYPE_THROTTLE: The QoS event type that is produced when the
  *    application enabled throttling to limit the datarate.
  *
- * The different types of QoS events that can be given to the 
- * gst_event_new_qos_full() method. 
+ * The different types of QoS events that can be given to the
+ * gst_event_new_qos_full() method.
  *
  * Since: 0.10.33
  */

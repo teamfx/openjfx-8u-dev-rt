@@ -94,10 +94,10 @@ buffer_mode_get_type (void)
 GST_DEBUG_CATEGORY_STATIC (gst_file_sink_debug);
 #define GST_CAT_DEFAULT gst_file_sink_debug
 
-#define DEFAULT_LOCATION 	NULL
-#define DEFAULT_BUFFER_MODE 	-1
-#define DEFAULT_BUFFER_SIZE 	64 * 1024
-#define DEFAULT_APPEND		FALSE
+#define DEFAULT_LOCATION    NULL
+#define DEFAULT_BUFFER_MODE     -1
+#define DEFAULT_BUFFER_SIZE     64 * 1024
+#define DEFAULT_APPEND      FALSE
 
 enum
 {
@@ -234,7 +234,7 @@ gst_file_sink_class_init (GstFileSinkClass * klass)
 
   /**
    * GstFileSink:append
-   * 
+   *
    * Append to an already existing file.
    *
    * Since: 0.10.25

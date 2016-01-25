@@ -47,7 +47,7 @@ public interface EmbeddedSceneInterface {
      * A notification about the embedded container is resized.
      */
     public void setSize(int width, int height);
-    
+
     /*
      * A notification about the scale factor is changed.
      */
@@ -70,12 +70,12 @@ public interface EmbeddedSceneInterface {
      * A notification about key event received by host container.
      */
     public void keyEvent(int type, int key, char[] chars, int modifiers);
-    
+
     /*
      * A notification about menu event received by host container.
      */
     public void menuEvent(int x, int y, int xAbs, int yAbs, boolean isKeyboardTrigger);
-    
+
     public boolean traverseOut(Direction dir);
 
     public void setDragStartListener(HostDragStartListener l);

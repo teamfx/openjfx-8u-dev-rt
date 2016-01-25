@@ -56,7 +56,7 @@ public final class AboutWindowController extends AbstractFxmlWindowController {
     private VBox vbox;
     @FXML
     private TextArea textArea;
-    
+
     private String sbBuildInfo = "PLACEHOLDER"; //NOI18N
     private String sbBuildDate = "PLACEHOLDER"; //NOI18N
     private String sbBuildJavaVersion = "PLACEHOLDER"; //NOI18N
@@ -82,7 +82,7 @@ public final class AboutWindowController extends AbstractFxmlWindowController {
             // We go with default values
         }
     }
-    
+
     @FXML
     public void onMousePressed(MouseEvent event) {
         if ((event.getClickCount() == 2) && event.isAltDown()) {
@@ -125,10 +125,10 @@ public final class AboutWindowController extends AbstractFxmlWindowController {
                 .append(getJavaParagraph())
                 .append(getOsParagraph())
                 .append(I18N.getString(sbAboutCopyrightKeyName));
-        
+
         return text.toString();
     }
-    
+
     /**
      *
      * @treatAsPrivate
@@ -136,7 +136,7 @@ public final class AboutWindowController extends AbstractFxmlWindowController {
     public String getBuildJavaVersion() {
         return sbBuildJavaVersion;
     }
-    
+
     /**
      *
      * @treatAsPrivate
@@ -144,7 +144,7 @@ public final class AboutWindowController extends AbstractFxmlWindowController {
     public String getBuildInfo() {
         return sbBuildInfo;
     }
-    
+
     private StringBuilder getVersionParagraph() {
         StringBuilder sb = new StringBuilder(I18N.getString("about.product.version"));
         sb.append("\nJavaFX Scene Builder 2.0.1\n\n"); //NOI18N
@@ -157,7 +157,7 @@ public final class AboutWindowController extends AbstractFxmlWindowController {
         }
         sb.append(LOG_FILE_NAME);
         return sb.toString();
-        
+
     }
 
     private StringBuilder getBuildInfoParagraph() {
@@ -177,7 +177,7 @@ public final class AboutWindowController extends AbstractFxmlWindowController {
                 .append("\n\n"); //NOI18N
         return sb;
     }
-    
+
     private StringBuilder getFxParagraph() {
         boolean hwAccelerated = false;
         String tk = Toolkit.getToolkit().getClass().getSimpleName();
@@ -204,14 +204,14 @@ public final class AboutWindowController extends AbstractFxmlWindowController {
 
         return fxtra;
     }
-    
+
     private StringBuilder getJavaParagraph() {
         StringBuilder sb = new StringBuilder("Java\n"); //NOI18N
         sb.append(System.getProperty("java.runtime.version")).append(", ") //NOI18N
                 .append(System.getProperty("java.vendor")).append("\n\n"); //NOI18N
         return sb;
     }
-    
+
     private StringBuilder getOsParagraph() {
         StringBuilder sb = new StringBuilder(I18N.getString("about.operating.system"));
         sb.append("\n").append(System.getProperty("os.name")).append(", ") //NOI18N

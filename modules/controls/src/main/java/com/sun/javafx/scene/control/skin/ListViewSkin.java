@@ -65,7 +65,7 @@ import com.sun.javafx.scene.control.skin.resources.ControlResources;
 public class ListViewSkin<T> extends VirtualContainerBase<ListView<T>, ListViewBehavior<T>, ListCell<T>> {
 
     public static final String RECREATE = "listRecreateKey";
-    
+
     /**
      * Region placed over the top of the flow (and possibly the header row) if
      * there is no data.
@@ -99,7 +99,7 @@ public class ListViewSkin<T> extends VirtualContainerBase<ListView<T>, ListViewB
         flow.setCreateCell(flow1 -> ListViewSkin.this.createCell());
         flow.setFixedCellSize(listView.getFixedCellSize());
         getChildren().add(flow);
-        
+
         EventHandler<MouseEvent> ml = event -> {
             // RT-15127: cancel editing on scroll. This is a bit extreme
             // (we are cancelling editing on touching the scrollbars).
@@ -119,7 +119,7 @@ public class ListViewSkin<T> extends VirtualContainerBase<ListView<T>, ListViewB
         };
         flow.getVbar().addEventFilter(MouseEvent.MOUSE_PRESSED, ml);
         flow.getHbar().addEventFilter(MouseEvent.MOUSE_PRESSED, ml);
-        
+
         updateRowCount();
 
         listView.itemsProperty().addListener(new WeakInvalidationListener(itemsChangeListener));
@@ -146,7 +146,7 @@ public class ListViewSkin<T> extends VirtualContainerBase<ListView<T>, ListViewB
         registerChangeListener(listView.placeholderProperty(), "PLACEHOLDER");
         registerChangeListener(listView.fixedCellSizeProperty(), "FIXED_CELL_SIZE");
     }
-    
+
     @Override protected void handleControlPropertyChanged(String p) {
         super.handleControlPropertyChanged(p);
         if ("ITEMS".equals(p)) {
@@ -202,12 +202,12 @@ public class ListViewSkin<T> extends VirtualContainerBase<ListView<T>, ListViewB
 
             // fix for RT-37853
             getSkinnable().edit(-1);
-            
+
             rowCountDirty = true;
             getSkinnable().requestLayout();
         }
     };
-    
+
     private final WeakListChangeListener<T> weakListViewItemsListener =
             new WeakListChangeListener<T>(listViewItemsListener);
 
@@ -225,27 +225,27 @@ public class ListViewSkin<T> extends VirtualContainerBase<ListView<T>, ListViewB
         rowCountDirty = true;
         getSkinnable().requestLayout();
     }
-    
+
     private int itemCount = -1;
 
     @Override public int getItemCount() {
 //        return listViewItems == null ? 0 : listViewItems.size();
         return itemCount;
     }
-    
+
     private boolean needCellsRebuilt = true;
     private boolean needCellsReconfigured = false;
 
     @Override protected void updateRowCount() {
         if (flow == null) return;
-        
+
         int oldCount = itemCount;
         int newCount = listViewItems == null ? 0 : listViewItems.size();
-        
+
         itemCount = newCount;
-        
+
         flow.setCellCount(newCount);
-        
+
         updatePlaceholderRegionVisibility();
         if (newCount != oldCount) {
             needCellsRebuilt = true;
@@ -253,10 +253,10 @@ public class ListViewSkin<T> extends VirtualContainerBase<ListView<T>, ListViewB
             needCellsReconfigured = true;
         }
     }
-    
+
     protected final void updatePlaceholderRegionVisibility() {
         boolean visible = getItemCount() == 0;
-        
+
         if (visible) {
             placeholderNode = getSkinnable().getPlaceholder();
             if (placeholderNode == null && (EMPTY_LIST_TEXT != null && ! EMPTY_LIST_TEXT.isEmpty())) {
@@ -298,7 +298,7 @@ public class ListViewSkin<T> extends VirtualContainerBase<ListView<T>, ListViewB
         return new ListCell<T>() {
             @Override public void updateItem(T item, boolean empty) {
                 super.updateItem(item, empty);
-                
+
                 if (empty) {
                     setText(null);
                     setGraphic(null);
@@ -326,16 +326,16 @@ public class ListViewSkin<T> extends VirtualContainerBase<ListView<T>, ListViewB
     @Override protected void layoutChildren(final double x, final double y,
             final double w, final double h) {
         super.layoutChildren(x, y, w, h);
-        
+
         if (needCellsRebuilt) {
             flow.rebuildCells();
         } else if (needCellsReconfigured) {
             flow.reconfigureCells();
-        } 
-        
+        }
+
         needCellsRebuilt = false;
         needCellsReconfigured = false;
-        
+
         if (getItemCount() == 0) {
             // show message overlay instead of empty listview
             if (placeholderRegion != null) {
@@ -346,7 +346,7 @@ public class ListViewSkin<T> extends VirtualContainerBase<ListView<T>, ListViewB
             flow.resizeRelocate(x, y, w, h);
         }
     }
-    
+
     @Override protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
         checkState();
 
@@ -365,7 +365,7 @@ public class ListViewSkin<T> extends VirtualContainerBase<ListView<T>, ListViewB
     @Override protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
         return 400;
     }
-    
+
     private void onFocusPreviousCell() {
         FocusModel<T> fm = getSkinnable().getFocusModel();
         if (fm == null) return;

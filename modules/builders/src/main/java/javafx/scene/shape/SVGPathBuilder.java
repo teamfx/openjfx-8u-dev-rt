@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.shape.SVGPath
 public class SVGPathBuilder<B extends javafx.scene.shape.SVGPathBuilder<B>> extends javafx.scene.shape.ShapeBuilder<B> implements javafx.util.Builder<javafx.scene.shape.SVGPath> {
     protected SVGPathBuilder() {
     }
-    
+
     /** Creates a new instance of SVGPathBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.shape.SVGPathBuilder<?> create() {
         return new javafx.scene.shape.SVGPathBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.shape.SVGPath x) {
         super.applyTo(x);
@@ -50,7 +50,7 @@ public class SVGPathBuilder<B extends javafx.scene.shape.SVGPathBuilder<B>> exte
         if ((set & (1 << 0)) != 0) x.setContent(this.content);
         if ((set & (1 << 1)) != 0) x.setFillRule(this.fillRule);
     }
-    
+
     private java.lang.String content;
     /**
     Set the value of the {@link javafx.scene.shape.SVGPath#getContent() content} property for the instance constructed by this builder.
@@ -61,7 +61,7 @@ public class SVGPathBuilder<B extends javafx.scene.shape.SVGPathBuilder<B>> exte
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private javafx.scene.shape.FillRule fillRule;
     /**
     Set the value of the {@link javafx.scene.shape.SVGPath#getFillRule() fillRule} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public class SVGPathBuilder<B extends javafx.scene.shape.SVGPathBuilder<B>> exte
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.shape.SVGPath} based on the properties set on this builder.
     */

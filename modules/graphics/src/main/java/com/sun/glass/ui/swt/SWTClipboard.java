@@ -40,10 +40,10 @@ import org.eclipse.swt.widgets.*;
 class SWTClipboard extends SystemClipboard {
     org.eclipse.swt.dnd.Clipboard clipboard;
     static final String CLIPBOARD_KEY = "SWTClipboard";
-    
+
     //TODO - temporary code to enable multiple transfers on Windows only
     static final boolean MULTIPLE_TRANSFERS = SWT.getPlatform().equals("win32");
-    
+
     // Define local constants to avoid name conflicts
     static final int DROP_NONE = org.eclipse.swt.dnd.DND.DROP_NONE;
     static final int DROP_COPY = org.eclipse.swt.dnd.DND.DROP_COPY;
@@ -51,7 +51,7 @@ class SWTClipboard extends SystemClipboard {
     static final int DROP_LINK = org.eclipse.swt.dnd.DND.DROP_LINK;
 
     private static final boolean MUTIPLE_TRANSFERS = false;
-    
+
     // Define standard transfer types including custom transfers
     static Transfer [] StandardTransfers = new Transfer [] {
         TextTransfer.getInstance(),
@@ -76,14 +76,14 @@ class SWTClipboard extends SystemClipboard {
             }
         }
     }
-    
+
     static Transfer [] getAllTransfers () {
         Transfer [] transfers = new Transfer[StandardTransfers.length + CustomTransfers.length];
         System.arraycopy(StandardTransfers, 0, transfers, 0, StandardTransfers.length);
         System.arraycopy(CustomTransfers, 0, transfers, StandardTransfers.length, CustomTransfers.length);
         return transfers;
     }
-    
+
     static Transfer getCustomTransfer(String mime) {
         for (int i=0; i<CustomTransfers.length; i++) {
             if (((CustomTransfer)CustomTransfers[i]).getMime().equals(mime)) {
@@ -97,7 +97,7 @@ class SWTClipboard extends SystemClipboard {
         CustomTransfers = newCustom;
         return transfer;
     }
-    
+
     static Transfer [] getTransferTypes(String [] mimeTypes) {
         int count= 0;
         Transfer [] transfers = new Transfer [mimeTypes.length];
@@ -112,7 +112,7 @@ class SWTClipboard extends SystemClipboard {
         }
         return transfers;
     }
-    
+
     //TODO - make this a lookup table
     static String getMime(TransferData data) {
         if (TextTransfer.getInstance().isSupportedType(data)) return TEXT_TYPE;
@@ -143,7 +143,7 @@ class SWTClipboard extends SystemClipboard {
         }
         return null;
     }
-    
+
     static String [] getMimes(TransferData [] transfers) {
         int count= 0;
         String [] result = new String [transfers.length];
@@ -157,7 +157,7 @@ class SWTClipboard extends SystemClipboard {
         }
         return result;
     }
-    
+
     static String [] getMimes(Transfer [] transfers, TransferData data) {
         int count= 0;
         String [] result = new String [transfers.length];
@@ -186,7 +186,7 @@ class SWTClipboard extends SystemClipboard {
         }
         return getCustomTransfer(mime);
     }
-    
+
     //TODO - make this a lookup table
     static Object getData(String mime, TransferData data) {
         if (mime.equals(TEXT_TYPE)) return TextTransfer.getInstance().nativeToJava(data);
@@ -206,7 +206,7 @@ class SWTClipboard extends SystemClipboard {
     protected boolean isOwner() {
         return MUTIPLE_TRANSFERS;
     }
-    
+
     static int getSWTAction(int actions) {
         int result = ACTION_NONE;
         if ((actions & ACTION_COPY) != 0) result |= DROP_COPY;
@@ -214,7 +214,7 @@ class SWTClipboard extends SystemClipboard {
         if ((actions & ACTION_REFERENCE) != 0) result |=DROP_LINK;
         return result;
     }
-    
+
     //TODO - better name that indicates it is the invers of getDragActions()
     static int getFXAction(int actions) {
         int result = DROP_NONE;
@@ -223,7 +223,7 @@ class SWTClipboard extends SystemClipboard {
         if ((actions & DROP_LINK) != 0) result |= ACTION_REFERENCE;
         return result;
     }
-    
+
     @Override
     protected void pushToSystem(HashMap<String, Object> data, int supportedActions) {
         int count = 0;
@@ -363,7 +363,7 @@ class SWTClipboard extends SystemClipboard {
     static TransferData currentTransferData;
     static TransferData [] transferData;
     static Object currentData;
-    
+
     @Override
     protected int supportedSourceActionsFromSystem() {
         if (clipboard != null)  return Clipboard.ACTION_COPY;
@@ -436,7 +436,7 @@ class SWTClipboard extends SystemClipboard {
         });
         return dropTarget;
     }
-    
+
     @Override
     protected String[] mimesFromSystem() {
         //TODO - return non-standard clipboard/drag and drop mimes

@@ -70,7 +70,7 @@ static struct _elements_entry _elements[] = {
 #if defined(HAVE_SYS_SOCKET_H) || defined(_MSC_VER)
   {"fdsrc", GST_RANK_NONE, gst_fd_src_get_type},
   {"fdsink", GST_RANK_NONE, gst_fd_sink_get_type},
-#endif 
+#endif
   {"filesrc", GST_RANK_PRIMARY, gst_file_src_get_type},
   {"funnel", GST_RANK_NONE, gst_funnel_get_type},
   {"identity", GST_RANK_NONE, gst_identity_get_type},

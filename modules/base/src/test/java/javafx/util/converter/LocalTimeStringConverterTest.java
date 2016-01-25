@@ -53,7 +53,7 @@ public class LocalTimeStringConverterTest {
         VALID_TIME_WITH_SECONDS = LocalTime.of(12, 34, 56);
         VALID_TIME_WITHOUT_SECONDS = LocalTime.of(12, 34, 0);
     }
-    
+
     private static final DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("HH mm ss");
     private static final DateTimeFormatter aParser = DateTimeFormatter.ofPattern("hh mm ss a");
 
@@ -88,14 +88,14 @@ public class LocalTimeStringConverterTest {
         this.formatter = formatter;
         this.parser = parser;
     }
-    
+
     @Before public void setup() {
     }
-    
+
     /*********************************************************************
      * Test constructors
-     ********************************************************************/ 
-    
+     ********************************************************************/
+
     @Test public void testConstructor() {
         assertEquals(locale, converter.ldtConverter.locale);
         assertNull(converter.ldtConverter.dateStyle);
@@ -109,20 +109,20 @@ public class LocalTimeStringConverterTest {
             assertEquals(formatter, converter.ldtConverter.parser);
         }
     }
-    
-    
-    
+
+
+
     /*********************************************************************
      * Test toString / fromString methods
-     ********************************************************************/    
-    
+     ********************************************************************/
+
     @Test public void toString_to_fromString_testRoundtrip() {
         if (formatter == null) {
             // Only the default formatter/parser can guarantee roundtrip symmetry
             assertEquals(validTime, converter.fromString(converter.toString(validTime)));
         }
     }
-    
+
     @Test(expected=RuntimeException.class)
     public void fromString_testInvalidInput() {
         converter.fromString("abcdefg");

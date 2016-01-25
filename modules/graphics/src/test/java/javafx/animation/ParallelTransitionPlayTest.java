@@ -101,7 +101,7 @@ public class ParallelTransitionPlayTest {
 
         };
     }
-    
+
 
     @Test
     public void testSimplePlay() {
@@ -920,7 +920,7 @@ public class ParallelTransitionPlayTest {
         assertEquals(Status.STOPPED, child1X.getStatus());
         assertEquals(Status.STOPPED, child1Y.getStatus());
     }
-    
+
     @Test
     public void testPlayFromStartSynchronization() {
         pt.getChildren().addAll(child1Y, childByX);
@@ -944,7 +944,7 @@ public class ParallelTransitionPlayTest {
         assertEquals(2000, xProperty.get());
 
     }
-    
+
     @Test
     public void testCycleSynchronization() {
         pt.setCycleCount(2);

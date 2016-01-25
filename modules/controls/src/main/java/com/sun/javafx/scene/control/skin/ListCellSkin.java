@@ -52,14 +52,14 @@ public class ListCellSkin<T> extends CellSkinBase<ListCell<T>, ListCellBehavior<
             this.fixedCellSizeEnabled = fixedCellSize > 0;
         }
     }
-    
+
     @Override protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
         double pref = super.computePrefWidth(height, topInset, rightInset, bottomInset, leftInset);
         ListView<T> listView = getSkinnable().getListView();
         return listView == null ? 0 :
             listView.getOrientation() == Orientation.VERTICAL ? pref : Math.max(pref, getCellSize());
     }
- 
+
     @Override protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
         if (fixedCellSizeEnabled) {
             return fixedCellSize;

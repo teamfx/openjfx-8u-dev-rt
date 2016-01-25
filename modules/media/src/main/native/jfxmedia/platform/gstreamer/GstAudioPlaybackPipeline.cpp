@@ -391,9 +391,9 @@ void CGstAudioPlaybackPipeline::Dispose()
 
         gst_object_unref (m_Elements[PIPELINE]);
     }
-    
+
     if (m_pBusCallbackContent != NULL)
-    {    
+    {
         bool bFreeBusCallbackContent = m_pBusCallbackContent->m_bFreeMe;
 
         m_pBusCallbackContent->m_bIsDisposed = true;
@@ -1107,7 +1107,7 @@ gboolean CGstAudioPlaybackPipeline::BusCallback(GstBus* bus, GstMessage* msg, sB
                         g_free(debug);
                     break;
                 }
-                else if (pPipeline != NULL && pPipeline->m_pEventDispatcher != NULL && error->domain == GST_STREAM_ERROR && 
+                else if (pPipeline != NULL && pPipeline->m_pEventDispatcher != NULL && error->domain == GST_STREAM_ERROR &&
                     (error->code == GST_STREAM_ERROR_DECODE || error->code == GST_STREAM_ERROR_WRONG_TYPE))
                 {
                     if (!pPipeline->m_pEventDispatcher->SendPlayerMediaErrorEvent(ERROR_MEDIA_INVALID))
@@ -1119,8 +1119,8 @@ gboolean CGstAudioPlaybackPipeline::BusCallback(GstBus* bus, GstMessage* msg, sB
                         g_free(debug);
                     break;
                 }
-                else if (pPipeline != NULL && pPipeline->m_pEventDispatcher != NULL && error->domain == GST_STREAM_ERROR && 
-                    (error->code == GST_STREAM_ERROR_CODEC_NOT_FOUND || 
+                else if (pPipeline != NULL && pPipeline->m_pEventDispatcher != NULL && error->domain == GST_STREAM_ERROR &&
+                    (error->code == GST_STREAM_ERROR_CODEC_NOT_FOUND ||
                      error->code == GST_STREAM_ERROR_FAILED ||
                      error->code == GST_STREAM_ERROR_TYPE_NOT_FOUND))
                 {

@@ -44,7 +44,7 @@ import org.junit.Ignore;
 
 @Ignore
 public class StackedBarChartTest extends XYChartTestBase {
-    
+
     private Scene scene;
     private StubToolkit toolkit;
     private Stage stage;
@@ -53,7 +53,7 @@ public class StackedBarChartTest extends XYChartTestBase {
     final XYChart.Series<String,Number> series2 = new XYChart.Series<String,Number>();
     final XYChart.Series<String,Number> series3 = new XYChart.Series<String,Number>();
     final String[] years = {"2007", "2008", "2009"};
-    
+
     protected Chart createChart() {
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
@@ -75,7 +75,7 @@ public class StackedBarChartTest extends XYChartTestBase {
         series3.getData().add(new XYChart.Data<String,Number>(years[2], 2800));
         return sbc;
     }
-    
+
     @Test
     public void testAddingAutoRangingCategoryAxis() {
         CategoryAxis xAxis = new CategoryAxis();
@@ -101,7 +101,7 @@ public class StackedBarChartTest extends XYChartTestBase {
         pulse();
          assertEquals(6, sbc.getPlotChildren().size());
     }
-    
+
     @Test
     public void testSeriesAdd() {
         startApp();
@@ -117,18 +117,18 @@ public class StackedBarChartTest extends XYChartTestBase {
         sb = computeBoundsString((Region)childrenList.get(0), (Region)childrenList.get(1),
                 (Region)childrenList.get(2));
         assertEquals("10 479 234 36 254 432 234 83 499 375 234 140 ", sb.toString());
-        
+
         // compute bounds for the second series
 //        sb = computeBoundsString((Region)childrenList.get(3), (Region)childrenList.get(4),
 //                (Region)childrenList.get(5));
 //        assertEquals("10 421 236 62 256 328 236 108 501 220 236 158 ", sb.toString());
-//        
+//
 //        // compute bounds for the third series
 //        sb = computeBoundsString((Region)childrenList.get(6), (Region)childrenList.get(7),
 //                (Region)childrenList.get(8));
 //        assertEquals("10 370 236 51 256 264 236 64 501 39 236 181 ", sb.toString());
     }
-    
+
     @Test
     public void testSeriesRemove() {
         startApp();
@@ -141,7 +141,7 @@ public class StackedBarChartTest extends XYChartTestBase {
             assertEquals(0, sbc.getPlotChildren().size());
         }
     }
-    
+
     @Test
     public void testDataItemAdd() {
         startApp();
@@ -151,7 +151,7 @@ public class StackedBarChartTest extends XYChartTestBase {
         pulse();
         assertEquals(4, sbc.getPlotChildren().size());
     }
-    
+
     @Test
     public void testDataItemInsert() {
         startApp();
@@ -161,7 +161,7 @@ public class StackedBarChartTest extends XYChartTestBase {
         pulse();
         assertEquals(4, sbc.getPlotChildren().size());
     }
-     
+
     @Test
     public void testDataItemRemove() {
         startApp();
@@ -173,7 +173,7 @@ public class StackedBarChartTest extends XYChartTestBase {
             assertEquals(2, sbc.getPlotChildren().size());
         }
     }
-    
+
     @Test @Ignore
     public void testDataItemChange() {
         startApp();
@@ -186,11 +186,11 @@ public class StackedBarChartTest extends XYChartTestBase {
             sb = computeBoundsString((Region)childrenList.get(0), (Region)childrenList.get(1),
                 (Region)childrenList.get(2));
             assertEquals("10 380 216 127 236 216 216 291 461 16 216 491 ", sb.toString());
-            
+
             XYChart.Data<String, Number> d = series1.getData().get(2);
             d.setYValue(500d);
             pulse();
-            
+
             // compute bounds for the first series after data change
             sb = computeBoundsString((Region)childrenList.get(0), (Region)childrenList.get(1),
                 (Region)childrenList.get(2));

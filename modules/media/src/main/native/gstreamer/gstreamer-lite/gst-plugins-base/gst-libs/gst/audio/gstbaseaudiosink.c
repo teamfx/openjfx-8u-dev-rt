@@ -1954,7 +1954,7 @@ gst_base_audio_sink_change_state (GstElement * element,
       sink->priv->sync_latency = TRUE;
       eos = GST_BASE_SINK (sink)->eos;
       GST_OBJECT_UNLOCK (sink);
-      
+
 #ifdef GSTREAMER_LITE
       gst_ring_buffer_clear_all(sink->ringbuffer);
 #endif // GSTREAMER_LITE

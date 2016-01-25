@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,19 +36,19 @@ Builder class for javafx.scene.control.CheckMenuItem
 public class CheckMenuItemBuilder<B extends javafx.scene.control.CheckMenuItemBuilder<B>> extends javafx.scene.control.MenuItemBuilder<B> {
     protected CheckMenuItemBuilder() {
     }
-    
+
     /** Creates a new instance of CheckMenuItemBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.CheckMenuItemBuilder<?> create() {
         return new javafx.scene.control.CheckMenuItemBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.scene.control.CheckMenuItem x) {
         super.applyTo(x);
         if (__set) x.setSelected(this.selected);
     }
-    
+
     private boolean selected;
     /**
     Set the value of the {@link javafx.scene.control.CheckMenuItem#isSelected() selected} property for the instance constructed by this builder.
@@ -59,7 +59,7 @@ public class CheckMenuItemBuilder<B extends javafx.scene.control.CheckMenuItemBu
         __set = true;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.CheckMenuItem} based on the properties set on this builder.
     */

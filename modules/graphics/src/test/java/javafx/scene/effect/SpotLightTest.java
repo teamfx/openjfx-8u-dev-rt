@@ -100,7 +100,7 @@ public class SpotLightTest extends LightTestBase {
         pulse();
         assertEquals(0f, ((com.sun.scenario.effect.light.SpotLight) effect.impl_getImpl()).getPointsAtZ(), 1e-100);
     }
-    
+
     @Test
     public void testSetSpecularExponent() {
         // try setting correct value
@@ -109,7 +109,7 @@ public class SpotLightTest extends LightTestBase {
         pulse();
         assertEquals(1.1f, ((com.sun.scenario.effect.light.SpotLight)effect.impl_getImpl()).getSpecularExponent(), 1e-100);
     }
-    
+
     @Test
     public void testDefaultSpecularExponent() {
         // default value should be 1
@@ -118,7 +118,7 @@ public class SpotLightTest extends LightTestBase {
         pulse();
         assertEquals(1f, ((com.sun.scenario.effect.light.SpotLight)effect.impl_getImpl()).getSpecularExponent(), 1e-100);
     }
-    
+
     @Test
     public void testMinSpecularExponent() {
         // 0 should be ok
@@ -195,7 +195,7 @@ public class SpotLightTest extends LightTestBase {
         assertEquals(3, effect.getZ(), 1e-100);
         assertEquals(4, effect.getSpecularExponent(), 1e-100);
         assertEquals(Color.RED, effect.getColor());
-        pulse();        
+        pulse();
         assertEquals(1.0f, ((com.sun.scenario.effect.light.SpotLight) effect.impl_getImpl()).getX(), 1e-100);
         assertEquals(2.0f, ((com.sun.scenario.effect.light.SpotLight) effect.impl_getImpl()).getY(), 1e-100);
         assertEquals(3.0f, ((com.sun.scenario.effect.light.SpotLight) effect.impl_getImpl()).getZ(), 1e-100);
@@ -216,7 +216,7 @@ public class SpotLightTest extends LightTestBase {
         assertEquals(0, effect.getZ(), 1e-100);
         assertEquals(1, effect.getSpecularExponent(), 1e-100);
         assertEquals(Color.WHITE, effect.getColor());
-        pulse();        
+        pulse();
         assertEquals(0f, ((com.sun.scenario.effect.light.SpotLight) effect.impl_getImpl()).getX(), 1e-100);
         assertEquals(0f, ((com.sun.scenario.effect.light.SpotLight) effect.impl_getImpl()).getY(), 1e-100);
         assertEquals(0f, ((com.sun.scenario.effect.light.SpotLight) effect.impl_getImpl()).getZ(), 1e-100);

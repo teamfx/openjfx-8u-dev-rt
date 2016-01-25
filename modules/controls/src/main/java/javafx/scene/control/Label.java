@@ -89,12 +89,12 @@ public class Label extends Labeled {
         setAccessibleRole(AccessibleRole.TEXT);
         // Labels are not focus traversable, unlike most other UI Controls.
         // focusTraversable is styleable through css. Calling setFocusTraversable
-        // makes it look to css like the user set the value and css will not 
-        // override. Initializing focusTraversable by calling set on the 
-        // CssMetaData ensures that css will be able to override the value.        
+        // makes it look to css like the user set the value and css will not
+        // override. Initializing focusTraversable by calling set on the
+        // CssMetaData ensures that css will be able to override the value.
         ((StyleableProperty<Boolean>)(WritableValue<Boolean>)focusTraversableProperty()).applyStyle(null, Boolean.FALSE);
     }
-    
+
     /***************************************************************************
      *                                                                         *
      * Properties                                                              *
@@ -167,7 +167,7 @@ public class Label extends Labeled {
     /**
       * Most Controls return true for focusTraversable, so Control overrides
       * this method to return true, but Label returns false for
-      * focusTraversable's initial value; hence the override of the override. 
+      * focusTraversable's initial value; hence the override of the override.
       * This method is called from CSS code to get the correct initial value.
       * @treatAsPrivate implementation detail
       */

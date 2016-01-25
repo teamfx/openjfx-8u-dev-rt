@@ -39,46 +39,46 @@
 #endif
 
 /* --- defines --- */
-#define	PRG_NAME	"glib-genmarshal"
-#define	PKG_NAME	"GLib"
-#define PKG_HTTP_HOME	"http://www.gtk.org"
+#define PRG_NAME    "glib-genmarshal"
+#define PKG_NAME    "GLib"
+#define PKG_HTTP_HOME   "http://www.gtk.org"
 
 
 /* --- typedefs & structures --- */
 typedef struct
 {
-  gchar	      *keyword;		/* marhaller list keyword [MY_STRING] */
-  const gchar *sig_name;	/* signature name [STRING] */
-  const gchar *ctype;		/* C type name [gchar*] */
-  const gchar *getter;		/* value getter function [g_value_get_string] */
+  gchar       *keyword;     /* marhaller list keyword [MY_STRING] */
+  const gchar *sig_name;    /* signature name [STRING] */
+  const gchar *ctype;       /* C type name [gchar*] */
+  const gchar *getter;      /* value getter function [g_value_get_string] */
 } InArgument;
 typedef struct
 {
-  gchar	      *keyword;		/* marhaller list keyword [MY_STRING] */
-  const gchar *sig_name;	/* signature name [STRING] */
-  const gchar *ctype;		/* C type name [gchar*] */
-  const gchar *setter;		/* value setter function [g_value_set_string] */
+  gchar       *keyword;     /* marhaller list keyword [MY_STRING] */
+  const gchar *sig_name;    /* signature name [STRING] */
+  const gchar *ctype;       /* C type name [gchar*] */
+  const gchar *setter;      /* value setter function [g_value_set_string] */
 } OutArgument;
 typedef struct
 {
   gchar       *ploc;
   OutArgument *rarg;
-  GList       *args;	/* of type InArgument* */
+  GList       *args;    /* of type InArgument* */
 } Signature;
 
 
 /* --- prototypes --- */
-static void	parse_args	(gint	   	*argc_p,
-				 gchar	     ***argv_p);
-static void	print_blurb	(FILE	       	*bout,
-				 gboolean	 print_help);
+static void parse_args  (gint       *argc_p,
+                 gchar       ***argv_p);
+static void print_blurb (FILE           *bout,
+                 gboolean    print_help);
 
 
 /* --- variables --- */
 static const GScannerConfig scanner_config_template =
 {
   (
-   " \t\r"		/* "\n" is statement delimiter */
+   " \t\r"      /* "\n" is statement delimiter */
    )                    /* cset_skip_characters */,
   (
    G_CSET_a_2_z
@@ -115,15 +115,15 @@ static const GScannerConfig scanner_config_template =
   FALSE                 /* symbol_2_token */,
   FALSE                 /* scope_0_fallback */,
 };
-static gchar		* const std_marshaller_prefix = "g_cclosure_marshal";
-static gchar		*marshaller_prefix = "g_cclosure_user_marshal";
-static GHashTable	*marshallers = NULL;
+static gchar        * const std_marshaller_prefix = "g_cclosure_marshal";
+static gchar        *marshaller_prefix = "g_cclosure_user_marshal";
+static GHashTable   *marshallers = NULL;
 static FILE             *fout = NULL;
-static gboolean		 gen_cheader = FALSE;
-static gboolean		 gen_cbody = FALSE;
+static gboolean      gen_cheader = FALSE;
+static gboolean      gen_cbody = FALSE;
 static gboolean          gen_internal = FALSE;
-static gboolean		 skip_ploc = FALSE;
-static gboolean		 std_includes = TRUE;
+static gboolean      skip_ploc = FALSE;
+static gboolean      std_includes = TRUE;
 static gint              exit_status = 0;
 
 
@@ -184,30 +184,30 @@ static gboolean
 complete_in_arg (InArgument *iarg)
 {
   static const InArgument args[] = {
-    /* keyword		sig_name	ctype		getter			*/
-    { "VOID",		"VOID",		"void",		NULL,			},
-    { "BOOLEAN",	"BOOLEAN",	"gboolean",	"g_marshal_value_peek_boolean",	},
-    { "CHAR",		"CHAR",		"gchar",	"g_marshal_value_peek_char",	},
-    { "UCHAR",		"UCHAR",	"guchar",	"g_marshal_value_peek_uchar",	},
-    { "INT",		"INT",		"gint",		"g_marshal_value_peek_int",	},
-    { "UINT",		"UINT",		"guint",	"g_marshal_value_peek_uint",	},
-    { "LONG",		"LONG",		"glong",	"g_marshal_value_peek_long",	},
-    { "ULONG",		"ULONG",	"gulong",	"g_marshal_value_peek_ulong",	},
-    { "INT64",		"INT64",	"gint64",       "g_marshal_value_peek_int64",	},
-    { "UINT64",		"UINT64",	"guint64",	"g_marshal_value_peek_uint64",	},
-    { "ENUM",		"ENUM",		"gint",		"g_marshal_value_peek_enum",	},
-    { "FLAGS",		"FLAGS",	"guint",	"g_marshal_value_peek_flags",	},
-    { "FLOAT",		"FLOAT",	"gfloat",	"g_marshal_value_peek_float",	},
-    { "DOUBLE",		"DOUBLE",	"gdouble",	"g_marshal_value_peek_double",	},
-    { "STRING",		"STRING",	"gpointer",	"g_marshal_value_peek_string",	},
-    { "PARAM",		"PARAM",	"gpointer",	"g_marshal_value_peek_param",	},
-    { "BOXED",		"BOXED",	"gpointer",	"g_marshal_value_peek_boxed",	},
-    { "POINTER",	"POINTER",	"gpointer",	"g_marshal_value_peek_pointer",	},
-    { "OBJECT",		"OBJECT",	"gpointer",	"g_marshal_value_peek_object",	},
-    { "VARIANT",	"VARIANT",	"gpointer",	"g_marshal_value_peek_variant",	},
+    /* keyword      sig_name    ctype       getter          */
+    { "VOID",       "VOID",     "void",     NULL,           },
+    { "BOOLEAN",    "BOOLEAN",  "gboolean", "g_marshal_value_peek_boolean", },
+    { "CHAR",       "CHAR",     "gchar",    "g_marshal_value_peek_char",    },
+    { "UCHAR",      "UCHAR",    "guchar",   "g_marshal_value_peek_uchar",   },
+    { "INT",        "INT",      "gint",     "g_marshal_value_peek_int", },
+    { "UINT",       "UINT",     "guint",    "g_marshal_value_peek_uint",    },
+    { "LONG",       "LONG",     "glong",    "g_marshal_value_peek_long",    },
+    { "ULONG",      "ULONG",    "gulong",   "g_marshal_value_peek_ulong",   },
+    { "INT64",      "INT64",    "gint64",       "g_marshal_value_peek_int64",   },
+    { "UINT64",     "UINT64",   "guint64",  "g_marshal_value_peek_uint64",  },
+    { "ENUM",       "ENUM",     "gint",     "g_marshal_value_peek_enum",    },
+    { "FLAGS",      "FLAGS",    "guint",    "g_marshal_value_peek_flags",   },
+    { "FLOAT",      "FLOAT",    "gfloat",   "g_marshal_value_peek_float",   },
+    { "DOUBLE",     "DOUBLE",   "gdouble",  "g_marshal_value_peek_double",  },
+    { "STRING",     "STRING",   "gpointer", "g_marshal_value_peek_string",  },
+    { "PARAM",      "PARAM",    "gpointer", "g_marshal_value_peek_param",   },
+    { "BOXED",      "BOXED",    "gpointer", "g_marshal_value_peek_boxed",   },
+    { "POINTER",    "POINTER",  "gpointer", "g_marshal_value_peek_pointer", },
+    { "OBJECT",     "OBJECT",   "gpointer", "g_marshal_value_peek_object",  },
+    { "VARIANT",    "VARIANT",  "gpointer", "g_marshal_value_peek_variant", },
     /* deprecated: */
-    { "NONE",		"VOID",		"void",		NULL,			},
-    { "BOOL",		"BOOLEAN",	"gboolean",	"g_marshal_value_peek_boolean",	},
+    { "NONE",       "VOID",     "void",     NULL,           },
+    { "BOOL",       "BOOLEAN",  "gboolean", "g_marshal_value_peek_boolean", },
   };
   guint i;
 
@@ -216,11 +216,11 @@ complete_in_arg (InArgument *iarg)
   for (i = 0; i < G_N_ELEMENTS (args); i++)
     if (strcmp (args[i].keyword, iarg->keyword) == 0)
       {
-	iarg->sig_name = args[i].sig_name;
-	iarg->ctype = args[i].ctype;
-	iarg->getter = args[i].getter;
+    iarg->sig_name = args[i].sig_name;
+    iarg->ctype = args[i].ctype;
+    iarg->getter = args[i].getter;
 
-	return TRUE;
+    return TRUE;
       }
   return FALSE;
 }
@@ -229,30 +229,30 @@ static gboolean
 complete_out_arg (OutArgument *oarg)
 {
   static const OutArgument args[] = {
-    /* keyword		sig_name	ctype		setter			*/
-    { "VOID",		"VOID",		"void",		NULL,					     },
-    { "BOOLEAN",	"BOOLEAN",	"gboolean",	"g_value_set_boolean",			     },
-    { "CHAR",		"CHAR",		"gchar",	"g_value_set_char",			     },
-    { "UCHAR",		"UCHAR",	"guchar",	"g_value_set_uchar",			     },
-    { "INT",		"INT",		"gint",		"g_value_set_int",			     },
-    { "UINT",		"UINT",		"guint",	"g_value_set_uint",			     },
-    { "LONG",		"LONG",		"glong",	"g_value_set_long",			     },
-    { "ULONG",		"ULONG",	"gulong",	"g_value_set_ulong",			     },
-    { "INT64",		"INT64",	"gint64",	"g_value_set_int64",			     },
-    { "UINT64",		"UINT64",	"guint64",	"g_value_set_uint64",			     },
-    { "ENUM",		"ENUM",		"gint",		"g_value_set_enum",			     },
-    { "FLAGS",		"FLAGS",	"guint",	"g_value_set_flags",			     },
-    { "FLOAT",		"FLOAT",	"gfloat",	"g_value_set_float",			     },
-    { "DOUBLE",		"DOUBLE",	"gdouble",	"g_value_set_double",			     },
-    { "STRING",		"STRING",	"gchar*",	"g_value_take_string",			     },
-    { "PARAM",		"PARAM",	"GParamSpec*",	"g_value_take_param",			     },
-    { "BOXED",		"BOXED",	"gpointer",	"g_value_take_boxed",			     },
-    { "POINTER",	"POINTER",	"gpointer",	"g_value_set_pointer",			     },
-    { "OBJECT",		"OBJECT",	"GObject*",	"g_value_take_object",			     },
-    { "VARIANT",	"VARIANT",	"GVariant*",	"g_value_take_variant",			     },
+    /* keyword      sig_name    ctype       setter          */
+    { "VOID",       "VOID",     "void",     NULL,                        },
+    { "BOOLEAN",    "BOOLEAN",  "gboolean", "g_value_set_boolean",               },
+    { "CHAR",       "CHAR",     "gchar",    "g_value_set_char",              },
+    { "UCHAR",      "UCHAR",    "guchar",   "g_value_set_uchar",                 },
+    { "INT",        "INT",      "gint",     "g_value_set_int",               },
+    { "UINT",       "UINT",     "guint",    "g_value_set_uint",              },
+    { "LONG",       "LONG",     "glong",    "g_value_set_long",              },
+    { "ULONG",      "ULONG",    "gulong",   "g_value_set_ulong",                 },
+    { "INT64",      "INT64",    "gint64",   "g_value_set_int64",                 },
+    { "UINT64",     "UINT64",   "guint64",  "g_value_set_uint64",                },
+    { "ENUM",       "ENUM",     "gint",     "g_value_set_enum",              },
+    { "FLAGS",      "FLAGS",    "guint",    "g_value_set_flags",                 },
+    { "FLOAT",      "FLOAT",    "gfloat",   "g_value_set_float",                 },
+    { "DOUBLE",     "DOUBLE",   "gdouble",  "g_value_set_double",                },
+    { "STRING",     "STRING",   "gchar*",   "g_value_take_string",               },
+    { "PARAM",      "PARAM",    "GParamSpec*",  "g_value_take_param",                },
+    { "BOXED",      "BOXED",    "gpointer", "g_value_take_boxed",                },
+    { "POINTER",    "POINTER",  "gpointer", "g_value_set_pointer",               },
+    { "OBJECT",     "OBJECT",   "GObject*", "g_value_take_object",               },
+    { "VARIANT",    "VARIANT",  "GVariant*",    "g_value_take_variant",              },
     /* deprecated: */
-    { "NONE",		"VOID",		"void",		NULL,					     },
-    { "BOOL",		"BOOLEAN",	"gboolean",	"g_value_set_boolean",			     },
+    { "NONE",       "VOID",     "void",     NULL,                        },
+    { "BOOL",       "BOOLEAN",  "gboolean", "g_value_set_boolean",               },
   };
   guint i;
 
@@ -261,11 +261,11 @@ complete_out_arg (OutArgument *oarg)
   for (i = 0; i < G_N_ELEMENTS (args); i++)
     if (strcmp (args[i].keyword, oarg->keyword) == 0)
       {
-	oarg->sig_name = args[i].sig_name;
-	oarg->ctype = args[i].ctype;
-	oarg->setter = args[i].setter;
+    oarg->sig_name = args[i].sig_name;
+    oarg->ctype = args[i].ctype;
+    oarg->setter = args[i].setter;
 
-	return TRUE;
+    return TRUE;
       }
   return FALSE;
 }
@@ -273,7 +273,7 @@ complete_out_arg (OutArgument *oarg)
 static const gchar*
 pad (const gchar *string)
 {
-#define PAD_LENGTH	12
+#define PAD_LENGTH  12
   static gchar *buffer = NULL;
   gint i;
 
@@ -325,7 +325,7 @@ indent (guint n_spaces)
 
 static void
 generate_marshal (const gchar *signame,
-		  Signature   *sig)
+          Signature   *sig)
 {
   guint ind, a;
   GList *node;
@@ -391,12 +391,12 @@ generate_marshal (const gchar *signame,
       ind = g_fprintf (fout, "  typedef %s (*GMarshalFunc_%s) (", sig->rarg->ctype, signame);
       g_fprintf (fout, "%s data1,\n", pad ("gpointer"));
       for (a = 1, node = sig->args; node; node = node->next)
-	{
-	  InArgument *iarg = node->data;
+    {
+      InArgument *iarg = node->data;
 
-	  if (iarg->getter)
-	    g_fprintf (fout, "%s%s arg_%d,\n", indent (ind), pad (iarg->ctype), a++);
-	}
+      if (iarg->getter)
+        g_fprintf (fout, "%s%s arg_%d,\n", indent (ind), pad (iarg->ctype), a++);
+    }
       g_fprintf (fout, "%s%s data2);\n", indent (ind), pad ("gpointer"));
 
       /* cfile marshal variables */
@@ -404,26 +404,26 @@ generate_marshal (const gchar *signame,
       g_fprintf (fout, "  register GCClosure *cc = (GCClosure*) closure;\n");
       g_fprintf (fout, "  register gpointer data1, data2;\n");
       if (sig->rarg->setter)
-	g_fprintf (fout, "  %s v_return;\n", sig->rarg->ctype);
+    g_fprintf (fout, "  %s v_return;\n", sig->rarg->ctype);
 
       if (sig->args || sig->rarg->setter)
-	{
-	  g_fprintf (fout, "\n");
+    {
+      g_fprintf (fout, "\n");
 
-	  if (sig->rarg->setter)
-	    g_fprintf (fout, "  g_return_if_fail (return_value != NULL);\n");
-	  if (sig->args)
-	    {
-	      for (a = 0, node = sig->args; node; node = node->next)
-		{
-		  InArgument *iarg = node->data;
+      if (sig->rarg->setter)
+        g_fprintf (fout, "  g_return_if_fail (return_value != NULL);\n");
+      if (sig->args)
+        {
+          for (a = 0, node = sig->args; node; node = node->next)
+        {
+          InArgument *iarg = node->data;
 
-		  if (iarg->getter)
-		    a++;
-		}
-	      g_fprintf (fout, "  g_return_if_fail (n_param_values == %u);\n", 1 + a);
-	    }
-	}
+          if (iarg->getter)
+            a++;
+        }
+          g_fprintf (fout, "  g_return_if_fail (n_param_values == %u);\n", 1 + a);
+        }
+    }
 
       /* cfile marshal data1, data2 and callback setup */
       g_fprintf (fout, "\n");
@@ -441,20 +441,20 @@ generate_marshal (const gchar *signame,
       ind = g_fprintf (fout, " %s callback (", sig->rarg->setter ? " v_return =" : "");
       g_fprintf (fout, "data1,\n");
       for (a = 1, node = sig->args; node; node = node->next)
-	{
-	  InArgument *iarg = node->data;
+    {
+      InArgument *iarg = node->data;
 
-	  if (iarg->getter)
-	    g_fprintf (fout, "%s%s (param_values + %d),\n", indent (ind), iarg->getter, a++);
-	}
+      if (iarg->getter)
+        g_fprintf (fout, "%s%s (param_values + %d),\n", indent (ind), iarg->getter, a++);
+    }
       g_fprintf (fout, "%sdata2);\n", indent (ind));
 
       /* cfile marshal return value storage */
       if (sig->rarg->setter)
-	{
-	  g_fprintf (fout, "\n");
-	  g_fprintf (fout, "  %s (return_value, v_return);\n", sig->rarg->setter);
-	}
+    {
+      g_fprintf (fout, "\n");
+      g_fprintf (fout, "  %s (return_value, v_return);\n", sig->rarg->setter);
+    }
 
       /* cfile marshal footer */
       g_fprintf (fout, "}\n");
@@ -479,11 +479,11 @@ process_signature (Signature *sig)
       InArgument *iarg = node->data;
 
       if (!complete_in_arg (iarg))
-	{
-	  g_warning ("unknown type: %s", iarg->keyword);
+    {
+      g_warning ("unknown type: %s", iarg->keyword);
           exit_status |= 1;
-	  return;
-	}
+      return;
+    }
     }
 
   /* construct requested marshaller name and technical marshaller name */
@@ -554,7 +554,7 @@ new_out_arg (const gchar *pname)
 
 static guint
 parse_line (GScanner  *scanner,
-	    Signature *sig)
+        Signature *sig)
 {
   /* parse identifier for return value */
   if (g_scanner_get_next_token (scanner) != G_TOKEN_IDENTIFIER)
@@ -581,7 +581,7 @@ parse_line (GScanner  *scanner,
 
       /* parse arg identifier */
       if (g_scanner_get_next_token (scanner) != G_TOKEN_IDENTIFIER)
-	return G_TOKEN_IDENTIFIER;
+    return G_TOKEN_IDENTIFIER;
       sig->args = g_list_append (sig->args, new_in_arg (scanner->value.v_identifier));
     }
 
@@ -595,8 +595,8 @@ parse_line (GScanner  *scanner,
 
 static gboolean
 string_key_destroy (gpointer key,
-		    gpointer value,
-		    gpointer user_data)
+            gpointer value,
+            gpointer user_data)
 {
   g_free (key);
 
@@ -608,7 +608,7 @@ main (int   argc,
       char *argv[])
 {
   const gchar *gobject_marshallers[] = {
-#include	"gmarshal.strings"
+#include    "gmarshal.strings"
   };
   GScanner *scanner;
   GSList *slist, *files = NULL;
@@ -634,9 +634,9 @@ main (int   argc,
   if (std_includes)
     for (i = 0; i < G_N_ELEMENTS (gobject_marshallers); i++)
       {
-	gchar *tmp = g_strdup (gobject_marshallers[i]);
+    gchar *tmp = g_strdup (gobject_marshallers[i]);
 
-	g_hash_table_insert (marshallers, tmp, tmp);
+    g_hash_table_insert (marshallers, tmp, tmp);
       }
 
   /* put out initial heading */
@@ -665,17 +665,17 @@ main (int   argc,
       gint fd;
 
       if (strcmp (file, "/dev/stdin") == 0)
-	/* Mostly for Win32. This is equivalent to opening /dev/stdin */
-	fd = dup (0);
+    /* Mostly for Win32. This is equivalent to opening /dev/stdin */
+    fd = dup (0);
       else
-	fd = open (file, O_RDONLY);
+    fd = open (file, O_RDONLY);
 
       if (fd < 0)
-	{
-	  g_warning ("failed to open \"%s\": %s", file, g_strerror (errno));
-	  exit_status |= 1;
-	  continue;
-	}
+    {
+      g_warning ("failed to open \"%s\": %s", file, g_strerror (errno));
+      exit_status |= 1;
+      continue;
+    }
 
       /* set file name for error reports */
       scanner->input_name = file;
@@ -687,57 +687,57 @@ main (int   argc,
        * or our sub routine came across invalid syntax
        */
       do
-	{
-	  guint expected_token = G_TOKEN_NONE;
+    {
+      guint expected_token = G_TOKEN_NONE;
 
-	  switch ((guint) g_scanner_peek_next_token (scanner))
-	    {
-	    case '\n':
-	      /* eat newline and restart */
-	      g_scanner_get_next_token (scanner);
-	      continue;
-	    case G_TOKEN_EOF:
-	      /* done */
-	      break;
-	    default:
-	      /* parse and process signatures */
-	      {
-		Signature signature = { NULL, NULL, NULL };
-		GList *node;
+      switch ((guint) g_scanner_peek_next_token (scanner))
+        {
+        case '\n':
+          /* eat newline and restart */
+          g_scanner_get_next_token (scanner);
+          continue;
+        case G_TOKEN_EOF:
+          /* done */
+          break;
+        default:
+          /* parse and process signatures */
+          {
+        Signature signature = { NULL, NULL, NULL };
+        GList *node;
 
-		expected_token = parse_line (scanner, &signature);
+        expected_token = parse_line (scanner, &signature);
 
-		/* once we got a valid signature, process it */
-		if (expected_token == G_TOKEN_NONE)
-		  process_signature (&signature);
+        /* once we got a valid signature, process it */
+        if (expected_token == G_TOKEN_NONE)
+          process_signature (&signature);
 
-		/* clean up signature contents */
-		g_free (signature.ploc);
-		if (signature.rarg)
-		  g_free (signature.rarg->keyword);
-		g_free (signature.rarg);
-		for (node = signature.args; node; node = node->next)
-		  {
-		    InArgument *iarg = node->data;
+        /* clean up signature contents */
+        g_free (signature.ploc);
+        if (signature.rarg)
+          g_free (signature.rarg->keyword);
+        g_free (signature.rarg);
+        for (node = signature.args; node; node = node->next)
+          {
+            InArgument *iarg = node->data;
 
-		    g_free (iarg->keyword);
-		    g_free (iarg);
-		  }
-		g_list_free (signature.args);
-	      }
-	      break;
-	    }
+            g_free (iarg->keyword);
+            g_free (iarg);
+          }
+        g_list_free (signature.args);
+          }
+          break;
+        }
 
-	  /* bail out on errors */
-	  if (expected_token != G_TOKEN_NONE)
-	    {
-	      g_scanner_unexp_token (scanner, expected_token, "type name", NULL, NULL, NULL, TRUE);
-	      exit_status |= 1;
-	      break;
-	    }
+      /* bail out on errors */
+      if (expected_token != G_TOKEN_NONE)
+        {
+          g_scanner_unexp_token (scanner, expected_token, "type name", NULL, NULL, NULL, TRUE);
+          exit_status |= 1;
+          break;
+        }
 
-	  g_scanner_peek_next_token (scanner);
-	}
+      g_scanner_peek_next_token (scanner);
+    }
       while (scanner->next_token != G_TOKEN_EOF);
 
       close (fd);
@@ -749,7 +749,7 @@ main (int   argc,
       g_fprintf (fout, "\nG_END_DECLS\n");
 
       if (std_includes)
-	g_fprintf (fout, "\n#endif /* __%s_MARSHAL_H__ */\n", marshaller_prefix);
+    g_fprintf (fout, "\n#endif /* __%s_MARSHAL_H__ */\n", marshaller_prefix);
     }
   g_fprintf (fout, "\n");
 
@@ -764,7 +764,7 @@ main (int   argc,
 
 static void
 parse_args (gint    *argc_p,
-	    gchar ***argv_p)
+        gchar ***argv_p)
 {
   guint argc = *argc_p;
   gchar **argv = *argv_p;
@@ -773,90 +773,90 @@ parse_args (gint    *argc_p,
   for (i = 1; i < argc; i++)
     {
       if (strcmp ("--header", argv[i]) == 0)
-	{
-	  gen_cheader = TRUE;
-	  argv[i] = NULL;
-	}
+    {
+      gen_cheader = TRUE;
+      argv[i] = NULL;
+    }
       else if (strcmp ("--body", argv[i]) == 0)
-	{
-	  gen_cbody = TRUE;
-	  argv[i] = NULL;
-	}
+    {
+      gen_cbody = TRUE;
+      argv[i] = NULL;
+    }
       else if (strcmp ("--skip-source", argv[i]) == 0)
-	{
-	  skip_ploc = TRUE;
-	  argv[i] = NULL;
-	}
+    {
+      skip_ploc = TRUE;
+      argv[i] = NULL;
+    }
       else if (strcmp ("--nostdinc", argv[i]) == 0)
-	{
-	  std_includes = FALSE;
-	  argv[i] = NULL;
-	}
+    {
+      std_includes = FALSE;
+      argv[i] = NULL;
+    }
       else if (strcmp ("--stdinc", argv[i]) == 0)
-	{
-	  std_includes = TRUE;
-	  argv[i] = NULL;
-	}
+    {
+      std_includes = TRUE;
+      argv[i] = NULL;
+    }
       else if (strcmp ("--internal", argv[i]) == 0)
-	{
-	  gen_internal = TRUE;
-	  argv[i] = NULL;
-	}
+    {
+      gen_internal = TRUE;
+      argv[i] = NULL;
+    }
       else if ((strcmp ("--prefix", argv[i]) == 0) ||
-	       (strncmp ("--prefix=", argv[i], 9) == 0))
-	{
+           (strncmp ("--prefix=", argv[i], 9) == 0))
+    {
           gchar *equal = argv[i] + 8;
 
-	  if (*equal == '=')
-	    marshaller_prefix = g_strdup (equal + 1);
-	  else if (i + 1 < argc)
-	    {
-	      marshaller_prefix = g_strdup (argv[i + 1]);
-	      argv[i] = NULL;
-	      i += 1;
-	    }
-	  argv[i] = NULL;
-	}
+      if (*equal == '=')
+        marshaller_prefix = g_strdup (equal + 1);
+      else if (i + 1 < argc)
+        {
+          marshaller_prefix = g_strdup (argv[i + 1]);
+          argv[i] = NULL;
+          i += 1;
+        }
+      argv[i] = NULL;
+    }
       else if (strcmp ("-h", argv[i]) == 0 ||
           strcmp ("-?", argv[i]) == 0 ||
-	  strcmp ("--help", argv[i]) == 0)
-	{
-	  print_blurb (stderr, TRUE);
-	  argv[i] = NULL;
-	  exit (0);
-	}
+      strcmp ("--help", argv[i]) == 0)
+    {
+      print_blurb (stderr, TRUE);
+      argv[i] = NULL;
+      exit (0);
+    }
       else if (strcmp ("-v", argv[i]) == 0 ||
-	       strcmp ("--version", argv[i]) == 0)
-	{
-	  print_blurb (stderr, FALSE);
-	  argv[i] = NULL;
-	  exit (0);
-	}
+           strcmp ("--version", argv[i]) == 0)
+    {
+      print_blurb (stderr, FALSE);
+      argv[i] = NULL;
+      exit (0);
+    }
       else if (strcmp (argv[i], "--g-fatal-warnings") == 0)
-	{
-	  GLogLevelFlags fatal_mask;
+    {
+      GLogLevelFlags fatal_mask;
 
-	  fatal_mask = g_log_set_always_fatal (G_LOG_FATAL_MASK);
-	  fatal_mask |= G_LOG_LEVEL_WARNING | G_LOG_LEVEL_CRITICAL;
-	  g_log_set_always_fatal (fatal_mask);
+      fatal_mask = g_log_set_always_fatal (G_LOG_FATAL_MASK);
+      fatal_mask |= G_LOG_LEVEL_WARNING | G_LOG_LEVEL_CRITICAL;
+      g_log_set_always_fatal (fatal_mask);
 
-	  argv[i] = NULL;
-	}
+      argv[i] = NULL;
+    }
     }
 
   e = 0;
   for (i = 1; i < argc; i++)
     {
       if (e)
-	{
-	  if (argv[i])
-	    {
-	      argv[e++] = argv[i];
-	      argv[i] = NULL;
-	    }
-	}
+    {
+      if (argv[i])
+        {
+          argv[e++] = argv[i];
+          argv[i] = NULL;
+        }
+    }
       else if (!argv[i])
-	e = i;
+    e = i;
     }
   if (e)
     *argc_p = e;
@@ -864,7 +864,7 @@ parse_args (gint    *argc_p,
 
 static void
 print_blurb (FILE    *bout,
-	     gboolean print_help)
+         gboolean print_help)
 {
   if (!print_help)
     {

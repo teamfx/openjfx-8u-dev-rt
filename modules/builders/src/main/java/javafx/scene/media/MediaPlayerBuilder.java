@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.media.MediaPlayer
 public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scene.media.MediaPlayer> {
     protected MediaPlayerBuilder() {
     }
-    
+
     /** Creates a new instance of MediaPlayerBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.media.MediaPlayerBuilder create() {
         return new javafx.scene.media.MediaPlayerBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -78,7 +78,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
             }
         }
     }
-    
+
     private double audioSpectrumInterval;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getAudioSpectrumInterval() audioSpectrumInterval} property for the instance constructed by this builder.
@@ -88,7 +88,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(0);
         return this;
     }
-    
+
     private javafx.scene.media.AudioSpectrumListener audioSpectrumListener;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getAudioSpectrumListener() audioSpectrumListener} property for the instance constructed by this builder.
@@ -98,7 +98,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(1);
         return this;
     }
-    
+
     private int audioSpectrumNumBands;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getAudioSpectrumNumBands() audioSpectrumNumBands} property for the instance constructed by this builder.
@@ -108,7 +108,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(2);
         return this;
     }
-    
+
     private int audioSpectrumThreshold;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getAudioSpectrumThreshold() audioSpectrumThreshold} property for the instance constructed by this builder.
@@ -118,7 +118,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(3);
         return this;
     }
-    
+
     private boolean autoPlay;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#isAutoPlay() autoPlay} property for the instance constructed by this builder.
@@ -128,7 +128,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(4);
         return this;
     }
-    
+
     private double balance;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getBalance() balance} property for the instance constructed by this builder.
@@ -138,7 +138,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(5);
         return this;
     }
-    
+
     private int cycleCount;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getCycleCount() cycleCount} property for the instance constructed by this builder.
@@ -148,7 +148,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(6);
         return this;
     }
-    
+
     private javafx.scene.media.Media media;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getMedia() media} property for the instance constructed by this builder.
@@ -157,7 +157,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         this.media = x;
         return this;
     }
-    
+
     private boolean mute;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#isMute() mute} property for the instance constructed by this builder.
@@ -167,7 +167,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(7);
         return this;
     }
-    
+
     private java.lang.Runnable onEndOfMedia;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getOnEndOfMedia() onEndOfMedia} property for the instance constructed by this builder.
@@ -177,7 +177,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(8);
         return this;
     }
-    
+
     private java.lang.Runnable onError;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getOnError() onError} property for the instance constructed by this builder.
@@ -187,7 +187,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(9);
         return this;
     }
-    
+
     private java.lang.Runnable onHalted;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getOnHalted() onHalted} property for the instance constructed by this builder.
@@ -197,7 +197,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(10);
         return this;
     }
-    
+
     private javafx.event.EventHandler<javafx.scene.media.MediaMarkerEvent> onMarker;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getOnMarker() onMarker} property for the instance constructed by this builder.
@@ -207,7 +207,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(11);
         return this;
     }
-    
+
     private java.lang.Runnable onPaused;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getOnPaused() onPaused} property for the instance constructed by this builder.
@@ -217,7 +217,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(12);
         return this;
     }
-    
+
     private java.lang.Runnable onPlaying;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getOnPlaying() onPlaying} property for the instance constructed by this builder.
@@ -227,7 +227,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(13);
         return this;
     }
-    
+
     private java.lang.Runnable onReady;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getOnReady() onReady} property for the instance constructed by this builder.
@@ -237,7 +237,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(14);
         return this;
     }
-    
+
     private java.lang.Runnable onRepeat;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getOnRepeat() onRepeat} property for the instance constructed by this builder.
@@ -247,7 +247,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(15);
         return this;
     }
-    
+
     private java.lang.Runnable onStalled;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getOnStalled() onStalled} property for the instance constructed by this builder.
@@ -257,7 +257,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(16);
         return this;
     }
-    
+
     private java.lang.Runnable onStopped;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getOnStopped() onStopped} property for the instance constructed by this builder.
@@ -267,7 +267,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(17);
         return this;
     }
-    
+
     private double rate;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getRate() rate} property for the instance constructed by this builder.
@@ -277,7 +277,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(18);
         return this;
     }
-    
+
     private javafx.util.Duration startTime;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getStartTime() startTime} property for the instance constructed by this builder.
@@ -287,7 +287,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(19);
         return this;
     }
-    
+
     private javafx.util.Duration stopTime;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getStopTime() stopTime} property for the instance constructed by this builder.
@@ -297,7 +297,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(20);
         return this;
     }
-    
+
     private double volume;
     /**
     Set the value of the {@link javafx.scene.media.MediaPlayer#getVolume() volume} property for the instance constructed by this builder.
@@ -307,7 +307,7 @@ public final class MediaPlayerBuilder implements javafx.util.Builder<javafx.scen
         __set(21);
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.media.MediaPlayer} based on the properties set on this builder.
     */

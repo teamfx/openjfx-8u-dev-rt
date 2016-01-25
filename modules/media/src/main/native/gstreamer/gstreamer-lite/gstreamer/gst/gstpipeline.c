@@ -622,7 +622,7 @@ gst_pipeline_get_bus (GstPipeline * pipeline)
  * MT safe.
  *
  * Deprecated: This function has the wrong name and is equivalent to
- * gst_element_set_start_time(). 
+ * gst_element_set_start_time().
  */
 #ifndef GST_REMOVE_DEPRECATED
 #ifdef GST_DISABLE_DEPRECATED
@@ -659,7 +659,7 @@ gst_pipeline_set_new_stream_time (GstPipeline * pipeline, GstClockTime time)
  * Returns: a #GstClockTime.
  *
  * Deprecated: This function has the wrong name and is equivalent to
- * gst_element_get_start_time(). 
+ * gst_element_get_start_time().
  */
 #ifndef GST_REMOVE_DEPRECATED
 #ifdef GST_DISABLE_DEPRECATED

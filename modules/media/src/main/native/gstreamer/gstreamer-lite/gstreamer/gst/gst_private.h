@@ -120,8 +120,8 @@ gboolean  priv_gst_structure_append_to_gstring (const GstStructure * structure,
                                                 GString            * s);
 /* registry cache backends */
 /* FIXME 0.11: use priv_ prefix */
-gboolean 		gst_registry_binary_read_cache 	(GstRegistry * registry, const char *location);
-gboolean 		gst_registry_binary_write_cache	(GstRegistry * registry, const char *location);
+gboolean        gst_registry_binary_read_cache  (GstRegistry * registry, const char *location);
+gboolean        gst_registry_binary_write_cache (GstRegistry * registry, const char *location);
 
 
 /* used in gstvalue.c and gststructure.c */

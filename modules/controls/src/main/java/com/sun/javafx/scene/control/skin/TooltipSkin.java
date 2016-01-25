@@ -37,7 +37,7 @@ import javafx.scene.control.Tooltip;
  *
  * TooltipContent class is the actual skin implementation of the tooltip.
  */
-public class TooltipSkin implements Skin<Tooltip> { 
+public class TooltipSkin implements Skin<Tooltip> {
     private Label tipLabel;
 
     private Tooltip tooltip;
@@ -67,7 +67,7 @@ public class TooltipSkin implements Skin<Tooltip> {
         tipLabel.setStyle(t.getStyle());
         tipLabel.setId(t.getId());
     }
-    
+
     @Override public Tooltip getSkinnable() {
         return tooltip;
     }

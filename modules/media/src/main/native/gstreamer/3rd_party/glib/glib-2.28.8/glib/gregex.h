@@ -324,10 +324,10 @@ typedef enum
  *
  * Since: 2.14
  */
-typedef struct _GRegex		GRegex;
+typedef struct _GRegex      GRegex;
 
 
-typedef struct _GMatchInfo	GMatchInfo;
+typedef struct _GMatchInfo  GMatchInfo;
 
 /**
  * GRegexEvalCallback:
@@ -346,125 +346,125 @@ typedef struct _GMatchInfo	GMatchInfo;
  *
  * Since: 2.14
  */
-typedef gboolean (*GRegexEvalCallback)		(const GMatchInfo *match_info,
-						 GString          *result,
-						 gpointer          user_data);
+typedef gboolean (*GRegexEvalCallback)      (const GMatchInfo *match_info,
+                         GString          *result,
+                         gpointer          user_data);
 
 
-GRegex		 *g_regex_new			(const gchar         *pattern,
-						 GRegexCompileFlags   compile_options,
-						 GRegexMatchFlags     match_options,
-						 GError             **error);
-GRegex           *g_regex_ref			(GRegex              *regex);
-void		  g_regex_unref			(GRegex              *regex);
-const gchar	 *g_regex_get_pattern		(const GRegex        *regex);
-gint		  g_regex_get_max_backref	(const GRegex        *regex);
-gint		  g_regex_get_capture_count	(const GRegex        *regex);
-gint		  g_regex_get_string_number	(const GRegex        *regex, 
-						 const gchar         *name);
-gchar		 *g_regex_escape_string		(const gchar         *string,
-						 gint                 length);
+GRegex       *g_regex_new           (const gchar         *pattern,
+                         GRegexCompileFlags   compile_options,
+                         GRegexMatchFlags     match_options,
+                         GError             **error);
+GRegex           *g_regex_ref           (GRegex              *regex);
+void          g_regex_unref         (GRegex              *regex);
+const gchar  *g_regex_get_pattern       (const GRegex        *regex);
+gint          g_regex_get_max_backref   (const GRegex        *regex);
+gint          g_regex_get_capture_count (const GRegex        *regex);
+gint          g_regex_get_string_number (const GRegex        *regex,
+                         const gchar         *name);
+gchar        *g_regex_escape_string     (const gchar         *string,
+                         gint                 length);
 
 GRegexCompileFlags g_regex_get_compile_flags    (const GRegex        *regex);
 GRegexMatchFlags   g_regex_get_match_flags      (const GRegex        *regex);
 
 /* Matching. */
-gboolean	  g_regex_match_simple		(const gchar         *pattern,
-						 const gchar         *string,
-						 GRegexCompileFlags   compile_options,
-						 GRegexMatchFlags     match_options);
-gboolean	  g_regex_match			(const GRegex        *regex,
-						 const gchar         *string,
-						 GRegexMatchFlags     match_options,
-						 GMatchInfo         **match_info);
-gboolean	  g_regex_match_full		(const GRegex        *regex,
-						 const gchar         *string,
-						 gssize               string_len,
-						 gint                 start_position,
-						 GRegexMatchFlags     match_options,
-						 GMatchInfo         **match_info,
-						 GError             **error);
-gboolean	  g_regex_match_all		(const GRegex        *regex,
-						 const gchar         *string,
-						 GRegexMatchFlags     match_options,
-						 GMatchInfo         **match_info);
-gboolean	  g_regex_match_all_full	(const GRegex        *regex,
-						 const gchar         *string,
-						 gssize               string_len,
-						 gint                 start_position,
-						 GRegexMatchFlags     match_options,
-						 GMatchInfo         **match_info,
-						 GError             **error);
+gboolean      g_regex_match_simple      (const gchar         *pattern,
+                         const gchar         *string,
+                         GRegexCompileFlags   compile_options,
+                         GRegexMatchFlags     match_options);
+gboolean      g_regex_match         (const GRegex        *regex,
+                         const gchar         *string,
+                         GRegexMatchFlags     match_options,
+                         GMatchInfo         **match_info);
+gboolean      g_regex_match_full        (const GRegex        *regex,
+                         const gchar         *string,
+                         gssize               string_len,
+                         gint                 start_position,
+                         GRegexMatchFlags     match_options,
+                         GMatchInfo         **match_info,
+                         GError             **error);
+gboolean      g_regex_match_all     (const GRegex        *regex,
+                         const gchar         *string,
+                         GRegexMatchFlags     match_options,
+                         GMatchInfo         **match_info);
+gboolean      g_regex_match_all_full    (const GRegex        *regex,
+                         const gchar         *string,
+                         gssize               string_len,
+                         gint                 start_position,
+                         GRegexMatchFlags     match_options,
+                         GMatchInfo         **match_info,
+                         GError             **error);
 
 /* String splitting. */
-gchar		**g_regex_split_simple		(const gchar         *pattern,
-						 const gchar         *string,
-						 GRegexCompileFlags   compile_options,
-						 GRegexMatchFlags     match_options);
-gchar		**g_regex_split			(const GRegex        *regex,
-						 const gchar         *string,
-						 GRegexMatchFlags     match_options);
-gchar		**g_regex_split_full		(const GRegex        *regex,
-						 const gchar         *string,
-						 gssize               string_len,
-						 gint                 start_position,
-						 GRegexMatchFlags     match_options,
-						 gint                 max_tokens,
-						 GError             **error);
+gchar       **g_regex_split_simple      (const gchar         *pattern,
+                         const gchar         *string,
+                         GRegexCompileFlags   compile_options,
+                         GRegexMatchFlags     match_options);
+gchar       **g_regex_split         (const GRegex        *regex,
+                         const gchar         *string,
+                         GRegexMatchFlags     match_options);
+gchar       **g_regex_split_full        (const GRegex        *regex,
+                         const gchar         *string,
+                         gssize               string_len,
+                         gint                 start_position,
+                         GRegexMatchFlags     match_options,
+                         gint                 max_tokens,
+                         GError             **error);
 
 /* String replacement. */
-gchar		 *g_regex_replace		(const GRegex        *regex,
-						 const gchar         *string,
-						 gssize               string_len,
-						 gint                 start_position,
-						 const gchar         *replacement,
-						 GRegexMatchFlags     match_options,
-						 GError             **error);
-gchar		 *g_regex_replace_literal	(const GRegex        *regex,
-						 const gchar         *string,
-						 gssize               string_len,
-						 gint                 start_position,
-						 const gchar         *replacement,
-						 GRegexMatchFlags     match_options,
-						 GError             **error);
-gchar		 *g_regex_replace_eval		(const GRegex        *regex,
-						 const gchar         *string,
-						 gssize               string_len,
-						 gint                 start_position,
-						 GRegexMatchFlags     match_options,
-						 GRegexEvalCallback   eval,
-						 gpointer             user_data,
-						 GError             **error);
-gboolean	  g_regex_check_replacement	(const gchar         *replacement,
-						 gboolean            *has_references,
-						 GError             **error);
+gchar        *g_regex_replace       (const GRegex        *regex,
+                         const gchar         *string,
+                         gssize               string_len,
+                         gint                 start_position,
+                         const gchar         *replacement,
+                         GRegexMatchFlags     match_options,
+                         GError             **error);
+gchar        *g_regex_replace_literal   (const GRegex        *regex,
+                         const gchar         *string,
+                         gssize               string_len,
+                         gint                 start_position,
+                         const gchar         *replacement,
+                         GRegexMatchFlags     match_options,
+                         GError             **error);
+gchar        *g_regex_replace_eval      (const GRegex        *regex,
+                         const gchar         *string,
+                         gssize               string_len,
+                         gint                 start_position,
+                         GRegexMatchFlags     match_options,
+                         GRegexEvalCallback   eval,
+                         gpointer             user_data,
+                         GError             **error);
+gboolean      g_regex_check_replacement (const gchar         *replacement,
+                         gboolean            *has_references,
+                         GError             **error);
 
 /* Match info */
-GRegex		 *g_match_info_get_regex	(const GMatchInfo    *match_info);
+GRegex       *g_match_info_get_regex    (const GMatchInfo    *match_info);
 const gchar      *g_match_info_get_string       (const GMatchInfo    *match_info);
 
-void		  g_match_info_free		(GMatchInfo          *match_info);
-gboolean	  g_match_info_next		(GMatchInfo          *match_info,
-						 GError             **error);
-gboolean	  g_match_info_matches		(const GMatchInfo    *match_info);
-gint		  g_match_info_get_match_count	(const GMatchInfo    *match_info);
-gboolean	  g_match_info_is_partial_match	(const GMatchInfo    *match_info);
-gchar		 *g_match_info_expand_references(const GMatchInfo    *match_info,
-						 const gchar         *string_to_expand,
-						 GError             **error);
-gchar		 *g_match_info_fetch		(const GMatchInfo    *match_info,
-						 gint                 match_num);
-gboolean	  g_match_info_fetch_pos	(const GMatchInfo    *match_info,
-						 gint                 match_num,
-						 gint                *start_pos,
-						 gint                *end_pos);
-gchar		 *g_match_info_fetch_named	(const GMatchInfo    *match_info,
-						 const gchar         *name);
-gboolean	  g_match_info_fetch_named_pos	(const GMatchInfo    *match_info,
-						 const gchar         *name,
-						 gint                *start_pos,
-						 gint                *end_pos);
-gchar		**g_match_info_fetch_all	(const GMatchInfo    *match_info);
+void          g_match_info_free     (GMatchInfo          *match_info);
+gboolean      g_match_info_next     (GMatchInfo          *match_info,
+                         GError             **error);
+gboolean      g_match_info_matches      (const GMatchInfo    *match_info);
+gint          g_match_info_get_match_count  (const GMatchInfo    *match_info);
+gboolean      g_match_info_is_partial_match (const GMatchInfo    *match_info);
+gchar        *g_match_info_expand_references(const GMatchInfo    *match_info,
+                         const gchar         *string_to_expand,
+                         GError             **error);
+gchar        *g_match_info_fetch        (const GMatchInfo    *match_info,
+                         gint                 match_num);
+gboolean      g_match_info_fetch_pos    (const GMatchInfo    *match_info,
+                         gint                 match_num,
+                         gint                *start_pos,
+                         gint                *end_pos);
+gchar        *g_match_info_fetch_named  (const GMatchInfo    *match_info,
+                         const gchar         *name);
+gboolean      g_match_info_fetch_named_pos  (const GMatchInfo    *match_info,
+                         const gchar         *name,
+                         gint                *start_pos,
+                         gint                *end_pos);
+gchar       **g_match_info_fetch_all    (const GMatchInfo    *match_info);
 
 G_END_DECLS
 

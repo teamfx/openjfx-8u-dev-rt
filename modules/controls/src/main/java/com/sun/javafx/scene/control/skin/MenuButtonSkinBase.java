@@ -108,7 +108,7 @@ public abstract class MenuButtonSkinBase<C extends MenuButton, B extends MenuBut
         getChildren().addAll(label, arrowButton);
 
         getSkinnable().requestLayout();
-        
+
         itemsChangedListener = c -> {
             while (c.next()) {
                 popup.getItems().removeAll(c.getRemoved());
@@ -116,7 +116,7 @@ public abstract class MenuButtonSkinBase<C extends MenuButton, B extends MenuBut
             }
         };
         control.getItems().addListener(itemsChangedListener);
-        
+
         if (getSkinnable().getScene() != null) {
             ControlAcceleratorSupport.addAcceleratorsIntoScene(getSkinnable().getItems(), getSkinnable());
         }
@@ -147,7 +147,7 @@ public abstract class MenuButtonSkinBase<C extends MenuButton, B extends MenuBut
     }
 
      /** {@inheritDoc} */
-    @Override public void dispose() { 
+    @Override public void dispose() {
         getSkinnable().getItems().removeListener(itemsChangedListener);
         super.dispose();
         if (popup != null ) {
@@ -169,7 +169,7 @@ public abstract class MenuButtonSkinBase<C extends MenuButton, B extends MenuBut
     private void show() {
         if (!popup.isShowing()) {
             popup.show(getSkinnable(), getSkinnable().getPopupSide(), 0, 0);
-            
+
 //            if (getSkinnable().isOpenVertically()) {
 //                // FIXME ugly hack - need to work out why we need '12' for
 //                // MenuButton/SplitMenuButton, but not for Menus
@@ -234,7 +234,7 @@ public abstract class MenuButtonSkinBase<C extends MenuButton, B extends MenuBut
      * Layout                                                                  *
      *                                                                         *
      **************************************************************************/
-    
+
     @Override protected double computeMinWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
         return leftInset
                 + label.minWidth(height)

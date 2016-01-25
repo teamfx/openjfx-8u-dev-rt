@@ -33,7 +33,7 @@ import javafx.scene.Node;
  * @author Jonathan
  */
 public class SkinBaseAccessor {
-    
+
     public static List<Node> getChildren(SkinBase skin) {
         return skin.getChildren();
     }

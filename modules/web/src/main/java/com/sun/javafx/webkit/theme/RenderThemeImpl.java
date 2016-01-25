@@ -98,7 +98,7 @@ public final class RenderThemeImpl extends RenderTheme {
      */
     static final class Pool<T extends Widget> {
         private static final int INITIAL_CAPACITY = 100;
-        
+
         private int capacity = INITIAL_CAPACITY;
 
         // A map of control IDs used to track the rate of accociated controls
@@ -110,7 +110,7 @@ public final class RenderThemeImpl extends RenderTheme {
         // A map b/w the IDs and associated controls.
         // The {@code ids} map is kept in sync with the set of keys.
         private final Map<Long, WeakReference<T>> pool = new HashMap<>();
-        
+
         private final Notifier<T> notifier;
         private final String type; // used for logging
 
@@ -147,7 +147,7 @@ public final class RenderThemeImpl extends RenderTheme {
             // "Bubble" the id.
             Integer value = ids.remove(Long.valueOf(id));
             ids.put(id, value);
-            
+
             return control;
         }
 
@@ -370,11 +370,11 @@ public final class RenderThemeImpl extends RenderTheme {
             }
         }
     }
-    
+
     @Override
     public WCSize getWidgetSize(Ref widget) {
         ensureNotDefault();
-        
+
         FormControl fcontrol = ((FormControlRef)widget).asFormControl();
         if (fcontrol != null) {
             Control control = fcontrol.asControl();
@@ -428,9 +428,9 @@ public final class RenderThemeImpl extends RenderTheme {
         public Control asControl();
         public void setState(int state);
     }
-    
+
     private static final class FormButton extends Button implements FormControl {
-        
+
         @Override public Control asControl() { return this; }
 
         @Override public void setState(int state) {
@@ -463,7 +463,7 @@ public final class RenderThemeImpl extends RenderTheme {
     }
 
     private static final class FormCheckBox extends CheckBox implements FormControl {
-        
+
         @Override public Control asControl() { return this; }
 
         @Override public void setState(int state) {
@@ -477,7 +477,7 @@ public final class RenderThemeImpl extends RenderTheme {
     }
 
     private static final class FormRadioButton extends RadioButton implements FormControl {
-        
+
         @Override public Control asControl() { return this; }
 
         @Override public void setState(int state) {
@@ -491,7 +491,7 @@ public final class RenderThemeImpl extends RenderTheme {
     }
 
     private static final class FormSlider extends Slider implements FormControl {
-        
+
         @Override public Control asControl() { return this; }
 
         @Override public void setState(int state) {
@@ -542,12 +542,12 @@ public final class RenderThemeImpl extends RenderTheme {
     }
 
     private static final class FormMenuListButton extends Button implements FormControl {
-        
+
         private static final int MAX_WIDTH = 20;
         private static final int MIN_WIDTH = 16;
-        
+
         @Override public Control asControl() { return this; }
-        
+
         @Override public void setState(int state) {
             setDisabled(! hasState(state, RenderTheme.ENABLED));
             setHover(hasState(state, RenderTheme.HOVERED));
@@ -557,19 +557,19 @@ public final class RenderThemeImpl extends RenderTheme {
 
         private FormMenuListButton() {
             setSkin(new Skin());
-            setFocusTraversable(false);            
+            setFocusTraversable(false);
             getStyleClass().add("form-select-button");
         }
-        
+
         /**
          * @param height is the height of the FormMenuList widget
          * @param width is passed equal to height
-         */ 
+         */
         @Override public void resize(double width, double height) {
             width = height > MAX_WIDTH ? MAX_WIDTH : height < MIN_WIDTH ? MIN_WIDTH : height;
-            
+
             super.resize(width, height);
-            
+
             // [x] is originally aligned with the right edge of
             // the menulist control, and here we adjust it
             setTranslateX(-width);
@@ -579,12 +579,12 @@ public final class RenderThemeImpl extends RenderTheme {
             Skin() {
                 super(FormMenuListButton.this,
                       new BehaviorBase<>(FormMenuListButton.this, Collections.EMPTY_LIST));
-                
+
                 Region arrow = new Region();
                 arrow.getStyleClass().add("arrow");
                 arrow.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
-                BorderPane pane = new BorderPane();                
-                pane.setCenter(arrow);            
+                BorderPane pane = new BorderPane();
+                pane.setCenter(arrow);
                 getChildren().add(pane);
             }
         }

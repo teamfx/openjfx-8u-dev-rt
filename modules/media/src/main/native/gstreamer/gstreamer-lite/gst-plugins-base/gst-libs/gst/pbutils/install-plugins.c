@@ -610,7 +610,7 @@ gst_install_plugins_installer_exited (GPid pid, gint status, gpointer data)
  * @ctx: a #GstInstallPluginsContext, or NULL
  * @func: (scope async): the function to call when the installer program returns
  * @user_data: (closure): the user data to pass to @func when called, or NULL
- * 
+ *
  * Requests plugin installation without blocking. Once the plugins have been
  * installed or installation has failed, @func will be called with the result
  * of the installation and your provided @user_data pointer.
@@ -667,7 +667,7 @@ gst_install_plugins_async (gchar ** details, GstInstallPluginsContext * ctx,
  * gst_install_plugins_sync:
  * @details: NULL-terminated array of installer string details
  * @ctx: a #GstInstallPluginsContext, or NULL
- * 
+ *
  * Requests plugin installation and block until the plugins have been
  * installed or installation has failed.
  *
@@ -705,7 +705,7 @@ gst_install_plugins_sync (gchar ** details, GstInstallPluginsContext * ctx)
 /**
  * gst_install_plugins_return_get_name:
  * @ret: the return status code
- * 
+ *
  * Convenience function to return the descriptive string associated
  * with a status code.  This function returns English strings and
  * should not be used for user messages. It is here only to assist
@@ -749,7 +749,7 @@ gst_install_plugins_return_get_name (GstInstallPluginsReturn ret)
 
 /**
  * gst_install_plugins_installation_in_progress:
- * 
+ *
  * Checks whether plugin installation (initiated by this application only)
  * is currently in progress.
  *
@@ -765,7 +765,7 @@ gst_install_plugins_installation_in_progress (void)
 
 /**
  * gst_install_plugins_supported:
- * 
+ *
  * Checks whether plugin installation is likely to be supported by the
  * current environment. This currently only checks whether the helper script
  * that is to be provided by the distribution or operating system vendor

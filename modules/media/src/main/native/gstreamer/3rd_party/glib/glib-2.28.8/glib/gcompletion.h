@@ -8,7 +8,7 @@
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
@@ -43,14 +43,14 @@ typedef gchar*          (*GCompletionFunc)      (gpointer);
  */
 
 typedef gint (*GCompletionStrncmpFunc) (const gchar *s1,
-					const gchar *s2,
-					gsize        n);
+                    const gchar *s2,
+                    gsize        n);
 
 struct _GCompletion
 {
   GList* items;
   GCompletionFunc func;
- 
+
   gchar* prefix;
   GList* cache;
   GCompletionStrncmpFunc strncmp_func;
@@ -71,7 +71,7 @@ GList*       g_completion_complete_utf8 (GCompletion  *cmp,
                                          const gchar*    prefix,
                                          gchar**         new_prefix);
 void         g_completion_set_compare   (GCompletion *cmp,
-				         GCompletionStrncmpFunc strncmp_func);
+                         GCompletionStrncmpFunc strncmp_func);
 void         g_completion_free          (GCompletion*    cmp);
 
 #endif

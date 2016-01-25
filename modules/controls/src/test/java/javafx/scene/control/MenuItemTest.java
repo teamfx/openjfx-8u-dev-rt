@@ -191,7 +191,7 @@ public class MenuItemTest {
         menuItem.setText("Hello");
         assertEquals("Hello", menuItem.getText());
     }
-    
+
     @Test public void resetText2() {
         Rectangle rect = new Rectangle();
         MenuItem mi2 = new Menu("Hello", rect);
@@ -274,7 +274,7 @@ public class MenuItemTest {
     }
 
     @Ignore // Again, calling graphicPropery() is not ensuring a non null graphic
-    // node. 
+    // node.
     @Test public void unsetGraphicButNotNull() {
         MenuItem mi2 = new MenuItem();
         mi2.graphicProperty();
@@ -499,7 +499,7 @@ public class MenuItemTest {
 
         assertFalse(handler.called);
     }
-    
+
     @Test public void addedEventHandler2() {
         NewEventHandlerStub handler = new NewEventHandlerStub();
         menuItem.addEventHandler(eventType, handler);
@@ -523,7 +523,7 @@ public class MenuItemTest {
 
         assertFalse(handler.called);
     }
-    
+
     @Test public void addedRemovedEventHandler3() {
         NewEventHandlerStub handler = new NewEventHandlerStub();
         menuItem.addEventHandler(eventType, handler);

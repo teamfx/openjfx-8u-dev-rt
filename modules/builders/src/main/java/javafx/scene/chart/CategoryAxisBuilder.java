@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.chart.CategoryAxis
 public final class CategoryAxisBuilder extends javafx.scene.chart.AxisBuilder<java.lang.String, javafx.scene.chart.CategoryAxisBuilder> {
     protected CategoryAxisBuilder() {
     }
-    
+
     /** Creates a new instance of CategoryAxisBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.chart.CategoryAxisBuilder create() {
         return new javafx.scene.chart.CategoryAxisBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.chart.CategoryAxis x) {
         super.applyTo(x);
@@ -52,7 +52,7 @@ public final class CategoryAxisBuilder extends javafx.scene.chart.AxisBuilder<ja
         if ((set & (1 << 2)) != 0) x.setGapStartAndEnd(this.gapStartAndEnd);
         if ((set & (1 << 3)) != 0) x.setStartMargin(this.startMargin);
     }
-    
+
     private javafx.collections.ObservableList<java.lang.String> categories;
     /**
     Set the value of the {@link javafx.scene.chart.CategoryAxis#getCategories() categories} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public final class CategoryAxisBuilder extends javafx.scene.chart.AxisBuilder<ja
         __set |= 1 << 0;
         return this;
     }
-    
+
     private double endMargin;
     /**
     Set the value of the {@link javafx.scene.chart.CategoryAxis#getEndMargin() endMargin} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public final class CategoryAxisBuilder extends javafx.scene.chart.AxisBuilder<ja
         __set |= 1 << 1;
         return this;
     }
-    
+
     private boolean gapStartAndEnd;
     /**
     Set the value of the {@link javafx.scene.chart.CategoryAxis#isGapStartAndEnd() gapStartAndEnd} property for the instance constructed by this builder.
@@ -82,7 +82,7 @@ public final class CategoryAxisBuilder extends javafx.scene.chart.AxisBuilder<ja
         __set |= 1 << 2;
         return this;
     }
-    
+
     private double startMargin;
     /**
     Set the value of the {@link javafx.scene.chart.CategoryAxis#getStartMargin() startMargin} property for the instance constructed by this builder.
@@ -92,7 +92,7 @@ public final class CategoryAxisBuilder extends javafx.scene.chart.AxisBuilder<ja
         __set |= 1 << 3;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.chart.CategoryAxis} based on the properties set on this builder.
     */

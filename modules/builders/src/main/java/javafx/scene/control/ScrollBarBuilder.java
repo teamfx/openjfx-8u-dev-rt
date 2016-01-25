@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.ScrollBar
 public class ScrollBarBuilder<B extends javafx.scene.control.ScrollBarBuilder<B>> extends javafx.scene.control.ControlBuilder<B> implements javafx.util.Builder<javafx.scene.control.ScrollBar> {
     protected ScrollBarBuilder() {
     }
-    
+
     /** Creates a new instance of ScrollBarBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.ScrollBarBuilder<?> create() {
         return new javafx.scene.control.ScrollBarBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.ScrollBar x) {
         super.applyTo(x);
@@ -55,7 +55,7 @@ public class ScrollBarBuilder<B extends javafx.scene.control.ScrollBarBuilder<B>
         if ((set & (1 << 5)) != 0) x.setValue(this.value);
         if ((set & (1 << 6)) != 0) x.setVisibleAmount(this.visibleAmount);
     }
-    
+
     private double blockIncrement;
     /**
     Set the value of the {@link javafx.scene.control.ScrollBar#getBlockIncrement() blockIncrement} property for the instance constructed by this builder.
@@ -66,7 +66,7 @@ public class ScrollBarBuilder<B extends javafx.scene.control.ScrollBarBuilder<B>
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private double max;
     /**
     Set the value of the {@link javafx.scene.control.ScrollBar#getMax() max} property for the instance constructed by this builder.
@@ -77,7 +77,7 @@ public class ScrollBarBuilder<B extends javafx.scene.control.ScrollBarBuilder<B>
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double min;
     /**
     Set the value of the {@link javafx.scene.control.ScrollBar#getMin() min} property for the instance constructed by this builder.
@@ -88,7 +88,7 @@ public class ScrollBarBuilder<B extends javafx.scene.control.ScrollBarBuilder<B>
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private javafx.geometry.Orientation orientation;
     /**
     Set the value of the {@link javafx.scene.control.ScrollBar#getOrientation() orientation} property for the instance constructed by this builder.
@@ -99,7 +99,7 @@ public class ScrollBarBuilder<B extends javafx.scene.control.ScrollBarBuilder<B>
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private double unitIncrement;
     /**
     Set the value of the {@link javafx.scene.control.ScrollBar#getUnitIncrement() unitIncrement} property for the instance constructed by this builder.
@@ -110,7 +110,7 @@ public class ScrollBarBuilder<B extends javafx.scene.control.ScrollBarBuilder<B>
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     private double value;
     /**
     Set the value of the {@link javafx.scene.control.ScrollBar#getValue() value} property for the instance constructed by this builder.
@@ -121,7 +121,7 @@ public class ScrollBarBuilder<B extends javafx.scene.control.ScrollBarBuilder<B>
         __set |= 1 << 5;
         return (B) this;
     }
-    
+
     private double visibleAmount;
     /**
     Set the value of the {@link javafx.scene.control.ScrollBar#getVisibleAmount() visibleAmount} property for the instance constructed by this builder.
@@ -132,7 +132,7 @@ public class ScrollBarBuilder<B extends javafx.scene.control.ScrollBarBuilder<B>
         __set |= 1 << 6;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.ScrollBar} based on the properties set on this builder.
     */

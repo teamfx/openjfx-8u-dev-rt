@@ -40,10 +40,10 @@ public class SplitMenuButtonSkin extends MenuButtonSkinBase<SplitMenuButton, Spl
      * Constructors                                                            *
      *                                                                         *
      **************************************************************************/
-    
+
     /**
      * Creates a new SplitMenuButtonSkin for the given SplitMenu.
-     * 
+     *
      * @param splitMenuButton the SplitMenuButton
      */
     public SplitMenuButtonSkin(final SplitMenuButton splitMenuButton) {

@@ -108,7 +108,7 @@ public class ChoiceBoxSkin<T> extends BehaviorSkinBase<ChoiceBox<T>, ChoiceBoxBe
             getSkinnable().requestLayout(); // RT-18052 resize of choicebox should happen immediately.
         }
     };
-    
+
     private final WeakListChangeListener<T> weakChoiceBoxItemsListener =
             new WeakListChangeListener<T>(choiceBoxItemsListener);
 
@@ -172,8 +172,8 @@ public class ChoiceBoxSkin<T> extends BehaviorSkinBase<ChoiceBox<T>, ChoiceBoxBe
             choiceBoxItems.addListener(weakChoiceBoxItemsListener);
         }
     }
-    
-    // Test only purpose    
+
+    // Test only purpose
     String getChoiceBoxSelectedText() {
         return label.getText();
     }
@@ -358,11 +358,11 @@ public class ChoiceBoxSkin<T> extends BehaviorSkinBase<ChoiceBox<T>, ChoiceBoxBe
                 + Math.max(displayHeight, openButtonHeight)
                 + bottomInset;
     }
-    
+
     @Override protected double computeMaxHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
         return getSkinnable().prefHeight(width);
     }
-    
+
     @Override protected double computeMaxWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
         return getSkinnable().prefWidth(height);
     }

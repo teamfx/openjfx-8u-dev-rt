@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.effect.MotionBlur
 public class MotionBlurBuilder<B extends javafx.scene.effect.MotionBlurBuilder<B>> implements javafx.util.Builder<javafx.scene.effect.MotionBlur> {
     protected MotionBlurBuilder() {
     }
-    
+
     /** Creates a new instance of MotionBlurBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.effect.MotionBlurBuilder<?> create() {
         return new javafx.scene.effect.MotionBlurBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.effect.MotionBlur x) {
         int set = __set;
@@ -50,7 +50,7 @@ public class MotionBlurBuilder<B extends javafx.scene.effect.MotionBlurBuilder<B
         if ((set & (1 << 1)) != 0) x.setInput(this.input);
         if ((set & (1 << 2)) != 0) x.setRadius(this.radius);
     }
-    
+
     private double angle;
     /**
     Set the value of the {@link javafx.scene.effect.MotionBlur#getAngle() angle} property for the instance constructed by this builder.
@@ -61,7 +61,7 @@ public class MotionBlurBuilder<B extends javafx.scene.effect.MotionBlurBuilder<B
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private javafx.scene.effect.Effect input;
     /**
     Set the value of the {@link javafx.scene.effect.MotionBlur#getInput() input} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public class MotionBlurBuilder<B extends javafx.scene.effect.MotionBlurBuilder<B
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double radius;
     /**
     Set the value of the {@link javafx.scene.effect.MotionBlur#getRadius() radius} property for the instance constructed by this builder.
@@ -83,7 +83,7 @@ public class MotionBlurBuilder<B extends javafx.scene.effect.MotionBlurBuilder<B
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.effect.MotionBlur} based on the properties set on this builder.
     */

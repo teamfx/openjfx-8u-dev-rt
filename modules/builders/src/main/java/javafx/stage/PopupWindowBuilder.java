@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,8 +36,8 @@ Builder class for javafx.stage.PopupWindow
 public abstract class PopupWindowBuilder<B extends javafx.stage.PopupWindowBuilder<B>> extends javafx.stage.WindowBuilder<B> {
     protected PopupWindowBuilder() {
     }
-    
-    
+
+
     private int __set;
     public void applyTo(javafx.stage.PopupWindow x) {
         super.applyTo(x);
@@ -48,7 +48,7 @@ public abstract class PopupWindowBuilder<B extends javafx.stage.PopupWindowBuild
         if ((set & (1 << 3)) != 0) x.setHideOnEscape(this.hideOnEscape);
         if ((set & (1 << 4)) != 0) x.setOnAutoHide(this.onAutoHide);
     }
-    
+
     private boolean autoFix;
     /**
     Set the value of the {@link javafx.stage.PopupWindow#isAutoFix() autoFix} property for the instance constructed by this builder.
@@ -59,7 +59,7 @@ public abstract class PopupWindowBuilder<B extends javafx.stage.PopupWindowBuild
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private boolean autoHide;
     /**
     Set the value of the {@link javafx.stage.PopupWindow#isAutoHide() autoHide} property for the instance constructed by this builder.
@@ -70,7 +70,7 @@ public abstract class PopupWindowBuilder<B extends javafx.stage.PopupWindowBuild
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private boolean consumeAutoHidingEvents;
     /**
     Set the value of the {@link javafx.stage.PopupWindow#getConsumeAutoHidingEvents() consumeAutoHidingEvents} property for the instance constructed by this builder.
@@ -82,7 +82,7 @@ public abstract class PopupWindowBuilder<B extends javafx.stage.PopupWindowBuild
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private boolean hideOnEscape;
     /**
     Set the value of the {@link javafx.stage.PopupWindow#isHideOnEscape() hideOnEscape} property for the instance constructed by this builder.
@@ -93,7 +93,7 @@ public abstract class PopupWindowBuilder<B extends javafx.stage.PopupWindowBuild
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.event.Event> onAutoHide;
     /**
     Set the value of the {@link javafx.stage.PopupWindow#getOnAutoHide() onAutoHide} property for the instance constructed by this builder.
@@ -104,5 +104,5 @@ public abstract class PopupWindowBuilder<B extends javafx.stage.PopupWindowBuild
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
 }

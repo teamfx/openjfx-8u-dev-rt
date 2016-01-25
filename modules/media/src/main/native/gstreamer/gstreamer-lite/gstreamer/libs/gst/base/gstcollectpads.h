@@ -52,16 +52,16 @@ typedef void (*GstCollectDataDestroyNotify) (GstCollectData *data);
 
 /**
  * GstCollectPadsClipFunction:
- * @pads: a #GstCollectPads 
- * @data: a #GstCollectData 
- * @buffer: a #GstBuffer 
- * @user_data: user data 
+ * @pads: a #GstCollectPads
+ * @data: a #GstCollectData
+ * @buffer: a #GstBuffer
+ * @user_data: user data
  *
  * A function that will be called when @buffer is received on the pad managed
  * by @data in the collecpad object @pads.
  *
  * The function should use the segment of @data and the negotiated media type on
- * the pad to perform clipping of @buffer. 
+ * the pad to perform clipping of @buffer.
  *
  * This function takes ownership of @buffer.
  *

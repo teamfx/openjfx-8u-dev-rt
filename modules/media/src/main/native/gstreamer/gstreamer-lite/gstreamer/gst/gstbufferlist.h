@@ -213,7 +213,7 @@ guint                    gst_buffer_list_n_groups              (GstBufferList *l
 
 void                     gst_buffer_list_foreach               (GstBufferList *list,
                                                                 GstBufferListFunc func,
-								gpointer user_data);
+                                gpointer user_data);
 GstBuffer *              gst_buffer_list_get                   (GstBufferList *list, guint group, guint idx);
 
 /* iterator */

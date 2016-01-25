@@ -262,12 +262,12 @@ static gboolean check_vp6_decoders(VP6Decoder *filter, guint8 *probePacket, int 
             return FALSE;
         }
     }
-    else if ((stream_width > 0 && stream_width != filter->encoded_width) || 
+    else if ((stream_width > 0 && stream_width != filter->encoded_width) ||
              (stream_height > 0 && stream_height != filter->encoded_height) ||
-             vp6Algo != filter->decoder->iface || 
-             filter->alphaDecoder && ((alpha_stream_width > 0 && alpha_stream_width != filter->encoded_width) || 
+             vp6Algo != filter->decoder->iface ||
+             filter->alphaDecoder && ((alpha_stream_width > 0 && alpha_stream_width != filter->encoded_width) ||
                                       (alpha_stream_height > 0 && alpha_stream_height != filter->encoded_height) ||
-                                      vp6aAlgo != filter->alphaDecoder->iface))    
+                                      vp6aAlgo != filter->alphaDecoder->iface))
     {
         GST_ERROR("Dynamic resolution or interface are not supported!");
         return FALSE;
@@ -623,7 +623,7 @@ static GstFlowReturn vp6decoder_chain (GstPad * pad, GstBuffer * buf)
     if (on2_codec_decode(filter->decoder, colorBits, colorSize, NULL, 0)) {
 // INLINE - gst_buffer_unref()
         gst_buffer_unref (buf);
-        
+
         gst_element_message_full(GST_ELEMENT(filter), GST_MESSAGE_ERROR, GST_STREAM_ERROR, GST_STREAM_ERROR_DECODE, g_strdup("Failed to decode VP6 stream"), NULL, ("vp6decoder.c"), ("vp6decoder_chain"), 0);
         return GST_FLOW_ERROR;
     }
@@ -666,16 +666,16 @@ static GstFlowReturn vp6decoder_chain (GstPad * pad, GstBuffer * buf)
 
     if (filter->height == 0)
         filter->height = (gint)img->d_h;
- 
+
     if ((filter->encoded_height == 0) || (filter->encoded_height != (gint)img->d_h)) {
         filter->encoded_height = img->d_h + (img->d_h & 1); // add a row for odd height
         filter->need_set_caps = TRUE;
     }
-     
+
     if (filter->width == 0)
         filter->width = (gint)img->d_w;
- 
-    if ((filter->encoded_width == 0) || (filter->encoded_width != (gint)img->d_w)) { 
+
+    if ((filter->encoded_width == 0) || (filter->encoded_width != (gint)img->d_w)) {
         filter->encoded_width = img->d_w + (img->d_w & 1); // add a pixel for odd width
         filter->need_set_caps = TRUE;
     }

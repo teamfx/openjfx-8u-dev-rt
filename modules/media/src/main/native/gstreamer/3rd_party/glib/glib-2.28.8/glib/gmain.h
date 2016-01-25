@@ -153,7 +153,7 @@ struct _GSource
   guint source_id;
 
   GSList *poll_fds;
-  
+
   GSource *prev;
   GSource *next;
 
@@ -167,7 +167,7 @@ struct _GSourceCallbackFuncs
   void (*ref)   (gpointer     cb_data);
   void (*unref) (gpointer     cb_data);
   void (*get)   (gpointer     cb_data,
-                 GSource     *source, 
+                 GSource     *source,
                  GSourceFunc *func,
                  gpointer    *data);
 };
@@ -185,7 +185,7 @@ struct _GSourceFuncs
   void     (*finalize) (GSource    *source); /* Can be NULL */
 
   /* For use by g_source_set_closure */
-  GSourceFunc     closure_callback;        
+  GSourceFunc     closure_callback;
   GSourceDummyMarshal closure_marshal; /* Really is of type GClosureMarshal */
 };
 
@@ -361,14 +361,14 @@ void g_source_set_callback_indirect (GSource              *source,
                                      GSourceCallbackFuncs *callback_funcs);
 
 void     g_source_add_poll            (GSource        *source,
-				       GPollFD        *fd);
+                       GPollFD        *fd);
 void     g_source_remove_poll         (GSource        *source,
-				       GPollFD        *fd);
+                       GPollFD        *fd);
 
 void     g_source_add_child_source    (GSource        *source,
-				       GSource        *child_source);
+                       GSource        *child_source);
 void     g_source_remove_child_source (GSource        *source,
-				       GSource        *child_source);
+                       GSource        *child_source);
 
 #ifndef G_DISABLE_DEPRECATED
 void     g_source_get_current_time (GSource        *source,

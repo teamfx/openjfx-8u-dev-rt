@@ -120,15 +120,15 @@ static GstStaticPadTemplate directsoundsink_sink_factory =
         "width = (int) 16, "
         "depth = (int) 16, "
         "rate = (int) [ 1, MAX ], "
-				"endianness = (int) LITTLE_ENDIAN, "
-				"channels = (int) [ 1, 2 ]; "
+                "endianness = (int) LITTLE_ENDIAN, "
+                "channels = (int) [ 1, 2 ]; "
         "audio/x-raw-int, "
         "signed = (boolean) FALSE, "
         "width = (int) 8, "
         "depth = (int) 8, "
         "rate = (int) [ 1, MAX ], "
-				"endianness = (int) LITTLE_ENDIAN, "
-				"channels = (int) [ 1, 2 ]"));
+                "endianness = (int) LITTLE_ENDIAN, "
+                "channels = (int) [ 1, 2 ]"));
 #endif // GSTREAMER_LITE
 
 enum
@@ -229,7 +229,7 @@ gst_directsound_sink_set_pan (GstDirectSoundSink * dsoundsink)
     BOOL bLeftChannel = FALSE;
 
     panorama = dsoundsink->panorama;
-    
+
     /* DirectSound controls pan using units of 100th of a decibel,
      * ranging from -10000 (DSBPAN_LEFT) to 10000 (DSBPAN_RIGHT). We use a linear scale of -1.00 - 1.00
      * here, so remap.
@@ -239,7 +239,7 @@ gst_directsound_sink_set_pan (GstDirectSoundSink * dsoundsink)
       bLeftChannel = TRUE;
       panorama = panorama * (-1.0);
     }
-      
+
     if (dsoundsink->panorama == 0.0)
       lPan = DSBPAN_CENTER;
     else if (dsoundsink->panorama == 1.0)
@@ -252,11 +252,11 @@ gst_directsound_sink_set_pan (GstDirectSoundSink * dsoundsink)
 
       if (!bLeftChannel)
         lPan = lPan * (-1);
-    
+
       lPan = CLAMP(lPan, DSBPAN_LEFT, DSBPAN_RIGHT);
     }
 
-    IDirectSoundBuffer_SetPan(dsoundsink->pDSBSecondary, lPan); 
+    IDirectSoundBuffer_SetPan(dsoundsink->pDSBSecondary, lPan);
   }
 }
 #endif // GSTREAMER_LITE
@@ -528,7 +528,7 @@ gst_directsound_sink_open (GstAudioSink * asink)
       dsoundsink->pDS = NULL;
     }
     return TRUE;
-#endif // GSTREAMER_LITE    
+#endif // GSTREAMER_LITE
   }
 
   return TRUE;
@@ -565,7 +565,7 @@ gst_directsound_sink_prepare (GstAudioSink * asink, GstRingBufferSpec * spec)
     wfx.nBlockAlign = spec->bytes_per_sample;
     wfx.nAvgBytesPerSec = wfx.nSamplesPerSec * wfx.nBlockAlign;
 
-    /* Create directsound buffer with size based on our configured  
+    /* Create directsound buffer with size based on our configured
      * buffer_size (which is 200 ms by default) */
     dsoundsink->buffer_size =
         gst_util_uint64_scale_int (wfx.nAvgBytesPerSec, spec->buffer_time,
@@ -635,7 +635,7 @@ gst_directsound_sink_prepare (GstAudioSink * asink, GstRingBufferSpec * spec)
     }
     dsoundsink->pDSBSecondary = NULL;
     return TRUE;
-#endif // GSTREAMER_LITE    
+#endif // GSTREAMER_LITE
   }
 
   gst_directsound_sink_set_volume (dsoundsink);
@@ -778,7 +778,7 @@ gst_directsound_sink_write (GstAudioSink * asink, gpointer data, guint length)
         dwSizeBuffer1, pLockedBuffer2, dwSizeBuffer2);
   }
 
-  /* if the buffer was not in playing state yet, call play on the buffer 
+  /* if the buffer was not in playing state yet, call play on the buffer
      except if this buffer is the fist after a reset (base class call reset and write a buffer when setting the sink to pause) */
   if (!(dwStatus & DSBSTATUS_PLAYING) &&
       dsoundsink->first_buffer_after_reset == FALSE) {
@@ -912,7 +912,7 @@ gst_directsound_sink_reset (GstAudioSink * asink)
 
     do
     {
-      IDirectSoundBuffer_GetCurrentPosition (dsoundsink->pDSBSecondary, &dwCurrentPlayCursor, &dwCurrentWriteCursor);    
+      IDirectSoundBuffer_GetCurrentPosition (dsoundsink->pDSBSecondary, &dwCurrentPlayCursor, &dwCurrentWriteCursor);
       if (dwInitialPlayCursor <= dwInitialWriteCursor)
       {
         if (dwCurrentPlayCursor >= dwInitialWriteCursor || dwCurrentPlayCursor <= dwInitialPlayCursor)
@@ -956,12 +956,12 @@ gst_directsound_sink_reset (GstAudioSink * asink)
 }
 #endif // GSTREAMER_LITE
 
-/* 
- * gst_directsound_probe_supported_formats: 
- * 
- * Takes the template caps and returns the subset which is actually 
- * supported by this device. 
- * 
+/*
+ * gst_directsound_probe_supported_formats:
+ *
+ * Takes the template caps and returns the subset which is actually
+ * supported by this device.
+ *
  */
 
 static GstCaps *
@@ -975,8 +975,8 @@ gst_directsound_probe_supported_formats (GstDirectSoundSink * dsoundsink,
 
   caps = gst_caps_copy (template_caps);
 
-  /* 
-   * Check availability of digital output by trying to create an SPDIF buffer 
+  /*
+   * Check availability of digital output by trying to create an SPDIF buffer
    */
 
 #ifdef WAVE_FORMAT_DOLBY_AC3_SPDIF
@@ -990,7 +990,7 @@ gst_directsound_probe_supported_formats (GstDirectSoundSink * dsoundsink,
   wfx.nBlockAlign = 4;
   wfx.nAvgBytesPerSec = wfx.nSamplesPerSec * wfx.nBlockAlign;
 
-  // create a secondary directsound buffer 
+  // create a secondary directsound buffer
   memset (&descSecondary, 0, sizeof (DSBUFFERDESC));
   descSecondary.dwSize = sizeof (DSBUFFERDESC);
   descSecondary.dwFlags = DSBCAPS_GETCURRENTPOSITION2 | DSBCAPS_GLOBALFOCUS;

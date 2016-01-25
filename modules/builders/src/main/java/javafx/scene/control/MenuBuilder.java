@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.Menu
 public class MenuBuilder<B extends javafx.scene.control.MenuBuilder<B>> extends javafx.scene.control.MenuItemBuilder<B> {
     protected MenuBuilder() {
     }
-    
+
     /** Creates a new instance of MenuBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.MenuBuilder<?> create() {
         return new javafx.scene.control.MenuBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.Menu x) {
         super.applyTo(x);
@@ -53,7 +53,7 @@ public class MenuBuilder<B extends javafx.scene.control.MenuBuilder<B>> extends 
         if ((set & (1 << 3)) != 0) x.setOnShowing(this.onShowing);
         if ((set & (1 << 4)) != 0) x.setOnShown(this.onShown);
     }
-    
+
     private java.util.Collection<? extends javafx.scene.control.MenuItem> items;
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.Menu#getItems() items} property for the instance constructed by this builder.
@@ -64,14 +64,14 @@ public class MenuBuilder<B extends javafx.scene.control.MenuBuilder<B>> extends 
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.Menu#getItems() items} property for the instance constructed by this builder.
     */
     public B items(javafx.scene.control.MenuItem... x) {
         return items(java.util.Arrays.asList(x));
     }
-    
+
     private javafx.event.EventHandler<javafx.event.Event> onHidden;
     /**
     Set the value of the {@link javafx.scene.control.Menu#getOnHidden() onHidden} property for the instance constructed by this builder.
@@ -82,7 +82,7 @@ public class MenuBuilder<B extends javafx.scene.control.MenuBuilder<B>> extends 
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.event.Event> onHiding;
     /**
     Set the value of the {@link javafx.scene.control.Menu#getOnHiding() onHiding} property for the instance constructed by this builder.
@@ -93,7 +93,7 @@ public class MenuBuilder<B extends javafx.scene.control.MenuBuilder<B>> extends 
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.event.Event> onShowing;
     /**
     Set the value of the {@link javafx.scene.control.Menu#getOnShowing() onShowing} property for the instance constructed by this builder.
@@ -104,7 +104,7 @@ public class MenuBuilder<B extends javafx.scene.control.MenuBuilder<B>> extends 
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.event.Event> onShown;
     /**
     Set the value of the {@link javafx.scene.control.Menu#getOnShown() onShown} property for the instance constructed by this builder.
@@ -115,7 +115,7 @@ public class MenuBuilder<B extends javafx.scene.control.MenuBuilder<B>> extends 
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.Menu} based on the properties set on this builder.
     */

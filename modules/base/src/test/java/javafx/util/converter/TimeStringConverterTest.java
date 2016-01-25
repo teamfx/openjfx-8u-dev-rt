@@ -46,7 +46,7 @@ import org.junit.runners.Parameterized;
 public class TimeStringConverterTest {
     private static final Date VALID_TIME_WITH_SECONDS;
     private static final Date VALID_TIME_WITHOUT_SECONDS;
-    
+
     static {
         TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
         Calendar c = Calendar.getInstance();
@@ -58,7 +58,7 @@ public class TimeStringConverterTest {
         c.set(Calendar.SECOND, 0);
         VALID_TIME_WITHOUT_SECONDS = c.getTime();
     }
-    
+
     @Parameterized.Parameters public static Collection implementations() {
         return Arrays.asList(new Object[][] {
             { new TimeStringConverter(),
@@ -111,56 +111,56 @@ public class TimeStringConverterTest {
             validFormatter = DateFormat.getTimeInstance(timeStyle, locale);
         }
     }
-    
+
     @Before public void setup() {
     }
-    
+
     /*********************************************************************
      * Test constructors
-     ********************************************************************/ 
-    
+     ********************************************************************/
+
     @Test public void testConstructor() {
         assertEquals(locale, converter.locale);
         assertEquals(timeStyle, converter.timeStyle);
         assertEquals(pattern, converter.pattern);
         assertEquals(dateFormat, converter.dateFormat);
     }
-    
-    
+
+
     /*********************************************************************
      * Test methods
-     ********************************************************************/   
-    
+     ********************************************************************/
+
     @Test public void getDateFormat() {
         assertNotNull(converter.getDateFormat());
     }
-    
+
     @Test public void getDateFormat_nonNullPattern() {
         converter = new TimeStringConverter("HH");
         assertTrue(converter.getDateFormat() instanceof SimpleDateFormat);
     }
-    
-    
+
+
     /*********************************************************************
      * Test toString / fromString methods
-     ********************************************************************/    
-    
+     ********************************************************************/
+
     @Test public void fromString_testValidInput() {
         String input = validFormatter.format(validDate);
         assertEquals("Input = "+input, validDate, converter.fromString(input));
     }
-    
+
     @Test public void fromString_testValidInputWithWhiteSpace() {
         String input = validFormatter.format(validDate);
         assertEquals("Input = "+input, validDate, converter.fromString("      " + input + "      "));
     }
-    
+
     @Test(expected=RuntimeException.class)
     public void fromString_testInvalidInput() {
         converter.fromString("abcdefg");
     }
-    
+
     @Test public void toString_validOutput() {
         assertEquals(validFormatter.format(validDate), converter.toString(validDate));
-    }    
+    }
 }

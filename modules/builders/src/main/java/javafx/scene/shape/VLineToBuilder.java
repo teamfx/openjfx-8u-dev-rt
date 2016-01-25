@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,19 +36,19 @@ Builder class for javafx.scene.shape.VLineTo
 public class VLineToBuilder<B extends javafx.scene.shape.VLineToBuilder<B>> extends javafx.scene.shape.PathElementBuilder<B> implements javafx.util.Builder<javafx.scene.shape.VLineTo> {
     protected VLineToBuilder() {
     }
-    
+
     /** Creates a new instance of VLineToBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.shape.VLineToBuilder<?> create() {
         return new javafx.scene.shape.VLineToBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.scene.shape.VLineTo x) {
         super.applyTo(x);
         if (__set) x.setY(this.y);
     }
-    
+
     private double y;
     /**
     Set the value of the {@link javafx.scene.shape.VLineTo#getY() y} property for the instance constructed by this builder.
@@ -59,7 +59,7 @@ public class VLineToBuilder<B extends javafx.scene.shape.VLineToBuilder<B>> exte
         __set = true;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.shape.VLineTo} based on the properties set on this builder.
     */

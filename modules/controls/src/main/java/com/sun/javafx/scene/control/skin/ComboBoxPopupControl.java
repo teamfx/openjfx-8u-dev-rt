@@ -48,7 +48,7 @@ import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
 
 public abstract class ComboBoxPopupControl<T> extends ComboBoxBaseSkin<T> {
-    
+
     protected PopupControl popup;
     public static final String COMBO_BOX_STYLE_CLASS = "combo-box-popup";
 
@@ -63,14 +63,14 @@ public abstract class ComboBoxPopupControl<T> extends ComboBoxBaseSkin<T> {
 
         // editable input node
         this.textField = getEditor() != null ? getEditableInputNode() : null;
-        
+
         // Fix for RT-29565. Without this the textField does not have a correct
         // pref width at startup, as it is not part of the scenegraph (and therefore
         // has no pref width until after the first measurements have been taken).
         if (this.textField != null) {
             getChildren().add(textField);
         }
-        
+
         // move fake focus in to the textfield if the comboBox is editable
         comboBoxBase.focusedProperty().addListener((ov, t, hasFocus) -> {
             if (getEditor() != null) {
@@ -141,13 +141,13 @@ public abstract class ComboBoxPopupControl<T> extends ComboBoxBaseSkin<T> {
 
         updateEditable();
     }
-    
+
     /**
      * This method should return the Node that will be displayed when the user
      * clicks on the ComboBox 'button' area.
      */
     protected abstract Node getPopupContent();
-    
+
     protected PopupControl getPopup() {
         if (popup == null) {
             createPopup();
@@ -159,14 +159,14 @@ public abstract class ComboBoxPopupControl<T> extends ComboBoxBaseSkin<T> {
         if (getSkinnable() == null) {
             throw new IllegalStateException("ComboBox is null");
         }
-        
+
         Node content = getPopupContent();
         if (content == null) {
             throw new IllegalStateException("Popup node is null");
         }
-        
+
         if (getPopup().isShowing()) return;
-        
+
         positionAndShowPopup();
     }
 
@@ -175,11 +175,11 @@ public abstract class ComboBoxPopupControl<T> extends ComboBoxBaseSkin<T> {
             popup.hide();
         }
     }
-    
+
     private Point2D getPrefPopupPosition() {
         return com.sun.javafx.util.Utils.pointRelativeTo(getSkinnable(), getPopupContent(), HPos.CENTER, VPos.BOTTOM, 0, 0, true);
     }
-    
+
     private void positionAndShowPopup() {
         final PopupControl _popup = getPopup();
         _popup.getScene().setNodeOrientation(getSkinnable().getEffectiveNodeOrientation());
@@ -192,7 +192,7 @@ public abstract class ComboBoxPopupControl<T> extends ComboBoxBaseSkin<T> {
 
         popupNeedsReconfiguring = true;
         reconfigurePopup();
-        
+
         final ComboBoxBase<T> comboBoxBase = getSkinnable();
         _popup.show(comboBoxBase.getScene().getWindow(),
                 snapPosition(p.getX()),
@@ -228,7 +228,7 @@ public abstract class ComboBoxPopupControl<T> extends ComboBoxBaseSkin<T> {
             popupContent.autosize();
         }
     }
-    
+
     private void createPopup() {
         popup = new PopupControl() {
 
@@ -264,7 +264,7 @@ public abstract class ComboBoxPopupControl<T> extends ComboBoxBaseSkin<T> {
             // after the window closes.
             getSkinnable().notifyAccessibleAttributeChanged(AccessibleAttribute.FOCUS_NODE);
         });
-        
+
         // Fix for RT-21207
         InvalidationListener layoutPosListener = o -> {
             popupNeedsReconfiguring = true;
@@ -333,7 +333,7 @@ public abstract class ComboBoxPopupControl<T> extends ComboBoxBaseSkin<T> {
      * TextField Listeners                                                     *
      *                                                                         *
      **************************************************************************/
-    
+
     private EventHandler<MouseEvent> textFieldMouseEventHandler = event -> {
         ComboBoxBase<T> comboBoxBase = getSkinnable();
         if (!event.getTarget().equals(comboBoxBase)) {
@@ -533,7 +533,7 @@ public abstract class ComboBoxPopupControl<T> extends ComboBoxBaseSkin<T> {
         @Override
         public Object queryAccessibleAttribute(AccessibleAttribute attribute, Object... parameters) {
             switch (attribute) {
-                case FOCUS_ITEM: 
+                case FOCUS_ITEM:
                     /* Internally comboBox reassign its focus the text field.
                      * For the accessibility perspective it is more meaningful
                      * if the focus stays with the comboBox control.

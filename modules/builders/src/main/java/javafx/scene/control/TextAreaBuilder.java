@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.TextArea
 public class TextAreaBuilder<B extends javafx.scene.control.TextAreaBuilder<B>> extends javafx.scene.control.TextInputControlBuilder<B> implements javafx.util.Builder<javafx.scene.control.TextArea> {
     protected TextAreaBuilder() {
     }
-    
+
     /** Creates a new instance of TextAreaBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.TextAreaBuilder<?> create() {
         return new javafx.scene.control.TextAreaBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.TextArea x) {
         super.applyTo(x);
@@ -55,7 +55,7 @@ public class TextAreaBuilder<B extends javafx.scene.control.TextAreaBuilder<B>> 
         if ((set & (1 << 5)) != 0) x.setScrollTop(this.scrollTop);
         if ((set & (1 << 6)) != 0) x.setWrapText(this.wrapText);
     }
-    
+
     private java.util.Collection<? extends java.lang.CharSequence> paragraphs;
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.TextArea#getParagraphs() paragraphs} property for the instance constructed by this builder.
@@ -66,14 +66,14 @@ public class TextAreaBuilder<B extends javafx.scene.control.TextAreaBuilder<B>> 
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.TextArea#getParagraphs() paragraphs} property for the instance constructed by this builder.
     */
     public B paragraphs(java.lang.CharSequence... x) {
         return paragraphs(java.util.Arrays.asList(x));
     }
-    
+
     private int prefColumnCount;
     /**
     Set the value of the {@link javafx.scene.control.TextArea#getPrefColumnCount() prefColumnCount} property for the instance constructed by this builder.
@@ -84,7 +84,7 @@ public class TextAreaBuilder<B extends javafx.scene.control.TextAreaBuilder<B>> 
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private int prefRowCount;
     /**
     Set the value of the {@link javafx.scene.control.TextArea#getPrefRowCount() prefRowCount} property for the instance constructed by this builder.
@@ -95,7 +95,7 @@ public class TextAreaBuilder<B extends javafx.scene.control.TextAreaBuilder<B>> 
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private java.lang.String promptText;
     /**
     Set the value of the {@link javafx.scene.control.TextArea#getPromptText() promptText} property for the instance constructed by this builder.
@@ -107,7 +107,7 @@ public class TextAreaBuilder<B extends javafx.scene.control.TextAreaBuilder<B>> 
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private double scrollLeft;
     /**
     Set the value of the {@link javafx.scene.control.TextArea#getScrollLeft() scrollLeft} property for the instance constructed by this builder.
@@ -118,7 +118,7 @@ public class TextAreaBuilder<B extends javafx.scene.control.TextAreaBuilder<B>> 
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     private double scrollTop;
     /**
     Set the value of the {@link javafx.scene.control.TextArea#getScrollTop() scrollTop} property for the instance constructed by this builder.
@@ -129,7 +129,7 @@ public class TextAreaBuilder<B extends javafx.scene.control.TextAreaBuilder<B>> 
         __set |= 1 << 5;
         return (B) this;
     }
-    
+
     private boolean wrapText;
     /**
     Set the value of the {@link javafx.scene.control.TextArea#isWrapText() wrapText} property for the instance constructed by this builder.
@@ -140,7 +140,7 @@ public class TextAreaBuilder<B extends javafx.scene.control.TextAreaBuilder<B>> 
         __set |= 1 << 6;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.TextArea} based on the properties set on this builder.
     */

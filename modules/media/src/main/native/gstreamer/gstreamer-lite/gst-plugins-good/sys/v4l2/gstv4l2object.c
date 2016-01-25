@@ -53,7 +53,7 @@ GST_DEBUG_CATEGORY_EXTERN (v4l2_debug);
 #define GST_CAT_DEFAULT v4l2_debug
 
 
-#define DEFAULT_PROP_DEVICE_NAME 	NULL
+#define DEFAULT_PROP_DEVICE_NAME    NULL
 #define DEFAULT_PROP_DEVICE_FD          -1
 #define DEFAULT_PROP_FLAGS              0
 #define DEFAULT_PROP_NORM               NULL

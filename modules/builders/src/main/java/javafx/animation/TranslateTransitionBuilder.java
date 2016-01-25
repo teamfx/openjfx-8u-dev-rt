@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.animation.TranslateTransition
 public final class TranslateTransitionBuilder extends javafx.animation.TransitionBuilder<javafx.animation.TranslateTransitionBuilder> implements javafx.util.Builder<javafx.animation.TranslateTransition> {
     protected TranslateTransitionBuilder() {
     }
-    
+
     /** Creates a new instance of TranslateTransitionBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.animation.TranslateTransitionBuilder create() {
         return new javafx.animation.TranslateTransitionBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -68,7 +68,7 @@ public final class TranslateTransitionBuilder extends javafx.animation.Transitio
             }
         }
     }
-    
+
     private double byX;
     /**
     Set the value of the {@link javafx.animation.TranslateTransition#getByX() byX} property for the instance constructed by this builder.
@@ -78,7 +78,7 @@ public final class TranslateTransitionBuilder extends javafx.animation.Transitio
         __set(0);
         return this;
     }
-    
+
     private double byY;
     /**
     Set the value of the {@link javafx.animation.TranslateTransition#getByY() byY} property for the instance constructed by this builder.
@@ -88,7 +88,7 @@ public final class TranslateTransitionBuilder extends javafx.animation.Transitio
         __set(1);
         return this;
     }
-    
+
     private double byZ;
     /**
     Set the value of the {@link javafx.animation.TranslateTransition#getByZ() byZ} property for the instance constructed by this builder.
@@ -98,7 +98,7 @@ public final class TranslateTransitionBuilder extends javafx.animation.Transitio
         __set(2);
         return this;
     }
-    
+
     private javafx.util.Duration duration;
     /**
     Set the value of the {@link javafx.animation.TranslateTransition#getDuration() duration} property for the instance constructed by this builder.
@@ -108,7 +108,7 @@ public final class TranslateTransitionBuilder extends javafx.animation.Transitio
         __set(3);
         return this;
     }
-    
+
     private double fromX;
     /**
     Set the value of the {@link javafx.animation.TranslateTransition#getFromX() fromX} property for the instance constructed by this builder.
@@ -118,7 +118,7 @@ public final class TranslateTransitionBuilder extends javafx.animation.Transitio
         __set(4);
         return this;
     }
-    
+
     private double fromY;
     /**
     Set the value of the {@link javafx.animation.TranslateTransition#getFromY() fromY} property for the instance constructed by this builder.
@@ -128,7 +128,7 @@ public final class TranslateTransitionBuilder extends javafx.animation.Transitio
         __set(5);
         return this;
     }
-    
+
     private double fromZ;
     /**
     Set the value of the {@link javafx.animation.TranslateTransition#getFromZ() fromZ} property for the instance constructed by this builder.
@@ -138,7 +138,7 @@ public final class TranslateTransitionBuilder extends javafx.animation.Transitio
         __set(6);
         return this;
     }
-    
+
     private javafx.scene.Node node;
     /**
     Set the value of the {@link javafx.animation.TranslateTransition#getNode() node} property for the instance constructed by this builder.
@@ -148,7 +148,7 @@ public final class TranslateTransitionBuilder extends javafx.animation.Transitio
         __set(7);
         return this;
     }
-    
+
     private double toX;
     /**
     Set the value of the {@link javafx.animation.TranslateTransition#getToX() toX} property for the instance constructed by this builder.
@@ -158,7 +158,7 @@ public final class TranslateTransitionBuilder extends javafx.animation.Transitio
         __set(8);
         return this;
     }
-    
+
     private double toY;
     /**
     Set the value of the {@link javafx.animation.TranslateTransition#getToY() toY} property for the instance constructed by this builder.
@@ -168,7 +168,7 @@ public final class TranslateTransitionBuilder extends javafx.animation.Transitio
         __set(9);
         return this;
     }
-    
+
     private double toZ;
     /**
     Set the value of the {@link javafx.animation.TranslateTransition#getToZ() toZ} property for the instance constructed by this builder.
@@ -178,7 +178,7 @@ public final class TranslateTransitionBuilder extends javafx.animation.Transitio
         __set(10);
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.animation.TranslateTransition} based on the properties set on this builder.
     */

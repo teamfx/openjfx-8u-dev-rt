@@ -45,7 +45,7 @@ public class LabelSkin extends LabeledSkinBase<Label, BehaviorBase<Label>> {
     }
 
 
-    @Override protected void handleControlPropertyChanged(String p) {     
+    @Override protected void handleControlPropertyChanged(String p) {
         super.handleControlPropertyChanged(p);
         if ("LABEL_FOR".equals(p)) {
             mnemonicTargetChanged();

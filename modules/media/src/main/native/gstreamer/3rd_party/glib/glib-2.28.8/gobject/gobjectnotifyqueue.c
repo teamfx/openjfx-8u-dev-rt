@@ -31,8 +31,8 @@ G_BEGIN_DECLS
 typedef struct _GObjectNotifyContext          GObjectNotifyContext;
 typedef struct _GObjectNotifyQueue            GObjectNotifyQueue;
 typedef void (*GObjectNotifyQueueDispatcher) (GObject     *object,
-					      guint        n_pspecs,
-					      GParamSpec **pspecs);
+                          guint        n_pspecs,
+                          GParamSpec **pspecs);
 
 
 /* --- structures --- */
@@ -63,8 +63,8 @@ g_object_notify_queue_free (gpointer data)
 }
 
 static inline GObjectNotifyQueue*
-g_object_notify_queue_freeze (GObject		   *object,
-			      GObjectNotifyContext *context)
+g_object_notify_queue_freeze (GObject          *object,
+                  GObjectNotifyContext *context)
 {
   GObjectNotifyQueue *nqueue;
 
@@ -75,7 +75,7 @@ g_object_notify_queue_freeze (GObject		   *object,
       nqueue = g_slice_new0 (GObjectNotifyQueue);
       nqueue->context = context;
       g_datalist_id_set_data_full (&object->qdata, context->quark_notify_queue,
-				   nqueue, g_object_notify_queue_free);
+                   nqueue, g_object_notify_queue_free);
     }
 
   if (nqueue->freeze_count >= 65535)
@@ -92,7 +92,7 @@ g_object_notify_queue_freeze (GObject		   *object,
 
 static inline void
 g_object_notify_queue_thaw (GObject            *object,
-			    GObjectNotifyQueue *nqueue)
+                GObjectNotifyQueue *nqueue)
 {
   GObjectNotifyContext *context = nqueue->context;
   GParamSpec *pspecs_mem[16], **pspecs, **free_me = NULL;
@@ -108,7 +108,7 @@ g_object_notify_queue_thaw (GObject            *object,
   if (G_UNLIKELY(nqueue->freeze_count == 0)) {
     G_UNLOCK(notify_lock);
     g_warning ("%s: property-changed notification for %s(%p) is not frozen",
-	       G_STRFUNC, G_OBJECT_TYPE_NAME (object), object);
+           G_STRFUNC, G_OBJECT_TYPE_NAME (object), object);
     return;
   }
 
@@ -135,7 +135,7 @@ g_object_notify_queue_thaw (GObject            *object,
 
 static inline void
 g_object_notify_queue_clear (GObject            *object,
-			     GObjectNotifyQueue *nqueue)
+                 GObjectNotifyQueue *nqueue)
 {
   g_return_if_fail (nqueue->freeze_count > 0);
 
@@ -150,8 +150,8 @@ g_object_notify_queue_clear (GObject            *object,
 
 static inline void
 g_object_notify_queue_add (GObject            *object,
-			   GObjectNotifyQueue *nqueue,
-			   GParamSpec	      *pspec)
+               GObjectNotifyQueue *nqueue,
+               GParamSpec         *pspec)
 {
   if (pspec->flags & G_PARAM_READABLE)
     {
@@ -163,8 +163,8 @@ g_object_notify_queue_add (GObject            *object,
 
       redirect = g_param_spec_get_redirect_target (pspec);
       if (redirect)
-	pspec = redirect;
-	    
+    pspec = redirect;
+
       /* we do the deduping in _thaw */
       if (g_slist_find (nqueue->pspecs, pspec) == NULL)
         {

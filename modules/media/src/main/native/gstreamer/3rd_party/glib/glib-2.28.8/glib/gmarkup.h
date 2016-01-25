@@ -208,9 +208,9 @@ gchar* g_markup_escape_text (const gchar *text,
                              gssize       length);
 
 gchar *g_markup_printf_escaped (const char *format,
-				...) G_GNUC_PRINTF (1, 2);
+                ...) G_GNUC_PRINTF (1, 2);
 gchar *g_markup_vprintf_escaped (const char *format,
-				 va_list     args);
+                 va_list     args);
 
 typedef enum
 {

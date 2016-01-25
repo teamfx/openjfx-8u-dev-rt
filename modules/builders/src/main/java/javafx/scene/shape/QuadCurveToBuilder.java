@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.shape.QuadCurveTo
 public class QuadCurveToBuilder<B extends javafx.scene.shape.QuadCurveToBuilder<B>> extends javafx.scene.shape.PathElementBuilder<B> implements javafx.util.Builder<javafx.scene.shape.QuadCurveTo> {
     protected QuadCurveToBuilder() {
     }
-    
+
     /** Creates a new instance of QuadCurveToBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.shape.QuadCurveToBuilder<?> create() {
         return new javafx.scene.shape.QuadCurveToBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.shape.QuadCurveTo x) {
         super.applyTo(x);
@@ -52,7 +52,7 @@ public class QuadCurveToBuilder<B extends javafx.scene.shape.QuadCurveToBuilder<
         if ((set & (1 << 2)) != 0) x.setX(this.x);
         if ((set & (1 << 3)) != 0) x.setY(this.y);
     }
-    
+
     private double controlX;
     /**
     Set the value of the {@link javafx.scene.shape.QuadCurveTo#getControlX() controlX} property for the instance constructed by this builder.
@@ -63,7 +63,7 @@ public class QuadCurveToBuilder<B extends javafx.scene.shape.QuadCurveToBuilder<
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private double controlY;
     /**
     Set the value of the {@link javafx.scene.shape.QuadCurveTo#getControlY() controlY} property for the instance constructed by this builder.
@@ -74,7 +74,7 @@ public class QuadCurveToBuilder<B extends javafx.scene.shape.QuadCurveToBuilder<
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double x;
     /**
     Set the value of the {@link javafx.scene.shape.QuadCurveTo#getX() x} property for the instance constructed by this builder.
@@ -85,7 +85,7 @@ public class QuadCurveToBuilder<B extends javafx.scene.shape.QuadCurveToBuilder<
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private double y;
     /**
     Set the value of the {@link javafx.scene.shape.QuadCurveTo#getY() y} property for the instance constructed by this builder.
@@ -96,7 +96,7 @@ public class QuadCurveToBuilder<B extends javafx.scene.shape.QuadCurveToBuilder<
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.shape.QuadCurveTo} based on the properties set on this builder.
     */

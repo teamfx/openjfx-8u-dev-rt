@@ -56,14 +56,14 @@ public class HyperlinkSkinTest {
         hyperlink.setPrefHeight(500);
         assertEquals(500, hyperlink.maxHeight(-1), 0);
     }
-    
+
     public static final class HyperlinkSkinMock extends HyperlinkSkin {
         boolean propertyChanged = false;
         int propertyChangeCount = 0;
         public HyperlinkSkinMock(Hyperlink hyperlink) {
             super(hyperlink);
         }
-        
+
         @Override protected void handleControlPropertyChanged(String p) {
             super.handleControlPropertyChanged(p);
             propertyChanged = true;

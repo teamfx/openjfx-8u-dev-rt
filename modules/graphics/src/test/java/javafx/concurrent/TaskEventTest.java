@@ -43,7 +43,7 @@ import static org.junit.Assert.*;
  * be called last.
  */
 public class TaskEventTest {
-    
+
     /***************************************************************************
      *
      * Tests for onScheduled

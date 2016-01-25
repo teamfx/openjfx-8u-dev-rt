@@ -57,7 +57,7 @@ public final class EventDispatchTreeTest {
         for (int i = 0; i < dispatchers.length; ++i) {
             dispatchers[i] = new LabeledEventDispatcher(Integer.toString(i));
         }
-        
+
         eventDispatchTree =
                 eventDispatchTree.mergeTree(
                     eventDispatchTree.createTree()
@@ -65,7 +65,7 @@ public final class EventDispatchTreeTest {
                                      .append(dispatchers[1])
                                      .append(dispatchers[2])
                                      .append(dispatchers[3]));
-        
+
         eventDispatchTree =
                 eventDispatchTree.mergeTree(
                     eventDispatchTree.createTree()

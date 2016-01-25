@@ -91,7 +91,7 @@ import javafx.stage.Window;
  * outside the bounds.
  */
 public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>> implements TraverseListener {
-    
+
     private final HBox container;
 
     private Menu openMenu;
@@ -203,12 +203,12 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
 
     public MenuBarSkin(final MenuBar control) {
         super(control, new BehaviorBase<>(control, Collections.emptyList()));
-        
+
         container = new HBox();
         container.getStyleClass().add("container");
         getChildren().add(container);
-        
-        // Key navigation 
+
+        // Key navigation
         keyEventHandler = event -> {
             // process right left and may be tab key events
             if (openMenu != null) {
@@ -298,7 +298,7 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
         Utils.executeOnceWhenPropertyIsNonNull(control.sceneProperty(), (Scene scene) -> {
             scene.addEventFilter(KeyEvent.KEY_PRESSED, weakSceneKeyEventHandler);
         });
-        
+
         // When we click else where in the scene - menu selection should be cleared.
         mouseEventHandler = t -> {
             if (!container.localToScreen(container.getLayoutBounds()).contains(t.getScreenX(), t.getScreenY())) {
@@ -309,7 +309,7 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
         Utils.executeOnceWhenPropertyIsNonNull(control.sceneProperty(), (Scene scene) -> {
             scene.addEventFilter(MouseEvent.MOUSE_CLICKED, weakSceneMouseEventHandler);
         });
-        
+
         weakWindowFocusListener = new WeakChangeListener<Boolean>((ov, t, t1) -> {
             if (!t1) {
               unSelectMenus();
@@ -407,13 +407,13 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
             }
         });
     }
-    
-    
+
+
     Runnable firstMenuRunnable = new Runnable() {
             public void run() {
                 /*
                 ** check that this menubar's container has contents,
-                ** and that the first item is a MenuButton.... 
+                ** and that the first item is a MenuButton....
                 ** otherwise the transfer is off!
                 */
                 if (container.getChildren().size() > 0) {
@@ -437,18 +437,18 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
 
     private boolean pendingDismiss = false;
 
-    // For testing purpose only. 
+    // For testing purpose only.
     MenuButton getNodeForMenu(int i) {
         if (i < container.getChildren().size()) {
             return (MenuBarButton)container.getChildren().get(i);
         }
         return null;
     }
-    
+
     int getFocusedMenuIndex() {
         return focusedMenuIndex;
     }
-    
+
     private boolean menusContainCustomMenuItem() {
         for (Menu menu : getSkinnable().getMenus()) {
             if (menuContainsCustomMenuItem(menu)) {
@@ -481,8 +481,8 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
         }
         return -1;
     }
-    
-    // RT-20411 : reset menu selected/focused state 
+
+    // RT-20411 : reset menu selected/focused state
     private EventHandler<ActionEvent> menuActionEventHandler = t -> {
         if (t.getSource() instanceof CustomMenuItem) {
             // RT-29614 If CustomMenuItem hideOnClick is false, dont hide
@@ -521,11 +521,11 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
             }
         }
     }
-    
+
     private void rebuildUI() {
         getSkinnable().focusedProperty().removeListener(menuBarFocusedPropertyListener);
         for (Menu m : getSkinnable().getMenus()) {
-            // remove action listeners 
+            // remove action listeners
             updateActionListeners(m, false);
         }
         for(Node n : container.getChildren()) {
@@ -541,9 +541,9 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
 
             menuButton.dispose();
 
-            // RT-29729 : old instance of context menu window/popup for this MenuButton needs 
-            // to be cleaned up. Setting the skin to null - results in a call to dispose() 
-            // on the skin which in this case MenuButtonSkinBase - does the subsequent 
+            // RT-29729 : old instance of context menu window/popup for this MenuButton needs
+            // to be cleaned up. Setting the skin to null - results in a call to dispose()
+            // on the skin which in this case MenuButtonSkinBase - does the subsequent
             // clean up to ContextMenu/popup window.
             menuButton.setSkin(null);
             menuButton = null;
@@ -680,7 +680,7 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
                     menuModeStart(getMenuBarButtonIndex(menuButton));
                 }
             });
-            
+
             menuButton.setOnMouseReleased(event -> {
                 // check if the owner window has focus
                 if (menuButton.getScene().getWindow().isFocused()) {
@@ -779,7 +779,7 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
         }
         getSkinnable().requestLayout();
     }
-    
+
     /*
      *  if (openMenu == null) return;
                             if ( !openMenu.isShowing()) {
@@ -919,7 +919,7 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
             menuModeEnd();
         }
     }
-    
+
     private void unSelectMenus() {
         clearMenuButtonHover();
         if (focusedMenuIndex == -1) return;
@@ -950,7 +950,7 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
         }
         focusedMenuIndex = -1;
     }
-    
+
     private void selectNextMenu() {
         Menu nextMenu = findNextSibling();
         if (nextMenu != null && focusedMenuIndex != -1) {
@@ -959,7 +959,7 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
             openMenu = nextMenu;
         }
     }
-    
+
     private void selectPrevMenu() {
         Menu prevMenu = findPreviousSibling();
         if (prevMenu != null && focusedMenuIndex != -1) {
@@ -968,7 +968,7 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
             openMenu = prevMenu;
         }
     }
-    
+
     private void showNextMenu() {
         Menu nextMenu = findNextSibling();
         // hide the currently visible menu, and move to the next one
@@ -976,7 +976,7 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
         openMenu = nextMenu;
         if (!isMenuEmpty(nextMenu)) {
             openMenu.show();
-        } 
+        }
     }
 
     private void showPrevMenu() {
@@ -986,9 +986,9 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
         openMenu = prevMenu;
         if (!isMenuEmpty(prevMenu)) {
             openMenu.show();
-        } 
+        }
     }
-    
+
     private Menu findPreviousSibling() {
         if (focusedMenuIndex == -1) return null;
         if (focusedMenuIndex == 0) {
@@ -1082,7 +1082,7 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
         private void clearHover() {
             setHover(false);
         }
-        
+
         private void setHover() {
             setHover(true);
 
@@ -1206,8 +1206,8 @@ public class MenuBarSkin extends BehaviorSkinBase<MenuBar, BehaviorBase<MenuBar>
         final List<CssMetaData<? extends Styleable, ?>> styleables =
                 new ArrayList<CssMetaData<? extends Styleable, ?>>(SkinBase.getClassCssMetaData());
 
-        // StackPane also has -fx-alignment. Replace it with 
-        // MenuBarSkin's. 
+        // StackPane also has -fx-alignment. Replace it with
+        // MenuBarSkin's.
         // TODO: Really should be able to reference StackPane.StyleableProperties.ALIGNMENT
         final String alignmentProperty = ALIGNMENT.getProperty();
         for (int n=0, nMax=styleables.size(); n<nMax; n++) {

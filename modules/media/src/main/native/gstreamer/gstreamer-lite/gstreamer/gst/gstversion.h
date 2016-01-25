@@ -77,7 +77,7 @@ G_BEGIN_DECLS
  *
  * Since: 0.10.18
  */
-#define	GST_CHECK_VERSION(major,minor,micro)	\
+#define GST_CHECK_VERSION(major,minor,micro)    \
     (GST_VERSION_MAJOR > (major) || \
      (GST_VERSION_MAJOR == (major) && GST_VERSION_MINOR > (minor)) || \
      (GST_VERSION_MAJOR == (major) && GST_VERSION_MINOR == (minor) && \

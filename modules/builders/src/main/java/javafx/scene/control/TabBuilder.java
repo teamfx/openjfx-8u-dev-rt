@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.Tab
 public class TabBuilder<B extends javafx.scene.control.TabBuilder<B>> implements javafx.util.Builder<javafx.scene.control.Tab> {
     protected TabBuilder() {
     }
-    
+
     /** Creates a new instance of TabBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.TabBuilder<?> create() {
         return new javafx.scene.control.TabBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -69,7 +69,7 @@ public class TabBuilder<B extends javafx.scene.control.TabBuilder<B>> implements
             }
         }
     }
-    
+
     private boolean closable;
     /**
     Set the value of the {@link javafx.scene.control.Tab#isClosable() closable} property for the instance constructed by this builder.
@@ -80,7 +80,7 @@ public class TabBuilder<B extends javafx.scene.control.TabBuilder<B>> implements
         __set(0);
         return (B) this;
     }
-    
+
     private javafx.scene.Node content;
     /**
     Set the value of the {@link javafx.scene.control.Tab#getContent() content} property for the instance constructed by this builder.
@@ -91,7 +91,7 @@ public class TabBuilder<B extends javafx.scene.control.TabBuilder<B>> implements
         __set(1);
         return (B) this;
     }
-    
+
     private javafx.scene.control.ContextMenu contextMenu;
     /**
     Set the value of the {@link javafx.scene.control.Tab#getContextMenu() contextMenu} property for the instance constructed by this builder.
@@ -102,7 +102,7 @@ public class TabBuilder<B extends javafx.scene.control.TabBuilder<B>> implements
         __set(2);
         return (B) this;
     }
-    
+
     private boolean disable;
     /**
     Set the value of the {@link javafx.scene.control.Tab#isDisable() disable} property for the instance constructed by this builder.
@@ -114,7 +114,7 @@ public class TabBuilder<B extends javafx.scene.control.TabBuilder<B>> implements
         __set(3);
         return (B) this;
     }
-    
+
     private javafx.scene.Node graphic;
     /**
     Set the value of the {@link javafx.scene.control.Tab#getGraphic() graphic} property for the instance constructed by this builder.
@@ -125,7 +125,7 @@ public class TabBuilder<B extends javafx.scene.control.TabBuilder<B>> implements
         __set(4);
         return (B) this;
     }
-    
+
     private java.lang.String id;
     /**
     Set the value of the {@link javafx.scene.control.Tab#getId() id} property for the instance constructed by this builder.
@@ -136,7 +136,7 @@ public class TabBuilder<B extends javafx.scene.control.TabBuilder<B>> implements
         __set(5);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.event.Event> onClosed;
     /**
     Set the value of the {@link javafx.scene.control.Tab#getOnClosed() onClosed} property for the instance constructed by this builder.
@@ -147,7 +147,7 @@ public class TabBuilder<B extends javafx.scene.control.TabBuilder<B>> implements
         __set(6);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.event.Event> onSelectionChanged;
     /**
     Set the value of the {@link javafx.scene.control.Tab#getOnSelectionChanged() onSelectionChanged} property for the instance constructed by this builder.
@@ -158,7 +158,7 @@ public class TabBuilder<B extends javafx.scene.control.TabBuilder<B>> implements
         __set(7);
         return (B) this;
     }
-    
+
     private java.lang.String style;
     /**
     Set the value of the {@link javafx.scene.control.Tab#getStyle() style} property for the instance constructed by this builder.
@@ -169,7 +169,7 @@ public class TabBuilder<B extends javafx.scene.control.TabBuilder<B>> implements
         __set(8);
         return (B) this;
     }
-    
+
     private java.util.Collection<? extends java.lang.String> styleClass;
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.Tab#getStyleClass() styleClass} property for the instance constructed by this builder.
@@ -180,14 +180,14 @@ public class TabBuilder<B extends javafx.scene.control.TabBuilder<B>> implements
         __set(9);
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.Tab#getStyleClass() styleClass} property for the instance constructed by this builder.
     */
     public B styleClass(java.lang.String... x) {
         return styleClass(java.util.Arrays.asList(x));
     }
-    
+
     private java.lang.String text;
     /**
     Set the value of the {@link javafx.scene.control.Tab#getText() text} property for the instance constructed by this builder.
@@ -198,7 +198,7 @@ public class TabBuilder<B extends javafx.scene.control.TabBuilder<B>> implements
         __set(10);
         return (B) this;
     }
-    
+
     private javafx.scene.control.Tooltip tooltip;
     /**
     Set the value of the {@link javafx.scene.control.Tab#getTooltip() tooltip} property for the instance constructed by this builder.
@@ -209,7 +209,7 @@ public class TabBuilder<B extends javafx.scene.control.TabBuilder<B>> implements
         __set(11);
         return (B) this;
     }
-    
+
     private java.lang.Object userData;
     /**
     Set the value of the {@link javafx.scene.control.Tab#getUserData() userData} property for the instance constructed by this builder.
@@ -221,7 +221,7 @@ public class TabBuilder<B extends javafx.scene.control.TabBuilder<B>> implements
         __set(12);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.Tab} based on the properties set on this builder.
     */

@@ -75,14 +75,14 @@ public class ButtonSkinTest {
             Stage stage = new Stage();
             Scene scene = new Scene(new Group(), 500, 500);
             stage.setScene(scene);
-            
+
             button.setMnemonicParsing(true);
             button.setText("_Mnemonic");
-            
+
             ((Group)scene.getRoot()).getChildren().add(button);
-        
+
             stage.show();
-        
+
             KeyCombination mnemonicKeyCombo = new MnemonicKeyCombination("M");
 
             ObservableList<Mnemonic> mnemonicsList = scene.getMnemonics().get(mnemonicKeyCombo);
@@ -97,7 +97,7 @@ public class ButtonSkinTest {
         }
     }
 
-   
+
     @Test
     public void testMnemonicAutoParseAdditionRemovalOnParentChange() {
         if(!com.sun.javafx.PlatformUtil.isMac()) {
@@ -105,14 +105,14 @@ public class ButtonSkinTest {
             Stage stage = new Stage();
             Scene scene = new Scene(new Group(), 500, 500);
             stage.setScene(scene);
-            
+
             button.setMnemonicParsing(true);
             button.setText("_AnotherMnemonic");
-            
+
             ((Group)scene.getRoot()).getChildren().add(button);
-        
+
             stage.show();
-        
+
             KeyCombination mnemonicKeyCombo = new MnemonicKeyCombination("A");
 
             ObservableList<Mnemonic> mnemonicsList = scene.getMnemonics().get(mnemonicKeyCombo);
@@ -128,7 +128,7 @@ public class ButtonSkinTest {
             nodeFound = false;
 
             ((Group)scene.getRoot()).getChildren().remove(button);
-  
+
             mnemonicsList = scene.getMnemonics().get(mnemonicKeyCombo);
             if (mnemonicsList != null) {
                 for (int i = 0 ; i < mnemonicsList.size() ; i++) {
@@ -147,7 +147,7 @@ public class ButtonSkinTest {
         public ButtonSkinMock(Button button) {
             super(button);
         }
-        
+
         @Override protected void handleControlPropertyChanged(String p) {
             super.handleControlPropertyChanged(p);
             propertyChanged = true;

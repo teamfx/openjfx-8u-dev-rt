@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.TextField
 public class TextFieldBuilder<B extends javafx.scene.control.TextFieldBuilder<B>> extends javafx.scene.control.TextInputControlBuilder<B> implements javafx.util.Builder<javafx.scene.control.TextField> {
     protected TextFieldBuilder() {
     }
-    
+
     /** Creates a new instance of TextFieldBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.TextFieldBuilder<?> create() {
         return new javafx.scene.control.TextFieldBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.TextField x) {
         super.applyTo(x);
@@ -52,7 +52,7 @@ public class TextFieldBuilder<B extends javafx.scene.control.TextFieldBuilder<B>
         if ((set & (1 << 2)) != 0) x.setPrefColumnCount(this.prefColumnCount);
         if ((set & (1 << 3)) != 0) x.setPromptText(this.promptText);
     }
-    
+
     private javafx.geometry.Pos alignment;
     /**
     Set the value of the {@link javafx.scene.control.TextField#getAlignment() alignment} property for the instance constructed by this builder.
@@ -64,7 +64,7 @@ public class TextFieldBuilder<B extends javafx.scene.control.TextFieldBuilder<B>
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.event.ActionEvent> onAction;
     /**
     Set the value of the {@link javafx.scene.control.TextField#getOnAction() onAction} property for the instance constructed by this builder.
@@ -75,7 +75,7 @@ public class TextFieldBuilder<B extends javafx.scene.control.TextFieldBuilder<B>
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private int prefColumnCount;
     /**
     Set the value of the {@link javafx.scene.control.TextField#getPrefColumnCount() prefColumnCount} property for the instance constructed by this builder.
@@ -86,7 +86,7 @@ public class TextFieldBuilder<B extends javafx.scene.control.TextFieldBuilder<B>
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private java.lang.String promptText;
     /**
     Set the value of the {@link javafx.scene.control.TextField#getPromptText() promptText} property for the instance constructed by this builder.
@@ -97,7 +97,7 @@ public class TextFieldBuilder<B extends javafx.scene.control.TextFieldBuilder<B>
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.TextField} based on the properties set on this builder.
     */

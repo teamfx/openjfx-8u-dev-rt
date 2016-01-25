@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.transform.Rotate
 public class RotateBuilder<B extends javafx.scene.transform.RotateBuilder<B>> implements javafx.util.Builder<javafx.scene.transform.Rotate> {
     protected RotateBuilder() {
     }
-    
+
     /** Creates a new instance of RotateBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.transform.RotateBuilder<?> create() {
         return new javafx.scene.transform.RotateBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.transform.Rotate x) {
         int set = __set;
@@ -52,7 +52,7 @@ public class RotateBuilder<B extends javafx.scene.transform.RotateBuilder<B>> im
         if ((set & (1 << 3)) != 0) x.setPivotY(this.pivotY);
         if ((set & (1 << 4)) != 0) x.setPivotZ(this.pivotZ);
     }
-    
+
     private double angle;
     /**
     Set the value of the {@link javafx.scene.transform.Rotate#getAngle() angle} property for the instance constructed by this builder.
@@ -63,7 +63,7 @@ public class RotateBuilder<B extends javafx.scene.transform.RotateBuilder<B>> im
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private javafx.geometry.Point3D axis;
     /**
     Set the value of the {@link javafx.scene.transform.Rotate#getAxis() axis} property for the instance constructed by this builder.
@@ -74,7 +74,7 @@ public class RotateBuilder<B extends javafx.scene.transform.RotateBuilder<B>> im
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double pivotX;
     /**
     Set the value of the {@link javafx.scene.transform.Rotate#getPivotX() pivotX} property for the instance constructed by this builder.
@@ -85,7 +85,7 @@ public class RotateBuilder<B extends javafx.scene.transform.RotateBuilder<B>> im
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private double pivotY;
     /**
     Set the value of the {@link javafx.scene.transform.Rotate#getPivotY() pivotY} property for the instance constructed by this builder.
@@ -96,7 +96,7 @@ public class RotateBuilder<B extends javafx.scene.transform.RotateBuilder<B>> im
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private double pivotZ;
     /**
     Set the value of the {@link javafx.scene.transform.Rotate#getPivotZ() pivotZ} property for the instance constructed by this builder.
@@ -107,7 +107,7 @@ public class RotateBuilder<B extends javafx.scene.transform.RotateBuilder<B>> im
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.transform.Rotate} based on the properties set on this builder.
     */

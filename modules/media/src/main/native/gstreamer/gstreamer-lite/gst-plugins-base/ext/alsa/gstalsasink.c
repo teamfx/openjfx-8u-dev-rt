@@ -53,9 +53,9 @@
 
 #include <gst/gst-i18n-plugin.h>
 
-#define DEFAULT_DEVICE		"default"
-#define DEFAULT_DEVICE_NAME	""
-#define DEFAULT_CARD_NAME	""
+#define DEFAULT_DEVICE      "default"
+#define DEFAULT_DEVICE_NAME ""
+#define DEFAULT_CARD_NAME   ""
 #define SPDIF_PERIOD_SIZE 1536
 #define SPDIF_BUFFER_SIZE 15360
 
@@ -97,9 +97,9 @@ static GStaticMutex output_mutex = G_STATIC_MUTEX_INIT;
 
 
 #if (G_BYTE_ORDER == G_LITTLE_ENDIAN)
-# define ALSA_SINK_FACTORY_ENDIANNESS	"LITTLE_ENDIAN, BIG_ENDIAN"
+# define ALSA_SINK_FACTORY_ENDIANNESS   "LITTLE_ENDIAN, BIG_ENDIAN"
 #else
-# define ALSA_SINK_FACTORY_ENDIANNESS	"BIG_ENDIAN, LITTLE_ENDIAN"
+# define ALSA_SINK_FACTORY_ENDIANNESS   "BIG_ENDIAN, LITTLE_ENDIAN"
 #endif
 
 static GstStaticPadTemplate alsasink_sink_factory =

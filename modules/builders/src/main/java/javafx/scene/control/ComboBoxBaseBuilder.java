@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,8 +36,8 @@ Builder class for javafx.scene.control.ComboBoxBase
 public abstract class ComboBoxBaseBuilder<T, B extends javafx.scene.control.ComboBoxBaseBuilder<T, B>> extends javafx.scene.control.ControlBuilder<B> {
     protected ComboBoxBaseBuilder() {
     }
-    
-    
+
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -60,7 +60,7 @@ public abstract class ComboBoxBaseBuilder<T, B extends javafx.scene.control.Comb
             }
         }
     }
-    
+
     private boolean editable;
     /**
     Set the value of the {@link javafx.scene.control.ComboBoxBase#isEditable() editable} property for the instance constructed by this builder.
@@ -71,7 +71,7 @@ public abstract class ComboBoxBaseBuilder<T, B extends javafx.scene.control.Comb
         __set(0);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.event.ActionEvent> onAction;
     /**
     Set the value of the {@link javafx.scene.control.ComboBoxBase#getOnAction() onAction} property for the instance constructed by this builder.
@@ -82,7 +82,7 @@ public abstract class ComboBoxBaseBuilder<T, B extends javafx.scene.control.Comb
         __set(1);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.event.Event> onHidden;
     /**
     Set the value of the {@link javafx.scene.control.ComboBoxBase#getOnHidden() onHidden} property for the instance constructed by this builder.
@@ -94,7 +94,7 @@ public abstract class ComboBoxBaseBuilder<T, B extends javafx.scene.control.Comb
         __set(2);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.event.Event> onHiding;
     /**
     Set the value of the {@link javafx.scene.control.ComboBoxBase#getOnHiding() onHiding} property for the instance constructed by this builder.
@@ -106,7 +106,7 @@ public abstract class ComboBoxBaseBuilder<T, B extends javafx.scene.control.Comb
         __set(3);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.event.Event> onShowing;
     /**
     Set the value of the {@link javafx.scene.control.ComboBoxBase#getOnShowing() onShowing} property for the instance constructed by this builder.
@@ -118,7 +118,7 @@ public abstract class ComboBoxBaseBuilder<T, B extends javafx.scene.control.Comb
         __set(4);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<javafx.event.Event> onShown;
     /**
     Set the value of the {@link javafx.scene.control.ComboBoxBase#getOnShown() onShown} property for the instance constructed by this builder.
@@ -130,7 +130,7 @@ public abstract class ComboBoxBaseBuilder<T, B extends javafx.scene.control.Comb
         __set(5);
         return (B) this;
     }
-    
+
     private java.lang.String promptText;
     /**
     Set the value of the {@link javafx.scene.control.ComboBoxBase#getPromptText() promptText} property for the instance constructed by this builder.
@@ -141,7 +141,7 @@ public abstract class ComboBoxBaseBuilder<T, B extends javafx.scene.control.Comb
         __set(6);
         return (B) this;
     }
-    
+
     private T value;
     /**
     Set the value of the {@link javafx.scene.control.ComboBoxBase#getValue() value} property for the instance constructed by this builder.
@@ -152,5 +152,5 @@ public abstract class ComboBoxBaseBuilder<T, B extends javafx.scene.control.Comb
         __set(7);
         return (B) this;
     }
-    
+
 }

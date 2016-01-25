@@ -12,7 +12,7 @@
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
@@ -844,8 +844,8 @@ GThreadFunctions g_thread_functions_for_glib_use = {
  * The error is set, if and only if the function returns %NULL.
  **/
   (void(*)(GThreadFunc, gpointer, gulong,
-	   gboolean, gboolean, GThreadPriority,
-	   gpointer, GError**))g_thread_fail,
+       gboolean, gboolean, GThreadPriority,
+       gpointer, GError**))g_thread_fail,
 
 /**
  * g_thread_yield:
@@ -958,7 +958,7 @@ g_thread_init_glib (void)
 #endif /* G_THREADS_ENABLED */
 
 /* The following sections implement: GOnce, GStaticMutex, GStaticRecMutex,
- * GStaticPrivate, 
+ * GStaticPrivate,
  **/
 
 /* GOnce {{{1 ------------------------------------------------------------- */
@@ -1041,8 +1041,8 @@ g_thread_init_glib (void)
  **/
 gpointer
 g_once_impl (GOnce       *once,
-	     GThreadFunc  func,
-	     gpointer     arg)
+         GThreadFunc  func,
+         gpointer     arg)
 {
   g_mutex_lock (g_once_mutex);
 
@@ -1519,7 +1519,7 @@ g_static_rec_mutex_unlock (GStaticRecMutex* mutex)
  **/
 void
 g_static_rec_mutex_lock_full   (GStaticRecMutex *mutex,
-				guint            depth)
+                guint            depth)
 {
   GSystemThread self;
   g_return_if_fail (mutex);
@@ -1706,8 +1706,8 @@ g_static_private_get (GStaticPrivate *private_key)
  **/
 void
 g_static_private_set (GStaticPrivate *private_key,
-		      gpointer        data,
-		      GDestroyNotify  notify)
+              gpointer        data,
+              GDestroyNotify  notify)
 {
   GRealThread *self = (GRealThread*) g_thread_self ();
   GArray *array;
@@ -1721,18 +1721,18 @@ g_static_private_set (GStaticPrivate *private_key,
       G_LOCK (g_thread);
 
       if (!private_key->index)
-	{
-	  if (g_thread_free_indices)
-	    {
-	      private_key->index =
-		GPOINTER_TO_UINT (g_thread_free_indices->data);
-	      g_thread_free_indices =
-		g_slist_delete_link (g_thread_free_indices,
-				     g_thread_free_indices);
-	    }
-	  else
-	    private_key->index = ++next_index;
-	}
+    {
+      if (g_thread_free_indices)
+        {
+          private_key->index =
+        GPOINTER_TO_UINT (g_thread_free_indices->data);
+          g_thread_free_indices =
+        g_slist_delete_link (g_thread_free_indices,
+                     g_thread_free_indices);
+        }
+      else
+        private_key->index = ++next_index;
+    }
 
       G_UNLOCK (g_thread);
     }
@@ -1801,15 +1801,15 @@ g_static_private_free (GStaticPrivate *private_key)
       array = thread->private_data;
 
       if (array && idx <= array->len)
-	{
-	  GStaticPrivateNode *node = &g_array_index (array,
-						     GStaticPrivateNode,
-						     idx - 1);
-	  gpointer ddata = node->data;
-	  GDestroyNotify ddestroy = node->destroy;
+    {
+      GStaticPrivateNode *node = &g_array_index (array,
+                             GStaticPrivateNode,
+                             idx - 1);
+      gpointer ddata = node->data;
+      GDestroyNotify ddestroy = node->destroy;
 
-	  node->data = NULL;
-	  node->destroy = NULL;
+      node->data = NULL;
+      node->destroy = NULL;
 
           if (ddestroy)
             {
@@ -1826,12 +1826,12 @@ g_static_private_free (GStaticPrivate *private_key)
               node->data = ddata;
               node->destroy = ddestroy;
             }
-	}
+    }
 
       UNLOCK_PRIVATE_DATA (thread);
     }
   g_thread_free_indices = g_slist_prepend (g_thread_free_indices,
-					   GUINT_TO_POINTER (idx));
+                       GUINT_TO_POINTER (idx));
   G_UNLOCK (g_thread);
 
   if (garbage)
@@ -1865,43 +1865,43 @@ g_thread_cleanup (gpointer data)
       UNLOCK_PRIVATE_DATA (thread);
 
       if (array)
-	{
-	  guint i;
+    {
+      guint i;
 
-	  for (i = 0; i < array->len; i++ )
-	    {
-	      GStaticPrivateNode *node =
-		&g_array_index (array, GStaticPrivateNode, i);
-	      if (node->destroy)
-		node->destroy (node->data);
-	    }
-	  g_array_free (array, TRUE);
-	}
+      for (i = 0; i < array->len; i++ )
+        {
+          GStaticPrivateNode *node =
+        &g_array_index (array, GStaticPrivateNode, i);
+          if (node->destroy)
+        node->destroy (node->data);
+        }
+      g_array_free (array, TRUE);
+    }
 
       /* We only free the thread structure, if it isn't joinable. If
          it is, the structure is freed in g_thread_join */
       if (!thread->thread.joinable)
-	{
-	  GRealThread *t, *p;
+    {
+      GRealThread *t, *p;
 
-	  G_LOCK (g_thread);
-	  for (t = g_thread_all_threads, p = NULL; t; p = t, t = t->next)
-	    {
-	      if (t == thread)
-		{
-		  if (p)
-		    p->next = t->next;
-		  else
-		    g_thread_all_threads = t->next;
-		  break;
-		}
-	    }
-	  G_UNLOCK (g_thread);
+      G_LOCK (g_thread);
+      for (t = g_thread_all_threads, p = NULL; t; p = t, t = t->next)
+        {
+          if (t == thread)
+        {
+          if (p)
+            p->next = t->next;
+          else
+            g_thread_all_threads = t->next;
+          break;
+        }
+        }
+      G_UNLOCK (g_thread);
 
-	  /* Just to make sure, this isn't used any more */
-	  g_system_thread_assign (thread->system_thread, zero_thread);
+      /* Just to make sure, this isn't used any more */
+      g_system_thread_assign (thread->system_thread, zero_thread);
           g_free (thread);
-	}
+    }
     }
 }
 
@@ -1933,7 +1933,7 @@ gettime (void)
 
   gettimeofday (&tv, NULL);
 
-  return (guint64) tv.tv_sec * G_NSEC_PER_SEC + tv.tv_usec * (G_NSEC_PER_SEC / G_USEC_PER_SEC); 
+  return (guint64) tv.tv_sec * G_NSEC_PER_SEC + tv.tv_usec * (G_NSEC_PER_SEC / G_USEC_PER_SEC);
 #endif
 }
 
@@ -2001,12 +2001,12 @@ g_thread_create_proxy (gpointer data)
  **/
 GThread*
 g_thread_create_full (GThreadFunc       func,
-		      gpointer          data,
-		      gulong            stack_size,
-		      gboolean          joinable,
-		      gboolean 	        bound,
-		      GThreadPriority   priority,
-		      GError          **error)
+              gpointer          data,
+              gulong            stack_size,
+              gboolean          joinable,
+              gboolean          bound,
+              GThreadPriority   priority,
+              GError          **error)
 {
   GRealThread* result;
   GError *local_error = NULL;
@@ -2023,8 +2023,8 @@ g_thread_create_full (GThreadFunc       func,
   result->private_data = NULL;
   G_LOCK (g_thread);
   G_THREAD_UF (thread_create, (g_thread_create_proxy, result,
-			       stack_size, joinable, bound, priority,
-			       &result->system_thread, &local_error));
+                   stack_size, joinable, bound, priority,
+                   &result->system_thread, &local_error));
   if (!local_error)
     {
       result->next = g_thread_all_threads;
@@ -2095,7 +2095,7 @@ g_thread_join (GThread* thread)
   g_return_val_if_fail (thread, NULL);
   g_return_val_if_fail (thread->joinable, NULL);
   g_return_val_if_fail (!g_system_thread_equal (real->system_thread,
-						zero_thread), NULL);
+                        zero_thread), NULL);
 
   G_THREAD_UF (thread_join, (&real->system_thread));
 
@@ -2105,13 +2105,13 @@ g_thread_join (GThread* thread)
   for (t = g_thread_all_threads, p = NULL; t; p = t, t = t->next)
     {
       if (t == (GRealThread*) thread)
-	{
-	  if (p)
-	    p->next = t->next;
-	  else
-	    g_thread_all_threads = t->next;
-	  break;
-	}
+    {
+      if (p)
+        p->next = t->next;
+      else
+        g_thread_all_threads = t->next;
+      break;
+    }
     }
   G_UNLOCK (g_thread);
 
@@ -2143,7 +2143,7 @@ g_thread_join (GThread* thread)
  **/
 void
 g_thread_set_priority (GThread* thread,
-		       GThreadPriority priority)
+               GThreadPriority priority)
 {
   GRealThread* real = (GRealThread*) thread;
 
@@ -2155,7 +2155,7 @@ g_thread_set_priority (GThread* thread,
   thread->priority = priority;
 
   G_THREAD_CF (thread_set_priority, (void)0,
-	       (&real->system_thread, priority));
+           (&real->system_thread, priority));
 }
 
 /**
@@ -2178,13 +2178,13 @@ g_thread_self (void)
       thread = g_new0 (GRealThread, 1);
       thread->thread.joinable = FALSE; /* This is a save guess */
       thread->thread.priority = G_THREAD_PRIORITY_NORMAL; /* This is
-							     just a guess */
+                                 just a guess */
       thread->thread.func = NULL;
       thread->thread.data = NULL;
       thread->private_data = NULL;
 
       if (g_thread_supported ())
-	G_THREAD_UF (thread_self, (&thread->system_thread));
+    G_THREAD_UF (thread_self, (&thread->system_thread));
 
       g_private_set (g_thread_specific_private, thread);
 

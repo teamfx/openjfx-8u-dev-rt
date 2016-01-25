@@ -472,10 +472,10 @@ public class HTMLEditorSkin extends BehaviorSkinBase<HTMLEditor, HTMLEditorBehav
         webView.setFocusTraversable(true);
         gridPane.getChildren().addListener(itemsListener);
     }
-    
+
     public final String getHTMLText() {
         // RT17203 setHTMLText is asynchronous.  We use the cached version of
-        // the html text until the page finishes loading.        
+        // the html text until the page finishes loading.
         return cachedHTMLText != null ? cachedHTMLText : webPage.getHtml(webPage.getMainFrame());
     }
 
@@ -754,7 +754,7 @@ public class HTMLEditorSkin extends BehaviorSkinBase<HTMLEditor, HTMLEditorBehav
             }
         });
     }
-    
+
     private String colorValueToHex(Color c) {
         return String.format((Locale)null, "#%02x%02x%02x",
                              Math.round(c.getRed() * 255),
@@ -919,7 +919,7 @@ public class HTMLEditorSkin extends BehaviorSkinBase<HTMLEditor, HTMLEditorBehav
 
             Object selectedFont = fontFamilyComboBox.getValue();
             if (selectedFont instanceof String) {
-                if (!selectedFont.equals(fontFamilyStr)) { 
+                if (!selectedFont.equals(fontFamilyStr)) {
 
                     ObservableList<String> fontFamilyItems = fontFamilyComboBox.getItems();
                     String selectedComboFont = null;
@@ -1049,7 +1049,7 @@ public class HTMLEditorSkin extends BehaviorSkinBase<HTMLEditor, HTMLEditorBehav
     private boolean isCommandEnabled(String command) {
         return webPage.queryCommandEnabled(command);
     }
-    
+
     private void setContentEditable(boolean b) {
         HTMLDocument htmlDocument = (HTMLDocument)webPage.getDocument(webPage.getMainFrame());
         HTMLElement htmlDocumentElement = (HTMLElement)htmlDocument.getDocumentElement();
@@ -1103,7 +1103,7 @@ public class HTMLEditorSkin extends BehaviorSkinBase<HTMLEditor, HTMLEditorBehav
             executeCommand(FONT_FAMILY_COMMAND, font);
         }
     }
-    
+
     public void keyboardShortcuts(final String name) {
         if ("bold".equals(name)) {
             boldButton.fire();
@@ -1119,7 +1119,7 @@ public class HTMLEditorSkin extends BehaviorSkinBase<HTMLEditor, HTMLEditorBehav
     @Override
     protected void layoutChildren(final double x, final double y,
             final double w, final double h) {
-        
+
         if (isFirstRun) {
             populateToolbars();
             isFirstRun = false;

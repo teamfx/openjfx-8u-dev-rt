@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,19 +36,19 @@ Builder class for javafx.scene.shape.Polyline
 public class PolylineBuilder<B extends javafx.scene.shape.PolylineBuilder<B>> extends javafx.scene.shape.ShapeBuilder<B> implements javafx.util.Builder<javafx.scene.shape.Polyline> {
     protected PolylineBuilder() {
     }
-    
+
     /** Creates a new instance of PolylineBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.shape.PolylineBuilder<?> create() {
         return new javafx.scene.shape.PolylineBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.scene.shape.Polyline x) {
         super.applyTo(x);
         if (__set) x.getPoints().addAll(this.points);
     }
-    
+
     private java.util.Collection<? extends java.lang.Double> points;
     /**
     Add the given items to the List of items in the {@link javafx.scene.shape.Polyline#getPoints() points} property for the instance constructed by this builder.
@@ -59,14 +59,14 @@ public class PolylineBuilder<B extends javafx.scene.shape.PolylineBuilder<B>> ex
         __set = true;
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.shape.Polyline#getPoints() points} property for the instance constructed by this builder.
     */
     public B points(java.lang.Double... x) {
         return points(java.util.Arrays.asList(x));
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.shape.Polyline} based on the properties set on this builder.
     */

@@ -390,7 +390,7 @@ missing_structure_get_caps_detail (const GstStructure * s, GstCaps ** p_caps)
  * Returns an opaque string containing all the details about the missing
  * element to be passed to an external installer called via
  * gst_install_plugins_async() or gst_install_plugins_sync().
- * 
+ *
  * This function is mainly for applications that call external plugin
  * installation mechanisms using one of the two above-mentioned functions.
  *
@@ -639,7 +639,7 @@ gst_installer_detail_new (gchar * description, const gchar * type,
  * Returns an opaque string containing all the details about the missing
  * element to be passed to an external installer called via
  * gst_install_plugins_async() or gst_install_plugins_sync().
- * 
+ *
  * This function is mainly for applications that call external plugin
  * installation mechanisms using one of the two above-mentioned functions in
  * the case where the application knows exactly what kind of plugin it is
@@ -669,7 +669,7 @@ gst_missing_uri_source_installer_detail_new (const gchar * protocol)
  * Returns an opaque string containing all the details about the missing
  * element to be passed to an external installer called via
  * gst_install_plugins_async() or gst_install_plugins_sync().
- * 
+ *
  * This function is mainly for applications that call external plugin
  * installation mechanisms using one of the two above-mentioned functions in
  * the case where the application knows exactly what kind of plugin it is
@@ -699,7 +699,7 @@ gst_missing_uri_sink_installer_detail_new (const gchar * protocol)
  * Returns an opaque string containing all the details about the missing
  * element to be passed to an external installer called via
  * gst_install_plugins_async() or gst_install_plugins_sync().
- * 
+ *
  * This function is mainly for applications that call external plugin
  * installation mechanisms using one of the two above-mentioned functions in
  * the case where the application knows exactly what kind of plugin it is
@@ -728,7 +728,7 @@ gst_missing_element_installer_detail_new (const gchar * factory_name)
  * Returns an opaque string containing all the details about the missing
  * element to be passed to an external installer called via
  * gst_install_plugins_async() or gst_install_plugins_sync().
- * 
+ *
  * This function is mainly for applications that call external plugin
  * installation mechanisms using one of the two above-mentioned functions in
  * the case where the application knows exactly what kind of plugin it is
@@ -768,7 +768,7 @@ gst_missing_decoder_installer_detail_new (const GstCaps * decode_caps)
  * Returns an opaque string containing all the details about the missing
  * element to be passed to an external installer called via
  * gst_install_plugins_async() or gst_install_plugins_sync().
- * 
+ *
  * This function is mainly for applications that call external plugin
  * installation mechanisms using one of the two above-mentioned functions in
  * the case where the application knows exactly what kind of plugin it is

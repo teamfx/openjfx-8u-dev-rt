@@ -46,24 +46,24 @@ public class ObservableFloatValueStub extends ObservableValueBase<Number> implem
     public Float getValue() {
         return value;
     }
-    
-	@Override
-	public int intValue() {
-		return (int)value;
-	}
 
-	@Override
-	public long longValue() {
-		return (long)value;
-	}
+    @Override
+    public int intValue() {
+        return (int)value;
+    }
 
-	@Override
-	public float floatValue() {
-		return value;
-	}
+    @Override
+    public long longValue() {
+        return (long)value;
+    }
 
-	@Override
-	public double doubleValue() {
-		return value;
-	}
+    @Override
+    public float floatValue() {
+        return value;
+    }
+
+    @Override
+    public double doubleValue() {
+        return value;
+    }
 }

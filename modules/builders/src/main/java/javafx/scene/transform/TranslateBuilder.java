@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.transform.Translate
 public class TranslateBuilder<B extends javafx.scene.transform.TranslateBuilder<B>> implements javafx.util.Builder<javafx.scene.transform.Translate> {
     protected TranslateBuilder() {
     }
-    
+
     /** Creates a new instance of TranslateBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.transform.TranslateBuilder<?> create() {
         return new javafx.scene.transform.TranslateBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.transform.Translate x) {
         int set = __set;
@@ -50,7 +50,7 @@ public class TranslateBuilder<B extends javafx.scene.transform.TranslateBuilder<
         if ((set & (1 << 1)) != 0) x.setY(this.y);
         if ((set & (1 << 2)) != 0) x.setZ(this.z);
     }
-    
+
     private double x;
     /**
     Set the value of the {@link javafx.scene.transform.Translate#getX() x} property for the instance constructed by this builder.
@@ -61,7 +61,7 @@ public class TranslateBuilder<B extends javafx.scene.transform.TranslateBuilder<
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private double y;
     /**
     Set the value of the {@link javafx.scene.transform.Translate#getY() y} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public class TranslateBuilder<B extends javafx.scene.transform.TranslateBuilder<
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double z;
     /**
     Set the value of the {@link javafx.scene.transform.Translate#getZ() z} property for the instance constructed by this builder.
@@ -83,7 +83,7 @@ public class TranslateBuilder<B extends javafx.scene.transform.TranslateBuilder<
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.transform.Translate} based on the properties set on this builder.
     */

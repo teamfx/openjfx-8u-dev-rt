@@ -8,7 +8,7 @@
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
@@ -102,8 +102,8 @@ void            g_thread_pool_stop_unused_threads    (void);
 
 /* Set sort function for priority threading */
 void            g_thread_pool_set_sort_function      (GThreadPool      *pool,
-		                                      GCompareDataFunc  func,
-						      gpointer          user_data);
+                                              GCompareDataFunc  func,
+                              gpointer          user_data);
 
 /* Set maximum time a thread can be idle in the pool before it is stopped */
 void            g_thread_pool_set_max_idle_time      (guint             interval);

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,19 +36,19 @@ Builder class for javafx.scene.chart.LineChart
 public class LineChartBuilder<X, Y, B extends javafx.scene.chart.LineChartBuilder<X, Y, B>> extends javafx.scene.chart.XYChartBuilder<X, Y, B> {
     protected LineChartBuilder() {
     }
-    
+
     /** Creates a new instance of LineChartBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <X, Y> javafx.scene.chart.LineChartBuilder<X, Y, ?> create() {
         return new javafx.scene.chart.LineChartBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.scene.chart.LineChart<X, Y> x) {
         super.applyTo(x);
         if (__set) x.setCreateSymbols(this.createSymbols);
     }
-    
+
     private boolean createSymbols;
     /**
     Set the value of the {@link javafx.scene.chart.LineChart#getCreateSymbols() createSymbols} property for the instance constructed by this builder.
@@ -59,7 +59,7 @@ public class LineChartBuilder<X, Y, B extends javafx.scene.chart.LineChartBuilde
         __set = true;
         return (B) this;
     }
-    
+
     private javafx.scene.chart.Axis<X> XAxis;
     /**
     Set the value of the {@link javafx.scene.chart.LineChart#getXAxis() XAxis} property for the instance constructed by this builder.
@@ -69,7 +69,7 @@ public class LineChartBuilder<X, Y, B extends javafx.scene.chart.LineChartBuilde
         this.XAxis = x;
         return (B) this;
     }
-    
+
     private javafx.scene.chart.Axis<Y> YAxis;
     /**
     Set the value of the {@link javafx.scene.chart.LineChart#getYAxis() YAxis} property for the instance constructed by this builder.
@@ -79,7 +79,7 @@ public class LineChartBuilder<X, Y, B extends javafx.scene.chart.LineChartBuilde
         this.YAxis = x;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.chart.LineChart} based on the properties set on this builder.
     */

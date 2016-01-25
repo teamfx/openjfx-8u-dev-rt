@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.paint.ImagePattern
 public final class ImagePatternBuilder implements javafx.util.Builder<javafx.scene.paint.ImagePattern> {
     protected ImagePatternBuilder() {
     }
-    
+
     /** Creates a new instance of ImagePatternBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.paint.ImagePatternBuilder create() {
         return new javafx.scene.paint.ImagePatternBuilder();
     }
-    
+
     private double height;
     /**
     Set the value of the {@link javafx.scene.paint.ImagePattern#getHeight() height} property for the instance constructed by this builder.
@@ -51,7 +51,7 @@ public final class ImagePatternBuilder implements javafx.util.Builder<javafx.sce
         this.height = x;
         return this;
     }
-    
+
     private javafx.scene.image.Image image;
     /**
     Set the value of the {@link javafx.scene.paint.ImagePattern#getImage() image} property for the instance constructed by this builder.
@@ -60,7 +60,7 @@ public final class ImagePatternBuilder implements javafx.util.Builder<javafx.sce
         this.image = x;
         return this;
     }
-    
+
     private boolean proportional;
     /**
     Set the value of the {@link javafx.scene.paint.ImagePattern#isProportional() proportional} property for the instance constructed by this builder.
@@ -69,7 +69,7 @@ public final class ImagePatternBuilder implements javafx.util.Builder<javafx.sce
         this.proportional = x;
         return this;
     }
-    
+
     private double width;
     /**
     Set the value of the {@link javafx.scene.paint.ImagePattern#getWidth() width} property for the instance constructed by this builder.
@@ -78,7 +78,7 @@ public final class ImagePatternBuilder implements javafx.util.Builder<javafx.sce
         this.width = x;
         return this;
     }
-    
+
     private double x;
     /**
     Set the value of the {@link javafx.scene.paint.ImagePattern#getX() x} property for the instance constructed by this builder.
@@ -87,7 +87,7 @@ public final class ImagePatternBuilder implements javafx.util.Builder<javafx.sce
         this.x = x;
         return this;
     }
-    
+
     private double y;
     /**
     Set the value of the {@link javafx.scene.paint.ImagePattern#getY() y} property for the instance constructed by this builder.
@@ -96,7 +96,7 @@ public final class ImagePatternBuilder implements javafx.util.Builder<javafx.sce
         this.y = x;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.paint.ImagePattern} based on the properties set on this builder.
     */

@@ -50,34 +50,34 @@ import com.sun.javafx.tk.Toolkit;
 
 
 public class KeyCombinationTest {
-    final KeyEvent ctrlAltQEvent = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED, 
+    final KeyEvent ctrlAltQEvent = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED,
             "q", null, KeyCodeMap.valueOf(0x51), false, true, true, false);
 
-    final KeyEvent ctrlAltQUpEvent = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_RELEASED, 
+    final KeyEvent ctrlAltQUpEvent = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_RELEASED,
             "q", null, KeyCodeMap.valueOf(0x51), false, true, true, false);
 
-    final KeyEvent ctrlShiftQEvent = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED, 
+    final KeyEvent ctrlShiftQEvent = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED,
             "Q", null, KeyCodeMap.valueOf(0x51), true, true, false, false);
 
-    final KeyEvent ctrlAltShiftQEvent = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED, 
+    final KeyEvent ctrlAltShiftQEvent = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED,
             "Q", null, KeyCodeMap.valueOf(0x51), true, true, true, false);
 
-    final KeyEvent alt2Event = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED, 
+    final KeyEvent alt2Event = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED,
             "2", null, KeyCodeMap.valueOf(0x32), false, false, true, false);
 
-    final KeyEvent altShift2Event = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED, 
+    final KeyEvent altShift2Event = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED,
             "@", null, KeyCodeMap.valueOf(0x32), true, false, true, false);
 
-    final KeyEvent altSoftkey0Event = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED, 
+    final KeyEvent altSoftkey0Event = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED,
             "~", null, KeyCodeMap.valueOf(0x1000), false, false, true, false);
 
-    final KeyEvent altShiftSoftkey0Event = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED, 
+    final KeyEvent altShiftSoftkey0Event = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED,
             "~", null, KeyCodeMap.valueOf(0x1000), true, false, true, false);
 
-    final KeyEvent altShiftPlusEvent = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED, 
+    final KeyEvent altShiftPlusEvent = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED,
             "~", null, KeyCodeMap.valueOf(0x209), true, false, true, false);
 
-    final KeyEvent altShiftQuoteEvent = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED, 
+    final KeyEvent altShiftQuoteEvent = new KeyEvent(null, Event.NULL_SOURCE_TARGET, KeyEvent.KEY_PRESSED,
             "~", null, KeyCodeMap.valueOf(0xDE), true, false, true, false);
 
     @BeforeClass
@@ -108,7 +108,7 @@ public class KeyCombinationTest {
 
         // MUSICAL SYMBOL G CLEF
         charToKeyCodeMap.put("\ud834\udd1e", KeyCode.SOFTKEY_0);
-        
+
         ((StubToolkit) Toolkit.getToolkit()).setCharToKeyCodeMap(
                 charToKeyCodeMap);
     }
@@ -188,10 +188,10 @@ public class KeyCombinationTest {
         KeyCombination ctrlAltQ =
                 KeyCombination.keyCombination("Ctrl + ALT+Q");
 
-        KeyCombination altCtrlQ = 
+        KeyCombination altCtrlQ =
                 KeyCombination.keyCombination("alt+CtRL  + q");
 
-        KeyCombination ctrlShiftQ = 
+        KeyCombination ctrlShiftQ =
                 KeyCombination.keyCombination("ctrl+shift+Q");
 
         KeyCombination ctrlAltShiftQ =
@@ -203,7 +203,7 @@ public class KeyCombinationTest {
 
         KeyCombination ctrlIgnoreAltShiftQ =
                 KeyCombination.keyCombination("Ctrl + ignore Alt + Shift + Q");
-        
+
         KeyCombination ctrlIgnoreAltShiftQWithWS1=
                 KeyCombination.keyCombination("Ctrl\t \t\n\f\r\u000B+ \t\n\f \r\u000Bignore Alt\n+ Shift\f + Q");
 
@@ -231,10 +231,10 @@ public class KeyCombinationTest {
 
     @Test
     public void testKeyCharacterCombinationFromString() {
-        KeyCombination ctrlAltQ = 
+        KeyCombination ctrlAltQ =
                 KeyCombination.keyCombination("Ctrl + ALT+'Q'");
 
-        KeyCombination altCtrlQ = 
+        KeyCombination altCtrlQ =
                 KeyCombination.keyCombination("alt+CtRL  + 'q'");
 
         KeyCombination altLatinSmallEWithCaron =
@@ -431,7 +431,7 @@ public class KeyCombinationTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void constructor2ShouldThrowIAEForDuplicateModifiers() {
-        new KeyCodeCombination(KeyCode.Q, 
+        new KeyCodeCombination(KeyCode.Q,
                                ALT_DOWN,
                                CONTROL_DOWN,
                                ALT_DOWN);
@@ -439,7 +439,7 @@ public class KeyCombinationTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void constructor2ShouldThrowIAEForConflictingModifiers() {
-        new KeyCodeCombination(KeyCode.Q,  
+        new KeyCodeCombination(KeyCode.Q,
                                SHIFT_DOWN,
                                CONTROL_ANY,
                                SHIFT_ANY);

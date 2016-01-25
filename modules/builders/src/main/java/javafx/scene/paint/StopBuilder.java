@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.paint.Stop
 public final class StopBuilder implements javafx.util.Builder<javafx.scene.paint.Stop> {
     protected StopBuilder() {
     }
-    
+
     /** Creates a new instance of StopBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.paint.StopBuilder create() {
         return new javafx.scene.paint.StopBuilder();
     }
-    
+
     private javafx.scene.paint.Color color = javafx.scene.paint.Color.BLACK;
     /**
     Set the value of the {@link javafx.scene.paint.Stop#getColor() color} property for the instance constructed by this builder.
@@ -51,7 +51,7 @@ public final class StopBuilder implements javafx.util.Builder<javafx.scene.paint
         this.color = x;
         return this;
     }
-    
+
     private double offset;
     /**
     Set the value of the {@link javafx.scene.paint.Stop#getOffset() offset} property for the instance constructed by this builder.
@@ -60,7 +60,7 @@ public final class StopBuilder implements javafx.util.Builder<javafx.scene.paint
         this.offset = x;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.paint.Stop} based on the properties set on this builder.
     */

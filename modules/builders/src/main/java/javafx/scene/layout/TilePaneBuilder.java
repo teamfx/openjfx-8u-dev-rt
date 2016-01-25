@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.layout.TilePane
 public class TilePaneBuilder<B extends javafx.scene.layout.TilePaneBuilder<B>> extends javafx.scene.layout.PaneBuilder<B> {
     protected TilePaneBuilder() {
     }
-    
+
     /** Creates a new instance of TilePaneBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.layout.TilePaneBuilder<?> create() {
         return new javafx.scene.layout.TilePaneBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -66,7 +66,7 @@ public class TilePaneBuilder<B extends javafx.scene.layout.TilePaneBuilder<B>> e
             }
         }
     }
-    
+
     private javafx.geometry.Pos alignment;
     /**
     Set the value of the {@link javafx.scene.layout.TilePane#getAlignment() alignment} property for the instance constructed by this builder.
@@ -77,7 +77,7 @@ public class TilePaneBuilder<B extends javafx.scene.layout.TilePaneBuilder<B>> e
         __set(0);
         return (B) this;
     }
-    
+
     private double hgap;
     /**
     Set the value of the {@link javafx.scene.layout.TilePane#getHgap() hgap} property for the instance constructed by this builder.
@@ -88,7 +88,7 @@ public class TilePaneBuilder<B extends javafx.scene.layout.TilePaneBuilder<B>> e
         __set(1);
         return (B) this;
     }
-    
+
     private javafx.geometry.Orientation orientation;
     /**
     Set the value of the {@link javafx.scene.layout.TilePane#getOrientation() orientation} property for the instance constructed by this builder.
@@ -99,7 +99,7 @@ public class TilePaneBuilder<B extends javafx.scene.layout.TilePaneBuilder<B>> e
         __set(2);
         return (B) this;
     }
-    
+
     private int prefColumns;
     /**
     Set the value of the {@link javafx.scene.layout.TilePane#getPrefColumns() prefColumns} property for the instance constructed by this builder.
@@ -110,7 +110,7 @@ public class TilePaneBuilder<B extends javafx.scene.layout.TilePaneBuilder<B>> e
         __set(3);
         return (B) this;
     }
-    
+
     private int prefRows;
     /**
     Set the value of the {@link javafx.scene.layout.TilePane#getPrefRows() prefRows} property for the instance constructed by this builder.
@@ -121,7 +121,7 @@ public class TilePaneBuilder<B extends javafx.scene.layout.TilePaneBuilder<B>> e
         __set(4);
         return (B) this;
     }
-    
+
     private double prefTileHeight;
     /**
     Set the value of the {@link javafx.scene.layout.TilePane#getPrefTileHeight() prefTileHeight} property for the instance constructed by this builder.
@@ -132,7 +132,7 @@ public class TilePaneBuilder<B extends javafx.scene.layout.TilePaneBuilder<B>> e
         __set(5);
         return (B) this;
     }
-    
+
     private double prefTileWidth;
     /**
     Set the value of the {@link javafx.scene.layout.TilePane#getPrefTileWidth() prefTileWidth} property for the instance constructed by this builder.
@@ -143,7 +143,7 @@ public class TilePaneBuilder<B extends javafx.scene.layout.TilePaneBuilder<B>> e
         __set(6);
         return (B) this;
     }
-    
+
     private javafx.geometry.Pos tileAlignment;
     /**
     Set the value of the {@link javafx.scene.layout.TilePane#getTileAlignment() tileAlignment} property for the instance constructed by this builder.
@@ -154,7 +154,7 @@ public class TilePaneBuilder<B extends javafx.scene.layout.TilePaneBuilder<B>> e
         __set(7);
         return (B) this;
     }
-    
+
     private double vgap;
     /**
     Set the value of the {@link javafx.scene.layout.TilePane#getVgap() vgap} property for the instance constructed by this builder.
@@ -165,7 +165,7 @@ public class TilePaneBuilder<B extends javafx.scene.layout.TilePaneBuilder<B>> e
         __set(8);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.layout.TilePane} based on the properties set on this builder.
     */

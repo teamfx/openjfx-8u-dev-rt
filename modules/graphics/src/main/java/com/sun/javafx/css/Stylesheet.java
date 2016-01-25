@@ -45,10 +45,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A stylesheet which can apply properties to a tree of objects.  A stylesheet 
- * is a collection of zero or more {@link Rule Rules}, each of which is applied 
+ * A stylesheet which can apply properties to a tree of objects.  A stylesheet
+ * is a collection of zero or more {@link Rule Rules}, each of which is applied
  * to each object in the tree.  Typically the selector will examine the object to
- * determine whether or not it is applicable, and if so it will apply certain 
+ * determine whether or not it is applicable, and if so it will apply certain
  * property values to the object.
  * <p>
  */
@@ -60,18 +60,18 @@ public class Stylesheet {
      * Version 5: persist @font-face
      */
     final static int BINARY_CSS_VERSION = 5;
-            
+
     private final String url;
     /** The URL from which the stylesheet was loaded.
-     * @return The URL from which the stylesheet was loaded, or null if 
-     *         the stylesheet was created from an inline style. 
+     * @return The URL from which the stylesheet was loaded, or null if
+     *         the stylesheet was created from an inline style.
      */
     public String getUrl() {
         return url;
     }
 
     /**
-     * True if this style came from user stylesheet, we need to know this so 
+     * True if this style came from user stylesheet, we need to know this so
      * that we can make user important styles have higher priority than
      * author styles
      */
@@ -118,8 +118,8 @@ public class Stylesheet {
         // RT-17344
         // The above code is unreliable. The getResource call is intended
         // to return the root path of the Application instance, but it sometimes
-        // returns null. Here, we'll set url to null and then when a url is 
-        // resolved, the url path can be used in the getResource call. For 
+        // returns null. Here, we'll set url to null and then when a url is
+        // resolved, the url path can be used in the getResource call. For
         // example, if the css is -fx-image: url("images/duke.png"), we can
         // do cl.getResouce("images/duke.png") in URLConverter
         //
@@ -135,7 +135,7 @@ public class Stylesheet {
     public Stylesheet(String url) {
 
         this.url = url;
-        
+
     }
 
     public List<Rule> getRules() {
@@ -150,7 +150,7 @@ public class Stylesheet {
         if (this == obj) return true;
         if (obj instanceof Stylesheet) {
             Stylesheet other = (Stylesheet)obj;
-            
+
             if (this.url == null && other.url == null) {
                 return true;
             } else if (this.url == null || other.url == null) {
@@ -161,7 +161,7 @@ public class Stylesheet {
         }
         return false;
     }
-    
+
     @Override public int hashCode() {
         int hash = 7;
         hash = 13 * hash + (this.url != null ? this.url.hashCode() : 0);
@@ -187,7 +187,7 @@ public class Stylesheet {
 
     // protected for unit testing
     final void writeBinary(final DataOutputStream os, final StringStore stringStore)
-        throws IOException 
+        throws IOException
     {
         // Note: url is not written since it depends on runtime environment.
         int index = stringStore.addString(origin.name());
@@ -205,10 +205,10 @@ public class Stylesheet {
             fontFace.writeBinary(os, stringStore);
         }
     }
-    
-    // protected for unit testing 
+
+    // protected for unit testing
     final void readBinary(int bssVersion, DataInputStream is, String[] strings)
-        throws IOException 
+        throws IOException
     {
         this.stringStore = strings;
         final int index = is.readShort();

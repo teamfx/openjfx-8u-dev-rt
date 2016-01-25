@@ -36,21 +36,21 @@ G_BEGIN_DECLS
 #define GST_DISABLE_GST_DEBUG
 #endif // GSTREAMER_LITE
 
-#define GST_TYPE_OBJECT			(gst_object_get_type ())
-#define GST_IS_OBJECT(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_OBJECT))
-#define GST_IS_OBJECT_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((klass), GST_TYPE_OBJECT))
-#define GST_OBJECT_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS ((obj), GST_TYPE_OBJECT, GstObjectClass))
-#define GST_OBJECT(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_OBJECT, GstObject))
-#define GST_OBJECT_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), GST_TYPE_OBJECT, GstObjectClass))
+#define GST_TYPE_OBJECT         (gst_object_get_type ())
+#define GST_IS_OBJECT(obj)      (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_OBJECT))
+#define GST_IS_OBJECT_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), GST_TYPE_OBJECT))
+#define GST_OBJECT_GET_CLASS(obj)   (G_TYPE_INSTANCE_GET_CLASS ((obj), GST_TYPE_OBJECT, GstObjectClass))
+#define GST_OBJECT(obj)         (G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_OBJECT, GstObject))
+#define GST_OBJECT_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), GST_TYPE_OBJECT, GstObjectClass))
 #define GST_OBJECT_CAST(obj)            ((GstObject*)(obj))
 #define GST_OBJECT_CLASS_CAST(klass)    ((GstObjectClass*)(klass))
 
 /* make sure we don't change the object size but still make it compile
  * without libxml */
 #if defined(GST_DISABLE_LOADSAVE) || defined(GST_DISABLE_DEPRECATED)
-#define GstXmlNodePtr	gpointer
+#define GstXmlNodePtr   gpointer
 #else
-#define GstXmlNodePtr	xmlNodePtr
+#define GstXmlNodePtr   xmlNodePtr
 #endif
 
 /**
@@ -199,7 +199,7 @@ typedef struct _GstObjectClass GstObjectClass;
  * GStreamer base object class.
  */
 struct _GstObject {
-  GObject 	 object;
+  GObject    object;
 
   /*< public >*/
   gint           refcount;    /* unused (FIXME 0.11: remove) */
@@ -261,10 +261,10 @@ struct _GstObject {
  * GStreamer base object class.
  */
 struct _GstObjectClass {
-  GObjectClass	parent_class;
+  GObjectClass  parent_class;
 
-  const gchar	*path_string_separator;
-  GObject	*signal_object;
+  const gchar   *path_string_separator;
+  GObject   *signal_object;
 
   /* FIXME-0.11: remove this, plus the above GST_CLASS_*_LOCK macros */
   GStaticRecMutex *lock;
@@ -292,40 +292,40 @@ struct _GstObjectClass {
 };
 
 /* normal GObject stuff */
-GType		gst_object_get_type		(void);
+GType       gst_object_get_type     (void);
 
 /* name routines */
-gboolean	gst_object_set_name		(GstObject *object, const gchar *name);
-gchar*		gst_object_get_name		(GstObject *object);
+gboolean    gst_object_set_name     (GstObject *object, const gchar *name);
+gchar*      gst_object_get_name     (GstObject *object);
 
 #ifndef GST_DISABLE_DEPRECATED
-void		gst_object_set_name_prefix	(GstObject *object, const gchar *name_prefix);
-gchar*		gst_object_get_name_prefix	(GstObject *object);
+void        gst_object_set_name_prefix  (GstObject *object, const gchar *name_prefix);
+gchar*      gst_object_get_name_prefix  (GstObject *object);
 #endif
 
 /* parentage routines */
-gboolean	gst_object_set_parent		(GstObject *object, GstObject *parent);
-GstObject*	gst_object_get_parent		(GstObject *object);
-void		gst_object_unparent		(GstObject *object);
-gboolean	gst_object_has_ancestor		(GstObject *object, GstObject *ancestor);
+gboolean    gst_object_set_parent       (GstObject *object, GstObject *parent);
+GstObject*  gst_object_get_parent       (GstObject *object);
+void        gst_object_unparent     (GstObject *object);
+gboolean    gst_object_has_ancestor     (GstObject *object, GstObject *ancestor);
 
-void            gst_object_default_deep_notify 	(GObject *object, GstObject *orig,
+void            gst_object_default_deep_notify  (GObject *object, GstObject *orig,
                                                  GParamSpec *pspec, gchar **excluded_props);
 
 /* refcounting + life cycle */
-gpointer	gst_object_ref			(gpointer object);
-void		gst_object_unref		(gpointer object);
-void 		gst_object_ref_sink		(gpointer object);
-void 		gst_object_sink			(gpointer object);
+gpointer    gst_object_ref          (gpointer object);
+void        gst_object_unref        (gpointer object);
+void        gst_object_ref_sink     (gpointer object);
+void        gst_object_sink         (gpointer object);
 
 /* replace object pointer */
-void 		gst_object_replace		(GstObject **oldobj, GstObject *newobj);
+void        gst_object_replace      (GstObject **oldobj, GstObject *newobj);
 
 /* printing out the 'path' of the object */
-gchar *		gst_object_get_path_string	(GstObject *object);
+gchar *     gst_object_get_path_string  (GstObject *object);
 
 /* misc utils */
-gboolean	gst_object_check_uniqueness	(GList *list, const gchar *name);
+gboolean    gst_object_check_uniqueness (GList *list, const gchar *name);
 
 /* load/save */
 #ifndef GST_DISABLE_DEPRECATED
@@ -341,10 +341,10 @@ void            gst_object_restore_thyself (GstObject *object, GstXmlNodePtr sel
 #endif
 
 /* class signal stuff */
-guint		gst_class_signal_connect	(GstObjectClass	*klass,
-						 const gchar	*name,
-						 gpointer	 func,
-						 gpointer	 func_data);
+guint       gst_class_signal_connect    (GstObjectClass *klass,
+                         const gchar    *name,
+                         gpointer    func,
+                         gpointer    func_data);
 
 #ifndef GST_DISABLE_DEPRECATED
 #ifndef GST_DISABLE_LOADSAVE

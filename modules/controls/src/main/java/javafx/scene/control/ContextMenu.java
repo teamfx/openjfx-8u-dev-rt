@@ -101,7 +101,7 @@ textField.setOnAction(new EventHandler&lt;ActionEvent&gt;() {
         contextMenu.show(textField, Side.BOTTOM, 0, 0);
     }
 });
- 
+
 Group root = (Group) scene.getRoot();
 root.getChildren().add(textField);
 </code></pre>
@@ -218,7 +218,7 @@ public class ContextMenu extends PopupControl {
       * @treatAsPrivate implementation detail
       */
     public final BooleanProperty impl_showRelativeToWindowProperty() { return impl_showRelativeToWindow; }
-    
+
     /***************************************************************************
      *                                                                         *
      * Methods                                                                 *

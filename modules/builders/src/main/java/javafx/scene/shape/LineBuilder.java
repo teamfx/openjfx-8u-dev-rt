@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.shape.Line
 public class LineBuilder<B extends javafx.scene.shape.LineBuilder<B>> extends javafx.scene.shape.ShapeBuilder<B> implements javafx.util.Builder<javafx.scene.shape.Line> {
     protected LineBuilder() {
     }
-    
+
     /** Creates a new instance of LineBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.shape.LineBuilder<?> create() {
         return new javafx.scene.shape.LineBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.shape.Line x) {
         super.applyTo(x);
@@ -52,7 +52,7 @@ public class LineBuilder<B extends javafx.scene.shape.LineBuilder<B>> extends ja
         if ((set & (1 << 2)) != 0) x.setStartX(this.startX);
         if ((set & (1 << 3)) != 0) x.setStartY(this.startY);
     }
-    
+
     private double endX;
     /**
     Set the value of the {@link javafx.scene.shape.Line#getEndX() endX} property for the instance constructed by this builder.
@@ -63,7 +63,7 @@ public class LineBuilder<B extends javafx.scene.shape.LineBuilder<B>> extends ja
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private double endY;
     /**
     Set the value of the {@link javafx.scene.shape.Line#getEndY() endY} property for the instance constructed by this builder.
@@ -74,7 +74,7 @@ public class LineBuilder<B extends javafx.scene.shape.LineBuilder<B>> extends ja
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double startX;
     /**
     Set the value of the {@link javafx.scene.shape.Line#getStartX() startX} property for the instance constructed by this builder.
@@ -85,7 +85,7 @@ public class LineBuilder<B extends javafx.scene.shape.LineBuilder<B>> extends ja
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private double startY;
     /**
     Set the value of the {@link javafx.scene.shape.Line#getStartY() startY} property for the instance constructed by this builder.
@@ -96,7 +96,7 @@ public class LineBuilder<B extends javafx.scene.shape.LineBuilder<B>> extends ja
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.shape.Line} based on the properties set on this builder.
     */

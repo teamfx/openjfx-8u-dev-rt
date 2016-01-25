@@ -82,12 +82,12 @@ public class TreeTableRowSkin<T> extends TableRowSkinBase<TreeItem<T>, TreeTable
      * Constructors                                                            *
      *                                                                         *
      **************************************************************************/
-    
+
     public TreeTableRowSkin(TreeTableRow<T> control) {
         super(control, new TreeTableRowBehavior<T>(control));
-        
+
         super.init(control);
-        
+
         updateTreeItem();
         updateTableViewSkin();
 
@@ -128,7 +128,7 @@ public class TreeTableRowSkin<T> extends TableRowSkinBase<TreeItem<T>, TreeTable
     private DoubleProperty indent = null;
     public final void setIndent(double value) { indentProperty().set(value); }
     public final double getIndent() { return indent == null ? 10.0 : indent.get(); }
-    public final DoubleProperty indentProperty() { 
+    public final DoubleProperty indentProperty() {
         if (indent == null) {
             indent = new StyleableDoubleProperty(10.0) {
                 @Override public Object getBean() {
@@ -144,7 +144,7 @@ public class TreeTableRowSkin<T> extends TableRowSkinBase<TreeItem<T>, TreeTable
                 }
             };
         }
-        return indent; 
+        return indent;
     }
 
 
@@ -303,10 +303,10 @@ public class TreeTableRowSkin<T> extends TableRowSkinBase<TreeItem<T>, TreeTable
             treeItemListener.registerChangeListener(treeItem.graphicProperty(), "GRAPHIC");
         }
     }
-    
+
     private void updateDisclosureNodeAndGraphic() {
         if (getSkinnable().isEmpty()) return;
-        
+
         // check for graphic missing
         ObjectProperty<Node> graphicProperty = graphicProperty();
         Node newGraphic = graphicProperty == null ? null : graphicProperty.get();
@@ -321,13 +321,13 @@ public class TreeTableRowSkin<T> extends TableRowSkinBase<TreeItem<T>, TreeTable
                 graphic = newGraphic;
             }
         }
-        
+
         // check disclosure node
         Node disclosureNode = getSkinnable().getDisclosureNode();
         if (disclosureNode != null) {
             boolean disclosureVisible = treeItem != null && ! treeItem.isLeaf();
             disclosureNode.setVisible(disclosureVisible);
-                
+
             if (! disclosureVisible) {
                 getChildren().remove(disclosureNode);
             } else if (disclosureNode.getParent() == null) {
@@ -336,7 +336,7 @@ public class TreeTableRowSkin<T> extends TableRowSkinBase<TreeItem<T>, TreeTable
             } else {
                 disclosureNode.toBack();
             }
-            
+
             // RT-26625: [TreeView, TreeTableView] can lose arrows while scrolling
             // RT-28668: Ensemble tree arrow disappears
             if (disclosureNode.getScene() != null) {
@@ -351,8 +351,8 @@ public class TreeTableRowSkin<T> extends TableRowSkinBase<TreeItem<T>, TreeTable
             treeTableViewSkin = (TreeTableViewSkin)tableView.getSkin();
         }
     }
-    
-    
+
+
     /***************************************************************************
      *                                                                         *
      *                         Stylesheet Handling                             *
@@ -361,11 +361,11 @@ public class TreeTableRowSkin<T> extends TableRowSkinBase<TreeItem<T>, TreeTable
 
     /** @treatAsPrivate */
     private static class StyleableProperties {
-        
-        private static final CssMetaData<TreeTableRow<?>,Number> INDENT = 
+
+        private static final CssMetaData<TreeTableRow<?>,Number> INDENT =
             new CssMetaData<TreeTableRow<?>,Number>("-fx-indent",
                 SizeConverter.getInstance(), 10.0) {
-                    
+
             @Override public boolean isSettable(TreeTableRow<?> n) {
                 DoubleProperty p = ((TreeTableRowSkin<?>) n.getSkin()).indentProperty();
                 return p == null || !p.isBound();
@@ -376,7 +376,7 @@ public class TreeTableRowSkin<T> extends TableRowSkinBase<TreeItem<T>, TreeTable
                 return (StyleableProperty<Number>)(WritableValue<Number>)skin.indentProperty();
             }
         };
-        
+
         private static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
         static {
             final List<CssMetaData<? extends Styleable, ?>> styleables =
@@ -385,7 +385,7 @@ public class TreeTableRowSkin<T> extends TableRowSkinBase<TreeItem<T>, TreeTable
             STYLEABLES = Collections.unmodifiableList(styleables);
         }
     }
-    
+
     /**
      * @return The CssMetaData associated with this class, which may include the
      * CssMetaData of its super classes.

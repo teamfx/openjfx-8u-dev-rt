@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.layout.Region
 public class RegionBuilder<B extends javafx.scene.layout.RegionBuilder<B>> extends javafx.scene.ParentBuilder<B> implements javafx.util.Builder<javafx.scene.layout.Region> {
     protected RegionBuilder() {
     }
-    
+
     /** Creates a new instance of RegionBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.layout.RegionBuilder<?> create() {
         return new javafx.scene.layout.RegionBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -65,7 +65,7 @@ public class RegionBuilder<B extends javafx.scene.layout.RegionBuilder<B>> exten
             }
         }
     }
-    
+
     private double maxHeight;
     /**
     Set the value of the {@link javafx.scene.layout.Region#getMaxHeight() maxHeight} property for the instance constructed by this builder.
@@ -76,7 +76,7 @@ public class RegionBuilder<B extends javafx.scene.layout.RegionBuilder<B>> exten
         __set(0);
         return (B) this;
     }
-    
+
     private double maxWidth;
     /**
     Set the value of the {@link javafx.scene.layout.Region#getMaxWidth() maxWidth} property for the instance constructed by this builder.
@@ -87,7 +87,7 @@ public class RegionBuilder<B extends javafx.scene.layout.RegionBuilder<B>> exten
         __set(1);
         return (B) this;
     }
-    
+
     private double minHeight;
     /**
     Set the value of the {@link javafx.scene.layout.Region#getMinHeight() minHeight} property for the instance constructed by this builder.
@@ -98,7 +98,7 @@ public class RegionBuilder<B extends javafx.scene.layout.RegionBuilder<B>> exten
         __set(2);
         return (B) this;
     }
-    
+
     private double minWidth;
     /**
     Set the value of the {@link javafx.scene.layout.Region#getMinWidth() minWidth} property for the instance constructed by this builder.
@@ -109,7 +109,7 @@ public class RegionBuilder<B extends javafx.scene.layout.RegionBuilder<B>> exten
         __set(3);
         return (B) this;
     }
-    
+
     private javafx.geometry.Insets padding;
     /**
     Set the value of the {@link javafx.scene.layout.Region#getPadding() padding} property for the instance constructed by this builder.
@@ -120,7 +120,7 @@ public class RegionBuilder<B extends javafx.scene.layout.RegionBuilder<B>> exten
         __set(4);
         return (B) this;
     }
-    
+
     private double prefHeight;
     /**
     Set the value of the {@link javafx.scene.layout.Region#getPrefHeight() prefHeight} property for the instance constructed by this builder.
@@ -131,7 +131,7 @@ public class RegionBuilder<B extends javafx.scene.layout.RegionBuilder<B>> exten
         __set(5);
         return (B) this;
     }
-    
+
     private double prefWidth;
     /**
     Set the value of the {@link javafx.scene.layout.Region#getPrefWidth() prefWidth} property for the instance constructed by this builder.
@@ -142,7 +142,7 @@ public class RegionBuilder<B extends javafx.scene.layout.RegionBuilder<B>> exten
         __set(6);
         return (B) this;
     }
-    
+
     private boolean snapToPixel;
     /**
     Set the value of the {@link javafx.scene.layout.Region#isSnapToPixel() snapToPixel} property for the instance constructed by this builder.
@@ -153,7 +153,7 @@ public class RegionBuilder<B extends javafx.scene.layout.RegionBuilder<B>> exten
         __set(7);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.layout.Region} based on the properties set on this builder.
     */

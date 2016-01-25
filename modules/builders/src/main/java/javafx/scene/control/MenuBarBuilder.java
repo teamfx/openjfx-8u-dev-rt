@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.MenuBar
 public class MenuBarBuilder<B extends javafx.scene.control.MenuBarBuilder<B>> extends javafx.scene.control.ControlBuilder<B> implements javafx.util.Builder<javafx.scene.control.MenuBar> {
     protected MenuBarBuilder() {
     }
-    
+
     /** Creates a new instance of MenuBarBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.MenuBarBuilder<?> create() {
         return new javafx.scene.control.MenuBarBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.MenuBar x) {
         super.applyTo(x);
@@ -50,7 +50,7 @@ public class MenuBarBuilder<B extends javafx.scene.control.MenuBarBuilder<B>> ex
         if ((set & (1 << 0)) != 0) x.getMenus().addAll(this.menus);
         if ((set & (1 << 1)) != 0) x.setUseSystemMenuBar(this.useSystemMenuBar);
     }
-    
+
     private java.util.Collection<? extends javafx.scene.control.Menu> menus;
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.MenuBar#getMenus() menus} property for the instance constructed by this builder.
@@ -61,14 +61,14 @@ public class MenuBarBuilder<B extends javafx.scene.control.MenuBarBuilder<B>> ex
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.MenuBar#getMenus() menus} property for the instance constructed by this builder.
     */
     public B menus(javafx.scene.control.Menu... x) {
         return menus(java.util.Arrays.asList(x));
     }
-    
+
     private boolean useSystemMenuBar;
     /**
     Set the value of the {@link javafx.scene.control.MenuBar#isUseSystemMenuBar() useSystemMenuBar} property for the instance constructed by this builder.
@@ -80,7 +80,7 @@ public class MenuBarBuilder<B extends javafx.scene.control.MenuBarBuilder<B>> ex
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.MenuBar} based on the properties set on this builder.
     */

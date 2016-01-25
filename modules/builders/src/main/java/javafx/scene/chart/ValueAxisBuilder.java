@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,8 +36,8 @@ Builder class for javafx.scene.chart.ValueAxis
 public abstract class ValueAxisBuilder<T extends java.lang.Number, B extends javafx.scene.chart.ValueAxisBuilder<T, B>> extends javafx.scene.chart.AxisBuilder<T, B> {
     protected ValueAxisBuilder() {
     }
-    
-    
+
+
     private int __set;
     public void applyTo(javafx.scene.chart.ValueAxis<T> x) {
         super.applyTo(x);
@@ -49,7 +49,7 @@ public abstract class ValueAxisBuilder<T extends java.lang.Number, B extends jav
         if ((set & (1 << 4)) != 0) x.setTickLabelFormatter(this.tickLabelFormatter);
         if ((set & (1 << 5)) != 0) x.setUpperBound(this.upperBound);
     }
-    
+
     private double lowerBound;
     /**
     Set the value of the {@link javafx.scene.chart.ValueAxis#getLowerBound() lowerBound} property for the instance constructed by this builder.
@@ -60,7 +60,7 @@ public abstract class ValueAxisBuilder<T extends java.lang.Number, B extends jav
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private int minorTickCount;
     /**
     Set the value of the {@link javafx.scene.chart.ValueAxis#getMinorTickCount() minorTickCount} property for the instance constructed by this builder.
@@ -71,7 +71,7 @@ public abstract class ValueAxisBuilder<T extends java.lang.Number, B extends jav
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double minorTickLength;
     /**
     Set the value of the {@link javafx.scene.chart.ValueAxis#getMinorTickLength() minorTickLength} property for the instance constructed by this builder.
@@ -82,7 +82,7 @@ public abstract class ValueAxisBuilder<T extends java.lang.Number, B extends jav
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private boolean minorTickVisible;
     /**
     Set the value of the {@link javafx.scene.chart.ValueAxis#isMinorTickVisible() minorTickVisible} property for the instance constructed by this builder.
@@ -93,7 +93,7 @@ public abstract class ValueAxisBuilder<T extends java.lang.Number, B extends jav
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private javafx.util.StringConverter<T> tickLabelFormatter;
     /**
     Set the value of the {@link javafx.scene.chart.ValueAxis#getTickLabelFormatter() tickLabelFormatter} property for the instance constructed by this builder.
@@ -104,7 +104,7 @@ public abstract class ValueAxisBuilder<T extends java.lang.Number, B extends jav
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     private double upperBound;
     /**
     Set the value of the {@link javafx.scene.chart.ValueAxis#getUpperBound() upperBound} property for the instance constructed by this builder.
@@ -115,5 +115,5 @@ public abstract class ValueAxisBuilder<T extends java.lang.Number, B extends jav
         __set |= 1 << 5;
         return (B) this;
     }
-    
+
 }

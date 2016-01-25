@@ -44,7 +44,7 @@ struct _GstNavigationInterface {
 
   /* virtual functions */
   void (*send_event) (GstNavigation *navigation, GstStructure *structure);
-  
+
   gpointer _gst_reserved[GST_PADDING];
 };
 
@@ -109,7 +109,7 @@ typedef enum {
   GST_NAVIGATION_COMMAND_MENU5    = 5,
   GST_NAVIGATION_COMMAND_MENU6    = 6,
   GST_NAVIGATION_COMMAND_MENU7    = 7,
-  
+
   GST_NAVIGATION_COMMAND_LEFT     = 20,
   GST_NAVIGATION_COMMAND_RIGHT    = 21,
   GST_NAVIGATION_COMMAND_UP       = 22,
@@ -245,9 +245,9 @@ gboolean gst_navigation_event_parse_command (GstEvent *event,
 /* interface virtual function wrappers */
 void gst_navigation_send_event (GstNavigation *navigation,
         GstStructure *structure);
-void gst_navigation_send_key_event (GstNavigation *navigation, 
+void gst_navigation_send_key_event (GstNavigation *navigation,
         const char *event, const char *key);
-void gst_navigation_send_mouse_event (GstNavigation *navigation, 
+void gst_navigation_send_mouse_event (GstNavigation *navigation,
         const char *event, int button, double x, double y);
 void gst_navigation_send_command (GstNavigation *navigation,
         GstNavigationCommand command);

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.effect.DisplacementMap
 public class DisplacementMapBuilder<B extends javafx.scene.effect.DisplacementMapBuilder<B>> implements javafx.util.Builder<javafx.scene.effect.DisplacementMap> {
     protected DisplacementMapBuilder() {
     }
-    
+
     /** Creates a new instance of DisplacementMapBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.effect.DisplacementMapBuilder<?> create() {
         return new javafx.scene.effect.DisplacementMapBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.effect.DisplacementMap x) {
         int set = __set;
@@ -54,7 +54,7 @@ public class DisplacementMapBuilder<B extends javafx.scene.effect.DisplacementMa
         if ((set & (1 << 5)) != 0) x.setScaleY(this.scaleY);
         if ((set & (1 << 6)) != 0) x.setWrap(this.wrap);
     }
-    
+
     private javafx.scene.effect.Effect input;
     /**
     Set the value of the {@link javafx.scene.effect.DisplacementMap#getInput() input} property for the instance constructed by this builder.
@@ -65,7 +65,7 @@ public class DisplacementMapBuilder<B extends javafx.scene.effect.DisplacementMa
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private javafx.scene.effect.FloatMap mapData;
     /**
     Set the value of the {@link javafx.scene.effect.DisplacementMap#getMapData() mapData} property for the instance constructed by this builder.
@@ -76,7 +76,7 @@ public class DisplacementMapBuilder<B extends javafx.scene.effect.DisplacementMa
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double offsetX;
     /**
     Set the value of the {@link javafx.scene.effect.DisplacementMap#getOffsetX() offsetX} property for the instance constructed by this builder.
@@ -87,7 +87,7 @@ public class DisplacementMapBuilder<B extends javafx.scene.effect.DisplacementMa
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private double offsetY;
     /**
     Set the value of the {@link javafx.scene.effect.DisplacementMap#getOffsetY() offsetY} property for the instance constructed by this builder.
@@ -98,7 +98,7 @@ public class DisplacementMapBuilder<B extends javafx.scene.effect.DisplacementMa
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private double scaleX;
     /**
     Set the value of the {@link javafx.scene.effect.DisplacementMap#getScaleX() scaleX} property for the instance constructed by this builder.
@@ -109,7 +109,7 @@ public class DisplacementMapBuilder<B extends javafx.scene.effect.DisplacementMa
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     private double scaleY;
     /**
     Set the value of the {@link javafx.scene.effect.DisplacementMap#getScaleY() scaleY} property for the instance constructed by this builder.
@@ -120,7 +120,7 @@ public class DisplacementMapBuilder<B extends javafx.scene.effect.DisplacementMa
         __set |= 1 << 5;
         return (B) this;
     }
-    
+
     private boolean wrap;
     /**
     Set the value of the {@link javafx.scene.effect.DisplacementMap#isWrap() wrap} property for the instance constructed by this builder.
@@ -131,7 +131,7 @@ public class DisplacementMapBuilder<B extends javafx.scene.effect.DisplacementMa
         __set |= 1 << 6;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.effect.DisplacementMap} based on the properties set on this builder.
     */

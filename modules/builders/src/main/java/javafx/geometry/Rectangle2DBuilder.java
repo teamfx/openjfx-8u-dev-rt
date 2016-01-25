@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.geometry.Rectangle2D
 public class Rectangle2DBuilder<B extends javafx.geometry.Rectangle2DBuilder<B>> implements javafx.util.Builder<javafx.geometry.Rectangle2D> {
     protected Rectangle2DBuilder() {
     }
-    
+
     /** Creates a new instance of Rectangle2DBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.geometry.Rectangle2DBuilder<?> create() {
         return new javafx.geometry.Rectangle2DBuilder();
     }
-    
+
     private double height;
     /**
     Set the value of the {@link javafx.geometry.Rectangle2D#getHeight() height} property for the instance constructed by this builder.
@@ -52,7 +52,7 @@ public class Rectangle2DBuilder<B extends javafx.geometry.Rectangle2DBuilder<B>>
         this.height = x;
         return (B) this;
     }
-    
+
     private double minX;
     /**
     Set the value of the {@link javafx.geometry.Rectangle2D#getMinX() minX} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public class Rectangle2DBuilder<B extends javafx.geometry.Rectangle2DBuilder<B>>
         this.minX = x;
         return (B) this;
     }
-    
+
     private double minY;
     /**
     Set the value of the {@link javafx.geometry.Rectangle2D#getMinY() minY} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public class Rectangle2DBuilder<B extends javafx.geometry.Rectangle2DBuilder<B>>
         this.minY = x;
         return (B) this;
     }
-    
+
     private double width;
     /**
     Set the value of the {@link javafx.geometry.Rectangle2D#getWidth() width} property for the instance constructed by this builder.
@@ -82,7 +82,7 @@ public class Rectangle2DBuilder<B extends javafx.geometry.Rectangle2DBuilder<B>>
         this.width = x;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.geometry.Rectangle2D} based on the properties set on this builder.
     */

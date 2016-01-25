@@ -520,7 +520,7 @@ gst_message_new_tag_full (GstObject * src, GstPad * pad, GstTagList * tag_list)
  * The application must be prepared to receive BUFFERING messages in the
  * PREROLLING state and may only set the pipeline to PLAYING after receiving a
  * message with @percent set to 100, which can happen after the pipeline
- * completed prerolling. 
+ * completed prerolling.
  *
  * MT safe.
  *
@@ -831,14 +831,14 @@ gst_message_new_element (GstObject * src, GstStructure * structure)
  * gst_message_new_duration:
  * @src: (transfer none): The object originating the message.
  * @format: The format of the duration
- * @duration: The new duration 
+ * @duration: The new duration
  *
  * Create a new duration message. This message is posted by elements that
  * know the duration of a stream in a specific format. This message
  * is received by bins and is used to calculate the total duration of a
  * pipeline. Elements may post a duration message with a duration of
- * GST_CLOCK_TIME_NONE to indicate that the duration has changed and the 
- * cached duration should be discarded. The new duration can then be 
+ * GST_CLOCK_TIME_NONE to indicate that the duration has changed and the
+ * cached duration should be discarded. The new duration can then be
  * retrieved via a query.
  *
  * Returns: (transfer full): The new duration message.
@@ -864,7 +864,7 @@ gst_message_new_duration (GstObject * src, GstFormat format, gint64 duration)
  * @src: (transfer none): The object originating the message.
  * @new_base_time: if a new base_time should be set on the element
  *
- * This message is posted by elements when they start an ASYNC state change. 
+ * This message is posted by elements when they start an ASYNC state change.
  * @new_base_time is set to TRUE when the element lost its state when it was
  * PLAYING.
  *
@@ -994,7 +994,7 @@ gst_message_get_structure (GstMessage * message)
  *   switch (GST_MESSAGE_TYPE (msg)) {
  *     case GST_MESSAGE_TAG: {
  *       GstTagList *tags = NULL;
- *       
+ *
  *       gst_message_parse_tag (msg, &amp;tags);
  *       g_print ("Got tags from element %s\n", GST_OBJECT_NAME (msg->src));
  *       handle_tags (tags);
@@ -1093,7 +1093,7 @@ gst_message_parse_buffering (GstMessage * message, gint * percent)
 /**
  * gst_message_set_buffering_stats:
  * @message: A valid #GstMessage of type GST_MESSAGE_BUFFERING.
- * @mode: a buffering mode 
+ * @mode: a buffering mode
  * @avg_in: the average input rate
  * @avg_out: the average output rate
  * @buffering_left: amount of buffering time left in milliseconds
@@ -1165,7 +1165,7 @@ gst_message_parse_buffering_stats (GstMessage * message,
  *   switch (GST_MESSAGE_TYPE (msg)) {
  *     case GST_MESSAGE_STATE_CHANGED: {
  *       GstState old_state, new_state;
- *       
+ *
  *       gst_message_parse_state_changed (msg, &amp;old_state, &amp;new_state, NULL);
  *       g_print ("Element %s changed state from %s to %s.\n",
  *           GST_OBJECT_NAME (msg->src),
@@ -1346,7 +1346,7 @@ gst_message_parse_structure_change (GstMessage * message,
  *     case GST_MESSAGE_ERROR: {
  *       GError *err = NULL;
  *       gchar *dbg_info = NULL;
- *       
+ *
  *       gst_message_parse_error (msg, &amp;err, &amp;dbg_info);
  *       g_printerr ("ERROR from element %s: %s\n",
  *           GST_OBJECT_NAME (msg->src), err->message);
@@ -1580,7 +1580,7 @@ gst_message_parse_duration (GstMessage * message, GstFormat * format,
  * @message: A valid #GstMessage of type GST_MESSAGE_ASYNC_DONE.
  * @new_base_time: (out): Result location for the new_base_time or NULL
  *
- * Extract the new_base_time from the async_start message. 
+ * Extract the new_base_time from the async_start message.
  *
  * MT safe.
  *
@@ -1628,7 +1628,7 @@ gst_message_parse_request_state (GstMessage * message, GstState * state)
  *
  * Create a new stream status message. This message is posted when a streaming
  * thread is created/destroyed or when the state changed.
- * 
+ *
  * Returns: (transfer full): the new stream status message.
  *
  * MT safe.
@@ -1820,7 +1820,7 @@ gst_message_parse_step_done (GstMessage * message, GstFormat * format,
  * @intermediate: is this an intermediate step
  *
  * This message is posted by elements when they accept or activate a new step
- * event for @amount in @format. 
+ * event for @amount in @format.
  *
  * @active is set to FALSE when the element accepted the new step event and has
  * queued it for execution in the streaming threads.
@@ -1830,7 +1830,7 @@ gst_message_parse_step_done (GstMessage * message, GstFormat * format,
  * message is emited, the application can queue a new step operation in the
  * element.
  *
- * Returns: (transfer full): The new step_start message. 
+ * Returns: (transfer full): The new step_start message.
  *
  * MT safe.
  *

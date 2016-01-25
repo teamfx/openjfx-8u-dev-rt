@@ -41,7 +41,7 @@ public class WeakReferenceQueueTest {
         q.add(s);
         assertEquals(1, q.size);
     }
-    
+
     @Test
     public void testRemove() {
         WeakReferenceQueue q = new WeakReferenceQueue();
@@ -51,13 +51,13 @@ public class WeakReferenceQueueTest {
         q.add(b);
         String c = new String("c");
         q.add(c);
-        
+
         assertEquals(3, q.size);
         q.remove(a);
         q.remove(c);
         assertEquals(1, q.size);
     }
-    
+
     @Test
     public void testCleanup() {
         WeakReferenceQueue q = new WeakReferenceQueue();
@@ -67,7 +67,7 @@ public class WeakReferenceQueueTest {
         q.add(b);
         String c = new String("c");
         q.add(c);
-        
+
         assertEquals(3, q.size);
         a = null;
         c = null;
@@ -75,7 +75,7 @@ public class WeakReferenceQueueTest {
         q.cleanup();
         assertEquals(1, q.size);
     }
-    
+
     @Test
     public void testIterator() {
         WeakReferenceQueue q = new WeakReferenceQueue();
@@ -85,7 +85,7 @@ public class WeakReferenceQueueTest {
         q.add(b);
         String c = new String("c");
         q.add(c);
-        
+
         // This part of the test requires knowledge that iteration
         // is from last to first
         Iterator itr = q.iterator();
@@ -96,7 +96,7 @@ public class WeakReferenceQueueTest {
         assertTrue(itr.hasNext());
         assertEquals(a, itr.next());
         assertFalse(itr.hasNext());
-        
+
         // and for good measure do it again without calling hasNext just
         // to make sure calling hasNext isn't a requirement
         itr = q.iterator();
@@ -104,14 +104,14 @@ public class WeakReferenceQueueTest {
         assertEquals(b, itr.next());
         assertEquals(a, itr.next());
     }
-    
+
     @Test
     public void testEmptyIterator() {
         WeakReferenceQueue q = new WeakReferenceQueue();
         Iterator itr = q.iterator();
         assertFalse(itr.hasNext());
     }
-    
+
     @Test
     public void testIteratorRemove() {
         WeakReferenceQueue q = new WeakReferenceQueue();
@@ -121,7 +121,7 @@ public class WeakReferenceQueueTest {
         q.add(b);
         String c = new String("c");
         q.add(c);
-        
+
         Iterator itr = q.iterator();
         itr.next(); // gives me "c"
         itr.remove();
@@ -132,7 +132,7 @@ public class WeakReferenceQueueTest {
         itr.next(); // gives me "a"
         itr.remove();
         assertEquals(0, q.size);
-        
+
         q.add(a);
         q.add(b);
         q.add(c);
@@ -140,12 +140,12 @@ public class WeakReferenceQueueTest {
         itr.next();
         itr.next(); // gives me "b"
         itr.remove();
-        
+
         itr = q.iterator();
         assertEquals(c, itr.next());
         assertEquals(a, itr.next());
     }
-    
+
     @Test
     public void testIteratingOverSparseQueue() {
         WeakReferenceQueue q = new WeakReferenceQueue();
@@ -155,7 +155,7 @@ public class WeakReferenceQueueTest {
         q.add(b);
         String c = new String("c");
         q.add(c);
-        
+
         assertEquals(3, q.size);
         a = null;
         c = null;

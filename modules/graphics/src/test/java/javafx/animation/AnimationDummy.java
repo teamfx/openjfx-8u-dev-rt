@@ -28,21 +28,21 @@ package javafx.animation;
 import javafx.util.Duration;
 
 public class AnimationDummy extends Animation {
-	
-	public AnimationDummy(Duration duration) {
-		setCycleDuration(duration);
-	}
 
-	@Override
-	public void impl_playTo(long currentTicks, long cycleTicks) {
-		// TODO Auto-generated method stub
+    public AnimationDummy(Duration duration) {
+        setCycleDuration(duration);
+    }
 
-	}
+    @Override
+    public void impl_playTo(long currentTicks, long cycleTicks) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void impl_jumpTo(long currentTicks, long cycleTicks, boolean forceJump) {
-		// TODO Auto-generated method stub
+    }
 
-	}
+    @Override
+    public void impl_jumpTo(long currentTicks, long cycleTicks, boolean forceJump) {
+        // TODO Auto-generated method stub
+
+    }
 
 }

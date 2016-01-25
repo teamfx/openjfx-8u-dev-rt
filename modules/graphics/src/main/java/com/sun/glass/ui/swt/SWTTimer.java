@@ -33,7 +33,7 @@ final class SWTTimer extends Timer implements Runnable {
     Runnable timerRunnable;
     int period = 16;
     static final boolean THREAD_TIMER = System.getProperty("glass.swt.threadtimer") != null;
-    
+
     protected SWTTimer(Runnable runnable) {
         super(runnable);
     }
@@ -41,7 +41,7 @@ final class SWTTimer extends Timer implements Runnable {
     @Override protected long _start(Runnable runnable) {
         return 1;
     };
-    
+
     @Override
     protected long _start(final Runnable runnable, final int period) {
         //TODO - timing bug when start/stop timer (shared state)

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.effect.Shadow
 public class ShadowBuilder<B extends javafx.scene.effect.ShadowBuilder<B>> implements javafx.util.Builder<javafx.scene.effect.Shadow> {
     protected ShadowBuilder() {
     }
-    
+
     /** Creates a new instance of ShadowBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.effect.ShadowBuilder<?> create() {
         return new javafx.scene.effect.ShadowBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.effect.Shadow x) {
         int set = __set;
@@ -53,7 +53,7 @@ public class ShadowBuilder<B extends javafx.scene.effect.ShadowBuilder<B>> imple
         if ((set & (1 << 4)) != 0) x.setRadius(this.radius);
         if ((set & (1 << 5)) != 0) x.setWidth(this.width);
     }
-    
+
     private javafx.scene.effect.BlurType blurType;
     /**
     Set the value of the {@link javafx.scene.effect.Shadow#getBlurType() blurType} property for the instance constructed by this builder.
@@ -64,7 +64,7 @@ public class ShadowBuilder<B extends javafx.scene.effect.ShadowBuilder<B>> imple
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private javafx.scene.paint.Color color;
     /**
     Set the value of the {@link javafx.scene.effect.Shadow#getColor() color} property for the instance constructed by this builder.
@@ -75,7 +75,7 @@ public class ShadowBuilder<B extends javafx.scene.effect.ShadowBuilder<B>> imple
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double height;
     /**
     Set the value of the {@link javafx.scene.effect.Shadow#getHeight() height} property for the instance constructed by this builder.
@@ -86,7 +86,7 @@ public class ShadowBuilder<B extends javafx.scene.effect.ShadowBuilder<B>> imple
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private javafx.scene.effect.Effect input;
     /**
     Set the value of the {@link javafx.scene.effect.Shadow#getInput() input} property for the instance constructed by this builder.
@@ -97,7 +97,7 @@ public class ShadowBuilder<B extends javafx.scene.effect.ShadowBuilder<B>> imple
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private double radius;
     /**
     Set the value of the {@link javafx.scene.effect.Shadow#getRadius() radius} property for the instance constructed by this builder.
@@ -108,7 +108,7 @@ public class ShadowBuilder<B extends javafx.scene.effect.ShadowBuilder<B>> imple
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     private double width;
     /**
     Set the value of the {@link javafx.scene.effect.Shadow#getWidth() width} property for the instance constructed by this builder.
@@ -119,7 +119,7 @@ public class ShadowBuilder<B extends javafx.scene.effect.ShadowBuilder<B>> imple
         __set |= 1 << 5;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.effect.Shadow} based on the properties set on this builder.
     */

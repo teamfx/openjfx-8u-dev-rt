@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.animation.PathTransition
 public final class PathTransitionBuilder extends javafx.animation.TransitionBuilder<javafx.animation.PathTransitionBuilder> implements javafx.util.Builder<javafx.animation.PathTransition> {
     protected PathTransitionBuilder() {
     }
-    
+
     /** Creates a new instance of PathTransitionBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.animation.PathTransitionBuilder create() {
         return new javafx.animation.PathTransitionBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.animation.PathTransition x) {
         super.applyTo(x);
@@ -52,7 +52,7 @@ public final class PathTransitionBuilder extends javafx.animation.TransitionBuil
         if ((set & (1 << 2)) != 0) x.setOrientation(this.orientation);
         if ((set & (1 << 3)) != 0) x.setPath(this.path);
     }
-    
+
     private javafx.util.Duration duration;
     /**
     Set the value of the {@link javafx.animation.PathTransition#getDuration() duration} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public final class PathTransitionBuilder extends javafx.animation.TransitionBuil
         __set |= 1 << 0;
         return this;
     }
-    
+
     private javafx.scene.Node node;
     /**
     Set the value of the {@link javafx.animation.PathTransition#getNode() node} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public final class PathTransitionBuilder extends javafx.animation.TransitionBuil
         __set |= 1 << 1;
         return this;
     }
-    
+
     private javafx.animation.PathTransition.OrientationType orientation;
     /**
     Set the value of the {@link javafx.animation.PathTransition#getOrientation() orientation} property for the instance constructed by this builder.
@@ -82,7 +82,7 @@ public final class PathTransitionBuilder extends javafx.animation.TransitionBuil
         __set |= 1 << 2;
         return this;
     }
-    
+
     private javafx.scene.shape.Shape path;
     /**
     Set the value of the {@link javafx.animation.PathTransition#getPath() path} property for the instance constructed by this builder.
@@ -92,7 +92,7 @@ public final class PathTransitionBuilder extends javafx.animation.TransitionBuil
         __set |= 1 << 3;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.animation.PathTransition} based on the properties set on this builder.
     */

@@ -572,7 +572,7 @@ next_event:
                     g_mutex_unlock(element->lock);
 
                     if (wrong_state)
-                        break; 
+                        break;
 
                     if (result == -1)
                     {

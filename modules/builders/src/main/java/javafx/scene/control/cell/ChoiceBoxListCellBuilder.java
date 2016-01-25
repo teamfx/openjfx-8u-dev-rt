@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.cell.ChoiceBoxListCell
 public class ChoiceBoxListCellBuilder<T, B extends javafx.scene.control.cell.ChoiceBoxListCellBuilder<T, B>> extends javafx.scene.control.ListCellBuilder<T, B> {
     protected ChoiceBoxListCellBuilder() {
     }
-    
+
     /** Creates a new instance of ChoiceBoxListCellBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <T> javafx.scene.control.cell.ChoiceBoxListCellBuilder<T, ?> create() {
         return new javafx.scene.control.cell.ChoiceBoxListCellBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.cell.ChoiceBoxListCell<T> x) {
         super.applyTo(x);
@@ -50,7 +50,7 @@ public class ChoiceBoxListCellBuilder<T, B extends javafx.scene.control.cell.Cho
         if ((set & (1 << 0)) != 0) x.setConverter(this.converter);
         if ((set & (1 << 1)) != 0) x.getItems().addAll(this.items);
     }
-    
+
     private javafx.util.StringConverter<T> converter;
     /**
     Set the value of the {@link javafx.scene.control.cell.ChoiceBoxListCell#getConverter() converter} property for the instance constructed by this builder.
@@ -61,7 +61,7 @@ public class ChoiceBoxListCellBuilder<T, B extends javafx.scene.control.cell.Cho
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private java.util.Collection<? extends T> items;
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.cell.ChoiceBoxListCell#getItems() items} property for the instance constructed by this builder.
@@ -72,14 +72,14 @@ public class ChoiceBoxListCellBuilder<T, B extends javafx.scene.control.cell.Cho
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.cell.ChoiceBoxListCell#getItems() items} property for the instance constructed by this builder.
     */
     public B items(T... x) {
         return items(java.util.Arrays.asList(x));
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.cell.ChoiceBoxListCell} based on the properties set on this builder.
     */

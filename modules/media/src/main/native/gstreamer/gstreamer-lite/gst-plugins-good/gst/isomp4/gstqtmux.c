@@ -1652,7 +1652,7 @@ gst_qt_mux_start_file (GstQTMux * qtmux)
   }
   GST_OBJECT_UNLOCK (qtmux);
 
-  /* 
+  /*
    * send mdat header if already needed, and mark position for later update.
    * We don't send ftyp now if we are on fast start mode, because we can
    * better fine tune using the information we gather to create the whole moov

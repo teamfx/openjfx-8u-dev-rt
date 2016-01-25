@@ -35,12 +35,12 @@ import org.junit.Test;
 import static org.junit.Assert.fail;
 
 public class ReadOnlyListPropertyBaseTest {
-    
+
     private static final Object UNDEFINED = null;
     private static final Object DEFAULT = null;
     private static final ObservableList<Object> VALUE_1 = FXCollections.observableArrayList();
     private static final ObservableList<Object> VALUE_2 = FXCollections.observableArrayList(new Object());
-    
+
     private ReadOnlyPropertyMock property;
     private InvalidationListenerMock invalidationListener;
     private ChangeListenerMock<Object> changeListener;
@@ -51,7 +51,7 @@ public class ReadOnlyListPropertyBaseTest {
         invalidationListener = new InvalidationListenerMock();
         changeListener = new ChangeListenerMock<Object>(UNDEFINED);
     }
-    
+
     @Test
     public void testInvalidationListener() {
         property.addListener(invalidationListener);
@@ -77,11 +77,11 @@ public class ReadOnlyListPropertyBaseTest {
         property.set(VALUE_2);
         changeListener.check(null, UNDEFINED, UNDEFINED, 0);
     }
-    
+
     private static class ReadOnlyPropertyMock extends ReadOnlyListPropertyBase<Object> {
 
         private ObservableList<Object> value;
-        
+
         @Override
         public Object getBean() {
             // not used
@@ -93,7 +93,7 @@ public class ReadOnlyListPropertyBaseTest {
             // not used
             return null;
         }
-        
+
         private void set(ObservableList<Object> value) {
             this.value = value;
             fireValueChangedEvent();

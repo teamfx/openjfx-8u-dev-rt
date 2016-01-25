@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.chart.AreaChart
 public class AreaChartBuilder<X, Y, B extends javafx.scene.chart.AreaChartBuilder<X, Y, B>> extends javafx.scene.chart.XYChartBuilder<X, Y, B> {
     protected AreaChartBuilder() {
     }
-    
+
     /** Creates a new instance of AreaChartBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <X, Y> javafx.scene.chart.AreaChartBuilder<X, Y, ?> create() {
         return new javafx.scene.chart.AreaChartBuilder();
     }
-    
+
     private javafx.scene.chart.Axis<X> XAxis;
     /**
     Set the value of the {@link javafx.scene.chart.AreaChart#getXAxis() XAxis} property for the instance constructed by this builder.
@@ -52,7 +52,7 @@ public class AreaChartBuilder<X, Y, B extends javafx.scene.chart.AreaChartBuilde
         this.XAxis = x;
         return (B) this;
     }
-    
+
     private javafx.scene.chart.Axis<Y> YAxis;
     /**
     Set the value of the {@link javafx.scene.chart.AreaChart#getYAxis() YAxis} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public class AreaChartBuilder<X, Y, B extends javafx.scene.chart.AreaChartBuilde
         this.YAxis = x;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.chart.AreaChart} based on the properties set on this builder.
     */

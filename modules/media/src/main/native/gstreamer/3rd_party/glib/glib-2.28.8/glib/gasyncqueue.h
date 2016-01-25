@@ -8,7 +8,7 @@
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
@@ -63,18 +63,18 @@ void         g_async_queue_unref_and_unlock     (GAsyncQueue      *queue);
 
 /* Push data into the async queue. Must not be NULL. */
 void         g_async_queue_push                 (GAsyncQueue      *queue,
-						 gpointer          data);
+                         gpointer          data);
 void         g_async_queue_push_unlocked        (GAsyncQueue      *queue,
-						 gpointer          data);
+                         gpointer          data);
 
 void         g_async_queue_push_sorted          (GAsyncQueue      *queue,
-						 gpointer          data,
-						 GCompareDataFunc  func,
-						 gpointer          user_data);
+                         gpointer          data,
+                         GCompareDataFunc  func,
+                         gpointer          user_data);
 void         g_async_queue_push_sorted_unlocked (GAsyncQueue      *queue,
-						 gpointer          data,
-						 GCompareDataFunc  func,
-						 gpointer          user_data);
+                         gpointer          data,
+                         GCompareDataFunc  func,
+                         gpointer          user_data);
 
 /* Pop data from the async queue. When no data is there, the thread is blocked
  * until data arrives.
@@ -89,28 +89,28 @@ gpointer     g_async_queue_try_pop_unlocked     (GAsyncQueue      *queue);
 
 
 /* Wait for data until at maximum until end_time is reached. NULL is returned
- * in case of empty queue. 
+ * in case of empty queue.
  */
 gpointer     g_async_queue_timed_pop            (GAsyncQueue      *queue,
-						 GTimeVal         *end_time);
+                         GTimeVal         *end_time);
 gpointer     g_async_queue_timed_pop_unlocked   (GAsyncQueue      *queue,
-						 GTimeVal         *end_time);
+                         GTimeVal         *end_time);
 
 /* Return the length of the queue. Negative values mean that threads
  * are waiting, positve values mean that there are entries in the
  * queue. Actually this function returns the length of the queue minus
  * the number of waiting threads, g_async_queue_length == 0 could also
  * mean 'n' entries in the queue and 'n' thread waiting. Such can
- * happen due to locking of the queue or due to scheduling. 
+ * happen due to locking of the queue or due to scheduling.
  */
 gint         g_async_queue_length               (GAsyncQueue      *queue);
 gint         g_async_queue_length_unlocked      (GAsyncQueue      *queue);
 void         g_async_queue_sort                 (GAsyncQueue      *queue,
-						 GCompareDataFunc  func,
-						 gpointer          user_data);
+                         GCompareDataFunc  func,
+                         gpointer          user_data);
 void         g_async_queue_sort_unlocked        (GAsyncQueue      *queue,
-						 GCompareDataFunc  func,
-						 gpointer          user_data);
+                         GCompareDataFunc  func,
+                         gpointer          user_data);
 
 /* Private API */
 GMutex*      _g_async_queue_get_mutex           (GAsyncQueue      *queue);

@@ -47,48 +47,48 @@ import com.sun.javafx.scene.control.behavior.BehaviorBase;
 import com.sun.javafx.scene.control.behavior.KeyBinding;
 
 public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<ButtonBar>> {
-    
+
     /**************************************************************************
-     * 
+     *
      * Static fields
-     * 
+     *
      **************************************************************************/
 
-    private static final double GAP_SIZE = 10; 
-    
+    private static final double GAP_SIZE = 10;
+
     private static final String CATEGORIZED_TYPES = "LRHEYNXBIACO"; //$NON-NLS-1$
-    
+
     // represented as a ButtonData
     public static final String BUTTON_DATA_PROPERTY  = "javafx.scene.control.ButtonBar.ButtonData"; //$NON-NLS-1$
-    
+
     // allows to exclude button from uniform resizing
     public static final String BUTTON_SIZE_INDEPENDENCE = "javafx.scene.control.ButtonBar.independentSize"; //$NON-NLS-1$
-    
+
     // pick an arbitrary number
     private static final double DO_NOT_CHANGE_SIZE = Double.MAX_VALUE - 100;
-    
-    
+
+
     /**************************************************************************
-     * 
+     *
      * fields
-     * 
+     *
      **************************************************************************/
-    
+
     private HBox layout;
 
     private InvalidationListener buttonDataListener = o -> layoutButtons();
-    
-    
-    
+
+
+
     /**************************************************************************
-     * 
+     *
      * Constructors
-     * 
+     *
      **************************************************************************/
 
     public ButtonBarSkin(final ButtonBar control) {
         super(control, new BehaviorBase<>(control, Collections.<KeyBinding> emptyList()));
-        
+
         this.layout = new HBox(GAP_SIZE) {
             @Override
             protected void layoutChildren() {
@@ -100,7 +100,7 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
         this.layout.setAlignment(Pos.CENTER);
         this.layout.getStyleClass().add("container");
         getChildren().add(layout);
-        
+
         layoutButtons();
 
         updateButtonListeners(control.getButtons(), true);
@@ -111,7 +111,7 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
             }
             layoutButtons();
         });
-        
+
         registerChangeListener(control.buttonOrderProperty(), "BUTTON_ORDER"); //$NON-NLS-1$
         registerChangeListener(control.buttonMinWidthProperty(), "BUTTON_MIN_WIDTH"); //$NON-NLS-1$
     }
@@ -136,14 +136,14 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
 
 
     /**************************************************************************
-     * 
+     *
      * Overriding public API
-     * 
+     *
      **************************************************************************/
-    
+
     @Override protected void handleControlPropertyChanged(String p) {
         super.handleControlPropertyChanged(p);
-        
+
         if ("BUTTON_ORDER".equals(p)) { //$NON-NLS-1$
             layoutButtons();
         } else if ("BUTTON_MIN_WIDTH".equals(p)) { //$NON-NLS-1$
@@ -151,20 +151,20 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
             resizeButtons();
         }
     }
-    
-    
-    
+
+
+
     /**************************************************************************
-     * 
+     *
      * Implementation
-     * 
+     *
      **************************************************************************/
-    
+
     private void layoutButtons() {
         final ButtonBar buttonBar = getSkinnable();
         final List<? extends Node> buttons = buttonBar.getButtons();
         final double buttonMinWidth = buttonBar.getButtonMinWidth();
-        
+
         String buttonOrder = getSkinnable().getButtonOrder();
 
         layout.getChildren().clear();
@@ -257,7 +257,7 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
             }
         }
     }
-    
+
     private void resizeButtons() {
         final ButtonBar buttonBar = getSkinnable();
         double buttonMinWidth = buttonBar.getButtonMinWidth();
@@ -270,7 +270,7 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
                widest = Math.max(button.prefWidth(-1), widest);
             }
         }
-        
+
         // set the width of all buttons
         for (Node button : buttons) {
             if (ButtonBar.isButtonUniformSize(button)) {
@@ -278,11 +278,11 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
             }
         }
     }
-    
+
     private void sizeButton(Node btn, double min, double pref, double max) {
         if (btn instanceof Region) {
             Region regionBtn = (Region)btn;
-            
+
             if (min != DO_NOT_CHANGE_SIZE) {
                 regionBtn.setMinWidth(min);
             }
@@ -294,25 +294,25 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
             }
         }
     }
-    
+
     private String getButtonType(Node btn) {
         ButtonData buttonType = ButtonBar.getButtonData(btn);
-        
+
         if (buttonType == null) {
             // just assume it is ButtonType.OTHER
             buttonType = ButtonData.OTHER;
         }
-        
+
         String typeCode = buttonType.getTypeCode();
         typeCode = typeCode.length() > 0? typeCode.substring(0,1): ""; //$NON-NLS-1$
-        return CATEGORIZED_TYPES.contains(typeCode.toUpperCase())? typeCode : ButtonData.OTHER.getTypeCode(); 
+        return CATEGORIZED_TYPES.contains(typeCode.toUpperCase())? typeCode : ButtonData.OTHER.getTypeCode();
     }
-    
+
     private Map<String, List<Node>> buildButtonMap( List<? extends Node> buttons ) {
         Map<String, List<Node>> buttonMap = new HashMap<>();
         for (Node btn : buttons) {
             if ( btn == null ) continue;
-            String type =  getButtonType(btn); 
+            String type =  getButtonType(btn);
             List<Node> typedButtons = buttonMap.get(type);
             if ( typedButtons == null ) {
                 typedButtons = new ArrayList<Node>();
@@ -322,15 +322,15 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
         }
         return buttonMap;
     }
-    
-    
-    
+
+
+
     /**************************************************************************
-     * 
+     *
      * Support classes / enums
-     * 
+     *
      **************************************************************************/
-    
+
     private enum Spacer {
         FIXED {
             @Override protected Node create(boolean edgeCase) {
@@ -356,15 +356,15 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
             }
         },
         NONE;
-        
+
         protected Node create(boolean edgeCase) {
             return null;
         }
-        
+
         public Spacer replace(Spacer spacer) {
             return spacer;
         }
-        
+
         public void add(Pane pane, boolean edgeCase) {
             Node spacer = create(edgeCase);
             if (spacer != null) {

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,19 +36,19 @@ Builder class for javafx.scene.control.PasswordField
 public class PasswordFieldBuilder<B extends javafx.scene.control.PasswordFieldBuilder<B>> extends javafx.scene.control.TextFieldBuilder<B> {
     protected PasswordFieldBuilder() {
     }
-    
+
     /** Creates a new instance of PasswordFieldBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.PasswordFieldBuilder<?> create() {
         return new javafx.scene.control.PasswordFieldBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.scene.control.PasswordField x) {
         super.applyTo(x);
         if (__set) x.setPromptText(this.promptText);
     }
-    
+
     private java.lang.String promptText;
     /**
     Set the value of the {@link javafx.scene.control.PasswordField#getPromptText() promptText} property for the instance constructed by this builder.
@@ -59,7 +59,7 @@ public class PasswordFieldBuilder<B extends javafx.scene.control.PasswordFieldBu
         __set = true;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.PasswordField} based on the properties set on this builder.
     */

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.paint.Color
 public class ColorBuilder<B extends javafx.scene.paint.ColorBuilder<B>> implements javafx.util.Builder<javafx.scene.paint.Color> {
     protected ColorBuilder() {
     }
-    
+
     /** Creates a new instance of ColorBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.paint.ColorBuilder<?> create() {
         return new javafx.scene.paint.ColorBuilder();
     }
-    
+
     private double blue;
     /**
     Set the value of the {@link javafx.scene.paint.Color#getBlue() blue} property for the instance constructed by this builder.
@@ -52,7 +52,7 @@ public class ColorBuilder<B extends javafx.scene.paint.ColorBuilder<B>> implemen
         this.blue = x;
         return (B) this;
     }
-    
+
     private double green;
     /**
     Set the value of the {@link javafx.scene.paint.Color#getGreen() green} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public class ColorBuilder<B extends javafx.scene.paint.ColorBuilder<B>> implemen
         this.green = x;
         return (B) this;
     }
-    
+
     private double opacity = 1;
     /**
     Set the value of the {@link javafx.scene.paint.Color#getOpacity() opacity} property for the instance constructed by this builder.
@@ -72,7 +72,7 @@ public class ColorBuilder<B extends javafx.scene.paint.ColorBuilder<B>> implemen
         this.opacity = x;
         return (B) this;
     }
-    
+
     private double red;
     /**
     Set the value of the {@link javafx.scene.paint.Color#getRed() red} property for the instance constructed by this builder.
@@ -82,7 +82,7 @@ public class ColorBuilder<B extends javafx.scene.paint.ColorBuilder<B>> implemen
         this.red = x;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.paint.Color} based on the properties set on this builder.
     */

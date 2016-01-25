@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,8 +36,8 @@ Builder class for javafx.scene.control.TextInputControl
 public abstract class TextInputControlBuilder<B extends javafx.scene.control.TextInputControlBuilder<B>> extends javafx.scene.control.ControlBuilder<B> {
     protected TextInputControlBuilder() {
     }
-    
-    
+
+
     private int __set;
     public void applyTo(javafx.scene.control.TextInputControl x) {
         super.applyTo(x);
@@ -46,7 +46,7 @@ public abstract class TextInputControlBuilder<B extends javafx.scene.control.Tex
         if ((set & (1 << 1)) != 0) x.setPromptText(this.promptText);
         if ((set & (1 << 2)) != 0) x.setText(this.text);
     }
-    
+
     private boolean editable;
     /**
     Set the value of the {@link javafx.scene.control.TextInputControl#isEditable() editable} property for the instance constructed by this builder.
@@ -57,7 +57,7 @@ public abstract class TextInputControlBuilder<B extends javafx.scene.control.Tex
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private java.lang.String promptText;
     /**
     Set the value of the {@link javafx.scene.control.TextInputControl#getPromptText() promptText} property for the instance constructed by this builder.
@@ -69,7 +69,7 @@ public abstract class TextInputControlBuilder<B extends javafx.scene.control.Tex
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private java.lang.String text;
     /**
     Set the value of the {@link javafx.scene.control.TextInputControl#getText() text} property for the instance constructed by this builder.
@@ -80,5 +80,5 @@ public abstract class TextInputControlBuilder<B extends javafx.scene.control.Tex
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
 }

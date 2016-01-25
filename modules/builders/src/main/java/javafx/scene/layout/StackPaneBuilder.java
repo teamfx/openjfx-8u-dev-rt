@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,19 +36,19 @@ Builder class for javafx.scene.layout.StackPane
 public class StackPaneBuilder<B extends javafx.scene.layout.StackPaneBuilder<B>> extends javafx.scene.layout.PaneBuilder<B> {
     protected StackPaneBuilder() {
     }
-    
+
     /** Creates a new instance of StackPaneBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.layout.StackPaneBuilder<?> create() {
         return new javafx.scene.layout.StackPaneBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.scene.layout.StackPane x) {
         super.applyTo(x);
         if (__set) x.setAlignment(this.alignment);
     }
-    
+
     private javafx.geometry.Pos alignment;
     /**
     Set the value of the {@link javafx.scene.layout.StackPane#getAlignment() alignment} property for the instance constructed by this builder.
@@ -59,7 +59,7 @@ public class StackPaneBuilder<B extends javafx.scene.layout.StackPaneBuilder<B>>
         __set = true;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.layout.StackPane} based on the properties set on this builder.
     */

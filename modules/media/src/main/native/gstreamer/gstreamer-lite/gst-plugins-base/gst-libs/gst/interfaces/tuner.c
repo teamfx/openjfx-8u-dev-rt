@@ -31,7 +31,7 @@
 /**
  * SECTION:gsttuner
  * @short_description: Interface for elements providing tuner operations
- * 
+ *
  * <refsect2>
  * <para>
  * The GstTuner interface is provided by elements that have the ability to
@@ -39,7 +39,7 @@
  * </para><para>
  * The interpretation of 'tuning into' an input stream depends on the element
  * implementing the interface. For v4lsrc, it might imply selection of an
- * input source and/or frequency to be configured on a TV card. Another 
+ * input source and/or frequency to be configured on a TV card. Another
  * GstTuner implementation might be to allow selection of an active input pad
  * from multiple input pads.
  * </para><para>
@@ -347,7 +347,7 @@ gst_tuner_get_norm (GstTuner * tuner)
  * checked using GST_TUNER_CHANNEL_HAS_FLAG (), with the proper flag
  * being GST_TUNER_CHANNEL_FREQUENCY.
  *
- * The frequency is in Hz, with minimum steps indicated by the 
+ * The frequency is in Hz, with minimum steps indicated by the
  * frequency_multiplicator provided in the #GstTunerChannel. The
  * valid range is provided in the min_frequency and max_frequency properties
  * of the #GstTunerChannel.
@@ -412,7 +412,7 @@ gst_tuner_get_frequency (GstTuner * tuner, GstTunerChannel * channel)
  * GST_TUNER_CHANNEL_HAS_FLAG (), and the appropriate flag to check
  * for is GST_TUNER_CHANNEL_FREQUENCY.
  *
- * The valid range of the signal strength is indicated in the 
+ * The valid range of the signal strength is indicated in the
  * min_signal and max_signal properties of the #GstTunerChannel.
  *
  * Returns: Signal strength, or 0 on error.
@@ -439,7 +439,7 @@ gst_tuner_signal_strength (GstTuner * tuner, GstTunerChannel * channel)
  * gst_tuner_find_norm_by_name:
  * @tuner: A #GstTuner instance
  * @norm: A string containing the name of a #GstTunerNorm
- * 
+ *
  * Look up a #GstTunerNorm by name.
  *
  * Returns: A #GstTunerNorm, or NULL if no norm with the provided name
@@ -466,7 +466,7 @@ gst_tuner_find_norm_by_name (GstTuner * tuner, gchar * norm)
  * gst_tuner_find_channel_by_name:
  * @tuner: A #GstTuner instance
  * @channel: A string containing the name of a #GstTunerChannel
- * 
+ *
  * Look up a #GstTunerChannel by name.
  *
  * Returns: A #GstTunerChannel, or NULL if no channel with the provided name
@@ -514,7 +514,7 @@ gst_tuner_channel_changed (GstTuner * tuner, GstTunerChannel * channel)
  *
  * Called by elements implementing the #GstTuner interface when the
  * current norm changes. Fires the #GstTuner::norm-changed signal.
- * 
+ *
  */
 void
 gst_tuner_norm_changed (GstTuner * tuner, GstTunerNorm * norm)
@@ -557,7 +557,7 @@ gst_tuner_frequency_changed (GstTuner * tuner,
  *
  * Called by elements implementing the #GstTuner interface when the
  * incoming signal strength changes. Fires the #GstTuner::signal-changed
- * signal on the tuner and the #GstTunerChannel::signal-changed signal on 
+ * signal on the tuner and the #GstTunerChannel::signal-changed signal on
  * the channel.
  */
 void

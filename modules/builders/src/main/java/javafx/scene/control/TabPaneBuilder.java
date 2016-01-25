@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.TabPane
 public class TabPaneBuilder<B extends javafx.scene.control.TabPaneBuilder<B>> extends javafx.scene.control.ControlBuilder<B> implements javafx.util.Builder<javafx.scene.control.TabPane> {
     protected TabPaneBuilder() {
     }
-    
+
     /** Creates a new instance of TabPaneBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.TabPaneBuilder<?> create() {
         return new javafx.scene.control.TabPaneBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -66,7 +66,7 @@ public class TabPaneBuilder<B extends javafx.scene.control.TabPaneBuilder<B>> ex
             }
         }
     }
-    
+
     private boolean rotateGraphic;
     /**
     Set the value of the {@link javafx.scene.control.TabPane#isRotateGraphic() rotateGraphic} property for the instance constructed by this builder.
@@ -77,7 +77,7 @@ public class TabPaneBuilder<B extends javafx.scene.control.TabPaneBuilder<B>> ex
         __set(0);
         return (B) this;
     }
-    
+
     private javafx.scene.control.SingleSelectionModel<javafx.scene.control.Tab> selectionModel;
     /**
     Set the value of the {@link javafx.scene.control.TabPane#getSelectionModel() selectionModel} property for the instance constructed by this builder.
@@ -88,7 +88,7 @@ public class TabPaneBuilder<B extends javafx.scene.control.TabPaneBuilder<B>> ex
         __set(1);
         return (B) this;
     }
-    
+
     private javafx.geometry.Side side;
     /**
     Set the value of the {@link javafx.scene.control.TabPane#getSide() side} property for the instance constructed by this builder.
@@ -99,7 +99,7 @@ public class TabPaneBuilder<B extends javafx.scene.control.TabPaneBuilder<B>> ex
         __set(2);
         return (B) this;
     }
-    
+
     private javafx.scene.control.TabPane.TabClosingPolicy tabClosingPolicy;
     /**
     Set the value of the {@link javafx.scene.control.TabPane#getTabClosingPolicy() tabClosingPolicy} property for the instance constructed by this builder.
@@ -110,7 +110,7 @@ public class TabPaneBuilder<B extends javafx.scene.control.TabPaneBuilder<B>> ex
         __set(3);
         return (B) this;
     }
-    
+
     private double tabMaxHeight;
     /**
     Set the value of the {@link javafx.scene.control.TabPane#getTabMaxHeight() tabMaxHeight} property for the instance constructed by this builder.
@@ -121,7 +121,7 @@ public class TabPaneBuilder<B extends javafx.scene.control.TabPaneBuilder<B>> ex
         __set(4);
         return (B) this;
     }
-    
+
     private double tabMaxWidth;
     /**
     Set the value of the {@link javafx.scene.control.TabPane#getTabMaxWidth() tabMaxWidth} property for the instance constructed by this builder.
@@ -132,7 +132,7 @@ public class TabPaneBuilder<B extends javafx.scene.control.TabPaneBuilder<B>> ex
         __set(5);
         return (B) this;
     }
-    
+
     private double tabMinHeight;
     /**
     Set the value of the {@link javafx.scene.control.TabPane#getTabMinHeight() tabMinHeight} property for the instance constructed by this builder.
@@ -143,7 +143,7 @@ public class TabPaneBuilder<B extends javafx.scene.control.TabPaneBuilder<B>> ex
         __set(6);
         return (B) this;
     }
-    
+
     private double tabMinWidth;
     /**
     Set the value of the {@link javafx.scene.control.TabPane#getTabMinWidth() tabMinWidth} property for the instance constructed by this builder.
@@ -154,7 +154,7 @@ public class TabPaneBuilder<B extends javafx.scene.control.TabPaneBuilder<B>> ex
         __set(7);
         return (B) this;
     }
-    
+
     private java.util.Collection<? extends javafx.scene.control.Tab> tabs;
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.TabPane#getTabs() tabs} property for the instance constructed by this builder.
@@ -165,14 +165,14 @@ public class TabPaneBuilder<B extends javafx.scene.control.TabPaneBuilder<B>> ex
         __set(8);
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.control.TabPane#getTabs() tabs} property for the instance constructed by this builder.
     */
     public B tabs(javafx.scene.control.Tab... x) {
         return tabs(java.util.Arrays.asList(x));
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.TabPane} based on the properties set on this builder.
     */

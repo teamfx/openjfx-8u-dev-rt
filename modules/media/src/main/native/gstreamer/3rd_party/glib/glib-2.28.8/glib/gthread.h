@@ -8,7 +8,7 @@
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
@@ -109,7 +109,7 @@ struct _GThreadFunctions
                                    GThreadPriority       priority);
   void      (*thread_self)        (gpointer              thread);
   gboolean  (*thread_equal)       (gpointer              thread1,
-				   gpointer              thread2);
+                   gpointer              thread2);
 };
 
 GLIB_VAR GThreadFunctions       g_thread_functions_for_glib_use;
@@ -154,46 +154,46 @@ GMutex* g_static_mutex_get_mutex_impl   (GMutex **mutex);
 
 /* shorthands for conditional and unconditional function calls */
 
-#define G_THREAD_UF(op, arglist)					\
+#define G_THREAD_UF(op, arglist)                    \
     (*g_thread_functions_for_glib_use . op) arglist
-#define G_THREAD_CF(op, fail, arg)					\
+#define G_THREAD_CF(op, fail, arg)                  \
     (g_thread_supported () ? G_THREAD_UF (op, arg) : (fail))
-#define G_THREAD_ECF(op, fail, mutex, type)				\
-    (g_thread_supported () ? 						\
-      ((type(*)(GMutex*, const gulong, gchar const*))			\
-      (*g_thread_functions_for_glib_use . op))				\
+#define G_THREAD_ECF(op, fail, mutex, type)             \
+    (g_thread_supported () ?                        \
+      ((type(*)(GMutex*, const gulong, gchar const*))           \
+      (*g_thread_functions_for_glib_use . op))              \
      (mutex, G_MUTEX_DEBUG_MAGIC, G_STRLOC) : (fail))
 
 #ifndef G_ERRORCHECK_MUTEXES
-# define g_mutex_lock(mutex)						\
+# define g_mutex_lock(mutex)                        \
     G_THREAD_CF (mutex_lock,     (void)0, (mutex))
-# define g_mutex_trylock(mutex)						\
+# define g_mutex_trylock(mutex)                     \
     G_THREAD_CF (mutex_trylock,  TRUE,    (mutex))
-# define g_mutex_unlock(mutex)						\
+# define g_mutex_unlock(mutex)                      \
     G_THREAD_CF (mutex_unlock,   (void)0, (mutex))
-# define g_mutex_free(mutex)						\
+# define g_mutex_free(mutex)                        \
     G_THREAD_CF (mutex_free,     (void)0, (mutex))
-# define g_cond_wait(cond, mutex)					\
+# define g_cond_wait(cond, mutex)                   \
     G_THREAD_CF (cond_wait,      (void)0, (cond, mutex))
-# define g_cond_timed_wait(cond, mutex, abs_time)			\
+# define g_cond_timed_wait(cond, mutex, abs_time)           \
     G_THREAD_CF (cond_timed_wait, TRUE,   (cond, mutex, abs_time))
 #else /* G_ERRORCHECK_MUTEXES */
-# define g_mutex_lock(mutex)						\
+# define g_mutex_lock(mutex)                        \
     G_THREAD_ECF (mutex_lock,    (void)0, (mutex), void)
-# define g_mutex_trylock(mutex)						\
+# define g_mutex_trylock(mutex)                     \
     G_THREAD_ECF (mutex_trylock, TRUE,    (mutex), gboolean)
-# define g_mutex_unlock(mutex)						\
+# define g_mutex_unlock(mutex)                      \
     G_THREAD_ECF (mutex_unlock,  (void)0, (mutex), void)
-# define g_mutex_free(mutex)						\
+# define g_mutex_free(mutex)                        \
     G_THREAD_ECF (mutex_free,    (void)0, (mutex), void)
-# define g_cond_wait(cond, mutex)					\
+# define g_cond_wait(cond, mutex)                   \
     (g_thread_supported () ? ((void(*)(GCond*, GMutex*, gulong, gchar*))\
-      g_thread_functions_for_glib_use.cond_wait)			\
+      g_thread_functions_for_glib_use.cond_wait)            \
         (cond, mutex, G_MUTEX_DEBUG_MAGIC, G_STRLOC) : (void) 0)
-# define g_cond_timed_wait(cond, mutex, abs_time)			\
-    (g_thread_supported () ?						\
-      ((gboolean(*)(GCond*, GMutex*, GTimeVal*, gulong, gchar*))	\
-        g_thread_functions_for_glib_use.cond_timed_wait)		\
+# define g_cond_timed_wait(cond, mutex, abs_time)           \
+    (g_thread_supported () ?                        \
+      ((gboolean(*)(GCond*, GMutex*, GTimeVal*, gulong, gchar*))    \
+        g_thread_functions_for_glib_use.cond_timed_wait)        \
           (cond, mutex, abs_time, G_MUTEX_DEBUG_MAGIC, G_STRLOC) : TRUE)
 #endif /* G_ERRORCHECK_MUTEXES */
 
@@ -217,8 +217,8 @@ GMutex* g_static_mutex_get_mutex_impl   (GMutex **mutex);
                                                        (private_key, value))
 #define g_thread_yield()              G_THREAD_CF (thread_yield, (void)0, ())
 
-#define g_thread_create(func, data, joinable, error)			\
-  (g_thread_create_full (func, data, 0, joinable, FALSE, 		\
+#define g_thread_create(func, data, joinable, error)            \
+  (g_thread_create_full (func, data, 0, joinable, FALSE,        \
                          G_THREAD_PRIORITY_NORMAL, error))
 
 GThread* g_thread_create_full  (GThreadFunc            func,
@@ -258,8 +258,8 @@ struct _GStaticPrivate
 void     g_static_private_init           (GStaticPrivate   *private_key);
 gpointer g_static_private_get            (GStaticPrivate   *private_key);
 void     g_static_private_set            (GStaticPrivate   *private_key,
-					  gpointer          data,
-					  GDestroyNotify    notify);
+                      gpointer          data,
+                      GDestroyNotify    notify);
 void     g_static_private_free           (GStaticPrivate   *private_key);
 
 typedef struct _GStaticRecMutex GStaticRecMutex;
@@ -305,14 +305,14 @@ gboolean  g_static_rw_lock_writer_trylock (GStaticRWLock* lock);
 void      g_static_rw_lock_writer_unlock  (GStaticRWLock* lock);
 void      g_static_rw_lock_free           (GStaticRWLock* lock);
 
-void	  g_thread_foreach         	  (GFunc    	  thread_func,
-					   gpointer 	  user_data);
+void      g_thread_foreach            (GFunc          thread_func,
+                       gpointer       user_data);
 
 typedef enum
 {
   G_ONCE_STATUS_NOTCALLED,
   G_ONCE_STATUS_PROGRESS,
-  G_ONCE_STATUS_READY  
+  G_ONCE_STATUS_READY
 } GOnceStatus;
 
 typedef struct _GOnce GOnce;

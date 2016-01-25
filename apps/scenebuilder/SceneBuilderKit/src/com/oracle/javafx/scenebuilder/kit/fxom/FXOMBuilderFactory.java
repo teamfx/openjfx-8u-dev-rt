@@ -44,28 +44,28 @@ import com.oracle.javafx.scenebuilder.kit.util.Deprecation;
 class FXOMBuilderFactory implements BuilderFactory {
 
     final JavaFXBuilderFactory delegate;
-    
+
     public FXOMBuilderFactory(ClassLoader classLoader) {
         assert classLoader != null;
-        
+
         this.delegate = Deprecation.newJavaFXBuilderFactory(classLoader);
     }
-    
+
     /*
      * BuilderFactory
      */
-    
+
     @Override
     public Builder<?> getBuilder(Class<?> type) {
         final Builder<?> result;
-        
+
         if (Image.class == type) {
            result = new FXOMImageBuilder();
         } else {
            result = delegate.getBuilder(type);
         }
-        
+
         return result;
     }
-    
+
 }

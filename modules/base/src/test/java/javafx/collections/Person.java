@@ -49,7 +49,7 @@ public class Person implements Comparable<Person> {
     public Person(String name) {
         this.name.set(name);
     }
-    
+
     public Person() {
     }
 
@@ -84,7 +84,7 @@ public class Person implements Comparable<Person> {
     public int compareTo(Person o) {
         return this.name.get().compareTo(o.name.get());
     }
-    
+
     public static ObservableList<Person> createPersonsList(Person... persons) {
         ObservableList<Person> list = FXCollections.observableArrayList(
                 (Person p) -> new Observable[]{p.name});

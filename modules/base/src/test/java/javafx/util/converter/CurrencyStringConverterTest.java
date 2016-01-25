@@ -38,43 +38,43 @@ import org.junit.Test;
  */
 public class CurrencyStringConverterTest {
     private CurrencyStringConverter converter;
-    
+
     @Before public void setup() {
         converter = new CurrencyStringConverter(Locale.US);
     }
-    
+
     /*********************************************************************
      * Test constructors
-     ********************************************************************/ 
-    
+     ********************************************************************/
+
     @Test public void testDefaultConstructor() {
         CurrencyStringConverter c = new CurrencyStringConverter();
         assertEquals(Locale.getDefault(), c.locale);
         assertNull(c.pattern);
         assertNull(c.numberFormat);
     }
-    
+
     @Test public void testConstructor_locale() {
         CurrencyStringConverter c = new CurrencyStringConverter(Locale.CANADA);
         assertEquals(Locale.CANADA, c.locale);
         assertNull(c.pattern);
         assertNull(c.numberFormat);
     }
-    
+
     @Test public void testConstructor_pattern() {
         CurrencyStringConverter c = new CurrencyStringConverter("#,##,###,####");
         assertEquals(Locale.getDefault(), c.locale);
         assertEquals("#,##,###,####", c.pattern);
         assertNull(c.numberFormat);
     }
-    
+
     @Test public void testConstructor_locale_pattern() {
         CurrencyStringConverter c = new CurrencyStringConverter(Locale.CANADA, "#,##,###,####");
         assertEquals(Locale.CANADA, c.locale);
         assertEquals("#,##,###,####", c.pattern);
         assertNull(c.numberFormat);
     }
-    
+
     @Test public void testConstructor_numberFormat() {
         NumberFormat format = NumberFormat.getCurrencyInstance(Locale.JAPAN);
         CurrencyStringConverter c = new CurrencyStringConverter(format);
@@ -82,40 +82,40 @@ public class CurrencyStringConverterTest {
         assertNull(c.pattern);
         assertEquals(format, c.numberFormat);
     }
-    
-    
+
+
     /*********************************************************************
      * Test methods
-     ********************************************************************/   
-    
+     ********************************************************************/
+
     @Test public void getNumberFormat_default() {
         assertNotNull(converter.getNumberFormat());
     }
-    
+
     @Test public void getNumberFormat_nonNullPattern() {
         converter = new CurrencyStringConverter("#,##,###,####");
         assertTrue(converter.getNumberFormat() instanceof DecimalFormat);
     }
-    
+
     @Test public void getNumberFormat_nonNullNumberFormat() {
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         converter = new CurrencyStringConverter(nf);
         assertEquals(nf, converter.getNumberFormat());
     }
-    
-    
+
+
     /*********************************************************************
      * Test toString / fromString methods
-     ********************************************************************/    
-    
+     ********************************************************************/
+
     @Test public void fromString_testValidStringInput() {
         assertEquals(10.32, converter.fromString("$10.32"));
     }
-    
+
     @Test public void fromString_testValidStringInputWithWhiteSpace() {
         assertEquals(10.32, converter.fromString("      $10.32      "));
     }
-    
+
     @Test public void toString_validInput() {
         assertEquals("$10.32", converter.toString(10.32));
     }

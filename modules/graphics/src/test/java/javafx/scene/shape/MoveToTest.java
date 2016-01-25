@@ -42,11 +42,11 @@ public class MoveToTest {
     @Test public void testAddTo() throws Exception {
         //TODO
     }
-    
+
     @Test public void testSetGetX() throws Exception {
         TestUtils.testDoublePropertyGetterSetter(new MoveTo(), "x", 123.2, 0.0);
     }
-    
+
     @Test public void testSetGetY() throws Exception {
         TestUtils.testDoublePropertyGetterSetter(new MoveTo(), "y", 123.2, 0.0);
     }
@@ -62,7 +62,7 @@ public class MoveToTest {
 
         v.set(expected);
         NodeTest.syncNode(path);
-  
+
         //check
         NGPath pgPath = path.impl_getPeer();
         Path2D geometry = pgPath.getGeometry();
@@ -92,7 +92,7 @@ public class MoveToTest {
         assertEquals(segType, PathIterator.SEG_MOVETO);
         assertEquals(expected, coords[1], 0.001);
     }
-  
+
     @Test public void toStringShouldReturnNonEmptyString() {
         String s = new MoveTo().toString();
         assertNotNull(s);

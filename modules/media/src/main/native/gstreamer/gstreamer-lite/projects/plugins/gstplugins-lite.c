@@ -48,7 +48,7 @@ gboolean lite_plugins_init (GstPlugin * plugin)
 #ifdef WIN32
   if (!plugin_init_directsound(plugin) ||
       !plugin_init_indexers(plugin))
-    return FALSE;  
+    return FALSE;
 #endif
 
 #ifdef OSX
@@ -63,6 +63,6 @@ gboolean lite_plugins_init (GstPlugin * plugin)
       !plugin_init_volume(plugin))
     return FALSE;
 #endif
-  
+
   return TRUE;
 }

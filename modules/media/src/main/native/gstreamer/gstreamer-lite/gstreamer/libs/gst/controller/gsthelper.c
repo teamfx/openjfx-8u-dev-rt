@@ -106,7 +106,7 @@ gst_object_uncontrol_properties (GObject * object, ...)
  * @object: the object that has controlled properties
  *
  * Gets the controller for the given GObject
- * 
+ *
  * Returns: the controller handling some of the given element's properties, %NULL if no controller
  * Since: 0.9
  */

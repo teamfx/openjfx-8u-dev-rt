@@ -31,12 +31,12 @@ G_BEGIN_DECLS
   (gst_implements_interface_get_type ())
 #define GST_IMPLEMENTS_INTERFACE(obj) \
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_IMPLEMENTS_INTERFACE, \
-				      GstImplementsInterface))
+                      GstImplementsInterface))
 #define GST_IS_IMPLEMENTS_INTERFACE(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_IMPLEMENTS_INTERFACE))
 #define GST_IMPLEMENTS_INTERFACE_GET_CLASS(inst) \
   (G_TYPE_INSTANCE_GET_INTERFACE ((inst), GST_TYPE_IMPLEMENTS_INTERFACE, \
-				  GstImplementsInterfaceClass))
+                  GstImplementsInterfaceClass))
 
 /**
  * GstImplementsInterface:
@@ -56,7 +56,7 @@ struct _GstImplementsInterfaceClass {
 
   /* virtual functions */
   gboolean (* supported) (GstImplementsInterface *iface,
-			  GType                   iface_type);
+              GType                   iface_type);
 
   gpointer _gst_reserved[GST_PADDING];
 };
@@ -66,15 +66,15 @@ struct _GstImplementsInterfaceClass {
 #define GST_IMPLEMENTS_INTERFACE_CHECK_INSTANCE_TYPE(obj, type) \
   (gst_implements_interface_check ((obj), (type)))
 
-GType	 gst_implements_interface_get_type    (void);
+GType    gst_implements_interface_get_type    (void);
 
 /* wrapper functions to check for functionality implementation */
 gboolean gst_element_implements_interface     (GstElement *element,
-					       GType       iface_type);
-gpointer gst_implements_interface_cast	      (gpointer    from,
-					       GType       type);
-gboolean gst_implements_interface_check	      (gpointer    from,
-					       GType       type);
+                           GType       iface_type);
+gpointer gst_implements_interface_cast        (gpointer    from,
+                           GType       type);
+gboolean gst_implements_interface_check       (gpointer    from,
+                           GType       type);
 
 G_END_DECLS
 

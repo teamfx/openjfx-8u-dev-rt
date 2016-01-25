@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.stage.Stage
 public class StageBuilder<B extends javafx.stage.StageBuilder<B>> extends javafx.stage.WindowBuilder<B> implements javafx.util.Builder<javafx.stage.Stage> {
     protected StageBuilder() {
     }
-    
+
     /** Creates a new instance of StageBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.stage.StageBuilder<?> create() {
         return new javafx.stage.StageBuilder();
     }
-    
+
     private int __set;
     private void __set(int i) {
         __set |= 1 << i;
@@ -67,7 +67,7 @@ public class StageBuilder<B extends javafx.stage.StageBuilder<B>> extends javafx
             }
         }
     }
-    
+
     private boolean fullScreen;
     /**
     Set the value of the {@link javafx.stage.Stage#isFullScreen() fullScreen} property for the instance constructed by this builder.
@@ -78,7 +78,7 @@ public class StageBuilder<B extends javafx.stage.StageBuilder<B>> extends javafx
         __set(0);
         return (B) this;
     }
-    
+
     private boolean iconified;
     /**
     Set the value of the {@link javafx.stage.Stage#isIconified() iconified} property for the instance constructed by this builder.
@@ -89,7 +89,7 @@ public class StageBuilder<B extends javafx.stage.StageBuilder<B>> extends javafx
         __set(1);
         return (B) this;
     }
-    
+
     private java.util.Collection<? extends javafx.scene.image.Image> icons;
     /**
     Add the given items to the List of items in the {@link javafx.stage.Stage#getIcons() icons} property for the instance constructed by this builder.
@@ -100,14 +100,14 @@ public class StageBuilder<B extends javafx.stage.StageBuilder<B>> extends javafx
         __set(2);
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.stage.Stage#getIcons() icons} property for the instance constructed by this builder.
     */
     public B icons(javafx.scene.image.Image... x) {
         return icons(java.util.Arrays.asList(x));
     }
-    
+
     private double maxHeight;
     /**
     Set the value of the {@link javafx.stage.Stage#getMaxHeight() maxHeight} property for the instance constructed by this builder.
@@ -119,7 +119,7 @@ public class StageBuilder<B extends javafx.stage.StageBuilder<B>> extends javafx
         __set(3);
         return (B) this;
     }
-    
+
     private double maxWidth;
     /**
     Set the value of the {@link javafx.stage.Stage#getMaxWidth() maxWidth} property for the instance constructed by this builder.
@@ -131,7 +131,7 @@ public class StageBuilder<B extends javafx.stage.StageBuilder<B>> extends javafx
         __set(4);
         return (B) this;
     }
-    
+
     private double minHeight;
     /**
     Set the value of the {@link javafx.stage.Stage#getMinHeight() minHeight} property for the instance constructed by this builder.
@@ -143,7 +143,7 @@ public class StageBuilder<B extends javafx.stage.StageBuilder<B>> extends javafx
         __set(5);
         return (B) this;
     }
-    
+
     private double minWidth;
     /**
     Set the value of the {@link javafx.stage.Stage#getMinWidth() minWidth} property for the instance constructed by this builder.
@@ -155,7 +155,7 @@ public class StageBuilder<B extends javafx.stage.StageBuilder<B>> extends javafx
         __set(6);
         return (B) this;
     }
-    
+
     private boolean resizable;
     /**
     Set the value of the {@link javafx.stage.Stage#isResizable() resizable} property for the instance constructed by this builder.
@@ -166,7 +166,7 @@ public class StageBuilder<B extends javafx.stage.StageBuilder<B>> extends javafx
         __set(7);
         return (B) this;
     }
-    
+
     private javafx.scene.Scene scene;
     /**
     Set the value of the {@link javafx.stage.Stage#getScene() scene} property for the instance constructed by this builder.
@@ -177,7 +177,7 @@ public class StageBuilder<B extends javafx.stage.StageBuilder<B>> extends javafx
         __set(8);
         return (B) this;
     }
-    
+
     private javafx.stage.StageStyle style = javafx.stage.StageStyle.DECORATED;
     /**
     Set the value of the {@link javafx.stage.Stage#getStyle() style} property for the instance constructed by this builder.
@@ -187,7 +187,7 @@ public class StageBuilder<B extends javafx.stage.StageBuilder<B>> extends javafx
         this.style = x;
         return (B) this;
     }
-    
+
     private java.lang.String title;
     /**
     Set the value of the {@link javafx.stage.Stage#getTitle() title} property for the instance constructed by this builder.
@@ -198,7 +198,7 @@ public class StageBuilder<B extends javafx.stage.StageBuilder<B>> extends javafx
         __set(9);
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.stage.Stage} based on the properties set on this builder.
     */

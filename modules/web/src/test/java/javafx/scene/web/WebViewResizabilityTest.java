@@ -33,7 +33,7 @@ import org.junit.Test;
 
 
 public class WebViewResizabilityTest extends TestBase {
-    
+
     public @Test void testWebViewIsResizable() {
         assertTrue(getView().isResizable());
     }

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.layout.RowConstraints
 public class RowConstraintsBuilder<B extends javafx.scene.layout.RowConstraintsBuilder<B>> implements javafx.util.Builder<javafx.scene.layout.RowConstraints> {
     protected RowConstraintsBuilder() {
     }
-    
+
     /** Creates a new instance of RowConstraintsBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.layout.RowConstraintsBuilder<?> create() {
         return new javafx.scene.layout.RowConstraintsBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.layout.RowConstraints x) {
         int set = __set;
@@ -54,7 +54,7 @@ public class RowConstraintsBuilder<B extends javafx.scene.layout.RowConstraintsB
         if ((set & (1 << 5)) != 0) x.setValignment(this.valignment);
         if ((set & (1 << 6)) != 0) x.setVgrow(this.vgrow);
     }
-    
+
     private boolean fillHeight;
     /**
     Set the value of the {@link javafx.scene.layout.RowConstraints#isFillHeight() fillHeight} property for the instance constructed by this builder.
@@ -65,7 +65,7 @@ public class RowConstraintsBuilder<B extends javafx.scene.layout.RowConstraintsB
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private double maxHeight;
     /**
     Set the value of the {@link javafx.scene.layout.RowConstraints#getMaxHeight() maxHeight} property for the instance constructed by this builder.
@@ -76,7 +76,7 @@ public class RowConstraintsBuilder<B extends javafx.scene.layout.RowConstraintsB
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double minHeight;
     /**
     Set the value of the {@link javafx.scene.layout.RowConstraints#getMinHeight() minHeight} property for the instance constructed by this builder.
@@ -87,7 +87,7 @@ public class RowConstraintsBuilder<B extends javafx.scene.layout.RowConstraintsB
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private double percentHeight;
     /**
     Set the value of the {@link javafx.scene.layout.RowConstraints#getPercentHeight() percentHeight} property for the instance constructed by this builder.
@@ -98,7 +98,7 @@ public class RowConstraintsBuilder<B extends javafx.scene.layout.RowConstraintsB
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private double prefHeight;
     /**
     Set the value of the {@link javafx.scene.layout.RowConstraints#getPrefHeight() prefHeight} property for the instance constructed by this builder.
@@ -109,7 +109,7 @@ public class RowConstraintsBuilder<B extends javafx.scene.layout.RowConstraintsB
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     private javafx.geometry.VPos valignment;
     /**
     Set the value of the {@link javafx.scene.layout.RowConstraints#getValignment() valignment} property for the instance constructed by this builder.
@@ -120,7 +120,7 @@ public class RowConstraintsBuilder<B extends javafx.scene.layout.RowConstraintsB
         __set |= 1 << 5;
         return (B) this;
     }
-    
+
     private javafx.scene.layout.Priority vgrow;
     /**
     Set the value of the {@link javafx.scene.layout.RowConstraints#getVgrow() vgrow} property for the instance constructed by this builder.
@@ -131,7 +131,7 @@ public class RowConstraintsBuilder<B extends javafx.scene.layout.RowConstraintsB
         __set |= 1 << 6;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.layout.RowConstraints} based on the properties set on this builder.
     */

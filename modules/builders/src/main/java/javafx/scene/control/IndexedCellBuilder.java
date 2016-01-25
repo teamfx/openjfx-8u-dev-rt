@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.IndexedCell
 public class IndexedCellBuilder<T, B extends javafx.scene.control.IndexedCellBuilder<T, B>> extends javafx.scene.control.CellBuilder<T, B> {
     protected IndexedCellBuilder() {
     }
-    
+
     /** Creates a new instance of IndexedCellBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <T> javafx.scene.control.IndexedCellBuilder<T, ?> create() {
         return new javafx.scene.control.IndexedCellBuilder();
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.IndexedCell} based on the properties set on this builder.
     */

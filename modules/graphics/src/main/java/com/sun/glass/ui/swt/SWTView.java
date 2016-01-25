@@ -41,7 +41,7 @@ final class SWTView extends View {
     DropTarget dropTarget;
 
     static Shell hiddenShell;
-    
+
     public SWTView() {
         super();
     }
@@ -100,10 +100,10 @@ final class SWTView extends View {
             Rectangle rect = canvas.getClientArea();
             notifyResize(rect.width, rect.height);
         });
-        
+
         //TODO - refactor to drop target creation in a better place
         dropTarget = SWTClipboard.createDropTarget(canvas);
-        
+
         return SWTApplication.getHandle(canvas);
     }
 
@@ -117,13 +117,13 @@ final class SWTView extends View {
         Class<?> OS = Class.forName("org.eclipse.swt.internal.cocoa.OS");
         Method objc_getClass = OS.getDeclaredMethod("objc_getClass", String.class);
         long JRSRemoteLayer_class = (Long)objc_getClass.invoke(OS, "JRSRenderServer");
-        
-        
+
+
         //RemoteLayerStartServer
 //        long startRenderServer_SEL = OS.sel_registerName("startRenderServer");
 //        long result = OS.objc_msgSend(JRSRemoteLayer_class, startRenderServer_SEL);
 //        System.out.println("sent startRenderServer="+result);
-        
+
         //RemoteLayerGetServerPort
         System.out.println("connecting to " + serverName);
         NSString str = (NSString) new NSString().alloc();
@@ -134,14 +134,14 @@ final class SWTView extends View {
         System.out.println("sending msg getPort");
         long port = OS.objc_msgSend(JRSRemoteLayer_class, recieveRenderServer_SEL, str.id);
         System.out.println("port="+port);
-        
+
         //RemoteLayerGetRemoteFromLocal
 //        long localLayer = getNativeLayer();
         NSView view = canvas.view;
 //
 //        long setWantsLayer_SEL = OS.sel_registerName("setWantsLayer:");
 //        OS.objc_msgSend(view.id, setWantsLayer_SEL, true);
-        
+
         long layer_SEL = OS.sel_registerName("layer");
         long localLayer = OS.objc_msgSend(view.id, layer_SEL);
         System.out.println("localLayer="+localLayer);
@@ -149,13 +149,13 @@ final class SWTView extends View {
         System.out.println("sending msg createRemoteLayerBoundTo");
         long remoteLayer = OS.objc_msgSend(localLayer, createRemoteLayer_SEL, port);
         System.out.println("remoter layer =" + remoteLayer);
-        
+
         //RemoteLayerGetIdForRemote
         long layerID_SEL = OS.sel_registerName("layerID");
         System.out.println("sending msg layerID_SEL");
         layerID = OS.objc_msgSend(remoteLayer, layerID_SEL);
         System.out.println("returning layerID="+layerID);
-        
+
         String s = Display.getAppVersion();
         if (s==null) s = "";
         s+= " create remote layer " + layerID;
@@ -190,7 +190,7 @@ final class SWTView extends View {
     @Override protected  void _begin(final long ptr) {
         SWTApplication.lockFocus(canvas);
     }
-    
+
     @Override protected void _end(final long ptr) {
         SWTApplication.unlockFocus(canvas);
     }
@@ -214,38 +214,38 @@ final class SWTView extends View {
         //TODO - implement set parent (is this necessary?)
         //throw new RuntimeException("SWTView._setParent not implemented.");
     }
-    
+
     @Override protected void _uploadPixels(long ptr, Pixels pixels) {
         //TODO - optimize pixel uploading
         int width = pixels.getWidth(), height = pixels.getHeight();
         int [] bytes = ((IntBuffer)pixels.getPixels()).array();
         PaletteData palette = new PaletteData(0x00ff0000, 0x0000ff00, 0x000000ff);
-        
+
         //long t0 = System.currentTimeMillis();
         ImageData imageData = new ImageData(width, height, 32, palette);
         //long t1 = System.currentTimeMillis();
         //System.out.println("new ImageData: " + (t1-t0));
-        
+
         imageData.setPixels(0, 0, width * height, bytes, 0);
         //long t2 = System.currentTimeMillis();
         //System.out.println("setPixels: " + (t2-t1));
-        
+
         Image image = new Image(canvas.getDisplay(), imageData);
         //long t3 = System.currentTimeMillis();
         //System.out.println("new Image: " + (t3-t2));
-        
+
         GC gc = new GC (canvas);
         //long t4 = System.currentTimeMillis();
         //System.out.println("new GC: " + (t4-t3));
-        
+
         gc.drawImage(image, 0, 0);
         //long t5 = System.currentTimeMillis();
         //System.out.println("drawImage: " + (t5-t4));
-        
+
         image.dispose();
         //long t6 = System.currentTimeMillis();
         //System.out.println("image.dispose(): " + (t6-t5));
-        
+
         gc.dispose();
         //long t7 = System.currentTimeMillis();
         //System.out.println("gc.dispose(): " + (t7-t6));
@@ -331,12 +331,12 @@ final class SWTView extends View {
             }
         }
     }
-    
+
     //TODO - fix visibility
     public void notifyDragStart(int button, int x, int y, int xAbs, int yAbs) {
         super. notifyDragStart(button, x, y, xAbs, yAbs);
     }
-    
+
     //TODO - fix visibility
     public void notifyDragEnd(int performedAction) {
         super.notifyDragEnd(performedAction) ;

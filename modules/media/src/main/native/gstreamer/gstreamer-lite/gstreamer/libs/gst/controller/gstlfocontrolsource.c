@@ -1095,7 +1095,7 @@ gst_lfo_control_source_class_init (GstLFOControlSourceClass * klass)
    * GstLFOControlSource:waveform
    *
    * Specifies the waveform that should be used for this #GstLFOControlSource.
-   * 
+   *
    **/
   g_object_class_install_property (gobject_class, PROP_WAVEFORM,
       g_param_spec_enum ("waveform", "Waveform", "Waveform",
@@ -1108,7 +1108,7 @@ gst_lfo_control_source_class_init (GstLFOControlSourceClass * klass)
    * Specifies the frequency that should be used for the waveform
    * of this #GstLFOControlSource. It should be large enough
    * so that the period is longer than one nanosecond.
-   * 
+   *
    **/
   g_object_class_install_property (gobject_class, PROP_FREQUENCY,
       g_param_spec_double ("frequency", "Frequency",

@@ -108,12 +108,12 @@ public class ScrollBarSkin extends BehaviorSkinBase<ScrollBar, ScrollBarBehavior
 
 
         if (!IS_TOUCH_SUPPORTED) {
-            
+
             incButton = new EndButton("increment-button", "increment-arrow") {
                 @Override
                 public void executeAccessibleAction(AccessibleAction action, Object... parameters) {
                     switch (action) {
-                        case FIRE: 
+                        case FIRE:
                             getSkinnable().increment();
                             break;
                         default: super.executeAccessibleAction(action, parameters);
@@ -453,7 +453,7 @@ public class ScrollBarSkin extends BehaviorSkinBase<ScrollBar, ScrollBarBehavior
         ScrollBar s = getSkinnable();
         double clampedValue = Utils.clamp(s.getMin(), s.getValue(), s.getMax());
         trackPos = (s.getMax() - s.getMin() > 0) ? ((trackLength - thumbLength) * (clampedValue - s.getMin()) / (s.getMax() - s.getMin())) : (0.0F);
-        
+
         if (!IS_TOUCH_SUPPORTED) {
             if (s.getOrientation() == Orientation.VERTICAL) {
                 trackPos += decButton.prefHeight(-1);
@@ -461,16 +461,16 @@ public class ScrollBarSkin extends BehaviorSkinBase<ScrollBar, ScrollBarBehavior
                 trackPos += decButton.prefWidth(-1);
             }
         }
-        
+
         thumb.setTranslateX( snapPosition(s.getOrientation() == Orientation.VERTICAL ? snappedLeftInset() : trackPos + snappedLeftInset()));
         thumb.setTranslateY( snapPosition(s.getOrientation() == Orientation.VERTICAL ? trackPos + snappedTopInset() : snappedTopInset()));
     }
-    
+
     @Override protected void layoutChildren(final double x, final double y,
             final double w, final double h) {
-        
+
         final ScrollBar s = getSkinnable();
-        
+
         /**
          * Compute the percentage length of thumb as (visibleAmount/range)
          * if max isn't greater than min then there is nothing to do here
@@ -538,7 +538,7 @@ public class ScrollBarSkin extends BehaviorSkinBase<ScrollBar, ScrollBarBehavior
 
             s.resize(snapSize(s.getWidth()), snapSize(s.getHeight()));
         }
-        
+
         // things should be invisible only when well below minimum length
         if (s.getOrientation() == Orientation.VERTICAL && h >= (computeMinHeight(-1, (int)y , snappedRightInset(), snappedBottomInset(), (int)x) - (y+snappedBottomInset())) ||
             s.getOrientation() == Orientation.HORIZONTAL && w >= (computeMinWidth(-1, (int)y , snappedRightInset(), snappedBottomInset(), (int)x) - (x+snappedRightInset()))) {
@@ -557,7 +557,7 @@ public class ScrollBarSkin extends BehaviorSkinBase<ScrollBar, ScrollBarBehavior
 
             if (!IS_TOUCH_SUPPORTED) {
                 /*
-                ** once the space is big enough for one button we 
+                ** once the space is big enough for one button we
                 ** can look at drawing
                 */
                 if (h >= decButton.computeMinWidth(-1)) {
@@ -576,23 +576,23 @@ public class ScrollBarSkin extends BehaviorSkinBase<ScrollBar, ScrollBarBehavior
         }
     }
 
-    
+
     public Node getThumb() {
         return thumb;
     }
-    
+
     public Node getTrack() {
         return track;
     }
-    
+
     public Node getIncButton() {
         return incButton;
     }
-    
+
     public Node getDecButton() {
         return decButton;
     }
-    
+
     private static class EndButton extends Region {
         private Region arrow;
 
@@ -630,7 +630,7 @@ public class ScrollBarSkin extends BehaviorSkinBase<ScrollBar, ScrollBarBehavior
             final double aw = snapSize(arrow.prefWidth(-1));
             return left + aw + right;
         }
-        
+
         @Override protected double computePrefHeight(double width) {
             final double top = snappedTopInset();
             final double bottom = snappedBottomInset();

@@ -44,7 +44,7 @@ public class RadioButtonSkin extends LabeledSkinBase<RadioButton, ToggleButtonBe
     public RadioButtonSkin(RadioButton radioButton) {
         super(radioButton, new ToggleButtonBehavior<>(radioButton));
 
-        radio = createRadio();        
+        radio = createRadio();
         updateChildren();
     }
 
@@ -72,11 +72,11 @@ public class RadioButtonSkin extends LabeledSkinBase<RadioButton, ToggleButtonBe
      * Layout                                                                  *
      *                                                                         *
      **************************************************************************/
-    
+
     @Override protected double computeMinWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
         return super.computeMinWidth(height, topInset, rightInset, bottomInset, leftInset) + snapSize(radio.minWidth(-1));
     }
-    
+
     @Override protected double computeMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
         return Math.max(snapSize(super.computeMinHeight(width - radio.minWidth(-1), topInset, rightInset, bottomInset, leftInset)),
                 topInset + radio.minHeight(-1) + bottomInset);

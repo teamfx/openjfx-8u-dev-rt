@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.media.AudioClip
 public final class AudioClipBuilder implements javafx.util.Builder<javafx.scene.media.AudioClip> {
     protected AudioClipBuilder() {
     }
-    
+
     /** Creates a new instance of AudioClipBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.media.AudioClipBuilder create() {
         return new javafx.scene.media.AudioClipBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.media.AudioClip x) {
         int set = __set;
@@ -53,7 +53,7 @@ public final class AudioClipBuilder implements javafx.util.Builder<javafx.scene.
         if ((set & (1 << 4)) != 0) x.setRate(this.rate);
         if ((set & (1 << 5)) != 0) x.setVolume(this.volume);
     }
-    
+
     private double balance;
     /**
     Set the value of the {@link javafx.scene.media.AudioClip#getBalance() balance} property for the instance constructed by this builder.
@@ -63,7 +63,7 @@ public final class AudioClipBuilder implements javafx.util.Builder<javafx.scene.
         __set |= 1 << 0;
         return this;
     }
-    
+
     private int cycleCount;
     /**
     Set the value of the {@link javafx.scene.media.AudioClip#getCycleCount() cycleCount} property for the instance constructed by this builder.
@@ -73,7 +73,7 @@ public final class AudioClipBuilder implements javafx.util.Builder<javafx.scene.
         __set |= 1 << 1;
         return this;
     }
-    
+
     private double pan;
     /**
     Set the value of the {@link javafx.scene.media.AudioClip#getPan() pan} property for the instance constructed by this builder.
@@ -83,7 +83,7 @@ public final class AudioClipBuilder implements javafx.util.Builder<javafx.scene.
         __set |= 1 << 2;
         return this;
     }
-    
+
     private int priority;
     /**
     Set the value of the {@link javafx.scene.media.AudioClip#getPriority() priority} property for the instance constructed by this builder.
@@ -93,7 +93,7 @@ public final class AudioClipBuilder implements javafx.util.Builder<javafx.scene.
         __set |= 1 << 3;
         return this;
     }
-    
+
     private double rate;
     /**
     Set the value of the {@link javafx.scene.media.AudioClip#getRate() rate} property for the instance constructed by this builder.
@@ -103,7 +103,7 @@ public final class AudioClipBuilder implements javafx.util.Builder<javafx.scene.
         __set |= 1 << 4;
         return this;
     }
-    
+
     private java.lang.String source;
     /**
     Set the value of the {@link javafx.scene.media.AudioClip#getSource() source} property for the instance constructed by this builder.
@@ -112,7 +112,7 @@ public final class AudioClipBuilder implements javafx.util.Builder<javafx.scene.
         this.source = x;
         return this;
     }
-    
+
     private double volume;
     /**
     Set the value of the {@link javafx.scene.media.AudioClip#getVolume() volume} property for the instance constructed by this builder.
@@ -122,7 +122,7 @@ public final class AudioClipBuilder implements javafx.util.Builder<javafx.scene.
         __set |= 1 << 5;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.media.AudioClip} based on the properties set on this builder.
     */

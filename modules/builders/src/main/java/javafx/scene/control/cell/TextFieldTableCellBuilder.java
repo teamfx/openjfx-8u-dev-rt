@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,19 +36,19 @@ Builder class for javafx.scene.control.cell.TextFieldTableCell
 public class TextFieldTableCellBuilder<S, T, B extends javafx.scene.control.cell.TextFieldTableCellBuilder<S, T, B>> extends javafx.scene.control.TableCellBuilder<S, T, B> {
     protected TextFieldTableCellBuilder() {
     }
-    
+
     /** Creates a new instance of TextFieldTableCellBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static <S, T> javafx.scene.control.cell.TextFieldTableCellBuilder<S, T, ?> create() {
         return new javafx.scene.control.cell.TextFieldTableCellBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.scene.control.cell.TextFieldTableCell<S, T> x) {
         super.applyTo(x);
         if (__set) x.setConverter(this.converter);
     }
-    
+
     private javafx.util.StringConverter<T> converter;
     /**
     Set the value of the {@link javafx.scene.control.cell.TextFieldTableCell#getConverter() converter} property for the instance constructed by this builder.
@@ -59,7 +59,7 @@ public class TextFieldTableCellBuilder<S, T, B extends javafx.scene.control.cell
         __set = true;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.cell.TextFieldTableCell} based on the properties set on this builder.
     */

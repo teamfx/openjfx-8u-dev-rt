@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.Scene
 public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements javafx.util.Builder<javafx.scene.Scene> {
     protected SceneBuilder() {
     }
-    
+
     /** Creates a new instance of SceneBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.SceneBuilder<?> create() {
         return new javafx.scene.SceneBuilder();
     }
-    
+
     private long __set;
     private void __set(int i) {
         __set |= 1L << i;
@@ -100,7 +100,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
             }
         }
     }
-    
+
     private javafx.scene.Camera camera;
     /**
     Set the value of the {@link javafx.scene.Scene#getCamera() camera} property for the instance constructed by this builder.
@@ -111,7 +111,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(0);
         return (B) this;
     }
-    
+
     private javafx.scene.Cursor cursor;
     /**
     Set the value of the {@link javafx.scene.Scene#getCursor() cursor} property for the instance constructed by this builder.
@@ -122,7 +122,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(1);
         return (B) this;
     }
-    
+
     private boolean depthBuffer;
     /**
     Set the value of the {@link javafx.scene.Scene#isDepthBuffer() depthBuffer} property for the instance constructed by this builder.
@@ -132,7 +132,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         this.depthBuffer = x;
         return (B) this;
     }
-    
+
     private javafx.event.EventDispatcher eventDispatcher;
     /**
     Set the value of the {@link javafx.scene.Scene#getEventDispatcher() eventDispatcher} property for the instance constructed by this builder.
@@ -143,7 +143,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(2);
         return (B) this;
     }
-    
+
     private javafx.scene.paint.Paint fill;
     /**
     Set the value of the {@link javafx.scene.Scene#getFill() fill} property for the instance constructed by this builder.
@@ -154,7 +154,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(3);
         return (B) this;
     }
-    
+
     private double height = -1;
     /**
     Set the value of the {@link javafx.scene.Scene#getHeight() height} property for the instance constructed by this builder.
@@ -164,7 +164,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         this.height = x;
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.ContextMenuEvent> onContextMenuRequested;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnContextMenuRequested() onContextMenuRequested} property for the instance constructed by this builder.
@@ -176,7 +176,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(4);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onDragDetected;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnDragDetected() onDragDetected} property for the instance constructed by this builder.
@@ -187,7 +187,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(5);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.DragEvent> onDragDone;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnDragDone() onDragDone} property for the instance constructed by this builder.
@@ -198,7 +198,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(6);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.DragEvent> onDragDropped;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnDragDropped() onDragDropped} property for the instance constructed by this builder.
@@ -209,7 +209,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(7);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.DragEvent> onDragEntered;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnDragEntered() onDragEntered} property for the instance constructed by this builder.
@@ -220,7 +220,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(8);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.DragEvent> onDragExited;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnDragExited() onDragExited} property for the instance constructed by this builder.
@@ -231,7 +231,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(9);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.DragEvent> onDragOver;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnDragOver() onDragOver} property for the instance constructed by this builder.
@@ -242,7 +242,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(10);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.InputMethodEvent> onInputMethodTextChanged;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnInputMethodTextChanged() onInputMethodTextChanged} property for the instance constructed by this builder.
@@ -253,7 +253,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(11);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.KeyEvent> onKeyPressed;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnKeyPressed() onKeyPressed} property for the instance constructed by this builder.
@@ -264,7 +264,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(12);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.KeyEvent> onKeyReleased;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnKeyReleased() onKeyReleased} property for the instance constructed by this builder.
@@ -275,7 +275,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(13);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.KeyEvent> onKeyTyped;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnKeyTyped() onKeyTyped} property for the instance constructed by this builder.
@@ -286,7 +286,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(14);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onMouseClicked;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnMouseClicked() onMouseClicked} property for the instance constructed by this builder.
@@ -297,7 +297,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(15);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.MouseDragEvent> onMouseDragEntered;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnMouseDragEntered() onMouseDragEntered} property for the instance constructed by this builder.
@@ -309,7 +309,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(16);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.MouseDragEvent> onMouseDragExited;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnMouseDragExited() onMouseDragExited} property for the instance constructed by this builder.
@@ -321,7 +321,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(17);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onMouseDragged;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnMouseDragged() onMouseDragged} property for the instance constructed by this builder.
@@ -332,7 +332,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(18);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.MouseDragEvent> onMouseDragOver;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnMouseDragOver() onMouseDragOver} property for the instance constructed by this builder.
@@ -344,7 +344,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(19);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.MouseDragEvent> onMouseDragReleased;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnMouseDragReleased() onMouseDragReleased} property for the instance constructed by this builder.
@@ -356,7 +356,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(20);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onMouseEntered;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnMouseEntered() onMouseEntered} property for the instance constructed by this builder.
@@ -367,7 +367,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(21);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onMouseExited;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnMouseExited() onMouseExited} property for the instance constructed by this builder.
@@ -378,7 +378,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(22);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onMouseMoved;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnMouseMoved() onMouseMoved} property for the instance constructed by this builder.
@@ -389,7 +389,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(23);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onMousePressed;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnMousePressed() onMousePressed} property for the instance constructed by this builder.
@@ -400,7 +400,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(24);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.MouseEvent> onMouseReleased;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnMouseReleased() onMouseReleased} property for the instance constructed by this builder.
@@ -411,7 +411,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(25);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.RotateEvent> onRotate;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnRotate() onRotate} property for the instance constructed by this builder.
@@ -423,7 +423,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(26);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.RotateEvent> onRotationFinished;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnRotationFinished() onRotationFinished} property for the instance constructed by this builder.
@@ -435,7 +435,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(27);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.RotateEvent> onRotationStarted;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnRotationStarted() onRotationStarted} property for the instance constructed by this builder.
@@ -447,7 +447,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(28);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.ScrollEvent> onScroll;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnScroll() onScroll} property for the instance constructed by this builder.
@@ -458,7 +458,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(29);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.ScrollEvent> onScrollFinished;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnScrollFinished() onScrollFinished} property for the instance constructed by this builder.
@@ -470,7 +470,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(30);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.ScrollEvent> onScrollStarted;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnScrollStarted() onScrollStarted} property for the instance constructed by this builder.
@@ -482,7 +482,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(31);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.SwipeEvent> onSwipeDown;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnSwipeDown() onSwipeDown} property for the instance constructed by this builder.
@@ -494,7 +494,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(32);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.SwipeEvent> onSwipeLeft;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnSwipeLeft() onSwipeLeft} property for the instance constructed by this builder.
@@ -506,7 +506,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(33);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.SwipeEvent> onSwipeRight;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnSwipeRight() onSwipeRight} property for the instance constructed by this builder.
@@ -518,7 +518,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(34);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.SwipeEvent> onSwipeUp;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnSwipeUp() onSwipeUp} property for the instance constructed by this builder.
@@ -530,7 +530,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(35);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.TouchEvent> onTouchMoved;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnTouchMoved() onTouchMoved} property for the instance constructed by this builder.
@@ -542,7 +542,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(36);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.TouchEvent> onTouchPressed;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnTouchPressed() onTouchPressed} property for the instance constructed by this builder.
@@ -554,7 +554,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(37);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.TouchEvent> onTouchReleased;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnTouchReleased() onTouchReleased} property for the instance constructed by this builder.
@@ -566,7 +566,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(38);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.TouchEvent> onTouchStationary;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnTouchStationary() onTouchStationary} property for the instance constructed by this builder.
@@ -578,7 +578,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(39);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.ZoomEvent> onZoom;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnZoom() onZoom} property for the instance constructed by this builder.
@@ -590,7 +590,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(40);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.ZoomEvent> onZoomFinished;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnZoomFinished() onZoomFinished} property for the instance constructed by this builder.
@@ -602,7 +602,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(41);
         return (B) this;
     }
-    
+
     private javafx.event.EventHandler<? super javafx.scene.input.ZoomEvent> onZoomStarted;
     /**
     Set the value of the {@link javafx.scene.Scene#getOnZoomStarted() onZoomStarted} property for the instance constructed by this builder.
@@ -614,7 +614,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(42);
         return (B) this;
     }
-    
+
     private javafx.scene.Parent root;
     /**
     Set the value of the {@link javafx.scene.Scene#getRoot() root} property for the instance constructed by this builder.
@@ -624,7 +624,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         this.root = x;
         return (B) this;
     }
-    
+
     private java.util.Collection<? extends java.lang.String> stylesheets;
     /**
     Add the given items to the List of items in the {@link javafx.scene.Scene#getStylesheets() stylesheets} property for the instance constructed by this builder.
@@ -635,14 +635,14 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         __set(43);
         return (B) this;
     }
-    
+
     /**
     Add the given items to the List of items in the {@link javafx.scene.Scene#getStylesheets() stylesheets} property for the instance constructed by this builder.
     */
     public B stylesheets(java.lang.String... x) {
         return stylesheets(java.util.Arrays.asList(x));
     }
-    
+
     private double width = -1;
     /**
     Set the value of the {@link javafx.scene.Scene#getWidth() width} property for the instance constructed by this builder.
@@ -652,7 +652,7 @@ public class SceneBuilder<B extends javafx.scene.SceneBuilder<B>> implements jav
         this.width = x;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.Scene} based on the properties set on this builder.
     */

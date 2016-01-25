@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.SeparatorMenuItem
 public class SeparatorMenuItemBuilder<B extends javafx.scene.control.SeparatorMenuItemBuilder<B>> extends javafx.scene.control.CustomMenuItemBuilder<B> {
     protected SeparatorMenuItemBuilder() {
     }
-    
+
     /** Creates a new instance of SeparatorMenuItemBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.SeparatorMenuItemBuilder<?> create() {
         return new javafx.scene.control.SeparatorMenuItemBuilder();
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.SeparatorMenuItem} based on the properties set on this builder.
     */

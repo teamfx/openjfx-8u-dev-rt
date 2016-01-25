@@ -2,7 +2,7 @@
  * Copyright (C) 1999,2000 Erik Walthinsen <omega@cse.ogi.edu>
  *                    2005 Wim Taymans <wim@fluendo.com>
  *
- * gstbaseaudiosrc.c: 
+ * gstbaseaudiosrc.c:
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -250,7 +250,7 @@ gst_base_audio_src_init (GstBaseAudioSrc * baseaudiosrc,
   baseaudiosrc->latency_time = DEFAULT_LATENCY_TIME;
   baseaudiosrc->priv->provide_clock = DEFAULT_PROVIDE_CLOCK;
   baseaudiosrc->priv->slave_method = DEFAULT_SLAVE_METHOD;
-  /* reset blocksize we use latency time to calculate a more useful 
+  /* reset blocksize we use latency time to calculate a more useful
    * value based on negotiated format. */
   GST_BASE_SRC (baseaudiosrc)->blocksize = 0;
 
@@ -368,7 +368,7 @@ gst_base_audio_src_check_get_range (GstBaseSrc * bsrc)
  * @src: a #GstBaseAudioSrc
  * @provide: new state
  *
- * Controls whether @src will provide a clock or not. If @provide is %TRUE, 
+ * Controls whether @src will provide a clock or not. If @provide is %TRUE,
  * gst_element_provide_clock() will return a clock that reflects the datarate
  * of @src. If @provide is %FALSE, gst_element_provide_clock() will return NULL.
  *
@@ -414,7 +414,7 @@ gst_base_audio_src_get_provide_clock (GstBaseAudioSrc * src)
  * @src: a #GstBaseAudioSrc
  * @method: the new slave method
  *
- * Controls how clock slaving will be performed in @src. 
+ * Controls how clock slaving will be performed in @src.
  *
  * Since: 0.10.20
  */

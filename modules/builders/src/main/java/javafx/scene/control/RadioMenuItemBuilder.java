@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.control.RadioMenuItem
 public class RadioMenuItemBuilder<B extends javafx.scene.control.RadioMenuItemBuilder<B>> extends javafx.scene.control.MenuItemBuilder<B> {
     protected RadioMenuItemBuilder() {
     }
-    
+
     /** Creates a new instance of RadioMenuItemBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.control.RadioMenuItemBuilder<?> create() {
         return new javafx.scene.control.RadioMenuItemBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.control.RadioMenuItem x) {
         super.applyTo(x);
@@ -50,7 +50,7 @@ public class RadioMenuItemBuilder<B extends javafx.scene.control.RadioMenuItemBu
         if ((set & (1 << 0)) != 0) x.setSelected(this.selected);
         if ((set & (1 << 1)) != 0) x.setToggleGroup(this.toggleGroup);
     }
-    
+
     private boolean selected;
     /**
     Set the value of the {@link javafx.scene.control.RadioMenuItem#isSelected() selected} property for the instance constructed by this builder.
@@ -61,7 +61,7 @@ public class RadioMenuItemBuilder<B extends javafx.scene.control.RadioMenuItemBu
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private java.lang.String text;
     /**
     Set the value of the {@link javafx.scene.control.RadioMenuItem#getText() text} property for the instance constructed by this builder.
@@ -71,7 +71,7 @@ public class RadioMenuItemBuilder<B extends javafx.scene.control.RadioMenuItemBu
         this.text = x;
         return (B) this;
     }
-    
+
     private javafx.scene.control.ToggleGroup toggleGroup;
     /**
     Set the value of the {@link javafx.scene.control.RadioMenuItem#getToggleGroup() toggleGroup} property for the instance constructed by this builder.
@@ -82,7 +82,7 @@ public class RadioMenuItemBuilder<B extends javafx.scene.control.RadioMenuItemBu
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.control.RadioMenuItem} based on the properties set on this builder.
     */

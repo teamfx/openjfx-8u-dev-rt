@@ -48,7 +48,7 @@ public class SepiaToneTest extends EffectsTestBase {
         pulse();
         assertEquals(0.5f, ((com.sun.scenario.effect.SepiaTone)effect.impl_getImpl()).getLevel(), 1e-100);
     }
-    
+
     @Test
     public void testDefaultLevel() {
         // default value should be 1
@@ -57,7 +57,7 @@ public class SepiaToneTest extends EffectsTestBase {
         pulse();
         assertEquals(1f, ((com.sun.scenario.effect.SepiaTone)effect.impl_getImpl()).getLevel(), 1e-100);
     }
-    
+
     @Test
     public void testMinLevel() {
         // 0 should be ok
@@ -66,18 +66,18 @@ public class SepiaToneTest extends EffectsTestBase {
         effect.setLevel(-0.1f);
         assertEquals(-0.1f, effect.getLevel(), 1e-100);
         pulse();
-        assertEquals(0f, ((com.sun.scenario.effect.SepiaTone)effect.impl_getImpl()).getLevel(), 1e-100);        
+        assertEquals(0f, ((com.sun.scenario.effect.SepiaTone)effect.impl_getImpl()).getLevel(), 1e-100);
     }
-    
+
     @Test
     public void testMaxLevel() {
         // 1 should be ok
         effect.setLevel(1);
         // try setting value greater than maximal
-        effect.setLevel(1.1f); 
+        effect.setLevel(1.1f);
         assertEquals(1.1f, effect.getLevel(), 1e-100);
         pulse();
-        assertEquals(1f, ((com.sun.scenario.effect.SepiaTone)effect.impl_getImpl()).getLevel(), 1e-100);        
+        assertEquals(1f, ((com.sun.scenario.effect.SepiaTone)effect.impl_getImpl()).getLevel(), 1e-100);
     }
 
     @Test

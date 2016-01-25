@@ -140,8 +140,8 @@ enum
         "rate = (int) [ 1,  MAX ], " \
         "endianness = (int) BYTE_ORDER, " \
         "width = (int) 32, " \
-	"depth = (int) 32, " \
-	"signed = (bool) TRUE"
+    "depth = (int) 32, " \
+    "signed = (bool) TRUE"
 
 static void gst_volume_interface_init (GstImplementsInterfaceClass * klass);
 static void gst_volume_mixer_init (GstMixerClass * iface);

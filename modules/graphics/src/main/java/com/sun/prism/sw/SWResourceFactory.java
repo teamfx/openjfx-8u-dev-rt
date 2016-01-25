@@ -80,7 +80,7 @@ final class SWResourceFactory
     SWContext getContext() {
         return context;
     }
-    
+
     @Override public void dispose() {
         context.dispose();
     }
@@ -88,24 +88,24 @@ final class SWResourceFactory
     @Override public ShapeRep createArcRep() {
         return theRep;
     }
-    
+
     @Override public ShapeRep createEllipseRep() {
         return theRep;
     }
-    
+
     @Override public ShapeRep createRoundRectRep() {
         return rectRep;
     }
-    
+
     @Override public ShapeRep createPathRep() {
         return theRep;
     }
-            
+
     @Override public VertexBuffer createVertexBuffer(int maxQuads) {
         throw new UnsupportedOperationException("createVertexBuffer:unimp");
     }
 
-    
+
     @Override public Presentable createPresentable(PresentableState pState) {
         if (PrismSettings.debug) {
             System.out.println("+ SWRF.createPresentable()");
@@ -169,7 +169,7 @@ final class SWResourceFactory
     @Override public Texture createTexture(MediaFrame vdb) {
         return new SWArgbPreTexture(this, WrapMode.CLAMP_TO_EDGE, vdb.getWidth(), vdb.getHeight());
     }
-            
+
     @Override public Texture createTexture(PixelFormat formatHint,
                                            Usage usageHint,
                                            WrapMode wrapMode,

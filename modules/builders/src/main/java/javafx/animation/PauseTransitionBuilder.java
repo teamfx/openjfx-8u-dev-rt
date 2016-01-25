@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,19 +36,19 @@ Builder class for javafx.animation.PauseTransition
 public final class PauseTransitionBuilder extends javafx.animation.TransitionBuilder<javafx.animation.PauseTransitionBuilder> implements javafx.util.Builder<javafx.animation.PauseTransition> {
     protected PauseTransitionBuilder() {
     }
-    
+
     /** Creates a new instance of PauseTransitionBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.animation.PauseTransitionBuilder create() {
         return new javafx.animation.PauseTransitionBuilder();
     }
-    
+
     private boolean __set;
     public void applyTo(javafx.animation.PauseTransition x) {
         super.applyTo(x);
         if (__set) x.setDuration(this.duration);
     }
-    
+
     private javafx.util.Duration duration;
     /**
     Set the value of the {@link javafx.animation.PauseTransition#getDuration() duration} property for the instance constructed by this builder.
@@ -58,7 +58,7 @@ public final class PauseTransitionBuilder extends javafx.animation.TransitionBui
         __set = true;
         return this;
     }
-    
+
     /**
     Make an instance of {@link javafx.animation.PauseTransition} based on the properties set on this builder.
     */

@@ -46,7 +46,7 @@ final class SWTRobot extends Robot {
         event.character = (char) SWTApplication.getSWTKeyCode(code);
         Display.getDefault().post(event);
     }
-    
+
     @Override protected void _keyRelease(int code) {
         Event event = new Event();
         event.type = SWT.KeyUp;
@@ -107,7 +107,7 @@ final class SWTRobot extends Robot {
         ImageData imageData = image.getImageData();
         return imageData.getPixel(x, y);
     }
-    
+
     private void _getScreenCapture(int x, int y, int width, int height, int[] data) {
 //        Display display = Display.getDefault();
 //        GC gc = new GC(display);

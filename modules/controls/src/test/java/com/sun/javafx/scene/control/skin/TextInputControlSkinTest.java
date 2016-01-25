@@ -47,7 +47,7 @@ public class TextInputControlSkinTest {
             }
         };
         textField.setSkin(skin);
-        
+
         textField.setFocus(true);
         assertTrue(caretAnimating.get());
         textField.setFocus(false);

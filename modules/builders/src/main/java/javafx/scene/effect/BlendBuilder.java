@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.effect.Blend
 public class BlendBuilder<B extends javafx.scene.effect.BlendBuilder<B>> implements javafx.util.Builder<javafx.scene.effect.Blend> {
     protected BlendBuilder() {
     }
-    
+
     /** Creates a new instance of BlendBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.effect.BlendBuilder<?> create() {
         return new javafx.scene.effect.BlendBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.effect.Blend x) {
         int set = __set;
@@ -51,7 +51,7 @@ public class BlendBuilder<B extends javafx.scene.effect.BlendBuilder<B>> impleme
         if ((set & (1 << 2)) != 0) x.setOpacity(this.opacity);
         if ((set & (1 << 3)) != 0) x.setTopInput(this.topInput);
     }
-    
+
     private javafx.scene.effect.Effect bottomInput;
     /**
     Set the value of the {@link javafx.scene.effect.Blend#getBottomInput() bottomInput} property for the instance constructed by this builder.
@@ -62,7 +62,7 @@ public class BlendBuilder<B extends javafx.scene.effect.BlendBuilder<B>> impleme
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private javafx.scene.effect.BlendMode mode;
     /**
     Set the value of the {@link javafx.scene.effect.Blend#getMode() mode} property for the instance constructed by this builder.
@@ -73,7 +73,7 @@ public class BlendBuilder<B extends javafx.scene.effect.BlendBuilder<B>> impleme
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double opacity;
     /**
     Set the value of the {@link javafx.scene.effect.Blend#getOpacity() opacity} property for the instance constructed by this builder.
@@ -84,7 +84,7 @@ public class BlendBuilder<B extends javafx.scene.effect.BlendBuilder<B>> impleme
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private javafx.scene.effect.Effect topInput;
     /**
     Set the value of the {@link javafx.scene.effect.Blend#getTopInput() topInput} property for the instance constructed by this builder.
@@ -95,7 +95,7 @@ public class BlendBuilder<B extends javafx.scene.effect.BlendBuilder<B>> impleme
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.effect.Blend} based on the properties set on this builder.
     */

@@ -63,7 +63,7 @@ import javafx.scene.AccessibleRole;
  * final Menu menu1 = new Menu("File");
  * final Menu menu2 = new Menu("Options");
  * final Menu menu3 = new Menu("Help");
- * 
+ *
  * MenuBar menuBar = new MenuBar();
  * menuBar.getMenus().addAll(menu1, menu2, menu3);
  * </code></pre>
@@ -103,7 +103,7 @@ public class MenuBar extends Control {
         }
 
         // focusTraversable is styleable through css. Calling setFocusTraversable
-        // makes it look to css like the user set the value and css will not 
+        // makes it look to css like the user set the value and css will not
         // override. Initializing focusTraversable by calling applyStyle with null
         // StyleOrigin ensures that css will be able to override the value.
         ((StyleableProperty<Boolean>)(WritableValue<Boolean>)focusTraversableProperty()).applyStyle(null, Boolean.FALSE);
@@ -184,7 +184,7 @@ public class MenuBar extends Control {
     @Override protected Skin<?> createDefaultSkin() {
         return new MenuBarSkin(this);
     }
-    
+
     /***************************************************************************
      *                                                                         *
      * Stylesheet Handling                                                     *
@@ -237,7 +237,7 @@ public class MenuBar extends Control {
     /**
       * Most Controls return true for focusTraversable, so Control overrides
       * this method to return true, but MenuBar returns false for
-      * focusTraversable's initial value; hence the override of the override. 
+      * focusTraversable's initial value; hence the override of the override.
       * This method is called from CSS code to get the correct initial value.
       * @treatAsPrivate implementation detail
       */

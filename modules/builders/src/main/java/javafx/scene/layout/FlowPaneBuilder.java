@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -36,13 +36,13 @@ Builder class for javafx.scene.layout.FlowPane
 public class FlowPaneBuilder<B extends javafx.scene.layout.FlowPaneBuilder<B>> extends javafx.scene.layout.PaneBuilder<B> {
     protected FlowPaneBuilder() {
     }
-    
+
     /** Creates a new instance of FlowPaneBuilder. */
     @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     public static javafx.scene.layout.FlowPaneBuilder<?> create() {
         return new javafx.scene.layout.FlowPaneBuilder();
     }
-    
+
     private int __set;
     public void applyTo(javafx.scene.layout.FlowPane x) {
         super.applyTo(x);
@@ -55,7 +55,7 @@ public class FlowPaneBuilder<B extends javafx.scene.layout.FlowPaneBuilder<B>> e
         if ((set & (1 << 5)) != 0) x.setRowValignment(this.rowValignment);
         if ((set & (1 << 6)) != 0) x.setVgap(this.vgap);
     }
-    
+
     private javafx.geometry.Pos alignment;
     /**
     Set the value of the {@link javafx.scene.layout.FlowPane#getAlignment() alignment} property for the instance constructed by this builder.
@@ -66,7 +66,7 @@ public class FlowPaneBuilder<B extends javafx.scene.layout.FlowPaneBuilder<B>> e
         __set |= 1 << 0;
         return (B) this;
     }
-    
+
     private javafx.geometry.HPos columnHalignment;
     /**
     Set the value of the {@link javafx.scene.layout.FlowPane#getColumnHalignment() columnHalignment} property for the instance constructed by this builder.
@@ -77,7 +77,7 @@ public class FlowPaneBuilder<B extends javafx.scene.layout.FlowPaneBuilder<B>> e
         __set |= 1 << 1;
         return (B) this;
     }
-    
+
     private double hgap;
     /**
     Set the value of the {@link javafx.scene.layout.FlowPane#getHgap() hgap} property for the instance constructed by this builder.
@@ -88,7 +88,7 @@ public class FlowPaneBuilder<B extends javafx.scene.layout.FlowPaneBuilder<B>> e
         __set |= 1 << 2;
         return (B) this;
     }
-    
+
     private javafx.geometry.Orientation orientation;
     /**
     Set the value of the {@link javafx.scene.layout.FlowPane#getOrientation() orientation} property for the instance constructed by this builder.
@@ -99,7 +99,7 @@ public class FlowPaneBuilder<B extends javafx.scene.layout.FlowPaneBuilder<B>> e
         __set |= 1 << 3;
         return (B) this;
     }
-    
+
     private double prefWrapLength;
     /**
     Set the value of the {@link javafx.scene.layout.FlowPane#getPrefWrapLength() prefWrapLength} property for the instance constructed by this builder.
@@ -110,7 +110,7 @@ public class FlowPaneBuilder<B extends javafx.scene.layout.FlowPaneBuilder<B>> e
         __set |= 1 << 4;
         return (B) this;
     }
-    
+
     private javafx.geometry.VPos rowValignment;
     /**
     Set the value of the {@link javafx.scene.layout.FlowPane#getRowValignment() rowValignment} property for the instance constructed by this builder.
@@ -121,7 +121,7 @@ public class FlowPaneBuilder<B extends javafx.scene.layout.FlowPaneBuilder<B>> e
         __set |= 1 << 5;
         return (B) this;
     }
-    
+
     private double vgap;
     /**
     Set the value of the {@link javafx.scene.layout.FlowPane#getVgap() vgap} property for the instance constructed by this builder.
@@ -132,7 +132,7 @@ public class FlowPaneBuilder<B extends javafx.scene.layout.FlowPaneBuilder<B>> e
         __set |= 1 << 6;
         return (B) this;
     }
-    
+
     /**
     Make an instance of {@link javafx.scene.layout.FlowPane} based on the properties set on this builder.
     */

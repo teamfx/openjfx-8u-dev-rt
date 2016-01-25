@@ -17,12 +17,12 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * The development of this code was made possible due to the involvement of Pioneers 
+ * The development of this code was made possible due to the involvement of Pioneers
  * of the Inevitable, the creators of the Songbird Music player
- * 
+ *
  */
 
-/* inspiration gained from looking at source of osx video out of xine and vlc 
+/* inspiration gained from looking at source of osx video out of xine and vlc
  * and is reflected in the code
  */
 
@@ -42,7 +42,7 @@ struct _GstOSXImage;
     char* data;
     int width, height;
     BOOL fullscreen;
-    NSOpenGLContext* fullScreenContext; 
+    NSOpenGLContext* fullScreenContext;
     NSOpenGLContext* actualContext;
 }
 - (void) drawQuad;

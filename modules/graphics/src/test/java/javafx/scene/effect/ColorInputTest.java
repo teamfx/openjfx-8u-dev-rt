@@ -115,7 +115,7 @@ public class ColorInputTest extends EffectsTestBase {
         pulse();
         assertEquals(0, ((com.sun.scenario.effect.Flood) effect.impl_getImpl()).getFloodBounds().getHeight(), 1e-100);
     }
-     
+
     @Test
     public void testSetPaint() {
         // try setting correct value
@@ -124,7 +124,7 @@ public class ColorInputTest extends EffectsTestBase {
         pulse();
         assertEquals(Toolkit.getPaintAccessor().getPlatformPaint(Color.BLUE), ((com.sun.scenario.effect.Flood) effect.impl_getImpl()).getPaint());
     }
-    
+
     @Test
     public void testDefaultPaint() {
         // default value should be RED
@@ -201,7 +201,7 @@ public class ColorInputTest extends EffectsTestBase {
         assertEquals(4f, ((com.sun.scenario.effect.Flood) effect.impl_getImpl()).getFloodBounds().getHeight(), 1e-100);
         assertEquals(Toolkit.getPaintAccessor().getPlatformPaint(Color.BLUE), ((com.sun.scenario.effect.Flood) effect.impl_getImpl()).getPaint());
     }
-    
+
     @Test
     public void testCreateWithDefaultParams() {
         effect = new ColorInput(0, 0, 0, 0, Color.RED);

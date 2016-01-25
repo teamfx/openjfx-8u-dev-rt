@@ -148,7 +148,7 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
         } else if ("HEIGHT".equals(property)) {
             clipRect.setHeight(contentContainer.getHeight());
         } else if ("GRAPHIC_TEXT_GAP".equals(property)) {
-            titleRegion.requestLayout();            
+            titleRegion.requestLayout();
         }
     }
 
@@ -204,7 +204,7 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
 
     @Override protected void layoutChildren(final double x, double y,
             final double w, final double h) {
-        
+
         // header
         double headerHeight = snapSize(titleRegion.prefHeight(-1));
 
@@ -347,7 +347,7 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
             arrow.setId("arrow");
             arrow.getStyleClass().setAll("arrow");
             arrowRegion.getChildren().setAll(arrow);
-            
+
             // RT-13294: TitledPane : add animation to the title arrow
             arrow.rotateProperty().bind(new DoubleBinding() {
                 { bind(transitionProperty()); }

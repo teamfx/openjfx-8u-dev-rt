@@ -40,11 +40,11 @@ import java.util.Collection;
 
 /**
  * This is a regression test for RT-33771 - Lens:FXML-LoginDemo throws
- * java.lang.RuntimeException: Platform reported wrong touch point ID. 
- *  
- * and  RT-33687 - Lens:some touch events are been dropped in native 
- * causing exceptions to be thrown. 
- *  
+ * java.lang.RuntimeException: Platform reported wrong touch point ID.
+ *
+ * and  RT-33687 - Lens:some touch events are been dropped in native
+ * causing exceptions to be thrown.
+ *
  */
 public class DragTouchInAndOutAWindowTest extends ParameterizedTestBase {
 
