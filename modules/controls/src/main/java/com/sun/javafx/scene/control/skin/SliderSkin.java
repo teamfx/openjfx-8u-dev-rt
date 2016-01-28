@@ -79,6 +79,7 @@ public class SliderSkin extends BehaviorSkinBase<Slider, SliderBehavior> {
         registerChangeListener(slider.majorTickUnitProperty(), "MAJOR_TICK_UNIT");
         registerChangeListener(slider.minorTickCountProperty(), "MINOR_TICK_COUNT");
         registerChangeListener(slider.labelFormatterProperty(), "TICK_LABEL_FORMATTER");
+        registerChangeListener(slider.snapToTicksProperty(), "SNAP_TO_TICKS");
     }
 
     private void initialize() {
@@ -230,6 +231,8 @@ public class SliderSkin extends BehaviorSkinBase<Slider, SliderBehavior> {
                     tickLine.requestAxisLayout();
                 }
             }
+        } else if ("SNAP_TO_TICKS".equals(p)) {
+            slider.adjustValue(slider.getValue());
         }
     }
 
