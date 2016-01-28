@@ -7,6 +7,7 @@
 #include "TestRunner.h"
 #include "EventSender.h"
 #include "WorkQueue.h"
+#include "WebCore/testing/js/WebCoreTestSupport.h"
 
 #include <wtf/RefPtr.h>
 #include <API/JavaScript.h>
@@ -54,6 +55,7 @@ JNIEXPORT void JNICALL Java_com_sun_javafx_webkit_drt_DumpRenderTree_didClearWin
     JLObject jlEventSender(eventSender, true);
     makeEventSender(context, windowObject, jlEventSender, &exception);
     ASSERT(!exception);
+    WebCoreTestSupport::injectInternalsObject(context);
 }
 
 JNIEXPORT void JNICALL Java_com_sun_javafx_webkit_drt_DumpRenderTree_dispose

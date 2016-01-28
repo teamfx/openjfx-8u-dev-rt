@@ -100,6 +100,7 @@
                __ZN3JSC14setNeverInlineEPK15OpaqueJSContextPK13OpaqueJSValue
                __ZN3JSC19numberOfDFGCompilesEPK15OpaqueJSContextPK13OpaqueJSValue
                __ZN3JSC17JSArrayBufferView6s_infoE
+               __ZN18WebCoreTestSupport21injectInternalsObjectEPK15OpaqueJSContext
                _Java_com_sun_webkit_dom_AttrImpl_getNameImpl
                _Java_com_sun_webkit_dom_AttrImpl_getOwnerElementImpl
                _Java_com_sun_webkit_dom_AttrImpl_getSpecifiedImpl
@@ -1881,6 +1882,7 @@
                _Java_com_sun_webkit_WebPage_twkIsEditable
                _Java_com_sun_webkit_WebPage_twkIsJavaScriptEnabled
                _Java_com_sun_webkit_WebPage_twkLoad
+               _Java_com_sun_webkit_WebPage_twkIsLoading
                _Java_com_sun_webkit_WebPage_twkOpen
                _Java_com_sun_webkit_WebPage_twkPostPaint
                _Java_com_sun_webkit_WebPage_twkPrePaint
