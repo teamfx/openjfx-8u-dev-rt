@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -40,6 +40,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import javafx.geometry.Side;
 
 /**
  * All public members of NumberAxis are tested here .
@@ -255,4 +256,63 @@ public class NumberAxisTest {
         assertArrayEquals(new double[] {8.45, 8.55, 8.65}, asDoubleArray, 1e-10);
     }
 
+    @Test(timeout = 1000)
+    public void testCloseValues() {
+        axis.setForceZeroInRange(false);
+        axis.setSide(Side.LEFT);
+        double minValue = 1.0;
+        double maxValue = minValue + Math.ulp(minValue);
+        axis.autoRange(minValue, maxValue, 500, 50);
+    }
+
+    @Test(timeout = 1000)
+    public void testCloseValuesMinorTicks() {
+        axis.setForceZeroInRange(false);
+        axis.setSide(Side.LEFT);
+        double minValue = 1.0;
+        double maxValue = minValue + 11*Math.ulp(minValue);
+        Object range = axis.autoRange(minValue, maxValue, 500, 50);
+        axis.setRange(range, false);
+        axis.calculateMinorTickMarks();
+    }
+
+    @Test(timeout = 1000)
+    public void testEqualLargeValues() {
+        axis.setForceZeroInRange(false);
+        axis.setSide(Side.LEFT);
+        double minValue = Math.pow(2, 52); // ulp == 1.0
+        double maxValue = minValue;
+        axis.autoRange(minValue, maxValue, 500, 50);
+    }
+
+    @Test(timeout = 1000)
+    public void testCloseValuesNoAutorange() {
+        axis.setForceZeroInRange(false);
+        axis.setSide(Side.LEFT);
+        axis.setAutoRanging(false);
+        double minValue = 1.0;
+        double maxValue = minValue + Math.ulp(minValue);
+        axis.setLowerBound(minValue);
+        axis.setUpperBound(maxValue);
+        // minValue + tickUnit == minValue
+        axis.setTickUnit(0.5*Math.ulp(minValue));
+        Object range = axis.getRange();
+        axis.calculateTickValues(500, range);
+        axis.calculateMinorTickMarks();
+    }
+
+    @Test(timeout = 1000)
+    public void testCloseValuesMinorTicksNoAutoRange() {
+        axis.setForceZeroInRange(false);
+        axis.setSide(Side.LEFT);
+        axis.setAutoRanging(false);
+        double minValue = 1.0;
+        double maxValue = minValue + Math.ulp(minValue);
+        axis.setLowerBound(minValue);
+        axis.setUpperBound(maxValue);
+        axis.setTickUnit(Math.ulp(minValue));
+        Object range = axis.getRange();
+        axis.calculateTickValues(500, range);
+        axis.calculateMinorTickMarks();
+    }
 }
