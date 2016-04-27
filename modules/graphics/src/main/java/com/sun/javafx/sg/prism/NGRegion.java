@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -1575,8 +1575,10 @@ public class NGRegion extends NGGroup {
                     final double segmentLength = dashLength + gapLength;
                     final double divided = lineLength / segmentLength;
                     final double numSegments = (int) divided;
-                    final double dashCumulative = numSegments * dashLength;
-                    gapLength = (lineLength - dashCumulative) / numSegments;
+                    if (numSegments > 0) {
+                        final double dashCumulative = numSegments * dashLength;
+                        gapLength = (lineLength - dashCumulative) / numSegments;
+                    }
                     array = new double[] {dashLength, gapLength};
                     dashOffset = (float) (dashLength*.6);
                 } else {

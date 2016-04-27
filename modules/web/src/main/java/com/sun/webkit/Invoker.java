@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -79,7 +79,7 @@ public abstract class Invoker {
      * @throws IllegalStateException if the current thread is not the event
      *         thread
      */
-    protected void checkEventThread() {
+    public void checkEventThread() {
         if (!isEventThread()) {
             throw new IllegalStateException("Current thread is not event thread"
                     + ", current thread: " + Thread.currentThread().getName());
