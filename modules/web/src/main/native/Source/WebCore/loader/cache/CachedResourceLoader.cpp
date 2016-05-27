@@ -334,6 +334,13 @@ bool CachedResourceLoader::canRequest(CachedResource::Type type, const URL& url,
         break;
 #endif
     case CachedResource::Script:
+#if PLATFORM(JAVA)
+        // m_document holds current active document loader
+        // if the cached resource doesn't belong to active document i.e these resource being requested from a older page
+        // which is about to be replaced by current active document loader
+        if (!m_document)
+            return false;
+#endif
         if (!shouldBypassMainWorldContentSecurityPolicy && !m_document->contentSecurityPolicy()->allowScriptFromSource(url))
             return false;
 
@@ -348,6 +355,10 @@ bool CachedResourceLoader::canRequest(CachedResource::Type type, const URL& url,
         break;
     case CachedResource::SVGDocumentResource:
     case CachedResource::ImageResource:
+#if PLATFORM(JAVA)
+        if (!m_document)
+            return false;
+#endif
         if (!shouldBypassMainWorldContentSecurityPolicy && !m_document->contentSecurityPolicy()->allowImageFromSource(url))
             return false;
         break;
@@ -811,7 +822,7 @@ void CachedResourceLoader::preload(CachedResource::Type type, CachedResourceRequ
 
 void CachedResourceLoader::checkForPendingPreloads()
 {
-    if (m_pendingPreloads.isEmpty() || !m_document->body() || !m_document->body()->renderer())
+    if (m_pendingPreloads.isEmpty() || !m_document || !m_document->body() || !m_document->body()->renderer())
         return;
 #if PLATFORM(IOS)
     // We always preload resources on iOS. See <https://bugs.webkit.org/show_bug.cgi?id=91276>.
