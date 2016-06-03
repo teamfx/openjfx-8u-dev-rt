@@ -5222,4 +5222,22 @@ public class TableViewTest {
         p.add(new Person("FirstName3", "LastName3", ""));
         assertEquals(0, rt_40546_count);
     }
+
+    @Test public void test_8139460_heightDoesntShrinkAfterRemovingNestedColumns() throws Exception {
+        TableColumn parent = new TableColumn("Parent column");
+        TableColumn child = new TableColumn("Child column");
+        parent.getColumns().add(child);
+        table.getColumns().setAll(child);
+        StageLoader sl = new StageLoader(table);
+        TableHeaderRow row = VirtualFlowTestUtils.getTableHeaderRow(table);
+        double initialHeight = row.getHeight();
+        table.getColumns().setAll(parent);
+        Toolkit.getToolkit().firePulse();
+        double nestedHeaderHeight = row.getHeight();
+        assertTrue("Nested column header should be larger.", nestedHeaderHeight > initialHeight);
+        table.getColumns().setAll(child);
+        Toolkit.getToolkit().firePulse();
+        assertEquals("Header should shrink to initial size.", initialHeight, row.getHeight(), 0.01);
+        sl.dispose();
+    }
 }
