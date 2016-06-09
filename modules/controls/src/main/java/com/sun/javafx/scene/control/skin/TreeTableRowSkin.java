@@ -164,9 +164,7 @@ public class TreeTableRowSkin<T> extends TableRowSkinBase<TreeItem<T>, TreeTable
             updateCells = true;
         } else if ("TREE_ITEM".equals(p)) {
             updateTreeItem();
-            // There used to be an isDirty = true statement here, but this was
-            // determined to be unnecessary and led to performance issues such as
-            // those detailed in JDK-8143266
+            isDirty = true;
         } else if ("TREE_COLUMN".equals(p)) {
             // Fix for RT-27782: Need to set isDirty to true, rather than the
             // cheaper updateCells, as otherwise the text indentation will not

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -79,6 +79,7 @@ public class SliderSkin extends BehaviorSkinBase<Slider, SliderBehavior> {
         registerChangeListener(slider.majorTickUnitProperty(), "MAJOR_TICK_UNIT");
         registerChangeListener(slider.minorTickCountProperty(), "MINOR_TICK_COUNT");
         registerChangeListener(slider.labelFormatterProperty(), "TICK_LABEL_FORMATTER");
+        registerChangeListener(slider.snapToTicksProperty(), "SNAP_TO_TICKS");
     }
 
     private void initialize() {
@@ -230,6 +231,8 @@ public class SliderSkin extends BehaviorSkinBase<Slider, SliderBehavior> {
                     tickLine.requestAxisLayout();
                 }
             }
+        } else if ("SNAP_TO_TICKS".equals(p)) {
+            slider.adjustValue(slider.getValue());
         }
     }
 

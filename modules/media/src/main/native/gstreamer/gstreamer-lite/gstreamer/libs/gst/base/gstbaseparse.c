@@ -2319,8 +2319,10 @@ gst_base_parse_chain (GstPad * pad, GstBuffer * buffer)
     /* FIXME: Would it be more efficient to make a subbuffer instead? */
     outbuf = gst_adapter_take_buffer (parse->priv->adapter, fsize);
 #ifdef GSTREAMER_LITE
-    if (outbuf == NULL)
-        return GST_FLOW_ERROR;
+    if (outbuf == NULL) {
+      GST_PAD_STREAM_UNLOCK (parse->srcpad);
+      return GST_FLOW_ERROR;
+    }
 #endif // GSTREAMER_LITE
     outbuf = gst_buffer_make_metadata_writable (outbuf);
 
