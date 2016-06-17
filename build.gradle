@@ -125,7 +125,7 @@ void loadProperties(String sourceFileName) {
     def propFile = new File(sourceFileName)
     if (propFile.canRead()) {
         config.load(new FileInputStream(propFile))
-        for (Map.Entry property in config) {
+        for (java.util.Map.Entry property in config) {
             def keySplit = property.key.split("\\.");
             def key = keySplit[0];
             for (int i = 1; i < keySplit.length; i++) {
@@ -2334,8 +2334,22 @@ project(":media") {
                                     exec {
                                         commandLine ("make", "${makeJobsFlag}", "-C", "${nativeSrcDir}/gstreamer/projects/linux/avplugin")
                                         args("CC=${mediaProperties.compiler}", "OUTPUT_DIR=${nativeOutputDir}", "BUILD_TYPE=${buildType}",
-                                             "BASE_NAME=avplugin", "VERSION=${version}", "LIBAV_DIR=${libavDir}")
-                                        args(IS_64 ? "ARCH=x64" : "ARCH=x32")
+                                             "BASE_NAME=avplugin", "VERSION=${version}", "LIBAV_DIR=${libavDir}",
+                                             "SUFFIX=", IS_64 ? "ARCH=x64" : "ARCH=x32")
+                                    }
+                                }
+                            }
+
+                            project.ext.libav.ffmpeg.versions.each { version ->
+                                def libavDir = "${project.ext.libav.ffmpeg.basedir}-${version}"
+                                File dir = file(libavDir)
+                                if (dir.exists()) {
+                                    exec {
+                                        commandLine ("make", "${makeJobsFlag}", "-C", "${nativeSrcDir}/gstreamer/projects/linux/avplugin")
+                                        args("CC=${mediaProperties.compiler}", "LINKER=${mediaProperties.linker}",
+                                             "OUTPUT_DIR=${nativeOutputDir}", "BUILD_TYPE=${buildType}",
+                                             "BASE_NAME=avplugin", "VERSION=${version}", "LIBAV_DIR=${libavDir}",
+                                             "SUFFIX=-ffmpeg", IS_64 ? "ARCH=x64" : "ARCH=x32")
                                     }
                                 }
                             }
@@ -2344,8 +2358,7 @@ project(":media") {
                             exec {
                                 commandLine ("make", "${makeJobsFlag}", "-C", "${nativeSrcDir}/gstreamer/projects/linux/avplugin")
                                 args("CC=${mediaProperties.compiler}", "OUTPUT_DIR=${nativeOutputDir}", "BUILD_TYPE=${buildType}",
-                                     "BASE_NAME=avplugin")
-                                args(IS_64 ? "ARCH=x64" : "ARCH=x32")
+                                     "BASE_NAME=avplugin", IS_64 ? "ARCH=x64" : "ARCH=x32")
                             }
                         }
                     }
@@ -3429,7 +3442,11 @@ task checkrepo() {
     doLast {
         logger.info("checking for whitespace (open)");
         exec {
-            commandLine  'bash', 'tools/scripts/checkWhiteSpace'
+            if (IS_WINDOWS) {
+                commandLine  'bash', 'tools/scripts/checkWhiteSpace'
+            } else {
+                commandLine  'bash', 'tools/scripts/checkWhiteSpace', '-x'
+            }
         }
     }
 }
@@ -3438,7 +3455,11 @@ task checkrepoall() {
     doLast {
         logger.info("checking for all whitespace (open)");
         exec {
-            commandLine  'bash', 'tools/scripts/checkWhiteSpace', '-a'
+            if (IS_WINDOWS) {
+                commandLine  'bash', 'tools/scripts/checkWhiteSpace', '-a'
+            } else {
+                commandLine  'bash', 'tools/scripts/checkWhiteSpace', '-x', '-a'
+            }
         }
     }
 }
