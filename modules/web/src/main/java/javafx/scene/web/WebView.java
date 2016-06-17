@@ -1082,7 +1082,7 @@ final public class WebView extends Parent {
                 keyIdentifier,
                 windowsVirtualKeyCode,
                 ev.isShiftDown(), ev.isControlDown(),
-                ev.isAltDown(), ev.isMetaDown());
+                ev.isAltDown(), ev.isMetaDown(), System.currentTimeMillis());
         if (page.dispatchKeyEvent(keyEvent)) {
             ev.consume();
         }
