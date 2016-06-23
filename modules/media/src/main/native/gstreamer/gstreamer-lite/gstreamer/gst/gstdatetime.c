@@ -441,6 +441,9 @@ gst_date_time_new_from_unix_epoch_local_time (gint64 secs)
   GstDateTime *dt;
   struct tm tm;
   time_t tt;
+#ifdef GSTREAMER_LITE
+  struct tm *tm_tmp = NULL;
+#endif // GSTREAMER_LITE
 
   memset (&tm, 0, sizeof (tm));
   tt = (time_t) secs;
@@ -448,7 +451,15 @@ gst_date_time_new_from_unix_epoch_local_time (gint64 secs)
 #ifdef HAVE_LOCALTIME_R
   localtime_r (&tt, &tm);
 #else
+#ifdef GSTREAMER_LITE
+  tm_tmp = localtime (&tt);
+  if (tm_tmp == NULL) {
+    return NULL;
+  }
+  memcpy (&tm, tm_tmp, sizeof (struct tm));
+#else // GSTREAMER_LITE
   memcpy (&tm, localtime (&tt), sizeof (struct tm));
+#endif // GSTREAMER_LITE
 #endif
 
   dt = gst_date_time_new (0, tm.tm_year + 1900,
