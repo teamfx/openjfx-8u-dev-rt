@@ -1008,7 +1008,7 @@ public class JNLPBundler extends AbstractBundler {
         }
 
         for (Map.Entry<String, String> callbackEntry : JS_CALLBACKS.fetchFrom(params).entrySet()) {
-            addToList(w_callback, callbackEntry.getKey(), callbackEntry.getValue(), false);
+            addToList(p_callback, callbackEntry.getKey(), callbackEntry.getValue(), false);
         }
 
         if (!"".equals(appletParams)) {
