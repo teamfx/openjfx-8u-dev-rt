@@ -130,7 +130,7 @@ public class CustomColorDialog extends HBox {
         customColorProperty.set(color);
     }
 
-    Color getCustomColor() {
+    public Color getCustomColor() {
         return customColorProperty.get();
     }
 
@@ -139,8 +139,8 @@ public class CustomColorDialog extends HBox {
     }
 
     // JDK-8161449
-    public void setSaveBtnText(String saveBtnText) {
-        this.saveBtnText = saveBtnText;
+    public void setSaveBtnToOk() {
+        this.saveBtnText = getString("OK");
         buildUI();
     }
 
@@ -176,11 +176,11 @@ public class CustomColorDialog extends HBox {
         this.onCancel = onCancel;
     }
 
-     public void setOnHidden(EventHandler<WindowEvent> onHidden) {
+    public void setOnHidden(EventHandler<WindowEvent> onHidden) {
          dialog.setOnHidden(onHidden);
      }
 
-    Stage getDialog() {
+    public Stage getDialog() {
         return dialog;
     }
 
@@ -196,6 +196,12 @@ public class CustomColorDialog extends HBox {
         if (dialog.getScene() == null) dialog.setScene(customScene);
         colorRectPane.updateValues();
         dialog.show();
+    }
+
+    public void hide() {
+        if (dialog.getOwner() != null) {
+            dialog.hide();
+        }
     }
 
     private InvalidationListener positionAdjuster = new InvalidationListener() {
