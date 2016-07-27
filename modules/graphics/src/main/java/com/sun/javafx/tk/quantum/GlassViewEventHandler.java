@@ -34,6 +34,7 @@ import com.sun.glass.events.SwipeGesture;
 import com.sun.glass.ui.Accessible;
 import com.sun.glass.ui.Clipboard;
 import com.sun.glass.ui.ClipboardAssistance;
+import com.sun.glass.ui.Screen;
 import com.sun.glass.ui.View;
 import com.sun.glass.ui.Window;
 import com.sun.javafx.PlatformUtil;
@@ -432,10 +433,24 @@ class GlassViewEventHandler extends View.EventHandler {
             QuantumToolkit.runWithoutRenderLock(() -> {
                 return AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
                     if (scene.sceneListener != null) {
+                        double pScale, sx, sy;
                         Window w = view.getWindow();
-                        double pScale = (w == null) ? 1.0 : w.getPlatformScale();
+                        if (w != null) {
+                            pScale = w.getPlatformScale();
+                            Screen scr = w.getScreen();
+                            if (scr != null) {
+                                sx = scr.getX();
+                                sy = scr.getY();
+                            } else {
+                                sx = sy = 0.0;
+                            }
+                        } else {
+                            pScale = 1.0;
+                            sx = sy = 0.0;
+                        }
                         scene.sceneListener.menuEvent(x / pScale, y / pScale,
-                                                      xAbs / pScale, yAbs / pScale,
+                                                      sx + (xAbs - sx) / pScale,
+                                                      sy + (yAbs - sy) / pScale,
                                                       isKeyboardTrigger);
                     }
                     return null;

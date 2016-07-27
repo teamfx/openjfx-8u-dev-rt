@@ -231,7 +231,7 @@ private:
     }
 };
 
-const ClassInfo JavaRuntimeMethod::s_info = { "JavaRuntimeMethod", &RuntimeMethod::s_info, 0, 0, CREATE_METHOD_TABLE(JavaRuntimeMethod) };
+const ClassInfo JavaRuntimeMethod::s_info = { "JavaRuntimeMethod", &RuntimeMethod::s_info, 0, CREATE_METHOD_TABLE(JavaRuntimeMethod) };
 
 JSValue JavaInstance::getMethod(ExecState* exec, PropertyName propertyName)
 {
@@ -251,7 +251,6 @@ JSValue JavaInstance::invokeMethod(ExecState* exec, RuntimeMethod* runtimeMethod
     if (!asObject(runtimeMethod)->inherits(&JavaRuntimeMethod::s_info))
         exec->vm().throwException(exec, createTypeError(exec, "Attempt to invoke non-Java method on Java object."));
 
-    int count = exec->argumentCount();
 #if 0
     const MethodList& methodList = *runtimeMethod->methods();
     size_t numMethods = methodList.size();
@@ -279,8 +278,13 @@ JSValue JavaInstance::invokeMethod(ExecState* exec, RuntimeMethod* runtimeMethod
     }
 
     const JavaMethod* jMethod = static_cast<const JavaMethod*>(method);
-
+    // Since we can't convert java.lang.Character to any JS primitive, we have
+    // to handle valueOf method call.
     jobject obj = m_instance->instance();
+    JavaClass* aClass = static_cast<JavaClass*>(getClass());
+    if (aClass && aClass->isCharacterClass() && jMethod->name() == "valueOf")
+        return numberValueForCharacter(obj);
+
     // Since m_instance->instance() is WeakGlobalRef, creating a localref to safeguard instance() from GC
     JLObject jlinstance(obj, true);
 
@@ -291,6 +295,7 @@ JSValue JavaInstance::invokeMethod(ExecState* exec, RuntimeMethod* runtimeMethod
 
     LOG(LiveConnect, "JavaInstance::invokeMethod call %s %s on %p", String(jMethod->name().impl()).utf8().data(), jMethod->signature(), m_instance->instance());
 
+    const int count = exec->argumentCount();
     if (jMethod->numParameters() != count) {
         LOG(LiveConnect, "JavaInstance::invokeMethod unable to find an appropriate method with specified signature");
         return jsUndefined();
@@ -318,7 +323,7 @@ JSValue JavaInstance::invokeMethod(ExecState* exec, RuntimeMethod* runtimeMethod
     if (!rootObject)
         return jsUndefined();
 
-    bool handled = false;
+    // bool handled = false;
     if (rootObject->nativeHandle()) {
         jobject obj = m_instance->instance();
         // Since m_instance->instance() is WeakGlobalRef, creating a localref to safeguard instance() from GC
@@ -329,7 +334,7 @@ JSValue JavaInstance::invokeMethod(ExecState* exec, RuntimeMethod* runtimeMethod
             return jsUndefined();
         }
 
-        const char *callingURL = 0; // FIXME, need to propagate calling URL to Java
+        // const char *callingURL = 0; // FIXME, need to propagate calling URL to Java
         jmethodID methodId = getMethodID(obj, jMethod->name().utf8().data(), jMethod->signature());
 
         jthrowable ex = dispatchJNICall(exec->argumentCount(), rootObject,
@@ -357,6 +362,9 @@ JSValue JavaInstance::invokeMethod(ExecState* exec, RuntimeMethod* runtimeMethod
     case JavaTypeArray:
       /* ... fall through ... */
     case JavaTypeObject:
+    // Since we can't convert java.lang.Character to any JS primitive, we have
+    // to treat it as JS foreign object.
+    case JavaTypeChar:
         {
             JNIEnv* env = getJNIEnv();
             resultValue = toJS(exec, WebCore::Java_Object_to_JSValue(env, toRef(exec), rootObject, result.l, accessControlContext()));
@@ -372,12 +380,6 @@ JSValue JavaInstance::invokeMethod(ExecState* exec, RuntimeMethod* runtimeMethod
     case JavaTypeByte:
         {
             resultValue = jsNumber(result.b);
-        }
-        break;
-
-    case JavaTypeChar:
-        {
-            resultValue = jsNumber(result.c);
         }
         break;
 
@@ -446,8 +448,6 @@ JSValue JavaInstance::defaultValue(ExecState* exec, PreferredPrimitiveType hint)
 
     if (aClass->isNumberClass())
         return numberValueForNumber(m_instance->instance());
-    if (aClass->isCharacterClass())
-        return numberValueForCharacter(m_instance->instance());
     if (aClass->isBooleanClass())
         return booleanValue();
     return valueOf(exec);
