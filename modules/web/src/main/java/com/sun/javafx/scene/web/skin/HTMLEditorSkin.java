@@ -896,7 +896,7 @@ public class HTMLEditorSkin extends BehaviorSkinBase<HTMLEditor, HTMLEditorBehav
 
             // if the format value is then we assume that we're dealing with a paragraph,
             // which seems to correspond with the HTML output we receive.
-            if ((resetToolbarState || htmlTag.equals("<>") || htmlTag.equalsIgnoreCase("<div>"))) {
+            if ((resetToolbarState || htmlTag.equals("<>") || htmlTag.equalsIgnoreCase("<div>") || htmlTag.equalsIgnoreCase("<blockquote>"))) {
                 formatComboBox.setValue(resources.getString("paragraph"));
             } else if (format != null && ! format.equalsIgnoreCase(comboFormatValue)) {
                 formatComboBox.setValue(comboFormatValue);
