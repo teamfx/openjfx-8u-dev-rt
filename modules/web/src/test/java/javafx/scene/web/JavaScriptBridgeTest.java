@@ -390,6 +390,14 @@ public class JavaScriptBridgeTest extends TestBase {
     // JDK-8089842
     public static class CharMember {
         public char c;
+
+        public char getC() {
+            return c;
+        }
+
+        public char getChar(char ch) {
+            return ch;
+        }
     }
 
     public @Test void testJSStringToJavaCharSpecilization() {
@@ -401,21 +409,100 @@ public class JavaScriptBridgeTest extends TestBase {
             // ascii char
             web.executeScript("charTest.c = 'o';");
             assertEquals('o', charTest.c);
+            Object result = web.executeScript("charTest.c;");
+            assertEquals('o', result);
+            result = web.executeScript("charTest.getC()");
+            assertEquals('o', result);
+            result = web.executeScript("charTest.getChar('m')");
+            assertEquals('m', result);
+
+            // undefined
             web.executeScript("charTest.c = undefined;");
             assertEquals('\0', charTest.c);
+            result = web.executeScript("charTest.c;");
+            assertEquals('\0', result);
+            result = web.executeScript("charTest.getC()");
+            assertEquals('\0', result);
+            result = web.executeScript("charTest.getChar(undefined)");
+            assertEquals('\0', result);
+
+            // string as char
             web.executeScript("charTest.c = '11111111o';");
             assertEquals('1', charTest.c);
+            result = web.executeScript("charTest.c;");
+            assertEquals('1', result);
+            result = web.executeScript("charTest.getC()");
+            assertEquals('1', result);
+            result = web.executeScript("charTest.getChar('11111111o')");
+            assertEquals('1', result);
+
+            // null
             web.executeScript("charTest.c = null;");
             assertEquals('\0', charTest.c);
+            result = web.executeScript("charTest.c;");
+            assertEquals('\0', result);
+            result = web.executeScript("charTest.getC()");
+            assertEquals('\0', result);
+            result = web.executeScript("charTest.getChar(null)");
+            assertEquals('\0', result);
+
+            // space
             web.executeScript("charTest.c = ' ';");
             assertEquals(' ', charTest.c);
+            result = web.executeScript("charTest.c;");
+            assertEquals(' ', result);
+            result = web.executeScript("charTest.getC()");
+            assertEquals(' ', result);
+            result = web.executeScript("charTest.getChar(' ')");
+            assertEquals(' ', result);
+
+            // empty
             web.executeScript("charTest.c = '';");
             assertEquals('\0', charTest.c);
+            result = web.executeScript("charTest.c;");
+            assertEquals('\0', result);
+            result = web.executeScript("charTest.getC()");
+            assertEquals('\0', result);
+            result = web.executeScript("charTest.getChar('')");
+            assertEquals('\0', result);
+
+            // number as char
             web.executeScript("charTest.c = 65;");
             assertEquals('A', charTest.c);
+            result = web.executeScript("charTest.c;");
+            assertEquals('A', charTest.c);
+            result = web.executeScript("charTest.getC()");
+            assertEquals('A', charTest.c);
+            result = web.executeScript("charTest.getChar(65)");
+            assertEquals('A', charTest.c);
+
             // unicode
             web.executeScript("charTest.c = '\u03A9';");
             assertEquals('Ω', charTest.c);
+            result = web.executeScript("charTest.c;");
+            assertEquals('Ω', charTest.c);
+            result = web.executeScript("charTest.getC()");
+            assertEquals('Ω', charTest.c);
+            result = web.executeScript("charTest.getChar('\u03A9')");
+            assertEquals('Ω', charTest.c);
+        });
+    }
+
+    // JDK-8158926
+    public @Test void testJavaCharToJSString() {
+        final WebEngine web = getEngine();
+
+        submit(() -> {
+            bind("charType", 'a');
+            Object ch = web.executeScript("charType");
+            assertTrue(ch instanceof Character);
+            assertEquals('a', ch);
+            Object str = web.executeScript("charType + 'b' + 'c'");
+            assertTrue(str instanceof String);
+            assertEquals("abc", str);
+            Object val = web.executeScript("charType.valueOf();");
+            assertTrue(val instanceof Integer);
+            assertEquals(97, val);
         });
     }
 
@@ -475,7 +562,7 @@ public class JavaScriptBridgeTest extends TestBase {
         }
     }
     private void executeShouldFail(WebEngine web, String expression) {
-        executeShouldFail(web, expression, "undefined is not a function");
+        executeShouldFail(web, expression, "is not a function");
     }
 
     public @Test void testThrowJava() throws InterruptedException {
