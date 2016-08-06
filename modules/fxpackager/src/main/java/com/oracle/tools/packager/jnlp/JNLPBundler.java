@@ -743,7 +743,7 @@ public class JNLPBundler extends AbstractBundler {
                                 pendingPrint = null;
                                 needToCloseResourceTag = true;
                             }
-                            out.print("    <jar href=\"" + relativePath + "\" size=\""
+                            out.print("    <jar href=\"" + relativePath.replace('\\', '/') + "\" size=\""
                                     + srcFile.length() + "\"");
                             out.print(" download=\"" + rfs.getMode() + "\" ");
                             out.println("/>");
@@ -754,7 +754,7 @@ public class JNLPBundler extends AbstractBundler {
                                 pendingPrint = null;
                                 needToCloseResourceTag = true;
                             }
-                            out.println("    <extension href=\"" + relativePath + "\"/>");
+                            out.println("    <extension href=\"" + relativePath.replace('\\', '/') + "\"/>");
                             break;
                         case nativelib:
                             if (pendingPrint != null) {
@@ -762,7 +762,7 @@ public class JNLPBundler extends AbstractBundler {
                                 needToCloseResourceTag = true;
                                 pendingPrint = null;
                             }
-                            out.println("    <nativelib href=\"" + relativePath + "\"/>");
+                            out.println("    <nativelib href=\"" + relativePath.replace('\\', '/') + "\"/>");
                             break;
                     }
                 }
