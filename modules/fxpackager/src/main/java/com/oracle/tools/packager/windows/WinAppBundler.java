@@ -51,6 +51,8 @@ import static com.oracle.tools.packager.StandardBundlerParam.*;
 import static com.oracle.tools.packager.windows.WindowsBundlerParam.BIT_ARCH_64;
 import static com.oracle.tools.packager.windows.WindowsBundlerParam.BIT_ARCH_64_RUNTIME;
 import static com.oracle.tools.packager.windows.WindowsBundlerParam.WIN_RUNTIME;
+import java.nio.file.Path;
+import java.util.stream.Stream;
 
 public class WinAppBundler extends AbstractImageBundler {
 
@@ -322,7 +324,8 @@ public class WinAppBundler extends AbstractImageBundler {
 
         AtomicReference<IOException> ioe = new AtomicReference<>();
         final String finalVsVer = vsVer;
-        Files.list(jreDir.toPath().resolve("bin"))
+        try (Stream<Path> runtimeBinariesSource = Files.list(jreDir.toPath().resolve("bin"))){
+            runtimeBinariesSource
                 .filter(p -> Pattern.matches("msvc(r|p)\\d\\d\\d.dll", p.toFile().getName().toLowerCase()))
                 .filter(p -> !p.toString().toLowerCase().endsWith(finalVsVer + ".dll"))
                 .forEach(p -> {
@@ -332,6 +335,7 @@ public class WinAppBundler extends AbstractImageBundler {
                         ioe.set(e);
                     }
                 });
+        }
 
         IOException e = ioe.get();
         if (e != null) {
