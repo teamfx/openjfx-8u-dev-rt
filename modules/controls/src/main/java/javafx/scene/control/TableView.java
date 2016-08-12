@@ -3015,6 +3015,8 @@ public class TableView<S> extends Control {
             }
             c.reset();
 
+            selectedIndicesSeq.reset();
+
             if (isAtomic()) {
                 return;
             }

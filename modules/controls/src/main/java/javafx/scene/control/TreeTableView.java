@@ -3255,6 +3255,8 @@ public class TreeTableView<S> extends Control {
             }
             c.reset();
 
+            selectedIndicesSeq.reset();
+
             if (isAtomic()) {
                 return;
             }

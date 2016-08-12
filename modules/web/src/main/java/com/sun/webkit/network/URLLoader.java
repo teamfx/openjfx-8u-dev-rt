@@ -505,6 +505,10 @@ final class URLLoader implements Runnable {
         try {
             inputStream = errorStream == null
                 ? c.getInputStream() : errorStream;
+        } catch (HttpRetryException ex) {
+            // HttpRetryException is handled from doRun() method.
+            // Hence rethrowing the exception to caller(doRun() method)
+            throw ex;
         } catch (IOException e) {
             if (logger.isLoggable(Level.FINE)) {
                 logger.log(Level.FINE, String.format("Exception caught: [%s], %s",
@@ -512,11 +516,22 @@ final class URLLoader implements Runnable {
                     e.getMessage()));
             }
         }
+
         String encoding = c.getContentEncoding();
-        if ("gzip".equalsIgnoreCase(encoding)) {
-            inputStream = new GZIPInputStream(inputStream);
-        } else if ("deflate".equalsIgnoreCase(encoding)) {
-            inputStream = new InflaterInputStream(inputStream);
+        if (inputStream != null) {
+            try {
+                if ("gzip".equalsIgnoreCase(encoding)) {
+                    inputStream = new GZIPInputStream(inputStream);
+                } else if ("deflate".equalsIgnoreCase(encoding)) {
+                    inputStream = new InflaterInputStream(inputStream);
+                }
+            } catch (IOException e) {
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.log(Level.FINE, String.format("Exception caught: [%s], %s",
+                        e.getClass().getSimpleName(),
+                        e.getMessage()));
+                }
+            }
         }
 
         ByteBufferAllocator allocator =
