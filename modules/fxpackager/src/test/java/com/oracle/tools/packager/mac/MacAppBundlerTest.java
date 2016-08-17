@@ -533,6 +533,7 @@ public class MacAppBundlerTest {
     /**
      * Test with unicode in places we expect it to be
      */
+    @Ignore("JDK-8163859")
     @Test
     public void unicodeConfig() throws IOException, ConfigException, UnsupportedPlatformException {
         Bundler bundler = new MacAppBundler();

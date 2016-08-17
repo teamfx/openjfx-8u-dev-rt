@@ -37,6 +37,7 @@ import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -364,6 +365,7 @@ public class MacPkgBundlerTest {
     /**
      * Test with unicode in places we expect it to be
      */
+    @Ignore("JDK-8163859")
     @Test
     public void unicodeConfig() throws IOException, ConfigException, UnsupportedPlatformException {
         Bundler bundler = new MacPkgBundler();
