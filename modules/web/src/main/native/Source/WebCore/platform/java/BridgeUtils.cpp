@@ -144,8 +144,10 @@ JSValueRef Java_Object_to_JSValue(
     }
     jclass clString = getStringClass(env);
     if (env->IsInstanceOf(val, clString)) {
-      JSStringRef value = asJSStringRef(env, (jstring) val);
-      return JSValueMakeString(ctx, value);
+        JSStringRef value = asJSStringRef(env, (jstring) val);
+        JSValueRef jsvalue = JSValueMakeString(ctx, value);
+        JSStringRelease(value);
+        return jsvalue;
     }
     jclass clBoolean = getBooleanClass(env);
     if (env->IsInstanceOf(val, clBoolean)) {
@@ -159,13 +161,6 @@ JSValueRef Java_Object_to_JSValue(
         jdouble value = env->CallDoubleMethod(val, doubleValueMethod);
         return JSValueMakeNumber(ctx, value);
     }
-    static JGClass clCharacter(env->FindClass("java/lang/Character"));
-    if (env->IsInstanceOf(val, clCharacter)) {
-        static jmethodID charValueMethod
-            = env->GetMethodID(clCharacter, "charValue", "()C");
-        return toRef(exec,
-            JSC::JSValue((int) env->CallCharMethod(val, charValueMethod)));
-    }
 
     JLObject valClass(JSC::Bindings::callJNIMethod<jobject>(val, "getClass", "()Ljava/lang/Class;"));
     if (JSC::Bindings::callJNIMethod<jboolean>(valClass, "isArray", "()Z")) {
@@ -176,6 +171,7 @@ JSValueRef Java_Object_to_JSValue(
         return toRef(exec, arr);
     }
     else {
+        // All other Java Object types including java.lang.Character will be wrapped inside JavaInstance.
         PassRefPtr<JSC::Bindings::JavaInstance> jinstance = JSC::Bindings::JavaInstance::create(val, rootObject, accessControlContext);
         return toRef(jinstance->createRuntimeObject(exec));
     }

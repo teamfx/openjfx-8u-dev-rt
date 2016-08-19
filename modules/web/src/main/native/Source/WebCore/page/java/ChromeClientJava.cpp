@@ -6,6 +6,7 @@
 #include "ChromeClientJava.h"
 #if ENABLE(INPUT_TYPE_COLOR)
 #include "ColorChooser.h"
+#include "ColorChooserJava.h"
 #endif
 #include "ContextMenu.h"
 #if ENABLE(DATE_AND_TIME_INPUT_TYPES)
@@ -32,6 +33,7 @@
 #include "WebPage.h"
 #include "Widget.h"
 #include "WindowFeatures.h"
+#include "DragController.h"
 
 //MVM -ready initialization
 #define DECLARE_STATIC_CLASS(getFunctionName, sClassPath) \
@@ -180,20 +182,11 @@ void ChromeClientJava::chromeDestroyed()
 }
 
 #if ENABLE(INPUT_TYPE_COLOR)
-PassOwnPtr<ColorChooser> ChromeClientJava::createColorChooser(ColorChooserClient*, const Color&)
+std::unique_ptr<ColorChooser> ChromeClientJava::createColorChooser(ColorChooserClient* client, const Color& initialColor)
 {
-    return nullptr;
+    return std::make_unique<ColorChooserJava>(m_webPage, client, initialColor);
 }
 #endif
-
-#if ENABLE(DATE_AND_TIME_INPUT_TYPES)
-PassRefPtr<DateTimeChooser> ChromeClientJava::openDateTimeChooser(DateTimeChooserClient*, const DateTimeChooserParameters&)
-{
-    //return nullptr;
-    return NULL;
-}
-#endif
-
 
 FloatRect ChromeClientJava::windowRect()
 {
@@ -554,31 +547,20 @@ bool ChromeClientJava::runBeforeUnloadConfirmPanel(const String&, Frame*)
     return false;
 }
 
-bool ChromeClientJava::shouldInterruptJavaScript()
-{
-    notImplemented();
-    return true;
-}
-
 KeyboardUIMode ChromeClientJava::keyboardUIMode()
 {
     return KeyboardAccessTabsToLinks;
 }
 
-IntRect ChromeClientJava::windowResizerRect() const
-{
-    notImplemented();
-    return IntRect();
-}
-
 void ChromeClientJava::mouseDidMoveOverElement(const HitTestResult& htr, unsigned modifierFlags)
 {
     static Node* mouseOverNode = 0;
-    if (htr.isLiveLink()) {
+    Element* urlElement = htr.URLElement();
+    if (urlElement && isDraggableLink(*urlElement)) {
         Node* overNode = htr.innerNode();
         URL url = htr.absoluteLinkURL();
         if (!url.isEmpty() && (overNode != mouseOverNode)) {
-            setStatusbarText(url.deprecatedString());
+            setStatusbarText(url.string());
             mouseOverNode = overNode;
         }
     } else {
@@ -617,6 +599,10 @@ void ChromeClientJava::print(Frame*)
     CheckAndClearException(env);
 }
 
+void ChromeClientJava::exceededDatabaseQuota(Frame*, const String& databaseName, DatabaseDetails) {
+    notImplemented();
+}
+
 void ChromeClientJava::reachedMaxAppCacheSize(int64_t spaceNeeded)
 {
     // FIXME: Free some space.
@@ -646,6 +632,9 @@ void ChromeClientJava::scheduleCompositingLayerFlush()
 }
 #endif // USE(ACCELERATED_COMPOSITING)
 
+void ChromeClientJava::attachViewOverlayGraphicsLayer(Frame*, GraphicsLayer*) {
+    //XXX: implement?
+}
 
 // HostWindow interface
 void ChromeClientJava::scroll(const IntSize& scrollDelta, const IntRect& rectToScroll, const IntRect& clipRect)
@@ -718,18 +707,18 @@ void ChromeClientJava::contentsSizeChanged(Frame* frame, const IntSize& size) co
     notImplemented();
 }
 
-void ChromeClientJava::invalidateRootView(const IntRect& updateRect, bool immediate)
+void ChromeClientJava::invalidateRootView(const IntRect& updateRect)
 {
     // Nothing to do here as all necessary repaints are scheduled
     // by ChromeClientJava::scroll(). See also RT-29123.
 }
 
-void ChromeClientJava::invalidateContentsAndRootView(const IntRect& updateRect, bool immediate)
+void ChromeClientJava::invalidateContentsAndRootView(const IntRect& updateRect)
 {
     repaint(updateRect);
 }
 
-void ChromeClientJava::invalidateContentsForSlowScroll(const IntRect& updateRect, bool immediate)
+void ChromeClientJava::invalidateContentsForSlowScroll(const IntRect& updateRect)
 {
     repaint(updateRect);
 }
@@ -750,12 +739,12 @@ bool ChromeClientJava::selectItemAlignmentFollowsMenuWritingDirection()
 }
 
 
-PassRefPtr<PopupMenu> ChromeClientJava::createPopupMenu(PopupMenuClient* client) const
+RefPtr<PopupMenu> ChromeClientJava::createPopupMenu(PopupMenuClient* client) const
 {
     return adoptRef(new PopupMenuJava(client));
 }
 
-PassRefPtr<SearchPopupMenu> ChromeClientJava::createSearchPopupMenu(PopupMenuClient* client) const
+RefPtr<SearchPopupMenu> ChromeClientJava::createSearchPopupMenu(PopupMenuClient* client) const
 {
     return adoptRef(new SearchPopupMenuJava(client));
 }

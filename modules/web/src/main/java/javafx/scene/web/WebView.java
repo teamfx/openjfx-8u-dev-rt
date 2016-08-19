@@ -1023,6 +1023,9 @@ final public class WebView extends Parent {
             x = Short.MIN_VALUE;
             y = Short.MIN_VALUE;
             Point2D screenPoint = localToScreen(x, y);
+            if (screenPoint == null) {
+                return;
+            }
             screenX = screenPoint.getX();
             screenY = screenPoint.getY();
         }
@@ -1079,7 +1082,7 @@ final public class WebView extends Parent {
                 keyIdentifier,
                 windowsVirtualKeyCode,
                 ev.isShiftDown(), ev.isControlDown(),
-                ev.isAltDown(), ev.isMetaDown());
+                ev.isAltDown(), ev.isMetaDown(), System.currentTimeMillis());
         if (page.dispatchKeyEvent(keyEvent)) {
             ev.consume();
         }

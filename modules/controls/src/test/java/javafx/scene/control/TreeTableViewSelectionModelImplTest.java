@@ -29,6 +29,7 @@ import com.sun.javafx.tk.Toolkit;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeTableView.TreeTableViewSelectionModel;
 import javafx.util.Callback;
@@ -761,5 +762,21 @@ public class TreeTableViewSelectionModelImplTest {
         item0.setExpanded(false);
         Toolkit.getToolkit().firePulse();
         assertEquals(1, model.getSelectedCells().size());
+    }
+
+    @Test public void test_jdk_8144501() {
+        model.setSelectionMode(SelectionMode.MULTIPLE);
+        model.select(2);
+        model.select(3);
+        ListChangeListener<TreeItem<String>> listener = change -> {
+            while (change.next()) {
+                assertNotNull(change.getList());
+                assertEquals(1, change.getList().size());
+                assertNotNull(change.getList().get(0));
+            }
+        };
+        model.getSelectedItems().addListener(listener);
+        model.clearSelection(2);
+        model.getSelectedItems().removeListener(listener);
     }
 }
