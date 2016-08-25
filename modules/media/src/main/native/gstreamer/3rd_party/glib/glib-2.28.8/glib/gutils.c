@@ -1590,6 +1590,10 @@ get_windows_directory_root (void)
     return g_strdup ("C:\\");
 
       p = (char *) g_path_skip_root (windowsdir);
+#ifdef GSTREAMER_LITE
+      if (p == NULL)
+        return g_strdup ("C:\\");
+#endif // GSTREAMER_LITE
       if (G_IS_DIR_SEPARATOR (p[-1]) && p[-2] != ':')
     p--;
       *p = '\0';

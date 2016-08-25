@@ -1361,6 +1361,12 @@ g_signal_new (const gchar    *signal_name,
 
       SIGNAL_LOCK ();
       node = LOOKUP_SIGNAL_NODE (signal_id);
+#ifdef GSTREAMER_LITE
+      if (node == NULL) {
+        SIGNAL_UNLOCK ();
+        return 0;
+      }
+#endif // GSTREAMER_LITE
       node->test_class_offset = class_offset;
       SIGNAL_UNLOCK ();
     }
