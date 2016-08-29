@@ -293,7 +293,7 @@ static NSWindow *s_grabWindow = nil;
     }
     // Make sure we synchronize scale factors which could have changed while
     // we were not visible without invoking the overrides we watch.
-    if ([self->nsWindow screen]) {
+    if ([self->nsWindow screen] && (self->view != nil)) {
         [self->view notifyScaleFactorChanged:GetScreenScaleFactor([self->nsWindow screen])];
     }
 }
