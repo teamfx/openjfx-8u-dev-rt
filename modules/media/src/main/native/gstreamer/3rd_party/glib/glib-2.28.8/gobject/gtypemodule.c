@@ -336,6 +336,11 @@ g_type_module_complete_type_info (GTypePlugin     *plugin,
   GTypeModule *module = G_TYPE_MODULE (plugin);
   ModuleTypeInfo *module_type_info = g_type_module_find_type_info (module, g_type);
 
+#ifdef GSTREAMER_LITE
+  if (module_type_info == NULL)
+    return;
+#endif // GSTREAMER_LITE
+
   *info = module_type_info->info;
 
   if (module_type_info->info.value_table)
