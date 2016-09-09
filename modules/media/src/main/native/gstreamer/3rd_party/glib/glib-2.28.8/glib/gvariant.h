@@ -179,7 +179,9 @@ struct _GVariantIter {
 GVariantIter *                  g_variant_iter_new                      (GVariant             *value);
 gsize                           g_variant_iter_init                     (GVariantIter         *iter,
                                                                          GVariant             *value);
+#ifndef GSTREAMER_LITE
 GVariantIter *                  g_variant_iter_copy                     (GVariantIter         *iter);
+#endif // GSTREAMER_LITE
 gsize                           g_variant_iter_n_children               (GVariantIter         *iter);
 void                            g_variant_iter_free                     (GVariantIter         *iter);
 GVariant *                      g_variant_iter_next_value               (GVariantIter         *iter);
