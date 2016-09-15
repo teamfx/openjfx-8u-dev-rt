@@ -69,6 +69,11 @@ public class CustomColorDialog extends HBox {
     private WebColorField webField = null;
     private Scene customScene;
 
+    // JDK-8161449
+    private String saveBtnText;
+    private boolean showUseBtn = true;
+    private boolean showOpacitySlider = true;
+
     public CustomColorDialog(Window owner) {
         getStyleClass().add("custom-color-dialog");
         if (owner != null) dialog.initOwner(owner);
@@ -76,9 +81,8 @@ public class CustomColorDialog extends HBox {
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initStyle(StageStyle.UTILITY);
         dialog.setResizable(false);
-        colorRectPane = new ColorRectPane();
-        controlsPane = new ControlsPane();
-        setHgrow(controlsPane, Priority.ALWAYS);
+
+        dialog.addEventHandler(KeyEvent.ANY, keyEventListener);
 
         customScene = new Scene(this);
         final Scene ownerScene = owner.getScene();
@@ -88,10 +92,16 @@ public class CustomColorDialog extends HBox {
             }
             customScene.getStylesheets().addAll(ownerScene.getStylesheets());
         }
-        getChildren().addAll(colorRectPane, controlsPane);
+        buildUI();
 
         dialog.setScene(customScene);
-        dialog.addEventHandler(KeyEvent.ANY, keyEventListener);
+    }
+
+    private void buildUI() {
+        colorRectPane = new ColorRectPane();
+        controlsPane = new ControlsPane();
+        setHgrow(controlsPane, Priority.ALWAYS);
+        getChildren().setAll(colorRectPane, controlsPane);
     }
 
     private final EventHandler<KeyEvent> keyEventListener = e -> {
@@ -120,12 +130,18 @@ public class CustomColorDialog extends HBox {
         customColorProperty.set(color);
     }
 
-    Color getCustomColor() {
+    public Color getCustomColor() {
         return customColorProperty.get();
     }
 
     public Runnable getOnSave() {
         return onSave;
+    }
+
+    // JDK-8161449
+    public void setSaveBtnToOk() {
+        this.saveBtnText = getString("OK");
+        buildUI();
     }
 
     public void setOnSave(Runnable onSave) {
@@ -140,6 +156,18 @@ public class CustomColorDialog extends HBox {
         this.onUse = onUse;
     }
 
+    // JDK-8161449
+    public void setShowUseBtn(boolean showUseBtn) {
+        this.showUseBtn = showUseBtn;
+        buildUI();
+    }
+
+    // JDK-8161449
+    public void setShowOpacitySlider(boolean showOpacitySlider) {
+        this.showOpacitySlider = showOpacitySlider;
+        buildUI();
+    }
+
     public Runnable getOnCancel() {
         return onCancel;
     }
@@ -148,11 +176,11 @@ public class CustomColorDialog extends HBox {
         this.onCancel = onCancel;
     }
 
-     public void setOnHidden(EventHandler<WindowEvent> onHidden) {
+    public void setOnHidden(EventHandler<WindowEvent> onHidden) {
          dialog.setOnHidden(onHidden);
      }
 
-    Stage getDialog() {
+    public Stage getDialog() {
         return dialog;
     }
 
@@ -168,6 +196,12 @@ public class CustomColorDialog extends HBox {
         if (dialog.getScene() == null) dialog.setScene(customScene);
         colorRectPane.updateValues();
         dialog.show();
+    }
+
+    public void hide() {
+        if (dialog.getOwner() != null) {
+            dialog.hide();
+        }
     }
 
     private InvalidationListener positionAdjuster = new InvalidationListener() {
@@ -626,6 +660,11 @@ public class CustomColorDialog extends HBox {
                     row++;
                 }
 
+                // JDK-8161449 - hide the opacity slider
+                if (i == 3 && !showOpacitySlider) {
+                    continue;
+                }
+
                 settingsPane.add(labels[i], 1, row);
                 settingsPane.add(sliders[i], 2, row);
                 settingsPane.add(fields[i], 3, row);
@@ -655,7 +694,7 @@ public class CustomColorDialog extends HBox {
             buttonBox = new HBox();
             buttonBox.setId("buttons-hbox");
 
-            Button saveButton = new Button(getString("Save"));
+            Button saveButton = new Button(saveBtnText != null && !saveBtnText.isEmpty() ? saveBtnText : getString("Save"));
             saveButton.setDefaultButton(true);
             saveButton.setOnAction(t -> {
                 if (onSave != null) {
@@ -681,7 +720,12 @@ public class CustomColorDialog extends HBox {
                 }
                 dialog.hide();
             });
-            buttonBox.getChildren().addAll(saveButton, useButton, cancelButton);
+
+            if (showUseBtn) {
+                buttonBox.getChildren().addAll(saveButton, useButton, cancelButton);
+            } else {
+                buttonBox.getChildren().addAll(saveButton, cancelButton);
+            }
 
             getChildren().addAll(currentAndNewColor, settingsPane, buttonBox);
         }

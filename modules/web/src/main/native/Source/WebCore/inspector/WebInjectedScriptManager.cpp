@@ -26,8 +26,6 @@
 #include "config.h"
 #include "WebInjectedScriptManager.h"
 
-#if ENABLE(INSPECTOR)
-
 #include "CommandLineAPIModule.h"
 #include "ScriptState.h"
 
@@ -46,7 +44,7 @@ void WebInjectedScriptManager::disconnect()
     InjectedScriptManager::disconnect();
 
     m_commandLineAPIHost->disconnect();
-    m_commandLineAPIHost.clear();
+    m_commandLineAPIHost = nullptr;
 }
 
 void WebInjectedScriptManager::didCreateInjectedScript(InjectedScript injectedScript)
@@ -62,7 +60,8 @@ void WebInjectedScriptManager::discardInjectedScriptsFor(DOMWindow* window)
     Vector<long> idsToRemove;
     for (const auto& it : m_idToInjectedScript) {
         JSC::ExecState* scriptState = it.value.scriptState();
-        if (window != domWindowFromExecState(scriptState))
+        // JDK-8164960
+        if (scriptState == nullptr || window != domWindowFromExecState(scriptState))
             continue;
         m_scriptStateToId.remove(scriptState);
         idsToRemove.append(it.key);
@@ -84,5 +83,3 @@ void WebInjectedScriptManager::discardInjectedScriptsFor(DOMWindow* window)
 }
 
 } // namespace WebCore
-
-#endif // ENABLE(INSPECTOR)
