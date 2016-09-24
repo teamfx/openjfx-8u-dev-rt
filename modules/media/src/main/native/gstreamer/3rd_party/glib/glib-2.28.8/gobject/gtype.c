@@ -1998,6 +1998,11 @@ type_iface_vtable_base_init_Wm (TypeNode *iface,
 
   g_assert (iface->data && entry && entry->vtable == NULL && iholder && iholder->info);
 
+#ifdef GSTREAMER_LITE
+  if (entry == NULL)
+    return FALSE;
+#endif // GSTREAMER_LITE
+
   entry->init_state = IFACE_INIT;
 
   pnode = lookup_type_node_I (NODE_PARENT_TYPE (node));
@@ -2041,6 +2046,11 @@ type_iface_vtable_iface_init_Wm (TypeNode *iface,
   /* iholder->info should have been filled in by type_iface_vtable_base_init_Wm() */
   g_assert (iface->data && entry && iholder && iholder->info);
   g_assert (entry->init_state == IFACE_INIT); /* assert prior base_init() */
+
+#ifdef GSTREAMER_LITE
+  if (entry == NULL)
+    return;
+#endif // GSTREAMER_LITE
 
   entry->init_state = INITIALIZED;
 
