@@ -156,6 +156,10 @@ TString LinuxPlatform::GetSystemJRE() {
     TString result;
     TString jreHome = GetEnv("JRE_HOME");
 
+    if (jreHome.empty() == true) {
+        jreHome = GetEnv("JAVA_HOME");
+    }
+
     if (jreHome.empty() == false) {
         result = FilePath::IncludeTrailingSeparater(jreHome);
 
@@ -163,17 +167,18 @@ TString LinuxPlatform::GetSystemJRE() {
             result = FilePath::IncludeTrailingSeparater(jreHome) + _T("jre");
 
             if (FilePath::FileExists(result + _T("/lib/rt.jar")) == false) {
-                //check redhat location
-                if (FilePath::FileExists(_T("/usr/java/latest/jre/lib/rt.jar")) == true) {
-                    result = _T("/usr/java/latest/jre");
-                }
-                else if (FilePath::FileExists(_T("/usr/lib/jvm/default-java/jre/lib/rt.jar")) == true) {
-                    result = _T("/usr/lib/jvm/default-java/jre");
-                }
-                else {
-                    result = _T("");
-                }
+                result = _T("");
             }
+        }
+    }
+
+    if (result.empty()) {
+        //check redhat location
+        if (FilePath::FileExists(_T("/usr/java/latest/jre/lib/rt.jar")) == true) {
+            result = _T("/usr/java/latest/jre");
+        }
+        else if (FilePath::FileExists(_T("/usr/lib/jvm/default-java/jre/lib/rt.jar")) == true) {
+            result = _T("/usr/lib/jvm/default-java/jre");
         }
     }
 
