@@ -5,7 +5,6 @@
 
 #include "ChromeClientJava.h"
 #if ENABLE(INPUT_TYPE_COLOR)
-#include "ColorChooser.h"
 #include "ColorChooserJava.h"
 #endif
 #include "ContextMenu.h"
