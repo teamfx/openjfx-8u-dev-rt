@@ -124,7 +124,4 @@ endif ()
 # The Ninja generator does not yet know how to build archives in pieces, and so response
 # files must be used to deal with very long linker command lines.
 # See https://bugs.webkit.org/show_bug.cgi?id=129771
-# The Apple Toolchain deosn't support response files.
-if (NOT APPLE)
-    set(CMAKE_NINJA_FORCE_RESPONSE_FILE 1)
-endif ()
+set(CMAKE_NINJA_FORCE_RESPONSE_FILE 1)
