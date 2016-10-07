@@ -84,8 +84,8 @@ void JavaInstance::virtualEnd()
 Class* JavaInstance::getClass() const
 {
     if (!m_class) {
-        jobject acc  = accessControlContext();
-        m_class = new JavaClass (m_instance->instance(), rootObject(), acc);
+        jobject acc = accessControlContext();
+        m_class = new JavaClass(m_instance->instance(), rootObject(), acc);
     }
     return m_class;
 }
@@ -168,10 +168,6 @@ JSValue JavaInstance::numberValue(ExecState*) const
     }
 
     JavaClass* aClass = static_cast<JavaClass*>(getClass());
-
-    if (!aClass)
-        return jsUndefined();
-
     if (aClass->isCharacterClass())
         return numberValueForCharacter(obj);
     if (aClass->isBooleanClass())
@@ -236,10 +232,6 @@ const ClassInfo JavaRuntimeMethod::s_info = { "JavaRuntimeMethod", &RuntimeMetho
 JSValue JavaInstance::getMethod(ExecState* exec, PropertyName propertyName)
 {
     JavaClass* aClass = static_cast<JavaClass*>(getClass());
-
-    if (!aClass)
-        return jsUndefined();
-
     Method *method = aClass->methodNamed(propertyName, this);
     return JavaRuntimeMethod::create(exec, exec->lexicalGlobalObject(), propertyName.publicName(), method);
 }
@@ -282,7 +274,7 @@ JSValue JavaInstance::invokeMethod(ExecState* exec, RuntimeMethod* runtimeMethod
     // to handle valueOf method call.
     jobject obj = m_instance->instance();
     JavaClass* aClass = static_cast<JavaClass*>(getClass());
-    if (aClass && aClass->isCharacterClass() && jMethod->name() == "valueOf")
+    if (aClass->isCharacterClass() && jMethod->name() == "valueOf")
         return numberValueForCharacter(obj);
 
     // Since m_instance->instance() is WeakGlobalRef, creating a localref to safeguard instance() from GC
@@ -431,9 +423,6 @@ JSValue JavaInstance::defaultValue(ExecState* exec, PreferredPrimitiveType hint)
         return numberValue(exec);
 
     JavaClass* aClass = static_cast<JavaClass*>(getClass());
-    if (!aClass)
-        return jsUndefined();
-
     if (aClass->isStringClass())
         return stringValue(exec);
 
