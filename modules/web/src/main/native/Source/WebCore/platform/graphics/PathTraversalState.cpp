@@ -280,4 +280,3 @@ bool PathTraversalState::processPathElement(PathElementType type, const FloatPoi
 }
 
 }
-
