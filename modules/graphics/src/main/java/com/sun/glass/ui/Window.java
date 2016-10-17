@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -158,10 +158,10 @@ public abstract class Window {
      */
     public static final int UNIFIED = 1 << 8;
 
-    final static private class State {
-        private static final int NORMAL = 1;
-        private static final int MINIMIZED = 2;
-        private static final int MAXIMIZED = 3;
+    final static public class State {
+        public static final int NORMAL = 1;
+        public static final int MINIMIZED = 2;
+        public static final int MAXIMIZED = 3;
     }
 
     /**
@@ -1198,6 +1198,10 @@ public abstract class Window {
         setScreen(newScreen);
     }
 
+    protected void setState(int state) {
+        this.state = state;
+    }
+
     /**
      * type values:
      *   - WindowEvent.RESIZE
@@ -1261,7 +1265,7 @@ public abstract class Window {
     // *****************************************************
     // window event handlers
     // *****************************************************
-    private void handleWindowEvent(long time, int type) {
+    protected void handleWindowEvent(long time, int type) {
         if (this.eventHandler != null) {
             this.eventHandler.handleWindowEvent(this, time, type);
         }

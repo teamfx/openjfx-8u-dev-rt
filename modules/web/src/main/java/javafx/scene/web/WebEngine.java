@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -1610,6 +1610,16 @@ final public class WebEngine {
         }
     }
 
+    private static final boolean printStatusOK(PrinterJob job) {
+        switch (job.getJobStatus()) {
+            case NOT_STARTED:
+            case PRINTING:
+                return true;
+            default:
+                return false;
+        }
+    }
+
     /**
      * Prints the current Web page using the given printer job.
      * <p>This method does not modify the state of the job, nor does it call
@@ -1619,14 +1629,20 @@ final public class WebEngine {
      * @since JavaFX 8.0
      */
     public void print(PrinterJob job) {
+        if (!printStatusOK(job)) {
+            return;
+        }
+
         PageLayout pl = job.getJobSettings().getPageLayout();
         float width = (float) pl.getPrintableWidth();
         float height = (float) pl.getPrintableHeight();
         int pageCount = page.beginPrinting(width, height);
 
         for (int i = 0; i < pageCount; i++) {
-            Node printable = new Printable(i, width);
-            job.printPage(printable);
+            if (printStatusOK(job)) {
+                Node printable = new Printable(i, width);
+                job.printPage(printable);
+            }
         }
         page.endPrinting();
     }

@@ -1,11 +1,10 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
 #include "ChromeClientJava.h"
 #if ENABLE(INPUT_TYPE_COLOR)
-#include "ColorChooser.h"
 #include "ColorChooserJava.h"
 #endif
 #include "ContextMenu.h"

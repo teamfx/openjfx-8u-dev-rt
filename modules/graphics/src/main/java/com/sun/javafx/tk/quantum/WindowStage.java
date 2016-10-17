@@ -73,6 +73,7 @@ class WindowStage extends GlassStage {
     private boolean isAppletStage = false; // true if this is an embedded applet window
     private boolean isPopupStage = false;
     private boolean isInFullScreen = false;
+    private boolean isAlwaysOnTop = false;
 
     // A flag to indicate whether a call was generated from
     // an allowed input event handler.
@@ -558,15 +559,24 @@ class WindowStage extends GlassStage {
     public void setAlwaysOnTop(boolean alwaysOnTop) {
         // The securityDialog flag takes precedence over alwaysOnTop
         if (securityDialog) return;
+ 
+        if (isAlwaysOnTop == alwaysOnTop) {
+            return;
+        }
 
         if (alwaysOnTop) {
             if (hasPermission(alwaysOnTopPermission)) {
                 platformWindow.setLevel(Level.FLOATING);
+            } else {
+                alwaysOnTop = false;
+                if (stageListener != null) {
+                    stageListener.changedAlwaysOnTop(alwaysOnTop);
+                }
             }
         } else {
             platformWindow.setLevel(Level.NORMAL);
         }
-
+        isAlwaysOnTop = alwaysOnTop;
     }
 
     @Override public void setResizable(boolean resizable) {

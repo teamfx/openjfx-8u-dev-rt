@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -25,6 +25,8 @@
 
 package com.sun.webkit.graphics;
 
+import java.lang.annotation.Native;
+
 public abstract class WCPath<P> extends Ref {
 
     /* The WindRule should be compliant with
@@ -40,7 +42,7 @@ public abstract class WCPath<P> extends Ref {
      * of times in the counter-clockwise direction than the
      * clockwise direction.
      */
-    public static final int RULE_NONZERO = 0;
+    @Native public static final int RULE_NONZERO = 0;
 
     /**
      * The winding rule constant for specifying an even-odd rule
@@ -49,7 +51,7 @@ public abstract class WCPath<P> extends Ref {
      * path if a ray drawn in any direction from that point to
      * infinity is crossed by path segments an odd number of times.
      */
-    public static final int RULE_EVENODD = 1;
+    @Native public static final int RULE_EVENODD = 1;
 
     public abstract void addRect(double x, double y, double w, double h);
 

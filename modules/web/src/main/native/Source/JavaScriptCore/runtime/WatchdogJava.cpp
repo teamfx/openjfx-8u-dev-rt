@@ -1,11 +1,9 @@
 /*
- * Copyright (c) 2013, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 
 #include "config.h"
 #include "Watchdog.h"
-
-#include "com_sun_webkit_WatchdogTimer.h"
 
 namespace JSC {
 

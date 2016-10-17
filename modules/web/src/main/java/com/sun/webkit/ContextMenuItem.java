@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -25,10 +25,12 @@
 
 package com.sun.webkit;
 
+import java.lang.annotation.Native;
+
 public final class ContextMenuItem {
-    public static final int ACTION_TYPE = 0;
-    public static final int SEPARATOR_TYPE = 1;
-    public static final int SUBMENU_TYPE = 2;
+    @Native public static final int ACTION_TYPE = 0;
+    @Native public static final int SEPARATOR_TYPE = 1;
+    @Native public static final int SUBMENU_TYPE = 2;
 
     private String title;
     private int action;

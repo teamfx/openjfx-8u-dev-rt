@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -25,15 +25,16 @@
 
 package com.sun.webkit.text;
 
+import java.lang.annotation.Native;
 import java.text.Normalizer;
 
 final class TextNormalizer {
 
     // Text normalization forms
-    private static final int FORM_NFC = 0;
-    private static final int FORM_NFD = 1;
-    private static final int FORM_NFKC = 2;
-    private static final int FORM_NFKD = 3;
+    @Native private static final int FORM_NFC = 0;
+    @Native private static final int FORM_NFD = 1;
+    @Native private static final int FORM_NFKC = 2;
+    @Native private static final int FORM_NFKD = 3;
 
     private static String normalize(String data, int type) {
         Normalizer.Form form;
