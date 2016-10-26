@@ -55,7 +55,7 @@ import javafx.stage.Stage;
 public class AdvancedMediaApp extends Application {
 
     private static final String MEDIA_URL =
-        "http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv";
+        "http://download.oracle.com/otndocs/products/javafx/oow2010-2.mp4";
 
     private MediaPlayer mediaPlayer;
     private MediaControl mediaControl;
