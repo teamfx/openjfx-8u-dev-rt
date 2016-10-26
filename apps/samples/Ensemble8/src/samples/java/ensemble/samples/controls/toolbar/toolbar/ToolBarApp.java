@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -43,8 +43,14 @@ import javafx.stage.Stage;
  *
  * @sampleName Tool Bar
  * @preview preview.png
+ * @docUrl http://www.oracle.com/pls/topic/lookup?ctx=javase80&id=JFXUI336 Using JavaFX UI Controls
+ * @see javafx.scene.control.Button
  * @see javafx.scene.control.ToolBar
  * @embedded
+ *
+ * @related /Media/Advanced Media
+ * @related /Layout/BorderPane
+ * @related /Controls/Toolbar/Styled Tool Bar
  */
 public class ToolBarApp extends Application {
 

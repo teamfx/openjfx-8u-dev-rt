@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -34,7 +34,6 @@ package ensemble.samples.controls.text.searchbox;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
@@ -51,18 +50,21 @@ public class SearchBox extends Region {
         setMinHeight(24);
         setPrefSize(200, 24);
         setMaxSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
-        textBox = new TextField();
-        textBox.setPromptText("Search");
         clearButton = new Button();
         clearButton.setVisible(false);
-        getChildren().addAll(textBox, clearButton);
         clearButton.setOnAction((ActionEvent actionEvent) -> {
             textBox.setText("");
             textBox.requestFocus();
         });
-        textBox.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            clearButton.setVisible(textBox.getText().length() != 0);
-        });
+        textBox = new TextField();
+        textBox.setPromptText("Search");
+        final ChangeListener<String> textListener =
+            (ObservableValue<? extends String> observable,
+             String oldValue, String newValue) -> {
+                clearButton.setVisible(textBox.getText().length() != 0);
+            };
+        textBox.textProperty().addListener(textListener);
+        getChildren().addAll(textBox, clearButton);
     }
 
     @Override

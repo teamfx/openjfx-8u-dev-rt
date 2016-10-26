@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -60,7 +60,8 @@ public class TooltipContent  extends GridPane {
         setConstraints(highValue, 1, 2);
         setConstraints(low, 0, 3);
         setConstraints(lowValue, 1, 3);
-        getChildren().addAll(open, openValue, close, closeValue, high, highValue, low, lowValue);
+        getChildren().addAll(open, openValue, close, closeValue,
+                             high, highValue, low, lowValue);
     }
 
     public void update(double open, double close, double high, double low) {

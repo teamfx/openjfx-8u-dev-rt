@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -43,18 +43,26 @@ public class Person {
         private final StringProperty lastName;
         private final StringProperty email;
 
-        public Person(boolean invited, String fName, String lName, String email) {
+        public Person(boolean invited, String first, String last, String email) {
             this.invited = new SimpleBooleanProperty(invited);
-            this.firstName = new SimpleStringProperty(fName);
-            this.lastName = new SimpleStringProperty(lName);
+            this.firstName = new SimpleStringProperty(first);
+            this.lastName = new SimpleStringProperty(last);
             this.email = new SimpleStringProperty(email);
         }
 
-        public BooleanProperty invitedProperty() { return invited; }
+        public BooleanProperty invitedProperty() {
+            return invited;
+        }
 
-        public StringProperty firstNameProperty() { return firstName; }
+        public StringProperty firstNameProperty() {
+            return firstName;
+        }
 
-        public StringProperty lastNameProperty() { return lastName; }
+        public StringProperty lastNameProperty() {
+            return lastName;
+        }
 
-        public StringProperty emailProperty() { return email; }
+        public StringProperty emailProperty() {
+            return email;
+        }
 }
