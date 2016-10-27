@@ -559,7 +559,7 @@ class WindowStage extends GlassStage {
     public void setAlwaysOnTop(boolean alwaysOnTop) {
         // The securityDialog flag takes precedence over alwaysOnTop
         if (securityDialog) return;
- 
+
         if (isAlwaysOnTop == alwaysOnTop) {
             return;
         }
