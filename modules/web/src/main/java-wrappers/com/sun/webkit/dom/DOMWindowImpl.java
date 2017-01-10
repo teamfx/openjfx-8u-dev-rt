@@ -288,16 +288,6 @@ public class DOMWindowImpl extends JSObject implements AbstractView, EventTarget
     }
     native static double getDevicePixelRatioImpl(long peer);
 
-    public EventListener getOnresize() {
-        return EventListenerImpl.getImpl(getOnresizeImpl(getPeer()));
-    }
-    native static long getOnresizeImpl(long peer);
-
-    public void setOnresize(EventListener value) {
-        setOnresizeImpl(getPeer(), EventListenerImpl.getPeer(value));
-    }
-    native static void setOnresizeImpl(long peer, long value);
-
     public EventListener getOnanimationend() {
         return EventListenerImpl.getImpl(getOnanimationendImpl(getPeer()));
     }
@@ -808,6 +798,16 @@ public class DOMWindowImpl extends JSObject implements AbstractView, EventTarget
     }
     native static void setOnresetImpl(long peer, long value);
 
+    public EventListener getOnresize() {
+        return EventListenerImpl.getImpl(getOnresizeImpl(getPeer()));
+    }
+    native static long getOnresizeImpl(long peer);
+
+    public void setOnresize(EventListener value) {
+        setOnresizeImpl(getPeer(), EventListenerImpl.getPeer(value));
+    }
+    native static void setOnresizeImpl(long peer, long value);
+
     public EventListener getOnscroll() {
         return EventListenerImpl.getImpl(getOnscrollImpl(getPeer()));
     }
@@ -1225,6 +1225,20 @@ public class DOMWindowImpl extends JSObject implements AbstractView, EventTarget
         , String pseudoElement);
 
 
+    public void captureEvents()
+    {
+        captureEventsImpl(getPeer());
+    }
+    native static void captureEventsImpl(long peer);
+
+
+    public void releaseEvents()
+    {
+        releaseEventsImpl(getPeer());
+    }
+    native static void releaseEventsImpl(long peer);
+
+
     public void addEventListener(String type
         , EventListener listener
         , boolean useCapture)
@@ -1262,20 +1276,6 @@ public class DOMWindowImpl extends JSObject implements AbstractView, EventTarget
     }
     native static boolean dispatchEventImpl(long peer
         , long event);
-
-
-    public void captureEvents()
-    {
-        captureEventsImpl(getPeer());
-    }
-    native static void captureEventsImpl(long peer);
-
-
-    public void releaseEvents()
-    {
-        releaseEventsImpl(getPeer());
-    }
-    native static void releaseEventsImpl(long peer);
 
 
     public String atob(String string) throws DOMException
