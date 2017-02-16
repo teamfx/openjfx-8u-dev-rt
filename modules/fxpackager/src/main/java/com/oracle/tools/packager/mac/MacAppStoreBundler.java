@@ -313,7 +313,7 @@ public class MacAppStoreBundler extends MacBaseInstallerBundler {
 
         // webkit
         // 8u60 webkit started using an API Apple didn't like
-        if (majorVersion == 8 && updateVersion >= 60) {
+        if (majorVersion == 8 && 60 <= updateVersion && updateVersion < 152) {
             rules.add(JreUtils.Rule.suffixNeg("/lib/libjfxwebkit.dylib"));
         }
 
