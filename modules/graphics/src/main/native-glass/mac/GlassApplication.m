@@ -705,6 +705,9 @@ jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
 
 + (void)enterFullScreenExitingLoop
 {
+    if (isFullScreenExitingLoop) {
+        return;
+    }
     isFullScreenExitingLoop = YES;
     GET_MAIN_JENV;
     (*env)->CallStaticObjectMethod(env, jApplicationClass,
