@@ -227,8 +227,8 @@ bool PosixProcess::Execute(const TString Application, const std::vector<TString>
 bool PosixProcess::Wait() {
     bool result = false;
 
-    int status;
-    pid_t wpid;
+    int status = 0;
+    pid_t wpid = 0;
 
     //TODO Use waitpid instead of wait
 #ifdef LINUX
