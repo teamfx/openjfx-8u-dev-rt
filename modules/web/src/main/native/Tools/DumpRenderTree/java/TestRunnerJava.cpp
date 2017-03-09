@@ -11,13 +11,6 @@
 #include <JavaScriptCore/JSRetainPtr.h>
 #include <JavaScriptCore/JSStringRef.h>
 
-jclass getDRTClass(JNIEnv* env)
-{
-    static JGClass cls(env->FindClass("com/sun/javafx/webkit/drt/DumpRenderTree"));
-    ASSERT(cls);
-    return cls;
-}
-
 jstring JSStringRef_to_jstring(JSStringRef ref, JNIEnv* env)
 {
     size_t size = JSStringGetLength(ref);
@@ -106,22 +99,16 @@ void TestRunner::keepWebHistory()
 void TestRunner::notifyDone()
 {
     JNIEnv* env = DumpRenderTree_GetJavaEnv();
-
-    static jmethodID notifyDoneMID = env->GetStaticMethodID(getDRTClass(env), "notifyDone", "()V");
-    ASSERT(notifyDoneMID);
-    env->CallStaticVoidMethod(getDRTClass(env), notifyDoneMID);
+    env->CallStaticVoidMethod(getDumpRenderTreeClass(), getNotifyDoneMID());
     CheckAndClearException(env);
 }
 
 void TestRunner::overridePreference(JSStringRef key, JSStringRef value)
 {
     JNIEnv* env = DumpRenderTree_GetJavaEnv();
-
     JLString jRelKey(JSStringRef_to_jstring(key, env));
     JLString jRelValue(JSStringRef_to_jstring(value, env));
-    static jmethodID overridePreferenceMID = env->GetStaticMethodID(getDRTClass(env), "overridePreference", "(Ljava/lang/String;Ljava/lang/String;)V");
-    ASSERT(overridePreferenceMID);
-    env->CallStaticVoidMethod(getDRTClass(env), overridePreferenceMID, (jstring)jRelKey, (jstring)jRelValue);
+    env->CallStaticVoidMethod(getDumpRenderTreeClass(), getOverridePreferenceMID(), (jstring)jRelKey, (jstring)jRelValue);
     CheckAndClearException(env);
 }
 
@@ -139,9 +126,7 @@ JSStringRef TestRunner::pathToLocalResource(JSContextRef context, JSStringRef ur
 size_t TestRunner::webHistoryItemCount()
 {
     JNIEnv* env = DumpRenderTree_GetJavaEnv();
-    static jmethodID getBackForwardItemCountMID = env->GetStaticMethodID(getDRTClass(env), "getBackForwardItemCount", "()I");
-    ASSERT(getBackForwardItemCountMID);
-    jint count = env->CallStaticIntMethod(getDRTClass(env), getBackForwardItemCountMID);
+    jint count = env->CallStaticIntMethod(getDumpRenderTreeClass(), getGetBackForwardItemCountMID());
     CheckAndClearException(env);
     return (size_t)count;
 }
@@ -149,17 +134,10 @@ size_t TestRunner::webHistoryItemCount()
 void TestRunner::queueLoad(JSStringRef url, JSStringRef target)
 {
     JNIEnv* env = DumpRenderTree_GetJavaEnv();
-
     JLString jRelUrl(JSStringRef_to_jstring(url, env));
-
-    static jmethodID resolveUrlMID = env->GetStaticMethodID(getDRTClass(env), "resolveURL", "(Ljava/lang/String;)Ljava/lang/String;");
-    ASSERT(resolveUrlMID);
-
-    JLString jAbsUrl((jstring)env->CallStaticObjectMethod(getDRTClass(env), resolveUrlMID, (jstring)jRelUrl));
+    JLString jAbsUrl((jstring)env->CallStaticObjectMethod(getDumpRenderTreeClass(), getResolveURLMID(), (jstring)jRelUrl));
     CheckAndClearException(env);
-
     JSStringRef absUrlRef = jstring_to_JSStringRef((jstring)jAbsUrl, env);
-
     WorkQueue::singleton().queue(new LoadItem(absUrlRef, target));
 }
 
@@ -289,9 +267,7 @@ void TestRunner::setWaitToDump(bool waitUntilDone)
         return;
     }
 
-    static jmethodID notifyDoneMID = env->GetStaticMethodID(getDRTClass(env), "waitUntilDone", "()V");
-    ASSERT(notifyDoneMID);
-    env->CallStaticVoidMethod(getDRTClass(env), notifyDoneMID);
+    env->CallStaticVoidMethod(getDumpRenderTreeClass(), getWaitUntillDoneMethodId());
     CheckAndClearException(env);
 }
 
