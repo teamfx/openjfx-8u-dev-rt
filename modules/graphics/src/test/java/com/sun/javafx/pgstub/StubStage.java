@@ -415,4 +415,13 @@ public class StubStage implements TKStage {
 
     public void setRTL(boolean b) {
     }
+
+    @Override
+    public void setEnabled(boolean b) {
+    }
+
+    @Override
+    public long getRawHandle() {
+        return 0L;
+    }
 }
