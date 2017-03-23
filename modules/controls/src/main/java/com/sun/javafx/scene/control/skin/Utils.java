@@ -32,6 +32,7 @@ package com.sun.javafx.scene.control.skin;
 
 import java.text.Bidi;
 import java.text.BreakIterator;
+import java.net.URL;
 import java.util.function.Consumer;
 
 import static javafx.scene.control.OverrunStyle.*;
@@ -790,4 +791,9 @@ public class Utils {
             p.addListener(listener);
         }
     }
+
+    public static URL getResource(String str) {
+        return Utils.class.getResource(str);
+    }
+
 }
