@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
  */
 #ifndef JavaEnv_h
 #define JavaEnv_h
@@ -9,6 +9,16 @@
 extern JavaVM* jvm;
 
 JNIEnv* JNICALL DumpRenderTree_GetJavaEnv();
+
+jclass getDumpRenderTreeClass();
+jmethodID getWaitUntillDoneMethodId();
+jmethodID getNotifyDoneMID();
+jmethodID getOverridePreferenceMID();
+jmethodID getGetBackForwardItemCountMID();
+jmethodID getResolveURLMID();
+jmethodID getLoadURLMID();
+jmethodID getGoBackForward();
+
 
 bool CheckAndClearException(JNIEnv* env);
 
