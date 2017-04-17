@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -76,6 +76,12 @@ JNIEXPORT jlong JNICALL Java_com_sun_prism_es2_MacGLFactory_nInitialize
     attrs = (*env)->GetIntArrayElements(env, attrArr, NULL);
     pixelFormat = (jlong) (intptr_t) createPixelFormat(attrs);
     (*env)->ReleaseIntArrayElements(env, attrArr, attrs, JNI_ABORT);
+
+    if (pixelFormat == 0) {
+        // System is incapable of es2 support
+        printAndReleaseResources(0, 0, NULL);
+        return 0;
+    }
 
     context = (jlong) (intptr_t) createContext(NULL, NULL,
             (void *) (intptr_t) pixelFormat, &viewNotReady);

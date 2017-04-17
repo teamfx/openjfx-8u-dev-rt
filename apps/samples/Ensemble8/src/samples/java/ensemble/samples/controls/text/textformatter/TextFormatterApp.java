@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -42,22 +42,39 @@ import java.text.NumberFormat;
  *
  * @sampleName Text Formatter
  * @preview preview.png
+ * @docUrl http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/text.htm#JFXUI734 Using JavaFX Text
  * @see javafx.scene.control.TextFormatter
  * @see javafx.scene.control.TextField
  * @see javafx.scene.control.TextInputControl
+ * @see javafx.util.converter.FormatStringConverter
  * @playground price (min=0, max=10000)
  * @embedded
+ *
+ * @related /Controls/Text/Advanced Label
+ * @related /Controls/Text/Bidi
+ * @related /Controls/Text/Inset Text
+ * @related /Controls/Button/Graphic Button
+ * @related /Controls/Text/Search Box
+ * @related /Controls/Text/Simple Label
+ * @related /Controls/Text/Text Field
+ * @related /Controls/Text/TextFlow
+ * @related /Controls/Text/Text Validator
  */
 public class TextFormatterApp extends Application{
 
-    private DoubleProperty price = new SimpleDoubleProperty(1200.555);
+    private final DoubleProperty price = new SimpleDoubleProperty(1200.555);
+    public final DoubleProperty priceProperty() {
+        return price;
+    }
 
     public Parent createContent() {
-        TextField text = new TextField();
         final NumberFormat currencyInstance = NumberFormat.getCurrencyInstance();
         String symbol = currencyInstance.getCurrency().getSymbol();
-        TextFormatter<Number> formatter = new TextFormatter<>(new FormatStringConverter<>(currencyInstance));
+        FormatStringConverter<Number> converter =
+            new FormatStringConverter<>(currencyInstance);
+        TextFormatter<Number> formatter = new TextFormatter<>(converter);
         formatter.valueProperty().bindBidirectional(price);
+        final TextField text = new TextField();
         text.setTextFormatter(formatter);
         text.setMaxSize(140, TextField.USE_COMPUTED_SIZE);
         return text;

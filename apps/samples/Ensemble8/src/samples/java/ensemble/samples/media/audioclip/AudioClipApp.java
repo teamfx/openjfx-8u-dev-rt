@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2017, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -31,8 +31,11 @@
  */
 package ensemble.samples.media.audioclip;
 
+import java.io.File;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -50,10 +53,16 @@ import javafx.stage.Stage;
  *
  * @sampleName Audio Clip
  * @preview preview.png
+ * @docUrl http://docs.oracle.com/javase/8/javafx/media-tutorial/overview.htm#JFXMD101 Using JavaFX Media
+ * @see javafx.scene.layout.StackPane
  * @see javafx.scene.media.AudioClip
- * @related /Graphics 3d/Xylophone
  * @highlight
  * @conditionalFeatures WEB, MEDIA
+ *
+ * @related /Media/Alpha Media Player
+ * @related /Media/Overlay Media Player
+ * @related /Media/Streaming Media Player
+ * @related /Graphics 3d/Xylophone
  */
 public class AudioClipApp extends Application {
     public Parent createContent() {
@@ -69,14 +78,14 @@ public class AudioClipApp extends Application {
         final Group content = new Group(
                 r1,
                 r2,
-                createKey(Color.PURPLE, xStart + 0 * xOffset, barWidth, 100, "/ensemble/samples/shared-resources/Note1.wav"),
-                createKey(Color.BLUEVIOLET, xStart + 1 * xOffset, barWidth, 95, "/ensemble/samples/shared-resources/Note2.wav"),
-                createKey(Color.BLUE, xStart + 2 * xOffset, barWidth, 90, "/ensemble/samples/shared-resources/Note3.wav"),
-                createKey(Color.GREEN, xStart + 3 * xOffset, barWidth, 85, "/ensemble/samples/shared-resources/Note4.wav"),
-                createKey(Color.GREENYELLOW, xStart + 4 * xOffset, barWidth, 80, "/ensemble/samples/shared-resources/Note5.wav"),
-                createKey(Color.YELLOW, xStart + 5 * xOffset, barWidth, 75, "/ensemble/samples/shared-resources/Note6.wav"),
-                createKey(Color.ORANGE, xStart + 6 * xOffset, barWidth, 70, "/ensemble/samples/shared-resources/Note7.wav"),
-                createKey(Color.RED, xStart + 7 * xOffset, barWidth, 65, "/ensemble/samples/shared-resources/Note8.wav"));
+                createKey(Color.PURPLE, xStart + 0 * xOffset, barWidth, 1),
+                createKey(Color.BLUEVIOLET, xStart + 1 * xOffset, barWidth, 2),
+                createKey(Color.BLUE, xStart + 2 * xOffset, barWidth, 3),
+                createKey(Color.GREEN, xStart + 3 * xOffset, barWidth, 4),
+                createKey(Color.GREENYELLOW, xStart + 4 * xOffset, barWidth, 5),
+                createKey(Color.YELLOW, xStart + 5 * xOffset, barWidth, 6),
+                createKey(Color.ORANGE, xStart + 6 * xOffset, barWidth, 7),
+                createKey(Color.RED, xStart + 7 * xOffset, barWidth, 8));
 
         // A StackPane by default centers its children, here we extend it to
         // scale the content to fill the StackPane first.
@@ -96,10 +105,63 @@ public class AudioClipApp extends Application {
         return root;
     }
 
-    public static Rectangle createKey(Color color, double x, double width, double height, String sound) {
+    /*
+     * See JDK-8177428 for an explanation of why this is here.
+     */
+    private static AudioClip getNoteClip(String name) {
+        // First look for the clips in a directory next to our jar file
+        try {
+            // Get a URI to this class file
+            URI baseURI = AudioClipApp.class.getResource("AudioClipApp.class").toURI();
+
+            // If we have a jar URL, get the embedded http or file URL
+            // and trim off the internal jar path, this will leave us
+            // with a URL to the jar file
+            if (baseURI.getScheme().equals("jar")) {
+                String basePath = baseURI.getSchemeSpecificPart();
+                if (basePath.contains("!/")) {
+                    basePath = basePath.substring(0, basePath.indexOf("!/"));
+                }
+                baseURI = new URI(basePath);
+            }
+
+            URL noteURL = baseURI.resolve("resources/"+name).toURL();
+
+            // check if the resource exists, then try to load it
+            if (noteURL.getProtocol().equals("http")) {
+                HttpURLConnection urlCon = (HttpURLConnection)noteURL.openConnection();
+                urlCon.setRequestMethod("HEAD");
+                urlCon.connect();
+                if (urlCon.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                    noteURL = null;
+                }
+                urlCon.disconnect();
+            } else if (noteURL.getProtocol().equals("file")) {
+                File f = new File(noteURL.getPath());
+                if (!f.exists() || !f.isFile()) {
+                    noteURL = null;
+                }
+            } else {
+                // unsupported protocol
+                noteURL = null;
+            }
+            if (noteURL != null) {
+                return new AudioClip(noteURL.toExternalForm());
+            }
+        } catch (Exception e) {} // fail gracefully
+
+        // Fall back on the embedded clips
+        return new AudioClip(
+                AudioClipApp.class.getResource("/ensemble/samples/shared-resources/"+name).toExternalForm());
+    }
+
+    public static Rectangle createKey(Color color, double x,
+                                      double width, int note) {
+
+        double height = 100 - ((note - 1) * 5);
         // create a audio clip that this key will play
-        final AudioClip barNote = new AudioClip(
-                AudioClipApp.class.getResource(sound).toExternalForm());
+        final AudioClip barNote = getNoteClip("Note"+note+".wav");
+
         // create the rectangle that draws the key
         Rectangle rectangle = new Rectangle(x, -(height / 2), width, height);
         rectangle.setFill(color);

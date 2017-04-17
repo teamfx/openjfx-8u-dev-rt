@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
@@ -1964,7 +1964,7 @@ JNIEXPORT jstring JNICALL Java_com_sun_webkit_WebPage_twkGetCommittedText
                     t = s + t.substring(end, length - start);
                 }
             }
-            text = env->NewStringUTF(t.utf8().data());
+            text = t.toJavaString(env).releaseLocal();
             CheckAndClearException(env); // OOME
         }
     }
@@ -1980,7 +1980,7 @@ JNIEXPORT jstring JNICALL Java_com_sun_webkit_WebPage_twkGetSelectedText
     jstring text = 0;
 
     String t = frame->editor().selectedText();
-    text = env->NewStringUTF(t.utf8().data());
+    text = t.toJavaString(env).releaseLocal();
     CheckAndClearException(env); // OOME
 
     return text;

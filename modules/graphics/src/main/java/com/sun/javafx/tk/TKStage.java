@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -209,6 +209,18 @@ public interface TKStage {
     void releaseInput();
 
     public void setRTL(boolean b);
+
+    /**
+     * Whether mouse/keyboard events should be sent to this window.
+     * @param whether this stage should receive events/focus
+     */
+    public void setEnabled(boolean enabled);
+
+    /**
+     * Return a handle to the native platform window id.
+     * @return platform window id, or 0L if there is none.
+     */
+    public long getRawHandle();
 
     public static final KeyCodeCombination defaultFullScreenExitKeycombo =
             new KeyCodeCombination(KeyCode.ESCAPE,

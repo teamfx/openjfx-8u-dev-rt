@@ -45,15 +45,14 @@ else
     CFLAGS += -O0 -g -Wall
 endif
 
-
 INCLUDES = -I$(JAVA_HOME)/include \
            -I$(JAVA_HOME)/include/darwin \
            -I$(SRCBASE_DIR) \
            -I$(SRCBASE_DIR)/jni \
            -I$(GENERATED_HEADERS_DIR)
 
-
-LDFLAGS = -mmacosx-version-min=10.7 \
+# We need to ensure everything builds with libc++, so add it here
+LDFLAGS = -stdlib=libc++ -mmacosx-version-min=10.7 \
           -arch x86_64 \
           -L$(BUILD_DIR) \
           -lobjc \
@@ -71,6 +70,8 @@ JFXMEDIA_CFLAGS = $(CFLAGS) \
          -DGSTREAMER_LITE          \
          -DJFXMEDIA_JNI_EXPORTS    \
          -DHAVE_CONFIG_H           \
+
+JFXMEDIA_CCFLAGS = -std=c++11 -stdlib=libc++ $(JFXMEDIA_CFLAGS) 
 
 JFXMEDIA_INCLUDES = $(INCLUDES) \
            -I$(GLIB_LITE_DIR)/ \
@@ -161,7 +162,7 @@ default: $(TARGET) $(QTK_LIB) $(AVF_LIB)
 
 $(OBJBASE_DIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)
-	$(CC) $(JFXMEDIA_CFLAGS) $(JFXMEDIA_INCLUDES) -MD -MF $(OBJBASE_DIR)/$*.d -x c++ -c $< -o $@
+	$(CC) $(JFXMEDIA_CCFLAGS) $(JFXMEDIA_INCLUDES) -MD -MF $(OBJBASE_DIR)/$*.d -x c++ -c $< -o $@
 
 $(OBJBASE_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
@@ -169,7 +170,7 @@ $(OBJBASE_DIR)/%.o: %.c
 
 $(OBJBASE_DIR)/%.o: %.mm
 	@mkdir -p $(dir $@)
-	$(CC) $(JFXMEDIA_CFLAGS) $(JFXMEDIA_INCLUDES) -MD -MF $(OBJBASE_DIR)/$*.d -x objective-c++ -c $< -o $@
+	$(CC) $(JFXMEDIA_CCFLAGS) $(JFXMEDIA_INCLUDES) -MD -MF $(OBJBASE_DIR)/$*.d -x objective-c++ -c $< -o $@
 
 $(OBJBASE_DIR)/%.o: %.m
 	@mkdir -p $(dir $@)
@@ -194,11 +195,10 @@ endif
 # force the use of clang for this module.
 ifeq ($(COMPILE_PARFAIT), true)
   # call xcrun so we wrap the correct clang++ executable
-  CLANG_PATH = $(shell xcrun -find clang++)
+  CLANG_PATH := $(shell xcrun -find clang++)
   AVF_CPP = parfait-clang++ --nativecxx "$(CLANG_PATH)"
 else
-  # add -l to show the full command line used to invoke clang++ (for debugging purposes)
-  AVF_CPP = xcrun -l $(AVF_XCRUN_FLAGS) clang++
+  AVF_CPP := $(shell xcrun -find $(AVF_XCRUN_FLAGS) clang++)
 endif
 
 AVF_OBJBASE = $(OBJBASE_DIR)/avf
@@ -210,6 +210,7 @@ AVF_SYSROOT = $(shell xcodebuild -sdk macosx -version | grep '^Path: ' | sed 's/
 # we have to remove -mmacosx-version-min=% from CFLAGS and LDFLAGS and set it to
 # 10.8 since this module requires features only in 10.8 and later
 AVF_LDFLAGS = $(filter-out -mmacosx-version-min=%, $(LDFLAGS)) \
+              -std=c++11 -stdlib=libc++ \
               -isysroot "$(AVF_SYSROOT)" \
               -iframework"$(AVF_SYSROOT)/System/Library/Frameworks" \
               -mmacosx-version-min=10.8 \
@@ -221,6 +222,7 @@ AVF_LDFLAGS = $(filter-out -mmacosx-version-min=%, $(LDFLAGS)) \
               -framework MediaToolbox
 
 AVF_CFLAGS = $(filter-out -mmacosx-version-min=%, $(CFLAGS)) \
+             -std=c++11 -stdlib=libc++ \
              -isysroot "$(AVF_SYSROOT)" \
              -iframework"$(AVF_SYSROOT)/System/Library/Frameworks" \
              -mmacosx-version-min=10.8 \
@@ -289,9 +291,10 @@ $(AVF_LIB): $(TARGET) $(AVF_OBJECTS)
 # QTKit platform lib rules
 
 QTK_OBJBASE = $(OBJBASE_DIR)/qtk
+QTK_CCFLAGS = -std=c++11 -stdlib=libc++ $(CFLAGS)
 QTK_LDFLAGS = $(LDFLAGS) \
-          -Wl,-install_name,@rpath/$(QTK_NAME) \
-          -framework QTKit
+              -Wl,-install_name,@rpath/$(QTK_NAME) \
+              -framework QTKit
 
 QTK_SOURCES = platform/osx/QTKMediaPlayer.mm
 QTK_OBJECTS = $(patsubst %.mm,$(QTK_OBJBASE)/%.o,$(QTK_SOURCES))
@@ -300,7 +303,7 @@ QTK_OBJECTS = $(patsubst %.mm,$(QTK_OBJBASE)/%.o,$(QTK_SOURCES))
 
 $(QTK_OBJBASE)/%.o: %.mm
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDES) -MD -MF $(QTK_OBJBASE)/$*.d -x objective-c++ -c $< -o $@
+	$(CC) $(QTK_CCFLAGS) $(INCLUDES) -MD -MF $(QTK_OBJBASE)/$*.d -x objective-c++ -c $< -o $@
 
 $(QTK_LIB): $(TARGET) $(QTK_OBJECTS)
 	@mkdir -p $(dir $@)

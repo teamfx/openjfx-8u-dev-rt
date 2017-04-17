@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, 2015, Oracle and/or its affiliates.
+ * Copyright (c) 2014, 2017, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -227,8 +227,8 @@ bool PosixProcess::Execute(const TString Application, const std::vector<TString>
 bool PosixProcess::Wait() {
     bool result = false;
 
-    int status;
-    pid_t wpid;
+    int status = 0;
+    pid_t wpid = 0;
 
     //TODO Use waitpid instead of wait
 #ifdef LINUX

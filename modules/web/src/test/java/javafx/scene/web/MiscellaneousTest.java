@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -247,6 +247,14 @@ public class MiscellaneousTest extends TestBase {
                     pathData, expected[0], totalLength);
             assertEquals(msg,
                     expected[0], totalLength, expected[1]);
+        });
+    }
+
+    // This test case will be removed once we implement Websql feature.
+    @Test public void testWebSQLUndefined() {
+        final WebEngine webEngine = createWebEngine();
+        submit(() -> {
+            assertEquals("undefined", webEngine.executeScript("window.openDatabase"));
         });
     }
 

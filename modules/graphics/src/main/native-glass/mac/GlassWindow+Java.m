@@ -75,7 +75,9 @@ static NSWindow *s_grabWindow = nil;
         self->lastReportedLocation = frame.origin;
 
         GET_MAIN_JENV;
-        (*env)->CallVoidMethod(env, jWindow, jWindowNotifyMove, (int)frame.origin.x,  (int)frame.origin.y);
+
+        (*env)->CallVoidMethod(env, jWindow, jWindowNotifyMove,
+            (int)frame.origin.x,  (int)frame.origin.y, [self->nsWindow isZoomed]);
         [self _sendJavaWindowMoveToAnotherScreenEventIfNeeded];
     }
 }
@@ -85,7 +87,11 @@ static NSWindow *s_grabWindow = nil;
     if (self->suppressWindowResizeEvent == NO)
     {
         GET_MAIN_JENV;
-        (*env)->CallVoidMethod(env, jWindow, jWindowNotifyResize, type, (int)frame.size.width, (int)frame.size.height);
+        (*env)->CallVoidMethod(env, jWindow, jWindowNotifyResize,
+            [self->nsWindow isZoomed]
+                ? com_sun_glass_events_WindowEvent_MAXIMIZE
+                : type,
+             (int)frame.size.width, (int)frame.size.height);
         [self _sendJavaWindowMoveToAnotherScreenEventIfNeeded];
     }
 }
@@ -293,7 +299,7 @@ static NSWindow *s_grabWindow = nil;
     }
     // Make sure we synchronize scale factors which could have changed while
     // we were not visible without invoking the overrides we watch.
-    if ([self->nsWindow screen]) {
+    if ([self->nsWindow screen] && (self->view != nil)) {
         [self->view notifyScaleFactorChanged:GetScreenScaleFactor([self->nsWindow screen])];
     }
 }

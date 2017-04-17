@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -26,10 +26,12 @@
 package javafx.beans.property;
 
 
+import java.util.Collections;
 import javafx.beans.InvalidationListenerMock;
 import javafx.beans.value.ChangeListenerMock;
 import javafx.beans.value.ObservableObjectValueStub;
 import javafx.collections.FXCollections;
+import javafx.collections.MockListObserver;
 import javafx.collections.ObservableList;
 import org.junit.Before;
 import org.junit.Test;
@@ -733,6 +735,21 @@ public class ReadOnlyListWrapperTest {
         final ReadOnlyListWrapper<Object> v4 = new ReadOnlyListWrapper<Object>(null, name);
         assertEquals("ListProperty [name: My name, value: " + DEFAULT + "]", v4.toString());
         assertEquals("ReadOnlyListProperty [name: My name, value: " + DEFAULT + "]", v4.getReadOnlyProperty().toString());
+    }
+
+    @Test
+    public void testBothListChangeListeners() {
+        property.set(FXCollections.observableArrayList());
+
+        MockListObserver<Object> mloInternal = new MockListObserver<>();
+        MockListObserver<Object> mloPublic = new MockListObserver<>();
+        property.addListener(mloInternal);
+        readOnlyProperty.addListener(mloPublic);
+
+        property.add(new Object());
+
+        mloInternal.check1AddRemove(property, Collections.emptyList(), 0, 1);
+        mloPublic.check1AddRemove(readOnlyProperty, Collections.emptyList(), 0, 1);
     }
 
     private static class ReadOnlyListWrapperMock extends ReadOnlyListWrapper<Object> {

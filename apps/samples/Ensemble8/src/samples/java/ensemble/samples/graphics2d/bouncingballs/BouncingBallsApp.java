@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -51,35 +51,20 @@ import javafx.geometry.Insets;
  * @sampleName Bouncing Balls
  * @preview preview.png
  *
- * @see java.util.ArrayList
- * @see java.util.List
- * @see javafx.util.Duration
- * @see javafx.stage.Stage
- * @see javafx.stage.Screen
- * @see javafx.scene.Parent
- * @see javafx.scene.Group
- * @see javafx.scene.Scene
- * @see javafx.scene.Node
+ * @see javafx.animation.Animation.Status
+ * @see javafx.animation.Interpolator
+ * @see javafx.animation.Timeline
  * @see javafx.scene.effect.Reflection
- * @see javafx.scene.shape.Rectangle
- * @see javafx.scene.shape.Line
  * @see javafx.scene.shape.Circle
+ * @see javafx.scene.shape.Line
  * @see javafx.scene.paint.Color
  * @see javafx.scene.paint.CycleMethod
  * @see javafx.scene.paint.RadialGradient
  * @see javafx.scene.paint.Stop
- * @see javafx.scene.control.Button
- * @see javafx.scene.text.Text
- * @see javafx.application.Application
- * @see javafx.animation.Interpolator
- * @see javafx.animation.KeyFrame
- * @see javafx.animation.KeyValue
- * @see javafx.animation.Timeline
- * @see javafx.animation.Animation.Status
- * @see javafx.event.EventHandler
- * @see javafx.event.ActionEvent
- * @see javafx.scene.input.MouseEvent
- * @see javafx.geometry.Insets
+ *
+ * @related /Graphics 2d/Effects/Reflection
+ * @related /Graphics 2d/Shapes/Circle
+ * @related /Animation/Interpolator
  * @embedded
  */
 

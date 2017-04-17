@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -50,6 +50,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -836,6 +838,9 @@ final public class StyleManager {
     //
     ////////////////////////////////////////////////////////////////////////////
 
+    private static final String skinPrefix = "com/sun/javafx/scene/control/skin/";
+    private static final String skinUtilsClassName = "com.sun.javafx.scene.control.skin.Utils";
+
     private static URL getURL(final String str) {
 
         // Note: this code is duplicated, more or less, in URLConverter
@@ -849,15 +854,35 @@ final public class StyleManager {
             // if url doesn't have a scheme
             if (uri.isAbsolute() == false) {
 
+                // Handle internal resources as a special case
+                if (str.startsWith(skinPrefix) &&
+                        (str.endsWith(".css") || str.endsWith(".bss"))) {
+
+                    try {
+                        ClassLoader cl = StyleManager.class.getClassLoader();
+                        Class<?> clz = Class.forName(skinUtilsClassName, true, cl);
+                        Method m_getResource = clz.getMethod("getResource", String.class);
+                        return (URL)m_getResource.invoke(null, str.substring(skinPrefix.length()));
+                    } catch (ClassNotFoundException
+                            | NoSuchMethodException
+                            | IllegalAccessException
+                            | InvocationTargetException ex) {
+                        ex.printStackTrace();
+                        return null;
+                    }
+                }
+
                 final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
                 final String path = uri.getPath();
 
                 URL resource = null;
 
-                if (path.startsWith("/")) {
-                    resource = contextClassLoader.getResource(path.substring(1));
-                } else {
-                    resource = contextClassLoader.getResource(path);
+                if (contextClassLoader != null) {
+                    if (path.startsWith("/")) {
+                        resource = contextClassLoader.getResource(path.substring(1));
+                    } else {
+                        resource = contextClassLoader.getResource(path);
+                    }
                 }
 
                 return resource;

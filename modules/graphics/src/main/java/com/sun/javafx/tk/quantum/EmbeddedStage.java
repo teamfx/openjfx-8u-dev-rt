@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -285,4 +285,15 @@ final class EmbeddedStage extends GlassStage implements EmbeddedStageInterface {
     @Override public void setRTL(boolean b) {
     }
 
+    @Override
+    public void setEnabled(boolean enabled) {
+    }
+
+    @Override
+    public long getRawHandle() {
+        /* Perhaps this could return the ID for the window in which this
+         * stage is embedded, but there is no current requirement for that.
+         */
+        return 0L;
+    }
 }

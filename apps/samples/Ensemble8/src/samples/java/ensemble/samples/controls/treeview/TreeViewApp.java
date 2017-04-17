@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -45,8 +45,12 @@ import javafx.stage.Stage;
  *
  * @sampleName TreeView
  * @preview preview.png
+ * @docUrl http://www.oracle.com/pls/topic/lookup?ctx=javase80&id=JFXUI336 Using JavaFX UI Controls
+ * @see javafx.scene.control.TreeItem
  * @see javafx.scene.control.TreeView
  * @embedded
+ *
+ * @related /Controls/TreeTableView
  */
 public class TreeViewApp extends Application {
 

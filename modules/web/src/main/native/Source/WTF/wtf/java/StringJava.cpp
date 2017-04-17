@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
-#include <vector>
+#include <wtf/Vector.h>
 #include <wtf/text/WTFString.h>
 
 namespace WTF {
@@ -34,7 +34,17 @@ JLString String::toJavaString(JNIEnv *env) const
     if (isNull()) {
         return NULL;
     } else {
-        return env->NewStringUTF(utf8().data());
+        const unsigned len = length();
+        if (is8Bit()) {
+            // Convert latin1 chars to unicode.
+            Vector<jchar> jchars(len);
+            for (unsigned i = 0; i < len; i++) {
+                jchars[i] = at(i);
+            }
+            return env->NewString(jchars.data(), len);
+        } else {
+            return env->NewString((jchar*)characters16(), len);
+        }
     }
 }
 

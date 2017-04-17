@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates.
+ * Copyright (c) 2013, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -48,9 +48,15 @@ public class Inventory {
             this.notes = new SimpleStringProperty(notes);
         }
 
-        public StringProperty nameProperty() { return name; }
+        public StringProperty nameProperty() {
+            return name;
+        }
 
-        public StringProperty notesProperty() { return notes; }
+        public StringProperty notesProperty() {
+            return notes;
+        }
 
-        public ObjectProperty<Data> dataProperty() { return data; }
+        public ObjectProperty<Data> dataProperty() {
+            return data;
+        }
 }

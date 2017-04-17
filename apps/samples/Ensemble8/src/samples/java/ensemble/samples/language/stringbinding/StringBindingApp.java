@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2015, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -34,6 +34,7 @@ package ensemble.samples.language.stringbinding;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
 import javafx.application.Application;
 import javafx.beans.binding.StringBinding;
 import javafx.geometry.Insets;
@@ -52,10 +53,14 @@ import javafx.stage.Stage;
  *
  * @sampleName String Binding
  * @preview preview.png
+ * @docUrl http://docs.oracle.com/javase/8/javafx/properties-binding-tutorial/binding.htm#JFXBD107 JavaFX Properties and Binding
  * @see javafx.beans.binding.StringBinding
  * @see javafx.scene.control.TextField
  * @see javafx.scene.control.Label
  * @embedded
+ *
+ * @related /Controls/Progress Indicator
+ * @related /Language/SwingInterop
  */
 public class StringBindingApp extends Application {
 
