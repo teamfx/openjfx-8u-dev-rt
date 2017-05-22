@@ -986,6 +986,10 @@ static void flv_demux_loop (GstPad * pad)
     GstBuffer* block = NULL;
 
     filter = FLV_DEMUX (GST_OBJECT_PARENT (pad));
+    if (filter == NULL) {
+        gst_pad_pause_task(pad);
+        return;
+    }
 
     //fprintf(stderr, "Pulling %d bytes at %d\n", (int)filter->parser.next_block_size,
     //        (int)filter->parser.file_position);
