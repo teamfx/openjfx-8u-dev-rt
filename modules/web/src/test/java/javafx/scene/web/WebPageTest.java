@@ -26,8 +26,10 @@
 package javafx.scene.web;
 
 import com.sun.webkit.WebPage;
+import com.sun.webkit.WebPageShim;
 import java.util.concurrent.Callable;
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
@@ -36,6 +38,8 @@ public class WebPageTest extends TestBase {
     final static String PLAIN = "<html><head></head><body></body></html>";
     final static String HTML  = "<html><head></head><body><p>Test</p></body></html>";
     final static String XML   = "<?xml version='1.0'?><root></root>";
+    final static String PTAG = "<p></p>";
+    final static String IFRAME = "<iframe src=''> </iframe>";
 
     @Test public void testGetHtml() throws Exception {
         WebPage page = getEngine().getPage();
@@ -61,5 +65,21 @@ public class WebPageTest extends TestBase {
     @Test public void testGetHtmlIllegalFrameId() {
         WebPage page = getEngine().getPage();
         assertEquals(null, page.getHtml(1));
+    }
+
+    @Test public void testFrameCount() {
+        final WebPage page = getEngine().getPage();
+
+        // load content with single iframe, which leads to two frame
+        loadContent(PTAG + IFRAME);
+        submit(() -> {
+            assertEquals("Expected two frames : ", 2, WebPageShim.getFramesCount(page));
+        });
+
+        // load content with only one element which leads to single frame
+        loadContent(PTAG);
+        submit(() -> {
+            assertEquals("Expected single frame : ", 1, WebPageShim.getFramesCount(page));
+        });
     }
 }
