@@ -438,6 +438,11 @@ g_list_insert_before (GList   *list,
     last = last->next;
 
       last->next = _g_list_alloc ();
+#ifdef GSTREAMER_LITE
+      if (last->next == NULL) {
+        return NULL;
+      }
+#endif // GSTREAMER_LITE
       last->next->data = data;
       last->next->prev = last;
       last->next->next = NULL;
@@ -651,6 +656,11 @@ g_list_copy (GList *list)
       while (list)
     {
       last->next = _g_list_alloc ();
+#ifdef GSTREAMER_LITE
+      if (last->next == NULL) {
+        return NULL;
+      }
+#endif // GSTREAMER_LITE
       last->next->prev = last;
       last = last->next;
       last->data = list->data;
