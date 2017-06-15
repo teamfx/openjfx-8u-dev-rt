@@ -36,6 +36,8 @@ import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.Window;
 import java.awt.Insets;
+import java.awt.EventQueue;
+import java.awt.SecondaryLoop;
 import java.awt.event.AWTEventListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.FocusEvent;
@@ -180,6 +182,8 @@ public class JFXPanel extends JComponent {
 
     private boolean isCapturingMouse = false;
 
+    private static boolean fxInitialized;
+
     private synchronized void registerFinishListener() {
         if (instanceCount.getAndIncrement() > 0) {
             // Already registered
@@ -212,9 +216,39 @@ public class JFXPanel extends JComponent {
             System.setProperty("glass.win.renderScale", "100%");
             return null;
         });
-        PlatformImpl.startup(() -> {
-            // No need to do anything here
-        });
+        // Note that calling PlatformImpl.startup more than once is OK
+        if (fxInitialized) {
+            return;
+        }
+        EventQueue eventQueue = AccessController.doPrivileged(
+                (PrivilegedAction<EventQueue>) java.awt.Toolkit
+                        .getDefaultToolkit()::getSystemEventQueue);
+        if (eventQueue.isDispatchThread()) {
+            // We won't block EDT by FX initialization
+            SecondaryLoop secondaryLoop = eventQueue.createSecondaryLoop();
+            final Throwable[] th = {null};
+            new Thread(() -> {
+                try {
+                    PlatformImpl.startup(() -> {});
+                } catch (Throwable t) {
+                    th[0] = t;
+                } finally {
+                    secondaryLoop.exit();
+                }
+            }).start();
+            secondaryLoop.enter();
+            if (th[0] != null) {
+                if (th[0] instanceof RuntimeException) {
+                    throw (RuntimeException) th[0];
+                } else if (th[0] instanceof Error) {
+                    throw (Error) th[0];
+                }
+                throw new RuntimeException("FX initialization failed", th[0]);
+            }
+        } else {
+            PlatformImpl.startup(() -> {});
+        }
+        fxInitialized = true;
     }
 
     /**
