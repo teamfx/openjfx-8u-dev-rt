@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -31,7 +31,7 @@
  */
 package ensemble.samples.controls.listview.listviewcellfactory;
 
-import java.text.NumberFormat;
+import java.text.DecimalFormat;
 import javafx.scene.control.ListCell;
 import javafx.scene.paint.Color;
 
@@ -40,16 +40,18 @@ public class MoneyFormatCell extends ListCell<Number> {
     public void updateItem(Number item, boolean empty) {
         super.updateItem(item, empty);
 
+        if (item == null) {
+            setText("");
+            return;
+        }
+
         // format the number as if it were a monetary value using the
         // formatting relevant to the current locale. This would format
         // 43.68 as "$43.68", and -23.67 as "($23.67)"
-        setText(item == null ? "" : NumberFormat.getCurrencyInstance().format(item));
-
-        if (item != null) {
-            double value = item.doubleValue();
-
-            setTextFill(value == 0 ? Color.BLACK
-                    : value < 0 ? Color.RED : Color.GREEN);
-        }
+        double value = item.doubleValue();
+        DecimalFormat df = new DecimalFormat("\u00A4#,##0.00;(\u00A4#,##0.00)");
+        setText(df.format(value));
+        setTextFill(value == 0 ?
+                    Color.BLACK : value < 0 ? Color.RED : Color.GREEN);
     }
 }

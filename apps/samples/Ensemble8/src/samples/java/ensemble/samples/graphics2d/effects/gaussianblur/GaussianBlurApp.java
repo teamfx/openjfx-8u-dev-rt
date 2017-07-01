@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -47,10 +47,16 @@ import javafx.stage.Stage;
  *
  * @sampleName Gaussian Blur
  * @preview preview.png
+ * @docUrl http://docs.oracle.com/javase/8/javafx/visual-effects-tutorial/visual_effects.htm#JFXTE191 JavaFX Visual Effects
  * @playground gaussianBlur.radius (name="Gaussian Blur Level", min=0, max=15)
  * @see javafx.scene.effect.GaussianBlur
  * @see javafx.scene.effect.Effect
  * @embedded
+ *
+ * @related /Graphics 2d/Effects/Drop Shadow
+ * @related /Graphics 2d/Effects/Inner Shadow
+ * @related /Graphics 2d/Effects/Reflection
+ * @related /Graphics 2d/Effects/Sepia Tone
  */
 public class GaussianBlurApp extends Application {
 

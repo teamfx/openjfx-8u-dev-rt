@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -42,19 +42,18 @@ import javafx.stage.Stage;
  *
  * @sampleName Canvas Fireworks
  * @preview preview.png
- *
+ * @docUrl http://docs.oracle.com/javase/8/javafx/graphics-tutorial/canvas.htm#JFXGR214 Using JavaFX Canvas
  * @see javafx.scene.canvas.Canvas
- * @see javafx.animation.AnimationTimer
- * @see javafx.scene.paint.RadialGradient
- * @see javafx.scene.effect.BlendMode
  * @see javafx.scene.canvas.GraphicsContext
+ * @see javafx.scene.effect.BlendMode
  * @see javafx.scene.effect.Reflection
  * @see javafx.scene.image.ImageView
- * @see javafx.scene.layout.Pane
  * @see javafx.scene.paint.Color
- * @see javafx.scene.paint.Paint
  * @see javafx.scene.paint.CycleMethod
- * @see javafx.scene.paint.Stop
+ * @see javafx.scene.paint.Paint
+ * @see javafx.scene.paint.RadialGradient
+ *
+ * @related /Graphics 2d/Colorful Circles
  */
 public class FireworksApp extends Application {
 

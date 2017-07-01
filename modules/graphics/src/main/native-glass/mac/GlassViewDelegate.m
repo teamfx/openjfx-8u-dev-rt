@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -189,6 +189,9 @@ static jint getSwipeDirFromEvent(NSEvent *theEvent)
 
     [self->fullscreenWindow release];
     self->fullscreenWindow = nil;
+
+    [self->nativeFullScreenModeWindow release];
+    self->nativeFullScreenModeWindow = nil;
 
     [GlassTouches stopTracking:self];
 

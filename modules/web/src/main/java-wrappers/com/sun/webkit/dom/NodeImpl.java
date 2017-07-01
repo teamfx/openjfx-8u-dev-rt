@@ -54,12 +54,17 @@ public class NodeImpl extends JSObject implements Node, EventTarget {
         }
         NodeImpl node = (NodeImpl)createInterface(peer);
         SelfDisposer disposer = new SelfDisposer(node, peer);
+        Disposer.addRecord(disposer);
         disposer.next = head;
         hashTable[hash] = disposer;
         if (3 * hashCount >= 2 * hashTable.length)
             rehash();
         hashCount++;
         return node;
+    }
+
+    static int test_getHashCount() {
+        return hashCount;
     }
 
     private static void rehash() {
@@ -377,7 +382,7 @@ public class NodeImpl extends JSObject implements Node, EventTarget {
     native static boolean hasChildNodesImpl(long peer);
 
 
-    public Node cloneNode(boolean deep)
+    public Node cloneNode(boolean deep) throws DOMException
     {
         return NodeImpl.getImpl(cloneNodeImpl(getPeer()
             , deep));

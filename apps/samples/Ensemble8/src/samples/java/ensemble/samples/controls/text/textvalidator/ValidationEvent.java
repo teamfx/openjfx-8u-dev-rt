@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -34,7 +34,7 @@ package ensemble.samples.controls.text.textvalidator;
 import javafx.event.Event;
 import javafx.event.EventType;
 
-public class ValidationEvent extends Event{
+public class ValidationEvent extends Event {
     public static final EventType<ValidationEvent> ANY_EVENT =
             new EventType<ValidationEvent>(Event.ANY, "VALIDATION");
 
@@ -45,5 +45,7 @@ public class ValidationEvent extends Event{
         this.result = result;
     }
 
-    public final ValidationResult getResult() { return result; }
+    public final ValidationResult getResult() {
+        return result;
+    }
 }
