@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -41,6 +41,40 @@
 #import "GlassApplication.h"
 #import "GlassLayer3D.h"
 #import "GlassHelper.h"
+
+//#include <stdio.h>
+//#include <stdarg.h>
+//
+//void glass_logf(char *fmt, ...) {
+//    va_list argp;
+//    va_start(argp, fmt);
+//    FILE *f = fopen("/tmp/glass.log", "a");
+//    vfprintf(f, fmt, argp);
+//    fclose(f);
+//}
+//
+//void Sys_out_sprintf(JNIEnv *env, char *fmt, ...) {
+//    va_list argp;
+//    va_start(argp, fmt);
+//    char buffer[4096];
+//    vsprintf(buffer, fmt, argp);
+////    glass_logf("str = %s", buffer);
+////    return;
+//    jclass sysClass = (*env)->FindClass(env, "java/lang/System");
+//    if (!sysClass) { glass_logf("Null finding System class\n"); return; }
+//    jclass psClass = (*env)->FindClass(env, "java/io/PrintStream");
+//    if (!psClass) { glass_logf("Null finding PrintStream class\n"); return; }
+//    jfieldID outField = (*env)->GetStaticFieldID(env, sysClass, "out", "Ljava/io/PrintStream;");
+//    if (!outField) { glass_logf("Null finding System.out field\n"); return; }
+//    jmethodID printMethod = (*env)->GetMethodID(env, psClass, "print", "(Ljava/lang/String;)V");
+//    if (!printMethod) { glass_logf("Null finding print method\n"); return; }
+//    jobject outStream = (*env)->GetStaticObjectField(env, sysClass, outField);
+//    if (!outStream) { glass_logf("Null getting System.out object\n"); return; }
+//    jstring theString = (*env)->NewStringUTF(env, buffer);
+//    if (!theString) { glass_logf("Null creating String object\n"); return; }
+//    (*env)->CallVoidMethod(env, outStream, printMethod, theString);
+//    (*env)->DeleteLocalRef(env, theString);
+//}
 
 //#define VERBOSE
 #ifndef VERBOSE
@@ -553,8 +587,12 @@ static jlong _createWindowCommonDo(JNIEnv *env, jobject jWindow, jlong jOwnerPtr
             if ([GlassEmbeddedWindow exists:parent])
             {
                 window->isLocationAssigned = YES;
-                [window _setBounds:(int)round(parent.frame.origin.x)
-                                 y:(int)round(parent.frame.origin.y)
+                NSScreen *pscreen = [[NSScreen screens] objectAtIndex:0];
+                NSRect screenFrame = pscreen.frame;
+                NSRect frameRect = parent.frame;
+                int invy = (int)round(screenFrame.size.height - frameRect.size.height - frameRect.origin.y);
+                [window _setBounds:(int)round(frameRect.origin.x)
+                                 y:invy
                               xSet:YES ySet:YES w:0 h:0 cw:0 ch:0];
             }
         }
@@ -620,7 +658,7 @@ JNIEXPORT void JNICALL Java_com_sun_glass_ui_mac_MacWindow__1initIDs
 
     if (jWindowNotifyMove == NULL)
     {
-        jWindowNotifyMove = (*env)->GetMethodID(env, jWindowClass, "notifyMove", "(II)V");
+        jWindowNotifyMove = (*env)->GetMethodID(env, jWindowClass, "notifyMove", "(IIZ)V");
         if ((*env)->ExceptionCheck(env)) return;
     }
 
@@ -883,6 +921,14 @@ JNIEXPORT jboolean JNICALL Java_com_sun_glass_ui_mac_MacWindow__1setView
         //NSLog(@"                frame: %.2f,%.2f %.2fx%.2f", [window frame].origin.x, [window frame].origin.y, [window frame].size.width, [window frame].size.height);
         //NSLog(@"        view: %@", window->view);
         //NSLog(@"                frame: %.2f,%.2f %.2fx%.2f", [window->view frame].origin.x, [window->view frame].origin.y, [window->view frame].size.width, [window->view frame].size.height);
+
+        // Make sure we synchronize scale factors to the new view as any
+        // dynamic updates might have happened when we had the old view
+        // and/or we may have been set visible before we had a view and
+        // missed the initial notification.
+        if ([window->nsWindow screen]) {
+            [window->view notifyScaleFactorChanged:GetScreenScaleFactor([window->nsWindow screen])];
+        }
 
         if (oldView && oldView != window->view) {
             [[oldView delegate] resetMouseTracking];
@@ -1350,10 +1396,10 @@ JNIEXPORT jboolean JNICALL Java_com_sun_glass_ui_mac_MacWindow__1minimize
 /*
  * Class:     com_sun_glass_ui_mac_MacWindow
  * Method:    _setIcon
- * Signature: (JLcom/sun/glass/ui/Pixels;)V
+ * Signature: (JLjava/nio/ByteBuffer;II)V
  */
 JNIEXPORT void JNICALL Java_com_sun_glass_ui_mac_MacWindow__1setIcon
-(JNIEnv *env, jobject jWindow, jlong jPtr, jobject jPixels)
+(JNIEnv *env, jobject jWindow, jlong jPtr, jobject iconBuffer, jint jWidth, jint jHeight)
 {
     LOG("Java_com_sun_glass_ui_mac_MacWindow__1setIcon");
     if (!jPtr) return;
@@ -1362,10 +1408,15 @@ JNIEXPORT void JNICALL Java_com_sun_glass_ui_mac_MacWindow__1setIcon
     GLASS_POOL_ENTER;
     {
         GlassWindow *window = getGlassWindow(env, jPtr);
-        if (jPixels != NULL)
+
+        if (iconBuffer)
         {
             NSImage *image = nil;
-            (*env)->CallVoidMethod(env, jPixels, jPixelsAttachData, ptr_to_jlong(&image));
+
+            image = getImage(
+                        (*env)->GetDirectBufferAddress(env, iconBuffer),
+                        jHeight, jWidth, 0);
+
             if (image != nil) {
                 // need an explicit window title for the rest of the code to work
                 if ([window->nsWindow title] == nil)
@@ -1526,7 +1577,7 @@ JNIEXPORT jint JNICALL Java_com_sun_glass_ui_mac_MacWindow__1getEmbeddedX
 JNIEXPORT jint JNICALL Java_com_sun_glass_ui_mac_MacWindow__1getEmbeddedY
 (JNIEnv *env, jobject jWindow, jlong jPtr)
 {
-    LOG("Java_com_sun_glass_ui_mac_MacWindow__1getEmbeddedX");
+    LOG("Java_com_sun_glass_ui_mac_MacWindow__1getEmbeddedY");
     if (!jPtr) return 0;
 
     jint y = 0;
@@ -1537,7 +1588,7 @@ JNIEXPORT jint JNICALL Java_com_sun_glass_ui_mac_MacWindow__1getEmbeddedY
         GlassEmbeddedWindow *window = getGlassEmbeddedWindow(env, jPtr);
         NSRect frameRect = [window frame];
 
-        // flip y coorindate
+        // flip y coordinate
         NSScreen *screen = [[NSScreen screens] objectAtIndex:0];
         NSRect screenFrame = screen.frame;
         y = (int)round(screenFrame.size.height - frameRect.size.height - frameRect.origin.y);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -49,22 +49,28 @@ import javafx.stage.Stage;
  *
  * @sampleName Task
  * @preview preview.png
+ * @docUrl http://docs.oracle.com/javase/8/javafx/interoperability-tutorial/concurrency.htm#JFXIP546 Concurrency in JavaFX
  * @see javafx.collections.FXCollections
  * @see javafx.concurrent.Task
  * @see javafx.scene.control.ProgressIndicator
  * @see javafx.scene.control.TableColumn
  * @see javafx.scene.control.TableView
  * @embedded
+ *
+ * @related /Controls/Progress Indicator
+ * @related /Controls/TableView
+ * @related /Language/Concurrency/Service
  */
 public class TaskApp extends Application {
 
     public Parent createContent() {
-       TableView<DailySales> tableView = new TableView<>();
+        TableView<DailySales> tableView = new TableView<>();
         Region veil = new Region();
         veil.setStyle("-fx-background-color: rgba(0, 0, 0, 0.4)");
         ProgressIndicator p = new ProgressIndicator();
         p.setMaxSize(150, 150);
-        //Define table columns
+
+        // Define table columns
         TableColumn idCol = new TableColumn();
         idCol.setText("ID");
         idCol.setCellValueFactory(new PropertyValueFactory("dailySalesId"));

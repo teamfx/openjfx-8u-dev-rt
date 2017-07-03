@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -1091,10 +1091,22 @@ class WCGraphicsPrismContext extends WCGraphicsContext {
     }
 
     @Override
-    public void drawScrollbar(ScrollBarTheme theme, Ref widget, int x, int y,
+    public void drawScrollbar(final ScrollBarTheme theme, final Ref widget, int x, int y,
                               int pressedPart, int hoveredPart)
     {
-        theme.paint(this, widget, x, y, pressedPart, hoveredPart);
+        if (log.isLoggable(Level.FINE)) {
+            log.fine(String.format("drawScrollbar(%s, %s, x = %d, y = %d)", theme, widget, x, y));
+        }
+
+        WCSize s = theme.getWidgetSize(widget);
+        if (!shouldRenderRect(x, y, s.getWidth(), s.getHeight(), null, null)) {
+            return;
+        }
+        new Composite() {
+            @Override void doPaint(Graphics g) {
+                theme.paint(WCGraphicsPrismContext.this, widget, x, y, pressedPart, hoveredPart);
+            }
+        }.paint();
     }
 
     private static Rectangle intersect(Rectangle what, Rectangle with) {
@@ -1700,7 +1712,10 @@ class WCGraphicsPrismContext extends WCGraphicsContext {
             lineWidth,
             BasicStroke.CAP_BUTT,
             BasicStroke.JOIN_MITER,
-            Math.max(1.0f, lineWidth));
+            Math.max(1.0f, lineWidth),
+            state.getStrokeNoClone().getDashSizes(),
+            state.getStrokeNoClone().getDashOffset());
+
         if (!shouldRenderRect(x, y, w, h, null, stroke)) {
             return;
         }

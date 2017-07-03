@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -44,9 +44,14 @@ import javafx.stage.Stage;
  *
  * @sampleName Check Box
  * @preview preview.png
+ * @docUrl http://www.oracle.com/pls/topic/lookup?ctx=javase80&id=JFXUI336 Using JavaFX UI Controls
  * @see javafx.scene.control.CheckBox
- * @related /Controls/Radio Button
+ * @see javafx.scene.layout.VBox
  * @embedded
+ *
+ * @related /Controls/Radio Button
+ * @related /Animation/Timeline
+ * @related /Layout/VBox
  */
 public class CheckBoxApp extends Application {
 

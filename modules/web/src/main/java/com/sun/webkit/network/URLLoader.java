@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -140,6 +140,7 @@ final class URLLoader implements Runnable {
         try {
             int redirectCount = 0;
             boolean streaming = true;
+            boolean connectionResetRetry = true;
             while (true) {
                 // RT-14438
                 String actualUrl = url;
@@ -167,6 +168,14 @@ final class URLLoader implements Runnable {
                     if (streaming) {
                         streaming = false;
                         continue; // retry without streaming
+                    } else {
+                        throw ex;
+                    }
+                } catch (SocketException ex) {
+                    // SocketException: Connection reset, Retry once
+                    if ("Connection reset".equals(ex.getMessage()) && connectionResetRetry) {
+                        connectionResetRetry = false;
+                        continue;
                     } else {
                         throw ex;
                     }

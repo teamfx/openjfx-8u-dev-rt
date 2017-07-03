@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -49,10 +49,15 @@ import javafx.stage.Stage;
  *
  * @sampleName Custom Node
  * @preview preview.png
+ * @see javafx.scene.Group
  * @see javafx.scene.Parent
- * @see javafx.scene.Node
- * @related /Scenegraph/Node Properties
+ * @see javafx.scene.shape.Polygon
  * @embedded
+ *
+ * @related /Scenegraph/Events/Key Stroke Motion
+ * @related /Scenegraph/Node Properties
+ * @related /Graphics 2d/Shapes/Polygon
+ * @related /Scenegraph/Stage
  */
 public class CustomNodeApp extends Application {
 

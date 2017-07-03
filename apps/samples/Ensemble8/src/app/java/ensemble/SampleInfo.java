@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -120,6 +120,8 @@ public class SampleInfo {
             // Note: there may be missing classes/resources due to some filtering
             if (PlatformFeatures.USE_EMBEDDED_FILTER && !runsOnEmbedded) {
                 // we should skip loading this image which will not ever be shown
+            } else if (null == previewUrl) {
+                System.err.println("null previewUrl for : " + name);
             } else {
                 java.net.URL url = getClass().getResource(previewUrl);
                 if (url != null) {

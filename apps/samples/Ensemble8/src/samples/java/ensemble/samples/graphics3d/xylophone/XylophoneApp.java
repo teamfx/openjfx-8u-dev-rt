@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2017, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -31,12 +31,16 @@
  */
 package ensemble.samples.graphics3d.xylophone;
 
+import ensemble.samples.media.audioclip.AudioClipApp;
+import java.io.File;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.Parent;
@@ -57,51 +61,83 @@ import javafx.util.Duration;
  *
  * @sampleName Xylophone
  * @preview preview.png
- * @see javafx.scene.shape.Box
- * @see javafx.scene.paint.PhongMaterial
- * @see javafx.scene.media.AudioClip
+ * @docUrl http://docs.oracle.com/javase/8/javafx/graphics-tutorial/javafx-3d-graphics.htm#JFXGR256 JavaFX 3D Graphics
  * @see javafx.scene.PerspectiveCamera
- * @see javafx.scene.transform.Rotate
- * @see javafx.scene.transform.Scale
- * @see javafx.animation.Timeline
- * @see javafx.animation.KeyFrame
- * @see javafx.animation.KeyValue
- * @see javafx.animation.Interpolator
- * @see javafx.scene.input.MouseEvent
- * @see javafx.event.EventHandler
- * @see javafx.util.Duration
- * @see javafx.scene.Group
  * @see javafx.scene.SceneAntialiasing
  * @see javafx.scene.SubScene
+ * @see javafx.scene.input.MouseEvent
+ * @see javafx.scene.media.AudioClip
+ * @see javafx.scene.paint.PhongMaterial
+ * @see javafx.scene.shape.Box
+ * @see javafx.scene.transform.Rotate
+ * @see javafx.scene.transform.Scale
  * @conditionalFeatures SCENE3D
+ *
+ * @related /Graphics 3d/3D Box
+ * @related /Graphics 3d/3D Cubes
+ * @related /Graphics 3d/3D Sphere
+ * @related /Graphics 3d/3D Sphere System
  */
 public class XylophoneApp extends Application {
 
     private Timeline animation;
     private Timeline animation2;
 
+    /*
+     * See JDK-8177428 for an explanation of why this is here.
+     */
+    private static AudioClip getNoteClip(String name) {
+        // First look for the clips in a directory next to our jar file
+        try {
+            // Get a URI to this class file
+            URI baseURI = XylophoneApp.class.getResource("XylophoneApp.class").toURI();
+
+            // If we have a jar URL, get the embedded http or file URL
+            // and trim off the internal jar path, this will leave us
+            // with a URL to the jar file
+            if (baseURI.getScheme().equals("jar")) {
+                String basePath = baseURI.getSchemeSpecificPart();
+                if (basePath.contains("!/")) {
+                    basePath = basePath.substring(0, basePath.indexOf("!/"));
+                }
+                baseURI = new URI(basePath);
+            }
+
+            URL noteURL = baseURI.resolve("resources/"+name).toURL();
+
+            // check if the resource exists, then try to load it
+            if (noteURL.getProtocol().equals("http")) {
+                HttpURLConnection urlCon = (HttpURLConnection)noteURL.openConnection();
+                urlCon.setRequestMethod("HEAD");
+                urlCon.connect();
+                if (urlCon.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                    noteURL = null;
+                }
+                urlCon.disconnect();
+            } else if (noteURL.getProtocol().equals("file")) {
+                File f = new File(noteURL.getPath());
+                if (!f.exists() || !f.isFile()) {
+                    noteURL = null;
+                }
+            } else {
+                // unsupported protocol
+                noteURL = null;
+            }
+            if (noteURL != null) {
+                return new AudioClip(noteURL.toExternalForm());
+            }
+        } catch (Exception e) {} // fail gracefully
+
+        // Fall back on the embedded clips
+        return new AudioClip(
+                AudioClipApp.class.getResource("/ensemble/samples/shared-resources/"+name).toExternalForm());
+    }
+
     public Parent createContent() {
         Xform sceneRoot = new Xform();
         sceneRoot.rx.setAngle(45.0);
         sceneRoot.ry.setAngle(30.0);
         sceneRoot.setScale(2 * 1.5);
-
-        final AudioClip bar1Note =
-                new AudioClip(XylophoneApp.class.getResource("/ensemble/samples/shared-resources/Note1.wav").toString());
-        final AudioClip bar2Note =
-                new AudioClip(XylophoneApp.class.getResource("/ensemble/samples/shared-resources/Note2.wav").toString());
-        final AudioClip bar3Note =
-                new AudioClip(XylophoneApp.class.getResource("/ensemble/samples/shared-resources/Note3.wav").toString());
-        final AudioClip bar4Note =
-                new AudioClip(XylophoneApp.class.getResource("/ensemble/samples/shared-resources/Note4.wav").toString());
-        final AudioClip bar5Note =
-                new AudioClip(XylophoneApp.class.getResource("/ensemble/samples/shared-resources/Note5.wav").toString());
-        final AudioClip bar6Note =
-                new AudioClip(XylophoneApp.class.getResource("/ensemble/samples/shared-resources/Note6.wav").toString());
-        final AudioClip bar7Note =
-                new AudioClip(XylophoneApp.class.getResource("/ensemble/samples/shared-resources/Note7.wav").toString());
-        final AudioClip bar8Note =
-                new AudioClip(XylophoneApp.class.getResource("/ensemble/samples/shared-resources/Note8.wav").toString());
 
         Group rectangleGroup = new Group();
 
@@ -125,82 +161,25 @@ public class XylophoneApp extends Application {
         base2Cube.setTranslateZ(yPos - 20.0);
         base2Cube.setTranslateY(11.0);
 
-        // Bar1
-        Box bar1Cube = new Box(barWidth, barDepth, 100.0);
-        bar1Cube.setMaterial(new PhongMaterial(Color.PURPLE));
-        bar1Cube.setTranslateX(xStart + 1 * xOffset);
-        bar1Cube.setTranslateZ(yPos);
+        Box[] barCubes = new Box[8];
+        Color[] colors = {
+            Color.PURPLE, Color.BLUEVIOLET, Color.BLUE, Color.GREEN,
+            Color.GREENYELLOW, Color.YELLOW, Color.ORANGE, Color.RED
+        };
+        for (int i = 0; i < barCubes.length; i++) {
+            final AudioClip barNote = getNoteClip("Note"+(i+1)+".wav");
 
-        // Bar2
-        Box bar2Cube = new Box(barWidth, barDepth, 95);
-        bar2Cube.setMaterial(new PhongMaterial(Color.BLUEVIOLET));
-        bar2Cube.setTranslateX(xStart + 2 * xOffset);
-        bar2Cube.setTranslateZ(yPos);
+            barCubes[i] = new Box(barWidth, barDepth, 100.0 - (i * 5.0));
+            barCubes[i].setTranslateX(xStart + ((1 + i) * xOffset));
+            barCubes[i].setTranslateZ(yPos);
+            barCubes[i].setMaterial(new PhongMaterial(colors[i]));
+            barCubes[i].setOnMousePressed((MouseEvent me) -> {
+                barNote.play();
+            });
+        }
 
-        // Bar3
-        Box bar3Cube = new Box(barWidth, barDepth, 90);
-        bar3Cube.setMaterial(new PhongMaterial(Color.BLUE));
-        bar3Cube.setTranslateX(xStart + 3 * xOffset);
-        bar3Cube.setTranslateZ(yPos);
-
-        // Bar4
-        Box bar4Cube = new Box(barWidth, barDepth, 85);
-        bar4Cube.setMaterial(new PhongMaterial(Color.GREEN));
-        bar4Cube.setTranslateX(xStart + 4 * xOffset);
-        bar4Cube.setTranslateZ(yPos);
-
-        // Bar5
-        Box bar5Cube = new Box(barWidth, barDepth, 80);
-        bar5Cube.setMaterial(new PhongMaterial(Color.GREENYELLOW));
-        bar5Cube.setTranslateX(xStart + 5 * xOffset);
-        bar5Cube.setTranslateZ(yPos);
-
-        // Bar6
-        Box bar6Cube = new Box(barWidth, barDepth, 75);
-        bar6Cube.setMaterial(new PhongMaterial(Color.YELLOW));
-        bar6Cube.setTranslateX(xStart + 6 * xOffset);
-        bar6Cube.setTranslateZ(yPos);
-
-        // Bar7
-        Box bar7Cube = new Box(barWidth, barDepth, 70);
-        bar7Cube.setMaterial(new PhongMaterial(Color.ORANGE));
-        bar7Cube.setTranslateX(xStart + 7 * xOffset);
-        bar7Cube.setTranslateZ(yPos);
-
-        // Bar8
-        Box bar8Cube = new Box(barWidth, barDepth, 65);
-        bar8Cube.setMaterial(new PhongMaterial(Color.RED));
-        bar8Cube.setTranslateX(xStart + 8 * xOffset);
-        bar8Cube.setTranslateZ(yPos);
-
-        bar1Cube.setOnMousePressed((MouseEvent me) -> {
-            bar1Note.play();
-        });
-        bar2Cube.setOnMousePressed((MouseEvent me) -> {
-            bar2Note.play();
-        });
-        bar3Cube.setOnMousePressed((MouseEvent me) -> {
-            bar3Note.play();
-        });
-        bar4Cube.setOnMousePressed((MouseEvent me) -> {
-            bar4Note.play();
-        });
-        bar5Cube.setOnMousePressed((MouseEvent me) -> {
-            bar5Note.play();
-        });
-        bar6Cube.setOnMousePressed((MouseEvent me) -> {
-            bar6Note.play();
-        });
-        bar7Cube.setOnMousePressed((MouseEvent me) -> {
-            bar7Note.play();
-        });
-        bar8Cube.setOnMousePressed((MouseEvent me) -> {
-            bar8Note.play();
-        });
-        rectangleGroup.getChildren().addAll(base1Cube, base2Cube,
-                bar1Cube, bar2Cube, bar3Cube,
-                bar4Cube, bar5Cube, bar6Cube,
-                bar7Cube, bar8Cube);
+        rectangleGroup.getChildren().addAll(base1Cube, base2Cube);
+        rectangleGroup.getChildren().addAll(java.util.Arrays.asList(barCubes));
         sceneRoot.getChildren().add(rectangleGroup);
 
         animation = new Timeline();
@@ -227,7 +206,8 @@ public class XylophoneApp extends Application {
 
         PerspectiveCamera camera = new PerspectiveCamera();
 
-        SubScene subScene = new SubScene(sceneRoot, 780 * 1.5, 380 * 1.5, true, SceneAntialiasing.BALANCED);
+        SubScene subScene = new SubScene(sceneRoot, 780 * 1.5, 380 * 1.5,
+                                         true, SceneAntialiasing.BALANCED);
         subScene.setCamera(camera);
 
         sceneRoot.translateXProperty().bind(subScene.widthProperty().divide(2.2));

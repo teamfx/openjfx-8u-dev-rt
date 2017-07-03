@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -31,6 +31,8 @@ import com.sun.glass.ui.Pixels;
 import com.sun.glass.ui.Screen;
 import com.sun.glass.ui.View;
 import com.sun.glass.ui.Window;
+import com.sun.glass.ui.Window.State;
+import java.nio.ByteBuffer;
 
 import java.util.Map;
 
@@ -95,7 +97,22 @@ final class MacWindow extends Window {
     @Override native protected void _setEnabled(long ptr, boolean enabled);
     @Override native protected boolean _setMinimumSize(long ptr, int width, int height);
     @Override native protected boolean _setMaximumSize(long ptr, int width, int height);
-    @Override native protected void _setIcon(long ptr, Pixels pixels);
+
+    private ByteBuffer iconBuffer;
+
+    @Override protected void _setIcon(long ptr, Pixels pixels) {
+
+        if (pixels != null) {
+            iconBuffer = pixels.asByteBuffer();
+            _setIcon(ptr, iconBuffer, pixels.getWidth(), pixels.getHeight());
+        } else {
+            iconBuffer = null;
+            _setIcon(ptr, null, 0, 0);
+        }
+    }
+
+    private native void _setIcon(long ptr, Object iconBuffer, int width, int height);
+
     @Override native protected void _toFront(long ptr);
     @Override native protected void _toBack(long ptr);
     @Override native protected void _enterModal(long ptr);
@@ -107,6 +124,17 @@ final class MacWindow extends Window {
 
     @Override native protected int _getEmbeddedX(long ptr);
     @Override native protected int _getEmbeddedY(long ptr);
+
+    protected void notifyMove(final int x, final int y, boolean isMaximized) {
+        if (isMaximized() != isMaximized && !isMinimized()) {
+            setState(isMaximized ? State.MAXIMIZED : State.NORMAL);
+            handleWindowEvent(System.nanoTime(),
+                    isMaximized
+                            ? WindowEvent.MAXIMIZE
+                            : WindowEvent.RESTORE);
+        }
+        notifyMove(x, y);
+    }
 
     @Override
     protected void _setCursor(long ptr, Cursor cursor) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, 2015, Oracle and/or its affiliates.
+ * Copyright (c) 2014, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -34,7 +34,6 @@ package ensemble.samples.controls.spinner;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -50,8 +49,11 @@ import java.util.Arrays;
  * A sample that demonstrates the Spinner control.
  *
  * @sampleName SpinnerApp
+ * @preview preview.png
  * @see javafx.scene.control.Spinner
- * @related /Controls/Spinner
+ * @docUrl http://www.oracle.com/pls/topic/lookup?ctx=javase80&id=JFXUI336 Using JavaFX UI Controls
+ *
+ * @related /Controls/DialogApp
  */
 public class SpinnerApp extends Application {
 

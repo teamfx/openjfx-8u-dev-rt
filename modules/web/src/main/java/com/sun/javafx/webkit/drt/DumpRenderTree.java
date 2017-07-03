@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -124,32 +124,10 @@ public final class DumpRenderTree {
         }
 
         @Override
+        protected void getScrollBarPartRect(long id, int part, int rect[]) {}
+
+        @Override
         public void paint(WCGraphicsContext g, Ref sbRef, int x, int y, int pressedPart, int hoveredPart) {
-        }
-
-        @Override
-        protected int hitTest(int w, int h, int orientation, int value, int visibleSize, int totalSize, int x, int y) {
-            return 0;
-        }
-
-        @Override
-        protected int getThumbPosition(int w, int h, int orientation, int value, int visibleSize, int totalSize) {
-            return 0;
-        }
-
-        @Override
-        protected int getThumbLength(int w, int h, int orientation, int value, int visibleSize, int totalSize) {
-            return 0;
-        }
-
-        @Override
-        protected int getTrackPosition(int w, int h, int orientation) {
-            return 0;
-        }
-
-        @Override
-        protected int getTrackLength(int w, int h, int orientation) {
-            return 0;
         }
 
         @Override

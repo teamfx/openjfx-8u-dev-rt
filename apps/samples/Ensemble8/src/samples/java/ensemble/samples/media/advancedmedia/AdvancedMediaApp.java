@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -43,16 +43,20 @@ import javafx.stage.Stage;
  *
  * @sampleName Advanced Media
  * @preview preview.png
- * @see javafx.scene.media.MediaPlayer
+ * @docUrl http://docs.oracle.com/javase/8/javafx/media-tutorial/overview.htm#JFXMD101 Using JavaFX Media
  * @see javafx.scene.media.Media
+ * @see javafx.scene.media.MediaPlayer
+ * @conditionalFeatures WEB, MEDIA
+ *
  * @related /Media/Alpha Media Player
  * @related /Media/Overlay Media Player
  * @related /Media/Streaming Media Player
- * @conditionalFeatures WEB, MEDIA
  */
 public class AdvancedMediaApp extends Application {
 
-    private static final String MEDIA_URL = "http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv";
+    private static final String MEDIA_URL =
+        "http://download.oracle.com/otndocs/products/javafx/oow2010-2.mp4";
+
     private MediaPlayer mediaPlayer;
     private MediaControl mediaControl;
 

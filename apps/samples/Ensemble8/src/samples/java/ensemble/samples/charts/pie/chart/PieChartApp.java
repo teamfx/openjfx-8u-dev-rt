@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -47,7 +47,7 @@ import javafx.stage.Stage;
  *
  * @sampleName Pie Chart
  * @preview preview.png
- * @see javafx.scene.chart.PieChart
+ * @docUrl https://docs.oracle.com/javafx/2/charts/jfxpub-charts.htm Using JavaFX Charts Tutorial
  * @playground chart.data
  * @playground chart.clockwise
  * @playground chart.labelLineLength
@@ -58,7 +58,10 @@ import javafx.stage.Stage;
  * @playground chart.legendVisible
  * @playground chart.title
  * @playground chart.titleSide
+ * @see javafx.scene.chart.PieChart
  * @embedded
+ *
+ * @related /Charts/Pie/Drilldown Pie Chart
  */
 public class PieChartApp extends Application {
 
