@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -105,6 +105,56 @@ public abstract class Toolkit {
     private static final String DEFAULT_TOOLKIT     = QUANTUM_TOOLKIT;
 
     private static final Map gradientMap = new WeakHashMap();
+    private static final boolean verbose = AccessController.doPrivileged((PrivilegedAction<Boolean>) () -> Boolean.getBoolean("javafx.verbose"));
+
+    private static final String[] msLibNames = {
+        "api-ms-win-core-console-l1-1-0",
+        "api-ms-win-core-datetime-l1-1-0",
+        "api-ms-win-core-debug-l1-1-0",
+        "api-ms-win-core-errorhandling-l1-1-0",
+        "api-ms-win-core-file-l1-1-0",
+        "api-ms-win-core-file-l1-2-0",
+        "api-ms-win-core-file-l2-1-0",
+        "api-ms-win-core-handle-l1-1-0",
+        "api-ms-win-core-heap-l1-1-0",
+        "api-ms-win-core-interlocked-l1-1-0",
+        "api-ms-win-core-libraryloader-l1-1-0",
+        "api-ms-win-core-localization-l1-2-0",
+        "api-ms-win-core-memory-l1-1-0",
+        "api-ms-win-core-namedpipe-l1-1-0",
+        "api-ms-win-core-processenvironment-l1-1-0",
+        "api-ms-win-core-processthreads-l1-1-0",
+        "api-ms-win-core-processthreads-l1-1-1",
+        "api-ms-win-core-profile-l1-1-0",
+        "api-ms-win-core-rtlsupport-l1-1-0",
+        "api-ms-win-core-string-l1-1-0",
+        "api-ms-win-core-synch-l1-1-0",
+        "api-ms-win-core-synch-l1-2-0",
+        "api-ms-win-core-sysinfo-l1-1-0",
+        "api-ms-win-core-timezone-l1-1-0",
+        "api-ms-win-core-util-l1-1-0",
+        "api-ms-win-crt-conio-l1-1-0",
+        "api-ms-win-crt-convert-l1-1-0",
+        "api-ms-win-crt-environment-l1-1-0",
+        "api-ms-win-crt-filesystem-l1-1-0",
+        "api-ms-win-crt-heap-l1-1-0",
+        "api-ms-win-crt-locale-l1-1-0",
+        "api-ms-win-crt-math-l1-1-0",
+        "api-ms-win-crt-multibyte-l1-1-0",
+        "api-ms-win-crt-private-l1-1-0",
+        "api-ms-win-crt-process-l1-1-0",
+        "api-ms-win-crt-runtime-l1-1-0",
+        "api-ms-win-crt-stdio-l1-1-0",
+        "api-ms-win-crt-string-l1-1-0",
+        "api-ms-win-crt-time-l1-1-0",
+        "api-ms-win-crt-utility-l1-1-0",
+        "ucrtbase",
+
+        // Finally load VS 2017 DLLs in the following order
+        "concrt140",
+        "vcruntime140",
+        "msvcp140"
+};
 
     private static String lookupToolkitClass(String name) {
         if ("prism".equalsIgnoreCase(name)) {
@@ -113,6 +163,19 @@ public abstract class Toolkit {
             return QUANTUM_TOOLKIT;
         }
         return name;
+    }
+
+    public static synchronized void loadMSWindowsLibraries() {
+        for (String libName : msLibNames) {
+            try {
+                NativeLibLoader.loadLibrary(libName);
+            } catch (Throwable t) {
+                if (verbose) {
+                    System.err.println("Error: failed to load "
+                            + libName + ".dll : " + t);
+                }
+            }
+        }
     }
 
     private static String getDefaultToolkit() {
@@ -136,29 +199,9 @@ public abstract class Toolkit {
             return TOOLKIT;
         }
 
-        final boolean verbose = AccessController.doPrivileged((PrivilegedAction<Boolean>) () -> Boolean.getBoolean("javafx.verbose"));
-
-        // This loading of msvcr120.dll and msvcp120.dll (VS2013) is required when run with Java 8
-        // since it was build with VS2010 and doesn't include msvcr120.dll in its JRE.
-        // Note: See README-builds.html on MSVC requirement: VS2013 is required.
+        // This loading of msvcp140.dll and vcruntime140.dll (VS2017) is required when run with Java 8
         if (PlatformUtil.isWindows()) {
-            AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
-                try {
-                    NativeLibLoader.loadLibrary("msvcr120");
-                } catch (Throwable t) {
-                    if (verbose) {
-                        System.err.println("Error: failed to load msvcr120.dll : " + t);
-                    }
-                }
-                try {
-                    NativeLibLoader.loadLibrary("msvcp120");
-                } catch (Throwable t) {
-                    if (verbose) {
-                        System.err.println("Error: failed to load msvcp120.dll : " + t);
-                    }
-                }
-                return null;
-            });
+            loadMSWindowsLibraries();
         }
 
         AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
