@@ -72,8 +72,8 @@ public class WinAppBundler extends AbstractImageBundler {
     private final static String EXECUTABLE_NAME = "WinLauncher.exe";
     private final static String LIBRARY_NAME = "packager.dll";
 
-    private final static String[] VS_VERS = {"100", "110", "120"};
-    private final static String REDIST_MSVCR = "msvcrVS_VER.dll";
+    private final static String[] VS_VERS = {"100", "110", "120", "140"};
+    private final static String REDIST_MSVCR = "vcruntimeVS_VER.dll";
     private final static String REDIST_MSVCP = "msvcpVS_VER.dll";
 
     private static final String TOOL_ICON_SWAP="IconSwap.exe";
@@ -323,7 +323,7 @@ public class WinAppBundler extends AbstractImageBundler {
         AtomicReference<IOException> ioe = new AtomicReference<>();
         final String finalVsVer = vsVer;
         Files.list(jreDir.toPath().resolve("bin"))
-                .filter(p -> Pattern.matches("msvc(r|p)\\d\\d\\d.dll", p.toFile().getName().toLowerCase()))
+                .filter(p -> Pattern.matches("(vcruntime|msvcp)\\d\\d\\d.dll", p.toFile().getName().toLowerCase()))
                 .filter(p -> !p.toString().toLowerCase().endsWith(finalVsVer + ".dll"))
                 .forEach(p -> {
                     try {
