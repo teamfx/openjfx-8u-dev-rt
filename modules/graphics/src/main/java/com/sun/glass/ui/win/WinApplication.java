@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -29,6 +29,7 @@ import com.sun.glass.ui.CommonDialogs.ExtensionFilter;
 import com.sun.glass.ui.CommonDialogs.FileChooserResult;
 import com.sun.glass.utils.NativeLibLoader;
 import com.sun.prism.impl.PrismSettings;
+import com.sun.javafx.tk.Toolkit;
 
 import java.io.File;
 import java.nio.ByteBuffer;
@@ -85,9 +86,7 @@ final class WinApplication extends Application implements InvokeLaterDispatcher.
                                        float minDPIScale,
                                        boolean forceIntegerRenderScale);
     static {
-        // This loading of msvcr120.dll and msvcp120.dll (VS2013) is required when run with Java 8
-        // since it was build with VS2010 and doesn't include msvcr120.dll in its JRE.
-        // Note: See README-builds.html on MSVC requirement: VS2013 is required.
+        // This loading of msvcp140.dll and vcruntime140.dll (VS2017) is required when run with Java 8
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
                 verbose = Boolean.getBoolean("javafx.verbose");
@@ -101,20 +100,7 @@ final class WinApplication extends Application implements InvokeLaterDispatcher.
                     minDPIScale = Float.MAX_VALUE;
                     forceIntegerRenderScale = false;
                 }
-                try {
-                    NativeLibLoader.loadLibrary("msvcr120");
-                } catch (Throwable t) {
-                    if (verbose) {
-                        System.err.println("Error: failed to load msvcr120.dll : " + t);
-                    }
-                }
-                try {
-                    NativeLibLoader.loadLibrary("msvcp120");
-                } catch (Throwable t) {
-                    if (verbose) {
-                        System.err.println("Error: failed to load msvcp120.dll : " + t);
-                    }
-                }
+                Toolkit.loadMSWindowsLibraries();
                 Application.loadNativeLibrary();
                 return null;
             }
