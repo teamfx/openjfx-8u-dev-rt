@@ -411,6 +411,13 @@ if (IS_MAC) {
 defineProperty("HUDSON_JOB_NAME", "not_hudson")
 defineProperty("HUDSON_BUILD_NUMBER","0000")
 defineProperty("PROMOTED_BUILD_NUMBER", "00")
+defineProperty("MILESTONE_FCS", "false")
+ext.IS_MILESTONE_FCS = Boolean.parseBoolean(MILESTONE_FCS)
+if (IS_MILESTONE_FCS) {
+    // Override properties
+    ext.jfxReleaseMilestone = "fcs"
+    ext.jfxReleaseSuffix = ""
+}
 
 // The following properties define the product name for Oracle JDK and OpenJDK
 // for VersionInfo and the DLL manifest.
