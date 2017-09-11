@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -313,7 +313,7 @@ public class MacAppStoreBundler extends MacBaseInstallerBundler {
 
         // webkit
         // 8u60 webkit started using an API Apple didn't like
-        if (majorVersion == 8 && updateVersion >= 60) {
+        if (majorVersion == 8 && 60 <= updateVersion && updateVersion < 152) {
             rules.add(JreUtils.Rule.suffixNeg("/lib/libjfxwebkit.dylib"));
         }
 

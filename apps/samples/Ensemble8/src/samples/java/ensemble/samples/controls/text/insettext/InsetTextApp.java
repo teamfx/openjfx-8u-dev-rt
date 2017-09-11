@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -42,17 +42,27 @@ import javafx.stage.Stage;
  *
  * @sampleName Inset Text
  * @preview preview.png
- * @see javafx.geometry.Insets
+ * @docUrl http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/text.htm#JFXUI734 Using JavaFX Text
+ * @see javafx.scene.control.Label
+ *
+ * @related /Controls/Text/Advanced Label
+ * @related /Controls/Text/Bidi
+ * @related /Controls/Text/Search Box
  * @related /Controls/Text/Simple Label
+ * @related /Controls/Text/Text Field
+ * @related /Controls/Text/TextFlow
+ * @related /Controls/Text/Text Formatter
+ * @related /Controls/Text/Text Validator
  */
 public class InsetTextApp extends Application {
 
-    String insetTextCss = InsetTextApp.class.getResource("InsetText.css").toExternalForm();
-    Label label = new Label("Label styled as a bar");
-
     public Parent createContent() {
+        final String insetTextCss =
+            getClass().getResource("InsetText.css").toExternalForm();
+        final Label label = new Label("Label styled as a bar");
         label.setId("label1");
         label.getStylesheets().add(insetTextCss);
+
         return label;
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -167,6 +167,7 @@ final class WCBufferedContext extends WCGraphicsPrismContext {
             TEMP_NGRECT.updateRectangle(TEMP_BOUNDS.getMinX(), TEMP_BOUNDS.getMinY(),
                                         TEMP_BOUNDS.getWidth(), TEMP_BOUNDS.getHeight(),
                                         0, 0);
+            TEMP_NGRECT.setContentBounds(TEMP_BOUNDS);
             BaseBounds bb = shadow.getBounds(BaseTransform.IDENTITY_TRANSFORM,
                                              new NodeEffectInput(TEMP_NGRECT));
             assert bb.getBoundsType() == BaseBounds.BoundsType.RECTANGLE;

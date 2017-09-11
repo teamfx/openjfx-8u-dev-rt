@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -73,6 +73,7 @@ class WindowStage extends GlassStage {
     private boolean isAppletStage = false; // true if this is an embedded applet window
     private boolean isPopupStage = false;
     private boolean isInFullScreen = false;
+    private boolean isAlwaysOnTop = false;
 
     // A flag to indicate whether a call was generated from
     // an allowed input event handler.
@@ -559,14 +560,23 @@ class WindowStage extends GlassStage {
         // The securityDialog flag takes precedence over alwaysOnTop
         if (securityDialog) return;
 
+        if (isAlwaysOnTop == alwaysOnTop) {
+            return;
+        }
+
         if (alwaysOnTop) {
             if (hasPermission(alwaysOnTopPermission)) {
                 platformWindow.setLevel(Level.FLOATING);
+            } else {
+                alwaysOnTop = false;
+                if (stageListener != null) {
+                    stageListener.changedAlwaysOnTop(alwaysOnTop);
+                }
             }
         } else {
             platformWindow.setLevel(Level.NORMAL);
         }
-
+        isAlwaysOnTop = alwaysOnTop;
     }
 
     @Override public void setResizable(boolean resizable) {
@@ -848,7 +858,8 @@ class WindowStage extends GlassStage {
         }
     }
 
-    void setEnabled(boolean enabled) {
+    @Override
+    public void setEnabled(boolean enabled) {
         if ((owner != null) && (owner instanceof WindowStage)) {
             ((WindowStage) owner).setEnabled(enabled);
         }
@@ -866,6 +877,11 @@ class WindowStage extends GlassStage {
                 appletWindow.assertStageOrder();
             }
         }
+    }
+
+    @Override
+    public long getRawHandle() {
+       return platformWindow.getRawHandle();
     }
 
     // Note: This method is required to workaround a glass issue mentioned in RT-12607

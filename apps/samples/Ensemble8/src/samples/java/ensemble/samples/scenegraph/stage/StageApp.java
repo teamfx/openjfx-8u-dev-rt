@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -33,7 +33,6 @@ package ensemble.samples.scenegraph.stage;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -50,9 +49,14 @@ import javafx.stage.Stage;
  *
  * @sampleName Stage
  * @preview preview.png
- * @see javafx.stage.Stage
  * @see javafx.scene.Scene
+ * @see javafx.scene.control.Button
+ * @see javafx.scene.effect.Lighting
+ * @see javafx.stage.Stage
+ *
  * @related /Scenegraph/Advanced Stage
+ * @related /Scenegraph/Custom Node
+ * @related /Controls/Button/Graphic Button
  */
 public class StageApp extends Application {
 

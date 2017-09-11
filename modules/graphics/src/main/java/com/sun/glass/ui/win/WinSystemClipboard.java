@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -82,7 +82,7 @@ class WinSystemClipboard extends SystemClipboard {
             }
             return b;
         } else if (data instanceof String) {
-            String st = ((String) data).replace("\n", "\r\n");
+            String st = ((String) data).replaceAll("(\r\n|\r|\n)", "\r\n");
             if (HTML_TYPE.equals(mime)) {
                 try {
                     // NOTE: Transfer of HTML data on Windows uses UTF-8 encoding!

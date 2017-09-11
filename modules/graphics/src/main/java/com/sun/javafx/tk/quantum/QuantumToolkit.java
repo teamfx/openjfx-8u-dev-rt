@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -316,7 +316,7 @@ public final class QuantumToolkit extends Toolkit {
              */
             renderer.createResourceFactory();
 
-            pulseRunnable = () -> QuantumToolkit.this.pulse();
+            pulseRunnable = () -> QuantumToolkit.this.pulseFromQueue();
             timerRunnable = () -> {
                 try {
                     QuantumToolkit.this.postPulse();
@@ -486,6 +486,14 @@ public final class QuantumToolkit extends Toolkit {
         }
     }
 
+    void pulseFromQueue() {
+        try {
+            pulse();
+        } finally {
+            endPulseRunning();
+        }
+    }
+
     protected void pulse() {
         pulse(true);
     }
@@ -511,7 +519,6 @@ public final class QuantumToolkit extends Toolkit {
             if (collect) collector.renderAll();
         } finally {
             inPulse--;
-            endPulseRunning();
             if (PULSE_LOGGING_ENABLED) {
                 PulseLogger.pulseEnd();
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -51,10 +51,11 @@ import javafx.stage.Stage;
  *
  * @sampleName Radial Gradient
  * @preview preview.png
+ * @see javafx.scene.paint.Color
+ * @see javafx.scene.paint.Paint
  * @see javafx.scene.paint.RadialGradient
  * @see javafx.scene.shape.Shape
- * @see javafx.scene.paint.Paint
- * @see javafx.scene.paint.Color
+ *
  * @related /Graphics 2d/Paints/Color
  * @related /Graphics 2d/Paints/Linear Gradient
  */

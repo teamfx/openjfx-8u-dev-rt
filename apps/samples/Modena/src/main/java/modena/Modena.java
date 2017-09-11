@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2015, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2017, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -384,7 +384,7 @@ public class Modena extends Application {
             saveButton.setOnAction(saveBtnHandler);
 
             Button restartButton = new Button("Restart");
-            retinaButton.setOnAction(event -> restart());
+            restartButton.setOnAction(event -> restart());
 
             ToolBar toolBar = new ToolBar(new HBox(modenaButton, caspianButton), reloadButton, rtlButton,
                     embeddedPerformanceButton, new Separator(), retinaButton,

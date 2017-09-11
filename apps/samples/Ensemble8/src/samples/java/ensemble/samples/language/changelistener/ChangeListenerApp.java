@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -35,7 +35,6 @@ import javafx.application.Application;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -59,14 +58,18 @@ import javafx.stage.Stage;
  *
  * @sampleName ChangeListener
  * @preview preview.png
- * @see javafx.beans.value.ChangeListener
  * @see javafx.beans.InvalidationListener
+ * @see javafx.beans.value.ChangeListener
  * @see javafx.beans.value.ObservableValue
  * @embedded
+ *
+ * @related /Scenegraph/Advanced Stage
+ * @related /Animation/Interpolator
+ * @related /Graphics 2d/Stopwatch
  */
 public class ChangeListenerApp extends Application {
-    // Simple filled rectangle
 
+    // Simple filled rectangle
     Rectangle rect1 = new Rectangle(25, 25, 40, 40);
     // Stroked rectangle
     Rectangle rect2 = new Rectangle(135, 25, 40, 40);
@@ -80,7 +83,7 @@ public class ChangeListenerApp extends Application {
         final Rectangle rect = new Rectangle(150, 0, 60, 60);
         rect.setFill(Color.DODGERBLUE);
         rect.setEffect(new Lighting());
-        //create text field for showing actual message
+        // create text field for showing actual message
         final Text text = new Text(0, 0, "Add a hover listener");
         text.setStyle("-fx-font-size: 22;");
         text.setTextOrigin(VPos.TOP);
@@ -93,19 +96,19 @@ public class ChangeListenerApp extends Application {
                 text.setText("not hovered");
             }
         };
-        //create button for adding listener
+        // create button for adding listener
         Button buttonAdd = new Button("Add listener");
         buttonAdd.setPrefSize(140, 18);
         buttonAdd.setOnAction((ActionEvent t) -> {
-            //add the listener on property hover
+            // add the listener on property hover
             rect.hoverProperty().addListener(hoverListener);
             text.setText("listener added");
         });
-        //create a button for removing the listener
+        // create a button for removing the listener
         Button buttonRemove = new Button("Remove listener");
         buttonRemove.setPrefSize(140, 18);
         buttonRemove.setOnAction((ActionEvent t) -> {
-            //remove the listener
+            // remove the listener
             rect.hoverProperty().removeListener(hoverListener);
             text.setText("listener removed");
         });

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -53,7 +53,8 @@ import javafx.stage.Stage;
  *
  * @sampleName Path
  * @preview preview.png
- * @see javafx.scene.shape.Path
+ * @playground path1.stroke (name="Path 1 Stroke")
+ * @playground path2.stroke (name="Path 2 Stroke")
  * @see javafx.scene.shape.ArcTo
  * @see javafx.scene.shape.ClosePath
  * @see javafx.scene.shape.CubicCurveTo
@@ -62,11 +63,18 @@ import javafx.stage.Stage;
  * @see javafx.scene.shape.MoveTo
  * @see javafx.scene.shape.QuadCurveTo
  * @see javafx.scene.shape.VLineTo
- * @see javafx.scene.shape.Shape
  * @see javafx.scene.paint.Color
- * @playground path1.stroke (name="Path 1 Stroke")
- * @playground path2.stroke (name="Path 2 Stroke")
  * @embedded
+ *
+ * @related /Graphics 2d/Shapes/Arc
+ * @related /Graphics 2d/Shapes/Circle
+ * @related /Graphics 2d/Shapes/Cubic Curve
+ * @related /Graphics 2d/Shapes/Ellipse
+ * @related /Graphics 2d/Shapes/Line
+ * @related /Graphics 2d/Shapes/Polygon
+ * @related /Graphics 2d/Shapes/Polyline
+ * @related /Graphics 2d/Shapes/Quad Curve
+ * @related /Graphics 2d/Shapes/Rectangle
  */
 public class PathApp extends Application {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -42,8 +42,18 @@ import javafx.stage.Stage;
  *
  * @sampleName Text Field
  * @preview preview.png
+ * @docUrl http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/text.htm#JFXUI734 Using JavaFX Text
  * @see javafx.scene.control.TextField
  * @embedded
+ *
+ * @related /Controls/Text/Advanced Label
+ * @related /Controls/Text/Bidi
+ * @related /Controls/Text/Inset Text
+ * @related /Controls/Text/Search Box
+ * @related /Controls/Text/Simple Label
+ * @related /Controls/Text/TextFlow
+ * @related /Controls/Text/Text Formatter
+ * @related /Controls/Text/Text Validator
  */
 public class TextFieldApp extends Application {
 

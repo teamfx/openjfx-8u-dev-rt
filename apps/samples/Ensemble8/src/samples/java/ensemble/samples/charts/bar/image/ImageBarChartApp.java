@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -49,9 +49,7 @@ import javafx.stage.Stage;
  *
  * @sampleName Image Bar Chart
  * @preview preview.png
- * @see javafx.scene.chart.BarChart
- * @see javafx.scene.chart.CategoryAxis
- * @see javafx.scene.chart.NumberAxis
+ * @docUrl https://docs.oracle.com/javafx/2/charts/jfxpub-charts.htm Using JavaFX Charts Tutorial
  * @playground chart.data
  * @playground - (name="xAxis")
  * @playground xAxis.autoRanging
@@ -93,6 +91,14 @@ import javafx.stage.Stage;
  * @playground chart.legendVisible
  * @playground chart.title
  * @playground chart.titleSide
+ * @see javafx.scene.chart.BarChart
+ * @see javafx.scene.chart.CategoryAxis
+ * @see javafx.scene.chart.NumberAxis
+ *
+ * @related /Charts/Bar/Audio Bar Chart
+ * @related /Charts/Bar/Bar Chart
+ * @related /Charts/Bar/Horizontal Bar Chart
+ * @related /Charts/Bar/Stacked Bar Chart
  */
 public class ImageBarChartApp extends Application {
 
@@ -101,12 +107,13 @@ public class ImageBarChartApp extends Application {
     private NumberAxis yAxis;
 
     public Parent createContent() {
+        final String imageBarChartCss =
+            getClass().getResource("ImageBarChart.css").toExternalForm();
         xAxis = new CategoryAxis();
         yAxis = new NumberAxis();
         chart = new BarChart(xAxis, yAxis);
         chart.setLegendVisible(false);
-        chart.getStylesheets().add(ImageBarChartApp.class
-                .getResource("ImageBarChart.css").toExternalForm());
+        chart.getStylesheets().add(imageBarChartCss);
 
         chart.getData().add(
                 new XYChart.Series<>("Sales Per Product",

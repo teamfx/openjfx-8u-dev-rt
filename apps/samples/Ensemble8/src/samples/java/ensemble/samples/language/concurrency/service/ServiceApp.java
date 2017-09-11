@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -53,6 +53,7 @@ import javafx.stage.Stage;
  *
  * @sampleName Service
  * @preview preview.png
+ * @docUrl http://docs.oracle.com/javase/8/javafx/interoperability-tutorial/concurrency.htm#JFXIP546 Concurrency in JavaFX
  * @see javafx.collections.FXCollections
  * @see javafx.concurrent.Service
  * @see javafx.concurrent.Task
@@ -60,19 +61,23 @@ import javafx.stage.Stage;
  * @see javafx.scene.control.TableColumn
  * @see javafx.scene.control.TableView
  * @embedded
+ *
+ * @related /Controls/Progress Indicator
+ * @related /Controls/TableView
+ * @related /Language/Concurrency/Task
  */
 public class ServiceApp extends Application {
 
- final GetDailySalesService service = new GetDailySalesService();
+    final GetDailySalesService service = new GetDailySalesService();
 
     public Parent createContent() {
-       VBox vbox = new VBox(5);
+        VBox vbox = new VBox(5);
         vbox.setPadding(new Insets(12));
         TableView tableView = new TableView();
         Button button = new Button("Refresh");
         button.setOnAction((ActionEvent t) -> {
             service.restart();
-       });
+        });
         vbox.setPrefHeight(160);
         vbox.getChildren().addAll(tableView, button);
 
@@ -82,7 +87,7 @@ public class ServiceApp extends Application {
         ProgressIndicator p = new ProgressIndicator();
         p.setMaxSize(140, 140);
 
-        //Define table columns
+        // Define table columns
         TableColumn idCol = new TableColumn();
         idCol.setText("ID");
         idCol.setCellValueFactory(new PropertyValueFactory("dailySalesId"));

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates.
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates.
  * All rights reserved. Use is subject to license terms.
  *
  * This file is available and licensed under the following license:
@@ -35,9 +35,8 @@ import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -50,6 +49,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -81,7 +81,9 @@ public class PlayerPane extends Region {
             mediaView.setFitWidth(mediaWidth);
             mediaView.setFitHeight(mediaHeight);
             topBar.resizeRelocate(0, 0, mediaWidth, controlHeight);
-            bottomBar.resizeRelocate(controlOffset, mediaHeight - controlHeight, mediaWidth, controlHeight);
+            bottomBar.resizeRelocate(controlOffset,
+                                     mediaHeight - controlHeight,
+                                     mediaWidth, controlHeight);
         }
 
         @Override protected double computeMinWidth(double height) {
@@ -93,16 +95,21 @@ public class PlayerPane extends Region {
         }
 
         @Override protected double computePrefWidth(double height) {
-            return Math.max(mp.getMedia().getWidth(), mediaBottomBar.prefWidth(height));
+            return Math.max(mp.getMedia().getWidth(),
+                            mediaBottomBar.prefWidth(height));
         }
 
         @Override protected double computePrefHeight(double width) {
             return mp.getMedia().getHeight() + mediaBottomBar.prefHeight(width);
         }
 
-        @Override protected double computeMaxWidth(double height) { return Double.MAX_VALUE; }
+        @Override protected double computeMaxWidth(double height) {
+            return Double.MAX_VALUE;
+        }
 
-        @Override protected double computeMaxHeight(double width) { return Double.MAX_VALUE; }
+        @Override protected double computeMaxHeight(double width) {
+            return Double.MAX_VALUE;
+        }
 
         public PlayerPane(final MediaPlayer mp) {
             this.mp = mp;
@@ -123,33 +130,39 @@ public class PlayerPane extends Region {
                 if (transition != null) {
                     transition.stop();
                 }
-                FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(200), topBar);
-                fadeTransition1.setToValue(1.0);
-                fadeTransition1.setInterpolator(Interpolator.EASE_OUT);
+                FadeTransition fade1 = new FadeTransition(Duration.millis(200),
+                                                          topBar);
+                fade1.setToValue(1.0);
+                fade1.setInterpolator(Interpolator.EASE_OUT);
 
-                FadeTransition fadeTransition2 = new FadeTransition(Duration.millis(200), bottomBar);
-                fadeTransition2.setToValue(1.0);
-                fadeTransition2.setInterpolator(Interpolator.EASE_OUT);
+                FadeTransition fade2 = new FadeTransition(Duration.millis(200),
+                                                          bottomBar);
+                fade2.setToValue(1.0);
+                fade2.setInterpolator(Interpolator.EASE_OUT);
 
-                transition = new ParallelTransition(fadeTransition1, fadeTransition2);
+                transition = new ParallelTransition(fade1, fade2);
                 transition.play();
             });
             setOnMouseExited((MouseEvent t) -> {
                 if (transition != null) {
                     transition.stop();
                 }
-                FadeTransition fadeTransitionTop = new FadeTransition(Duration.millis(800), topBar);
-                fadeTransitionTop.setToValue(0.0);
-                fadeTransitionTop.setInterpolator(Interpolator.EASE_OUT);
+                FadeTransition fadeTop = new FadeTransition(Duration.millis(800),
+                                                            topBar);
+                fadeTop.setToValue(0.0);
+                fadeTop.setInterpolator(Interpolator.EASE_OUT);
 
-                FadeTransition fadeTransitionBottom = new FadeTransition(Duration.millis(800), bottomBar);
-                fadeTransitionBottom.setToValue(0.0);
-                fadeTransitionBottom.setInterpolator(Interpolator.EASE_OUT);
-                transition = new ParallelTransition(fadeTransitionTop, fadeTransitionBottom);
+                FadeTransition fadeBottom = new FadeTransition(Duration.millis(800),
+                                                               bottomBar);
+                fadeBottom.setToValue(0.0);
+                fadeBottom.setInterpolator(Interpolator.EASE_OUT);
+                transition = new ParallelTransition(fadeTop, fadeBottom);
                 transition.play();
             });
 
-            mp.currentTimeProperty().addListener((ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) -> {
+            ReadOnlyObjectProperty<Duration> time = mp.currentTimeProperty();
+            time.addListener((ObservableValue<? extends Duration> observable,
+                              Duration oldValue, Duration newValue) -> {
                 updateValues();
             });
             mp.setOnPlaying(() -> {
@@ -182,14 +195,19 @@ public class PlayerPane extends Region {
             timeSlider.setId("media-slider");
             timeSlider.setMinWidth(200);
             timeSlider.setMaxWidth(Double.MAX_VALUE);
-            timeSlider.valueProperty().addListener((Observable ov) -> {
+            timeSlider.valueProperty().addListener((ObservableValue<? extends Number> observable,
+                                                    Number old, Number now) -> {
                 if (timeSlider.isValueChanging()) {
                     // multiply duration by percentage calculated by slider position
                     if (duration != null) {
                         mp.seek(duration.multiply(timeSlider.getValue() / 100.0));
                     }
                     updateValues();
-
+                } else if (Math.abs(now.doubleValue() - old.doubleValue()) > 1.5) {
+                    // multiply duration by percentage calculated by slider position
+                    if (duration != null) {
+                        mp.seek(duration.multiply(timeSlider.getValue() / 100.0));
+                    }
                 }
             });
             mediaTopBar.getChildren().add(timeSlider);
@@ -216,11 +234,11 @@ public class PlayerPane extends Region {
             volumeSlider.setMaxWidth(Region.USE_PREF_SIZE);
             volumeSlider.valueProperty().addListener((Observable ov) -> {
             });
-            volumeSlider.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-                if (volumeSlider.isValueChanging()) {
-                    mp.setVolume(volumeSlider.getValue() / 100.0);
-                }
+            volumeSlider.valueProperty().addListener((ObservableValue<? extends Number> observable,
+                                                      Number old, Number now) -> {
+                mp.setVolume(volumeSlider.getValue() / 100.0);
             });
+            HBox.setHgrow(volumeSlider, Priority.ALWAYS);
             mediaTopBar.getChildren().add(volumeSlider);
 
             final EventHandler<ActionEvent> backAction = (ActionEvent e) -> {
@@ -327,4 +345,4 @@ public class PlayerPane extends Region {
                 }
             }
         }
-    }
+}
