@@ -411,6 +411,13 @@ if (IS_MAC) {
 defineProperty("HUDSON_JOB_NAME", "not_hudson")
 defineProperty("HUDSON_BUILD_NUMBER","0000")
 defineProperty("PROMOTED_BUILD_NUMBER", "00")
+defineProperty("MILESTONE_FCS", "false")
+ext.IS_MILESTONE_FCS = Boolean.parseBoolean(MILESTONE_FCS)
+if (IS_MILESTONE_FCS) {
+    // Override properties
+    ext.jfxReleaseMilestone = "fcs"
+    ext.jfxReleaseSuffix = ""
+}
 
 // The following properties define the product name for Oracle JDK and OpenJDK
 // for VersionInfo and the DLL manifest.
@@ -2968,7 +2975,8 @@ compileTargets { t ->
         exclude("js/**/*", // er...
                 "PrismLoaderBackend*", // More decora stuff
                 "**/*.stg",    // any glue files for decora must be excluded
-                "**/*.java");  // Builder java files are in build/classes and should be excluded
+                "**/*.java",   // Builder java files are in build/classes and should be excluded
+                "com/sun/javafx/webkit/drt"); // Drt class
 
         // Filter out platform specific Java sources (glass) when compiling for other targets
         if (targetProperties.containsKey('jfxrtJarExcludes')) {

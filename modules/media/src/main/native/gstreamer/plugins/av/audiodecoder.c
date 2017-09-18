@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -726,11 +726,25 @@ static GstFlowReturn audiodecoder_chain(GstPad *pad, GstBuffer *buf)
 #if DECODE_AUDIO4
     if (base->frame->format == AV_SAMPLE_FMT_S16P || base->frame->format == AV_SAMPLE_FMT_FLTP)
     {
+        // Make sure we received expected data
+        int cc = decoder->num_channels;
+        for (ci = 0; ci < cc && ci < AUDIODECODER_OUT_NUM_CHANNELS; ci++)
+        {
+            if (base->frame->data[ci] == NULL)
+            {
+                // INLINE - gst_buffer_unref()
+                gst_buffer_unref(outbuf);
+                gst_element_message_full(GST_ELEMENT(decoder), GST_MESSAGE_ERROR, GST_STREAM_ERROR, GST_STREAM_ERROR_DECODE,
+                                     g_strdup("Audio decoding failed"), NULL, ("audiodecoder.c"), ("audiodecoder_chain"), 0);
+                ret = GST_FLOW_ERROR;
+                goto _exit;
+            }
+        }
+
         // Reformat the output frame into single buffer.
         int16_t *buffer = (int16_t*)GST_BUFFER_DATA(outbuf);
         for (sample = 0; sample < base->frame->nb_samples; sample++)
         {
-            int cc = decoder->num_channels;
             for (ci = 0; ci < cc && ci < AUDIODECODER_OUT_NUM_CHANNELS; ci++)
             {
                 switch (base->frame->format)
