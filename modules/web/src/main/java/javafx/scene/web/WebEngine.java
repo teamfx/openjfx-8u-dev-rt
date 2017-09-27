@@ -1379,7 +1379,6 @@ final public class WebEngine {
             if (frame != getMainFrame()) {
                 return;
             }
-
             switch (state) {
                 case PAGE_STARTED:
                     message.set("Loading " + url);
@@ -1390,6 +1389,10 @@ final public class WebEngine {
                     break;
                 case PAGE_REDIRECTED:
                     message.set("Loading " + url);
+                    updateLocation(url);
+                    break;
+                case PAGE_REPLACED:
+                    message.set("Replaced " + url);
                     updateLocation(url);
                     break;
                 case PAGE_FINISHED:
