@@ -151,9 +151,9 @@ public abstract class Toolkit {
         "ucrtbase",
 
         // Finally load VS 2017 DLLs in the following order
-        "concrt140",
         "vcruntime140",
-        "msvcp140"
+        "msvcp140",
+        "concrt140"
 };
 
     private static String lookupToolkitClass(String name) {

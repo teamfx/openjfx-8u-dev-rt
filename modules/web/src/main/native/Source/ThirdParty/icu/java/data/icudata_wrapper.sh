@@ -5,24 +5,28 @@
 # $3 : icu Data library location
 # $4 : CFLAGS used by cmake
 # $5 : CPPFLAGS used by cmake
+# $6 : Mac OSX min version
 
 JAVA_DATA_LIBRARY=$3
 
 case "$(uname -s)" in
    Darwin)
-     JAVA_LIBDIR=$1/lib
+     JAVA_LIBDIR=$1
      PLATFORM=MacOSX
+     export CFLAGS=$4
+     export CPPFLAGS="$5 -mmacosx-version-min=$6"
+     export LDFLAGS=-mmacosx-version-min=$6
      ;;
 
    Linux)
-     JAVA_LIBDIR=$1/lib
+     JAVA_LIBDIR=$1
      PLATFORM=Linux/gcc
      export CFLAGS=$4
      export CPPFLAGS=$5
      ;;
 
    CYGWIN*)
-     JAVA_LIBDIR=$1/lib
+     JAVA_LIBDIR=$1
      PLATFORM=Cygwin/MSVC
      export CFLAGS=$4
      export CPPFLAGS=$5
@@ -46,9 +50,10 @@ ICU_STATIC_ARGS="--enable-static --enable-shared=no --enable-extras=no --enable-
 
 function build_data {
     echo "Building icudata for $PLATFORM"
-    unzip -o ../../source/data/in/icudt51l.zip -d ../../source/data/in
+    mkdir -p $JAVA_LIBDIR/icu/data
+    unzip -o ../../source/data/in/icudt51l.zip -d $JAVA_LIBDIR/icu/data/
     # create icu autoconf build folder
-    cd $JAVA_LIBDIR/../
+    cd $JAVA_LIBDIR
     mkdir -p icu/lib && cd icu
     # run configure
     bash ${ICU_RUNCONFIGURE_PATH} $PLATFORM --libdir=$PWD/../lib ${ICU_STATIC_ARGS}
