@@ -43,6 +43,9 @@ public interface UIClient {
     public boolean confirm(String text);
     public String prompt(String text, String defaultValue);
 
+    public boolean canRunBeforeUnloadConfirmPanel();
+    public boolean runBeforeUnloadConfirmPanel(String message);
+
     public String[] chooseFile(String initialFileName, boolean multiple, String mimeFilters);
     public void print();
 
