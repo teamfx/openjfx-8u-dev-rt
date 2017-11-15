@@ -1192,7 +1192,7 @@ gboolean preload_plugin_on_thread(int version, gchar *filename)
   if (filename == NULL)
     return FALSE;
 
-  GThread *thread = g_thread_new(NULL, load_plugin, filename);
+  GThread *thread = g_thread_create(load_plugin, filename, TRUE, NULL);
   if (thread != NULL) {
     handle = g_thread_join(thread);
     if (handle != NULL) {
