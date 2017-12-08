@@ -27,74 +27,25 @@
 #import "AVFMediaPlayer.h"
 
 #import <AVFoundation/AVFoundation.h>
+#import <MediaToolbox/MediaToolbox.h>
 
 #import "AVFKernelProcessor.h"
 #import <CoreFoundation/CoreFoundation.h>
 
 #import <pthread.h>
-#import <dlfcn.h>
 #import <objc/message.h>
 
-/*
- * MTAudioProcessingTap is a feature new to 10.9 but also exists in
- * MediaToolbox.framework in 10.8. Unfortunately the SDK we build with does not
- * have the header file needed to compile our audio tap, so we will have to
- * supply the missing pieces here. We will use dlsym to find the
- * MTAudioProcessingTap calls we need, this will prevent crashing on systems that
- * don't implement it.
- */
-extern "C" {
-#pragma pack(push, 4)
-
-    // This is MTAudioProcessingTapCallbacks in MediaToolbox.framework
-struct __MTAudioTapCallbacks {
-    int version;
-    void *clientInfo;
-    void (*init)(CFTypeRef tapRef, void *clientInfo, void **tapStorageOut);
-    void (*finalize)(CFTypeRef tapRef);
-    void (*prepare)(CFTypeRef tapRef,
-                    CMItemCount maxFrames,
-                    const AudioStreamBasicDescription *processingFormat);
-    void (*unprepare)(CFTypeRef tapRef);
-    void (*process)(CFTypeRef tapRef,
-                    CMItemCount numberFramesIn, uint32_t flagsIn,
-                    AudioBufferList *bufferListInOut,
-                    CMItemCount *numberFramesOut, uint32_t *flagsOut);
-};
-
-#pragma pack(pop)
-};
-
-typedef OSStatus (*AudioTapCreateProc)(CFAllocatorRef allocator,
-                                       const __MTAudioTapCallbacks *callbacks,
-                                       uint32_t flags,
-                                       CFTypeRef *tapOut);
-AudioTapCreateProc gAudioTapCreate = NULL;
-
-typedef void *(*AudioTapGetStorageProc)(CFTypeRef tap);
-AudioTapGetStorageProc gAudioTapGetStorage = NULL;
-
-typedef OSStatus (*AudioTapGetSourceAudioProc)(CFTypeRef tap,
-                                               CMItemCount numberFrames,
-                                               AudioBufferList *bufferListInOut,
-                                               uint32_t *flagsOut,
-                                               CMTimeRange *timeRangeOut,
-                                               CMItemCount *numberFramesOut);
-AudioTapGetSourceAudioProc gAudioTapGetSourceAudio = NULL;
-
-pthread_mutex_t gAVFTapProcsLock = PTHREAD_MUTEX_INITIALIZER;
-
-static void InitAudioTap(CFTypeRef tapRef, void *clientInfo, void **tapStorageOut);
-static void FinalizeAudioTap(CFTypeRef tapRef);
-static void PrepareAudioTap(CFTypeRef tapRef,
+static void InitAudioTap(MTAudioProcessingTapRef tapRef, void *clientInfo, void **tapStorageOut);
+static void FinalizeAudioTap(MTAudioProcessingTapRef tapRef);
+static void PrepareAudioTap(MTAudioProcessingTapRef tapRef,
                             CMItemCount maxFrames,
                             const AudioStreamBasicDescription *processingFormat);
-static void UnprepareAudioTap(CFTypeRef tapRef);
-static void ProcessAudioTap(CFTypeRef tapRef, CMItemCount numberFrames,
-                            uint32_t /*MTAudioProcessingTapFlags*/ flags,
+static void UnprepareAudioTap(MTAudioProcessingTapRef tapRef);
+static void ProcessAudioTap(MTAudioProcessingTapRef tapRef, CMItemCount numberFrames,
+                            MTAudioProcessingTapFlags flags,
                             AudioBufferList *bufferListInOut,
                             CMItemCount *numberFramesOut,
-                            uint32_t /*MTAudioProcessingTapFlags*/ *flagsOut);
+                            MTAudioProcessingTapFlags *flagsOut);
 
 static OSStatus AVFTapRenderCallback(void *inRefCon,
                                      AudioUnitRenderActionFlags *ioActionFlags,
@@ -130,32 +81,6 @@ public:
     AVFAudioEqualizerPtr audioEQ;
 };
 
-static bool FindAudioTap() {
-    static bool checkPerformed = false;
-
-    pthread_mutex_lock(&gAVFTapProcsLock);
-    if (!checkPerformed) {
-        if (!gAudioTapCreate) {
-            gAudioTapCreate = (AudioTapCreateProc)
-                dlsym(RTLD_DEFAULT, "MTAudioProcessingTapCreate");
-        }
-        if (!gAudioTapGetStorage) {
-            gAudioTapGetStorage = (AudioTapGetStorageProc)
-                dlsym(RTLD_DEFAULT, "MTAudioProcessingTapGetStorage");
-        }
-        if (!gAudioTapGetSourceAudio) {
-            gAudioTapGetSourceAudio = (AudioTapGetSourceAudioProc)
-                dlsym(RTLD_DEFAULT, "MTAudioProcessingTapGetSourceAudio");
-        }
-        checkPerformed = true;
-    }
-    pthread_mutex_unlock(&gAVFTapProcsLock);
-
-    return (gAudioTapCreate != NULL)
-        && (gAudioTapGetStorage != NULL)
-        && (gAudioTapGetSourceAudio != NULL);
-}
-
 @implementation AVFAudioProcessor
 
 - (id) init {
@@ -190,10 +115,6 @@ static bool FindAudioTap() {
     if (!self.audioTrack) {
         return nil;
     }
-    if (!FindAudioTap()) {
-        NSLog(@"Audio tap is not available, cannot post-process audio");
-        return nil;
-    }
     if (!_mixer) {
         AVMutableAudioMix *mixer = [AVMutableAudioMix audioMix];
         if (mixer) {
@@ -201,19 +122,19 @@ static bool FindAudioTap() {
                 [AVMutableAudioMixInputParameters audioMixInputParametersWithTrack:self.audioTrack];
             if (audioMixInputParameters &&
                 [audioMixInputParameters respondsToSelector:@selector(setAudioTapProcessor:)]) {
-                __MTAudioTapCallbacks callbacks;
+                MTAudioProcessingTapCallbacks callbacks;
 
-                callbacks.version = 0; // kMTAudioProcessingTapCallbacksVersion_0
-                callbacks.clientInfo = (__bridge void *)self,
+                callbacks.version = kMTAudioProcessingTapCallbacksVersion_0;
+                callbacks.clientInfo = (__bridge void *)self;
                 callbacks.init = InitAudioTap;
                 callbacks.finalize = FinalizeAudioTap;
                 callbacks.prepare = PrepareAudioTap;
                 callbacks.unprepare = UnprepareAudioTap;
                 callbacks.process = ProcessAudioTap;
 
-                CFTypeRef audioProcessingTap;
-                if (noErr == gAudioTapCreate(kCFAllocatorDefault, &callbacks,
-                                             1, // kMTAudioProcessingTapCreationFlag_PreEffects
+                MTAudioProcessingTapRef audioProcessingTap;
+                if (noErr == MTAudioProcessingTapCreate(kCFAllocatorDefault, &callbacks,
+                                             kMTAudioProcessingTapCreationFlag_PreEffects,
                                              &audioProcessingTap))
                 {
                     objc_msgSend(audioMixInputParameters,
@@ -247,7 +168,7 @@ static bool FindAudioTap() {
 
 @end
 
-void InitAudioTap(CFTypeRef tapRef, void *clientInfo, void **tapStorageOut)
+void InitAudioTap(MTAudioProcessingTapRef tapRef, void *clientInfo, void **tapStorageOut)
 {
     // retain the AU kernels so they don't get freed while we're running
     AVFAudioProcessor *processor = (__bridge AVFAudioProcessor *)clientInfo;
@@ -259,15 +180,9 @@ void InitAudioTap(CFTypeRef tapRef, void *clientInfo, void **tapStorageOut)
     }
 }
 
-void FinalizeAudioTap(CFTypeRef tapRef)
+void FinalizeAudioTap(MTAudioProcessingTapRef tapRef)
 {
-    // NULL check is for safety, this should never be called if we don't have all
-    // the audio tap functions
-    if (!gAudioTapGetStorage) {
-        // should not happen
-        return;
-    }
-    AVFTapContext *context = (AVFTapContext*)gAudioTapGetStorage(tapRef);
+    AVFTapContext *context = (AVFTapContext*)MTAudioProcessingTapGetStorage(tapRef);
 
     if (context) {
         delete context;
@@ -329,15 +244,11 @@ AudioUnit FindAudioUnit(OSType type, OSType subType, OSType manu) {
     return audioUnit;
 }
 
-void PrepareAudioTap(CFTypeRef tapRef,
-                                     CMItemCount maxFrames,
-                                     const AudioStreamBasicDescription *processingFormat)
+void PrepareAudioTap(MTAudioProcessingTapRef tapRef,
+                     CMItemCount maxFrames,
+                     const AudioStreamBasicDescription *processingFormat)
 {
-    if (!gAudioTapGetStorage) {
-        // should not happen
-        return;
-    }
-    AVFTapContext *context = (AVFTapContext*)gAudioTapGetStorage(tapRef);
+    AVFTapContext *context = (AVFTapContext*)MTAudioProcessingTapGetStorage(tapRef);
 
     // Validate the audio format before we enable the processor
 
@@ -459,13 +370,9 @@ void PrepareAudioTap(CFTypeRef tapRef,
     context->totalFrames = 0;
 }
 
-void UnprepareAudioTap(CFTypeRef tapRef)
+void UnprepareAudioTap(MTAudioProcessingTapRef tapRef)
 {
-    if (!gAudioTapGetStorage) {
-        // should not happen
-        return;
-    }
-    AVFTapContext *context = (AVFTapContext*)gAudioTapGetStorage(tapRef);
+    AVFTapContext *context = (AVFTapContext*)MTAudioProcessingTapGetStorage(tapRef);
     context->renderUnit = NULL;
 
     if (context->spectrumUnit) {
@@ -485,18 +392,14 @@ void UnprepareAudioTap(CFTypeRef tapRef)
     }
 }
 
-void ProcessAudioTap(CFTypeRef tapRef,
+void ProcessAudioTap(MTAudioProcessingTapRef tapRef,
                      CMItemCount numberFrames,
                      uint32_t flags,
                      AudioBufferList *bufferListInOut,
                      CMItemCount *numberFramesOut,
                      uint32_t *flagsOut)
 {
-    if (!gAudioTapGetStorage) {
-        // should not happen
-        return;
-    }
-    AVFTapContext *context = (AVFTapContext*)gAudioTapGetStorage(tapRef);
+    AVFTapContext *context = (AVFTapContext*)MTAudioProcessingTapGetStorage(tapRef);
     OSStatus status = noErr;
 
     if (context->renderUnit) {
@@ -516,10 +419,8 @@ void ProcessAudioTap(CFTypeRef tapRef,
         context->totalFrames += numberFrames;
         *numberFramesOut = numberFrames;
     } else {
-        if (gAudioTapGetSourceAudio) {
-            gAudioTapGetSourceAudio(tapRef, numberFrames, bufferListInOut,
-                                    flagsOut, NULL, numberFramesOut);
-        }
+        MTAudioProcessingTapGetSourceAudio(tapRef, numberFrames, bufferListInOut,
+                                flagsOut, NULL, numberFramesOut);
     }
 }
 
@@ -530,10 +431,6 @@ static OSStatus AVFTapRenderCallback(void *inRefCon,
                                      UInt32 inNumberFrames,
                                      AudioBufferList *ioData)
 {
-    if (!gAudioTapGetSourceAudio) {
-        // should not happen
-        return noErr;
-    }
-    CFTypeRef tapRef = static_cast<CFTypeRef>(inRefCon);
-    return gAudioTapGetSourceAudio(tapRef, inNumberFrames, ioData, NULL, NULL, NULL);
+    MTAudioProcessingTapRef tapRef = static_cast<MTAudioProcessingTapRef>(inRefCon);
+    return MTAudioProcessingTapGetSourceAudio(tapRef, inNumberFrames, ioData, NULL, NULL, NULL);
 }
