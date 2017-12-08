@@ -41,8 +41,7 @@ DIRLIST = gstreamer/gst                     \
 TARGET_NAME = lib$(BASE_NAME).dylib
 TARGET = $(BUILD_DIR)/$(TARGET_NAME)
 
-CFLAGS = -arch x86_64 \
-	 -fPIC \
+CFLAGS += -fPIC \
          -Werror=implicit-function-declaration \
          -D_GNU_SOURCE \
          -DGST_REMOVE_DEPRECATED \
@@ -54,8 +53,7 @@ CFLAGS = -arch x86_64 \
          -DGSTREAMER_LITE \
          -DGST_REMOVE_DISABLED \
          -DOSX \
-         -msse2 \
-         -mmacosx-version-min=10.7
+         -msse2
 
 ifeq ($(BUILD_TYPE), Release)
     CFLAGS += -Os
@@ -75,9 +73,12 @@ INCLUDES = $(addprefix -I$(SRCBASE_DIR)/,$(DIRLIST)) \
            -I$(GLIB_DIR)/gmodule \
            -I$(GLIB_DIR)/build/osx
 
-LDFLAGS = -mmacosx-version-min=10.7 -arch x86_64 \
-	  -L$(BUILD_DIR) -Wl,-install_name,@rpath/$(TARGET_NAME) -lglib-lite \
-          -framework CoreAudio -framework AudioUnit -framework CoreServices
+LDFLAGS += -L$(BUILD_DIR) \
+           -Wl,-install_name,@rpath/$(TARGET_NAME) \
+           -lglib-lite \
+           -framework CoreAudio \
+           -framework AudioUnit \
+           -framework CoreServices
 
 C_SOURCES = gstreamer/libs/gst/base/gstbytereader.c \
             gstreamer/gst/gst.c                                                \

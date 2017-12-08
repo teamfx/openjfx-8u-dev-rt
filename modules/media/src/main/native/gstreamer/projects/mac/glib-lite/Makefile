@@ -18,18 +18,16 @@ DIRLIST = glib \
 TARGET_NAME = lib$(BASE_NAME).dylib
 TARGET = $(BUILD_DIR)/$(TARGET_NAME)
 
-CFLAGS = -arch x86_64 \
-	 -fPIC \
-	 -Werror=implicit-function-declaration \
-	 -DG_DISABLE_CAST_CHECKS \
-	 -DGLIB_COMPILATION \
+CFLAGS += -fPIC \
+         -Werror=implicit-function-declaration \
+         -DG_DISABLE_CAST_CHECKS \
+         -DGLIB_COMPILATION \
          -DGOBJECT_COMPILATION \
-	 -DLIBDIR=\"/irrelevant/lib\" \
+         -DLIBDIR=\"/irrelevant/lib\" \
          -DG_LOG_DOMAIN=\"GLib\" \
          -DGSTREAMER_LITE \
          -DG_DISABLE_DEPRECATED \
-         -DG_DISABLE_ASSERT \
-	 -mmacosx-version-min=10.7
+         -DG_DISABLE_ASSERT
 
 ifeq ($(BUILD_TYPE), Release)
     CFLAGS += -Os
@@ -41,8 +39,10 @@ INCLUDES = -I$(SRCBASE_DIR) \
 	   -I$(SRCBASE_DIR)/glib \
 	   -I$(SRCBASE_DIR)/build/osx
 
-LDFLAGS = -mmacosx-version-min=10.7 -arch x86_64 \
-          -Wl,-install_name,@rpath/$(TARGET_NAME) -Wl,-framework -Wl,CoreServices -liconv 
+LDFLAGS += -Wl,-install_name,@rpath/$(TARGET_NAME) \
+           -Wl,-framework \
+           -Wl,CoreServices \
+           -liconv
 
 C_SOURCES = glib/garray.c \
             glib/gasyncqueue.c \
