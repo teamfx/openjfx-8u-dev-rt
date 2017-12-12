@@ -217,7 +217,7 @@ public class JavaScriptBridgeTest extends TestBase {
                 fail("JSException expected but not thrown");
             } catch (Throwable ex) {
                 assertTrue(ex instanceof JSException);
-                assertTrue(ex.toString().indexOf("DOM Exception") > 0);
+                assertTrue(ex.toString().indexOf("NotFoundError") > 0);
             }
         });
     }
