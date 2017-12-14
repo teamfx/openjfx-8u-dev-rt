@@ -323,7 +323,7 @@ public class WinAppBundler extends AbstractImageBundler {
         AtomicReference<IOException> ioe = new AtomicReference<>();
         final String finalVsVer = vsVer;
         Files.list(jreDir.toPath().resolve("bin"))
-                .filter(p -> Pattern.matches("(vcruntime|msvcp)\\d\\d\\d.dll", p.toFile().getName().toLowerCase()))
+                .filter(p -> Pattern.matches("^(vcruntime|msvcp|msvcr|ucrtbase|api-ms-win-).*\\.dll$", p.toFile().getName().toLowerCase()))
                 .filter(p -> !p.toString().toLowerCase().endsWith(finalVsVer + ".dll"))
                 .forEach(p -> {
                     try {
