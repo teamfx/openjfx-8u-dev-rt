@@ -2484,9 +2484,7 @@ project(":web") {
             exec {
                 commandLine("$JAVAH", "-J-Djava.ext.dirs=", "-d", "$dest",
                             "-classpath", "${classpath.asPath}");
-                args("java.lang.Character",
-                     "java.net.IDN",
-                     "com.sun.webkit.ContextMenu",
+                args("com.sun.webkit.ContextMenu",
                      "com.sun.webkit.ContextMenuItem",
                      "com.sun.webkit.CursorManager",
                      "com.sun.webkit.PageCache",
@@ -2512,6 +2510,7 @@ project(":web") {
                      "com.sun.webkit.WCFrameView",
                      "com.sun.webkit.WCPasteboard",
                      "com.sun.webkit.WCPluginWidget",
+                     "com.sun.webkit.dom.CharacterDataImpl",
                      "com.sun.webkit.dom.JSObject",
                      "com.sun.webkit.network.SocketStreamHandle",
                      "com.sun.webkit.network.URLLoader",
