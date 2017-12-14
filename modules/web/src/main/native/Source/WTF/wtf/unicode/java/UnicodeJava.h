@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
  */
 #ifndef JSC_UNICODE_JAVA_H
 #define JSC_UNICODE_JAVA_H
@@ -11,9 +11,9 @@
 
 #include <stdint.h>
 
-#include "java_lang_Character.h"
+#include "com_sun_webkit_dom_CharacterDataImpl.h"
 
-#define CharProp(p) java_lang_Character_##p
+#define CharProp(p) com_sun_webkit_dom_CharacterDataImpl_##p
 
 #if PLATFORM(JAVA) && OS(WINDOWS)
 typedef wchar_t UChar;
