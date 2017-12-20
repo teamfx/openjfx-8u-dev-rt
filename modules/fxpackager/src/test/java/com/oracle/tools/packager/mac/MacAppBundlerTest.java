@@ -442,6 +442,7 @@ public class MacAppBundlerTest {
     /**
      * Build signed smoke test and mark it as quarantined, skip if no keys present
      */
+    @Ignore("JDK-8193232")
     @Test
     public void quarantinedAppTest() throws IOException, ConfigException, UnsupportedPlatformException {
         AbstractBundler bundler = new MacAppBundler();
@@ -498,6 +499,7 @@ public class MacAppBundlerTest {
      *
      * All other values will be driven off of those two values.
      */
+    @Ignore("JDK-8193232")
     @Test
     public void minimumConfig() throws IOException, ConfigException, UnsupportedPlatformException {
         Bundler bundler = new MacAppBundler();
@@ -725,6 +727,7 @@ public class MacAppBundlerTest {
     /**
      * User a JRE instead of a JDK
      */
+    @Ignore("JDK-8193232")
     @Test
     public void testJRE() throws IOException, ConfigException, UnsupportedPlatformException {
         String jre = runtimeJre == null ? "/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/" : runtimeJre;

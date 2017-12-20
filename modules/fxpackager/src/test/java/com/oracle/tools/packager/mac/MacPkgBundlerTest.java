@@ -270,6 +270,7 @@ public class MacPkgBundlerTest {
     /**
      * Build smoke test and mark it as quarantined, possibly signed
      */
+    @Ignore("JDK-8193232")
     @Test
     public void quarantinedAppTest() throws IOException, ConfigException, UnsupportedPlatformException {
 
@@ -327,6 +328,7 @@ public class MacPkgBundlerTest {
      *
      * All other values will be driven off of those two values.
      */
+    @Ignore("JDK-8193232")
     @Test
     public void minimumConfig() throws IOException, ConfigException, UnsupportedPlatformException {
         Bundler bundler = new MacPkgBundler();
