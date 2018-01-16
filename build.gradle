@@ -2981,7 +2981,8 @@ compileTargets { t ->
         exclude("js/**/*", // er...
                 "PrismLoaderBackend*", // More decora stuff
                 "**/*.stg",    // any glue files for decora must be excluded
-                "**/*.java");  // Builder java files are in build/classes and should be excluded
+                "**/*.java",   // Builder java files are in build/classes and should be excluded
+                "com/sun/javafx/webkit/drt"); // Drt class
 
         // Filter out platform specific Java sources (glass) when compiling for other targets
         if (targetProperties.containsKey('jfxrtJarExcludes')) {
