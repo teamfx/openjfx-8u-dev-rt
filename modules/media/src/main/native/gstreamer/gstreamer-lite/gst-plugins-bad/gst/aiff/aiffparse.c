@@ -1209,6 +1209,14 @@ gst_aiff_parse_stream_data (GstAiffParse * aiff)
   GstClockTime timestamp, next_timestamp, duration;
   guint64 pos, nextpos;
 
+#ifdef GSTREAMER_LITE
+  if (aiff->bytes_per_sample <= 0) {
+    GST_ELEMENT_ERROR (aiff, STREAM, WRONG_TYPE, (NULL),
+        ("File is not a valid AIFF file (invalid bytes per sample)"));
+    return GST_FLOW_ERROR;
+  }
+#endif // GSTREAMER_LITE
+
 iterate_adapter:
   GST_LOG_OBJECT (aiff,
       "offset: %" G_GINT64_FORMAT " , end: %" G_GINT64_FORMAT " , dataleft: %"
