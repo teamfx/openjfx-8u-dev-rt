@@ -29,10 +29,19 @@ import java.nio.ByteBuffer;
 
 public abstract class WCImage extends Ref {
     private WCRenderQueue rq;
+    private String fileExtension;
 
     public abstract int getWidth();
 
     public abstract int getHeight();
+
+    public String getFileExtension() {
+        return fileExtension;
+    }
+
+    public void setFileExtension(String fileExtension) {
+        this.fileExtension = fileExtension;
+    }
 
     public Object getPlatformImage() {return null;}
 
