@@ -357,9 +357,10 @@ public final class UIClientImpl implements UIClient {
             if (isImageSource) {
                 Object platformImage = image.getWidth() > 0 && image.getHeight() > 0 ?
                         image.getPlatformImage() : null;
+                String fileExtension = image.getFileExtension();
                 if (platformImage != null) {
                     try {
-                        File temp = File.createTempFile("jfx", ".png");
+                        File temp = File.createTempFile("jfx", "." + fileExtension);
                         temp.deleteOnExit();
                         ImageIO.write(
                             toBufferedImage(Image.impl_fromPlatformImage(
@@ -367,7 +368,7 @@ public final class UIClientImpl implements UIClient {
                                     platformImage
                                 )
                             )),
-                            "png",
+                            fileExtension,
                             temp);
                         content.put(DataFormat.FILES, Arrays.asList(temp));
                     } catch (IOException | SecurityException e) {

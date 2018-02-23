@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -38,6 +38,8 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.value.WritableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -56,6 +58,7 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
+import javafx.stage.Window;
 import javafx.util.Duration;
 import javafx.css.CssMetaData;
 import javafx.css.StyleableObjectProperty;
@@ -173,7 +176,8 @@ public class ProgressIndicatorSkin extends BehaviorSkinBase<ProgressIndicator, B
     private ProgressIndicator control;
 
     protected Animation indeterminateTransition;
-
+    private ReadOnlyObjectProperty<Window> windowProperty = null;
+    private ReadOnlyBooleanProperty windowShowingProperty = null;
 
 
     /***************************************************************************
@@ -193,6 +197,7 @@ public class ProgressIndicatorSkin extends BehaviorSkinBase<ProgressIndicator, B
         registerChangeListener(control.visibleProperty(), "VISIBLE");
         registerChangeListener(control.parentProperty(), "PARENT");
         registerChangeListener(control.sceneProperty(), "SCENE");
+        updateWindowListeners();
 
         initialize();
     }
@@ -216,6 +221,14 @@ public class ProgressIndicatorSkin extends BehaviorSkinBase<ProgressIndicator, B
         } else if ("PARENT".equals(p)) {
             updateAnimation();
         } else if ("SCENE".equals(p)) {
+            updateWindowListeners();
+            updateAnimation();
+        }
+        else if ("WINDOW".equals(p)) {
+            updateWindowListeners();
+            updateAnimation();
+        }
+        else if ("WINDOWSHOWING".equals(p)) {
             updateAnimation();
         }
     }
@@ -293,7 +306,9 @@ public class ProgressIndicatorSkin extends BehaviorSkinBase<ProgressIndicator, B
         ProgressIndicator control = getSkinnable();
         final boolean isTreeVisible = control.isVisible() &&
                                       control.getParent() != null &&
-                                      control.getScene() != null;
+                                      control.getScene() != null &&
+                                      control.getScene().getWindow() != null &&
+                                      control.getScene().getWindow().isShowing();
         if (indeterminateTransition != null) {
             pauseTimeline(! isTreeVisible);
         } else if (isTreeVisible) {
@@ -308,7 +323,25 @@ public class ProgressIndicatorSkin extends BehaviorSkinBase<ProgressIndicator, B
      * Listeners                                                               *
      *                                                                         *
      **************************************************************************/
+     private void updateWindowListeners() {
+        // Re-register change listeners for windowProperty & windowShowingProperty
+        if (windowProperty != null) {
+            unregisterChangeListener(windowProperty);
+            windowProperty = null;
 
+            unregisterChangeListener(windowShowingProperty);
+            windowShowingProperty = null;
+        }
+
+        if ((control.getScene() != null) &&
+            (control.getScene().getWindow() != null)) {
+            windowProperty = control.getScene().windowProperty();
+            windowShowingProperty = control.getScene().getWindow().showingProperty();
+
+            registerChangeListener(windowProperty, "WINDOW");
+            registerChangeListener(windowShowingProperty, "WINDOWSHOWING");
+        }
+     }
 
 
 
