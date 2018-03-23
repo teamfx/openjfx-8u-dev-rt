@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -199,6 +199,16 @@ public abstract class BehaviorSkinBase<C extends Control, BB extends BehaviorBas
             });
         }
         changeListenerHandler.registerChangeListener(property, reference);
+    }
+
+    /**
+     * Subclasses can invoke this method to unregister listening to
+     * property change events for the given property.
+     *
+     * @param property
+     */
+    protected final void unregisterChangeListener(ObservableValue<?> property) {
+        changeListenerHandler.unregisterChangeListener(property);
     }
 
     /**

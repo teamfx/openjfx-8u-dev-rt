@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -1112,11 +1112,11 @@ public class Scene implements EventTarget {
                     }
 
                     if (oldRoot != null) {
-                        oldRoot.setScenes(null, null, /* reapplyCSS*/ false);
+                        oldRoot.setScenes(null, null);
                     }
                     oldRoot = _value;
                     _value.getStyleClass().add(0, "root");
-                    _value.setScenes(Scene.this, null, /* reapplyCSS*/ true);
+                    _value.setScenes(Scene.this, null);
                     markDirty(DirtyBits.ROOT_DIRTY);
                     _value.resize(getWidth(), getHeight()); // maybe no-op if root is not resizable
                     _value.requestLayout();
