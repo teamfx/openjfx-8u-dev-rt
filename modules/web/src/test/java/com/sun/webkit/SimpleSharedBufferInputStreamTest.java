@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2017, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -164,13 +164,6 @@ public class SimpleSharedBufferInputStreamTest {
     }
 
     @Test @Ignore
-    public void testRead3FirstSegmentLastTenBytesWithTruncation() {
-        append(SEGMENT_SIZE * 2.5);
-        readOut(SEGMENT_SIZE - 5);
-        assertArrayEquals(g(SEGMENT_SIZE - 5, 5), read(10));
-    }
-
-    @Test
     public void testRead3InteriorSegmentFirstTenBytes() {
         append(SEGMENT_SIZE * 2.5);
         readOut(SEGMENT_SIZE);
@@ -192,13 +185,6 @@ public class SimpleSharedBufferInputStreamTest {
     }
 
     @Test @Ignore
-    public void testRead3InteriorSegmentLastTenBytesWithTruncation() {
-        append(SEGMENT_SIZE * 2.5);
-        readOut(SEGMENT_SIZE * 2 - 5);
-        assertArrayEquals(g(SEGMENT_SIZE * 2 - 5, 5), read(10));
-    }
-
-    @Test
     public void testRead3LastSegmentFirstTenBytes() {
         append(SEGMENT_SIZE * 2.5);
         readOut(SEGMENT_SIZE * 2);
@@ -245,15 +231,6 @@ public class SimpleSharedBufferInputStreamTest {
     }
 
     @Test @Ignore
-    public void testRead3FirstSegmentWithTruncation() {
-        append(SEGMENT_SIZE * 2.5);
-        readOut(SEGMENT_SIZE * 0.5);
-        assertArrayEquals(
-                g(SEGMENT_SIZE * 0.5, SEGMENT_SIZE - SEGMENT_SIZE * 0.5),
-                read(SEGMENT_SIZE));
-    }
-
-    @Test
     public void testRead3InteriorSegment() {
         append(SEGMENT_SIZE * 2.5);
         readOut(SEGMENT_SIZE);
@@ -261,15 +238,6 @@ public class SimpleSharedBufferInputStreamTest {
     }
 
     @Test @Ignore
-    public void testRead3InteriorSegmentWithTruncation() {
-        append(SEGMENT_SIZE * 2.5);
-        readOut(SEGMENT_SIZE * 1.5);
-        assertArrayEquals(
-                g(SEGMENT_SIZE * 1.5, SEGMENT_SIZE - SEGMENT_SIZE * 0.5),
-                read(SEGMENT_SIZE));
-    }
-
-    @Test
     public void testRead3LastSegment() {
         append(SEGMENT_SIZE * 2.5);
         readOut(SEGMENT_SIZE * 2);
@@ -378,30 +346,6 @@ public class SimpleSharedBufferInputStreamTest {
         } catch (IndexOutOfBoundsException expected) {}
     }
 
-    @Test @Ignore
-    public void testRead3StandardUse() {
-        int streamSize = 24700;
-        append(streamSize);
-        int numberOfReads = streamSize / SEGMENT_SIZE + 1;
-        for (int i = 0; i < numberOfReads; i++) {
-            byte[] buffer = new byte[8192];
-            int len = is.read(buffer, 0, buffer.length);
-            int expectedLen = i == numberOfReads - 1
-                    ? streamSize % SEGMENT_SIZE : SEGMENT_SIZE;
-            assertEquals(expectedLen, len);
-            byte[] expectedBuffer = new byte[8192];
-            System.arraycopy(g(SEGMENT_SIZE * i, SEGMENT_SIZE), 0,
-                             expectedBuffer, 0,
-                             len);
-            assertArrayEquals(expectedBuffer, buffer);
-        }
-
-        byte[] buffer = new byte[8192];
-        int len = is.read(buffer, 0, buffer.length);
-        assertEquals(-1, len);
-        assertArrayEquals(new byte[8192], buffer);
-    }
-
     private void testSkipSmallNumberOfBytes(long skip) {
         int streamSize = (int) (SEGMENT_SIZE * 2.5);
         int skipCount = streamSize / SEGMENT_SIZE + 1;
@@ -418,16 +362,6 @@ public class SimpleSharedBufferInputStreamTest {
     }
 
     @Test @Ignore
-    public void testSkipOneByte() {
-        testSkipSmallNumberOfBytes(1);
-    }
-
-    @Test @Ignore
-    public void testSkipTenBytes() {
-        testSkipSmallNumberOfBytes(10);
-    }
-
-    @Test
     public void testSkipZeroBytes() {
         testSkipSmallNumberOfBytes(0);
     }
@@ -568,23 +502,6 @@ public class SimpleSharedBufferInputStreamTest {
         append(SEGMENT_SIZE * 2.5);
         is.close();
         assertArrayEquals(g(0, SEGMENT_SIZE), read(SEGMENT_SIZE));
-    }
-
-    @Test @Ignore
-    public void testCloseBeforeSubsequentRead() throws IOException {
-        append(SEGMENT_SIZE * 2.5);
-        assertArrayEquals(g(0, 10), read(10));
-        is.close();
-        assertArrayEquals(g(10, SEGMENT_SIZE - 10), read(SEGMENT_SIZE));
-    }
-
-    @Test @Ignore
-    public void testDoubleClose() throws IOException {
-        append(SEGMENT_SIZE * 2.5);
-        assertArrayEquals(g(0, 10), read(10));
-        is.close();
-        is.close();
-        assertArrayEquals(g(10, SEGMENT_SIZE - 10), read(SEGMENT_SIZE));
     }
 
     @Test
