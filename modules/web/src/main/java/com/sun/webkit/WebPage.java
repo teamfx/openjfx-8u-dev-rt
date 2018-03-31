@@ -2321,6 +2321,24 @@ public final class WebPage {
         return null;
     }
 
+    private boolean fwkCanRunBeforeUnloadConfirmPanel() {
+        log.log(Level.FINE, "JavaScript canRunBeforeUnloadConfirmPanel()");
+
+        if (uiClient != null) {
+            return uiClient.canRunBeforeUnloadConfirmPanel();
+        }
+        return false;
+    }
+
+    private boolean fwkRunBeforeUnloadConfirmPanel(String message) {
+        log.log(Level.FINE, "JavaScript runBeforeUnloadConfirmPanel(): message = " + message);
+
+        if (uiClient != null) {
+            return uiClient.runBeforeUnloadConfirmPanel(message);
+        }
+        return false;
+    }
+
     private void fwkAddMessageToConsole(String message, int lineNumber,
             String sourceId)
     {

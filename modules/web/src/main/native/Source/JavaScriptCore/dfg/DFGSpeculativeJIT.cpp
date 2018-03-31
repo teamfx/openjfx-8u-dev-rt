@@ -2080,14 +2080,11 @@ void SpeculativeJIT::compileGetByValOnString(Node* node)
             // on a stringPrototypeChainIsSane() guaranteeing that the prototypes have no negative
             // indexed properties either.
             // https://bugs.webkit.org/show_bug.cgi?id=144668
-            m_jit.graph().watchpoints().addLazily(globalObject->stringPrototype()->structure()->transitionWatchpointSet());
-            m_jit.graph().watchpoints().addLazily(globalObject->objectPrototype()->structure()->transitionWatchpointSet());
+            m_jit.graph().registerAndWatchStructureTransition(globalObject->stringPrototype()->structure());
+            m_jit.graph().registerAndWatchStructureTransition(globalObject->objectPrototype()->structure());
             prototypeChainIsSane = globalObject->stringPrototypeChainIsSane();
         }
         if (prototypeChainIsSane) {
-            m_jit.graph().watchpoints().addLazily(globalObject->stringPrototype()->structure()->transitionWatchpointSet());
-            m_jit.graph().watchpoints().addLazily(globalObject->objectPrototype()->structure()->transitionWatchpointSet());
-
 #if USE(JSVALUE64)
             addSlowPathGenerator(std::make_unique<SaneStringGetByValSlowPathGenerator>(
                 outOfBounds, this, JSValueRegs(scratchReg), baseReg, propertyReg));
@@ -6490,9 +6487,20 @@ void SpeculativeJIT::compileNewFunction(Node* node)
     }
 
     RegisteredStructure structure = m_jit.graph().registerStructure(
-        nodeType == NewGeneratorFunction ? m_jit.graph().globalObjectFor(node->origin.semantic)->generatorFunctionStructure() :
-        nodeType == NewAsyncFunction ? m_jit.graph().globalObjectFor(node->origin.semantic)->asyncFunctionStructure() :
-        m_jit.graph().globalObjectFor(node->origin.semantic)->functionStructure());
+        [&] () {
+            switch (nodeType) {
+            case NewGeneratorFunction:
+                return m_jit.graph().globalObjectFor(node->origin.semantic)->generatorFunctionStructure();
+            case NewAsyncFunction:
+                return m_jit.graph().globalObjectFor(node->origin.semantic)->asyncFunctionStructure();
+            case NewFunction:
+                if (node->castOperand<FunctionExecutable*>()->isStrictMode())
+                    return m_jit.graph().globalObjectFor(node->origin.semantic)->strictFunctionStructure();
+                return m_jit.graph().globalObjectFor(node->origin.semantic)->sloppyFunctionStructure();
+            default:
+                RELEASE_ASSERT_NOT_REACHED();
+            }
+        }());
 
     GPRTemporary result(this);
     GPRTemporary scratch1(this);

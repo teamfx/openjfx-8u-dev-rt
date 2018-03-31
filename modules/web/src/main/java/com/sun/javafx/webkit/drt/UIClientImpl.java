@@ -158,6 +158,17 @@ final class UIClientImpl implements UIClient {
         return defaultValue;
     }
 
+    @Override
+    public boolean canRunBeforeUnloadConfirmPanel() {
+        return true;
+    }
+
+    @Override
+    public boolean runBeforeUnloadConfirmPanel(String message) {
+        DumpRenderTree.out.printf("CONFIRM NAVIGATION: %s\n", message);
+        return !DumpRenderTree.drt.shouldStayOnPageAfterHandlingBeforeUnload();
+    }
+
     /**
      * {@inheritDoc}
      */
