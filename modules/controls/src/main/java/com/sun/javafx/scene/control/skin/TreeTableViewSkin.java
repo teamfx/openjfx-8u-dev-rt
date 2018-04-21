@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -351,11 +351,22 @@ public class TreeTableViewSkin<S> extends TableViewSkinBase<S, TreeItem<S>, Tree
 
         // RT-23486
         maxWidth += padding;
-        if(treeTableView.getColumnResizePolicy() == TreeTableView.CONSTRAINED_RESIZE_POLICY) {
-            maxWidth = Math.max(maxWidth, col.getWidth());
-        }
+        if (treeTableView.getColumnResizePolicy() == TreeTableView.CONSTRAINED_RESIZE_POLICY && treeTableView.getWidth() > 0) {
 
-        col.impl_setWidth(maxWidth);
+            if (maxWidth > tc.getMaxWidth()) {
+                maxWidth = tc.getMaxWidth();
+            }
+
+            int size = tc.getColumns().size();
+            if (size > 0) {
+                resizeColumnToFitContent(tc.getColumns().get(size - 1), maxRows);
+                return;
+            }
+
+            resizeColumn(tc, Math.round(maxWidth - tc.getWidth()));
+        } else {
+            col.impl_setWidth(maxWidth);
+        }
     }
 
     /** {@inheritDoc} */

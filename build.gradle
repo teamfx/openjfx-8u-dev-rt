@@ -1755,6 +1755,7 @@ project(":systemTests") {
         enabled = IS_FULL_TEST
         if (!IS_USE_ROBOT) {
             // Disable all robot-based visual tests
+            exclude("test/robot/**");
             exclude("**/helloworld/*.*");
             exclude("**/javafx/embed/swing/*.*");
             exclude("**/javafx/scene/layout/*.*");

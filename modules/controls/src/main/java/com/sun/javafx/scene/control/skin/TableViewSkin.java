@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -262,11 +262,22 @@ public class TableViewSkin<T> extends TableViewSkinBase<T, T, TableView<T>, Tabl
 
         // RT-23486
         maxWidth += padding;
-        if(tableView.getColumnResizePolicy() == TableView.CONSTRAINED_RESIZE_POLICY) {
-            maxWidth = Math.max(maxWidth, tc.getWidth());
-        }
+        if (tableView.getColumnResizePolicy() == TableView.CONSTRAINED_RESIZE_POLICY && tableView.getWidth() > 0) {
 
-        tc.impl_setWidth(maxWidth);
+            if (maxWidth > tc.getMaxWidth()) {
+                maxWidth = tc.getMaxWidth();
+            }
+
+            int size = tc.getColumns().size();
+            if (size > 0) {
+                resizeColumnToFitContent(tc.getColumns().get(size - 1), maxRows);
+                return;
+            }
+
+            resizeColumn(tc, Math.round(maxWidth - tc.getWidth()));
+        } else {
+            tc.impl_setWidth(maxWidth);
+        }
     }
 
     /** {@inheritDoc} */
