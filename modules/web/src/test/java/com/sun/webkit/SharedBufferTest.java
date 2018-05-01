@@ -30,7 +30,6 @@ import java.util.Arrays;
 import java.util.Random;
 import org.junit.After;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -121,7 +120,7 @@ public class SharedBufferTest {
                 getSomeData(SEGMENT_SIZE - 10, 10));
     }
 
-    @Test @Ignore
+    @Test
     public void testGetSomeDataInteriorSegmentFirstTenBytes() {
         append(SEGMENT_SIZE * 2.5);
         assertArrayEquals(g(SEGMENT_SIZE, 10), getSomeData(SEGMENT_SIZE, 10));
@@ -143,7 +142,7 @@ public class SharedBufferTest {
                 getSomeData(SEGMENT_SIZE * 2 - 10, 10));
     }
 
-    @Test @Ignore
+    @Test
     public void testGetSomeDataLastSegmentFirstTenBytes() {
         append(SEGMENT_SIZE * 2.5);
         assertArrayEquals(
@@ -192,7 +191,7 @@ public class SharedBufferTest {
         assertArrayEquals(g(0, SEGMENT_SIZE), getSomeData(0, SEGMENT_SIZE));
     }
 
-    @Test @Ignore
+    @Test
     public void testGetSomeDataInteriorSegment() {
         append(SEGMENT_SIZE * 2.5);
         assertArrayEquals(
@@ -200,7 +199,7 @@ public class SharedBufferTest {
                 getSomeData(SEGMENT_SIZE, SEGMENT_SIZE));
     }
 
-    @Test @Ignore
+    @Test
     public void testGetSomeDataLastSegment() {
         append(SEGMENT_SIZE * 2.5);
         assertArrayEquals(

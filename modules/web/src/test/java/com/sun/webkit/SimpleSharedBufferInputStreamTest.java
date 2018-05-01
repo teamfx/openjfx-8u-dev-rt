@@ -30,7 +30,6 @@ import java.util.LinkedList;
 import java.util.Random;
 import org.junit.After;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -163,7 +162,7 @@ public class SimpleSharedBufferInputStreamTest {
         assertArrayEquals(g(SEGMENT_SIZE - 10, 10), read(10));
     }
 
-    @Test @Ignore
+    @Test
     public void testRead3InteriorSegmentFirstTenBytes() {
         append(SEGMENT_SIZE * 2.5);
         readOut(SEGMENT_SIZE);
@@ -184,7 +183,7 @@ public class SimpleSharedBufferInputStreamTest {
         assertArrayEquals(g(SEGMENT_SIZE * 2 - 10, 10), read(10));
     }
 
-    @Test @Ignore
+    @Test
     public void testRead3LastSegmentFirstTenBytes() {
         append(SEGMENT_SIZE * 2.5);
         readOut(SEGMENT_SIZE * 2);
@@ -230,14 +229,14 @@ public class SimpleSharedBufferInputStreamTest {
         assertArrayEquals(g(0, SEGMENT_SIZE), read(SEGMENT_SIZE));
     }
 
-    @Test @Ignore
+    @Test
     public void testRead3InteriorSegment() {
         append(SEGMENT_SIZE * 2.5);
         readOut(SEGMENT_SIZE);
         assertArrayEquals(g(SEGMENT_SIZE, SEGMENT_SIZE), read(SEGMENT_SIZE));
     }
 
-    @Test @Ignore
+    @Test
     public void testRead3LastSegment() {
         append(SEGMENT_SIZE * 2.5);
         readOut(SEGMENT_SIZE * 2);
@@ -361,7 +360,7 @@ public class SimpleSharedBufferInputStreamTest {
         }
     }
 
-    @Test @Ignore
+    @Test
     public void testSkipZeroBytes() {
         testSkipSmallNumberOfBytes(0);
     }
