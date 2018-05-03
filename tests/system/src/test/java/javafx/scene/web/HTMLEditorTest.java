@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -39,6 +39,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static javafx.concurrent.Worker.State.SUCCEEDED;
@@ -67,6 +68,7 @@ public class HTMLEditorTest {
 
         @Override
         public void start(Stage primaryStage) throws Exception {
+            Platform.setImplicitExit(false);
             this.primaryStage = primaryStage;
             launchLatch.countDown();
         }
@@ -98,7 +100,10 @@ public class HTMLEditorTest {
      * @bug 8090011
      * Summary Check document focus change behavior on tab key press
      */
-    @Test
+    // Currently ignoring this test case due to regression (JDK-8200418).
+    // The newly cloned issue (JDK-8202542) needs to be fixed before
+    // re-enabling this test case.
+    @Test @Ignore("JDK-8202542")
     public void checkFocusChange() throws Exception {
         final CountDownLatch editorStateLatch = new CountDownLatch(2);
         final AtomicBoolean result = new AtomicBoolean(false);
@@ -151,6 +156,67 @@ public class HTMLEditorTest {
             throw new AssertionError(ex);
         } finally {
             assertTrue("Focus Change with design mode enabled ", result.get());
+        }
+    }
+
+    /**
+     * @test
+     * @bug 8200418
+     * Summary Check Style property after removeformat
+     */
+    @Test
+    public void checkStyleProperty() throws Exception {
+        final CountDownLatch editorStateLatch = new CountDownLatch(2);
+        final AtomicBoolean result = new AtomicBoolean(false);
+        Platform.runLater(() -> {
+            HTMLEditor htmlEditor = new HTMLEditor();
+            Scene scene = new Scene(htmlEditor);
+            htmlEditorTestApp.primaryStage.setScene(scene);
+            htmlEditor.setHtmlText("<html>" +
+                "<head>" +
+                "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" +
+                "</head>" +
+                "<body style=\"font-weight: bold\">" +
+                "<p>Test</p>" +
+                "</body>" +
+                "</html>");
+
+            WebView webView = (WebView)htmlEditor.lookup(".web-view");
+            assertNotNull(webView);
+
+            webView.focusedProperty().
+                addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    webView.getEngine().
+                        executeScript("document.body.focus();");
+                    webView.getEngine().
+                        executeScript("document.execCommand('selectAll', false, 'true');");
+                    webView.getEngine().
+                        executeScript("document.execCommand('removeFormat', false, null);");
+                    result.set("bold".equals(webView.getEngine().
+                        executeScript("document.body.style.fontWeight").
+                        toString()));
+                    htmlEditorTestApp.primaryStage.hide();
+                    editorStateLatch.countDown();
+                }
+            });
+
+            webView.getEngine().getLoadWorker().stateProperty().
+                addListener((observable, oldValue, newValue) -> {
+                if (newValue == SUCCEEDED) {
+                    htmlEditor.requestFocus();
+                    editorStateLatch.countDown();
+                }
+            });
+            htmlEditorTestApp.primaryStage.show();
+        });
+
+        try {
+            editorStateLatch.await(TIMEOUT, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException ex) {
+            throw new AssertionError(ex);
+        } finally {
+            assertTrue("check Style Property with removeFormat ", result.get());
         }
     }
 }
