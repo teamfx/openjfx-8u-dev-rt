@@ -52,9 +52,12 @@ if (!IS_64) {
 // Specify the compilation parameters and link parameters
 def ccFlags = [
         commonFlags, "-I$JDK_HOME/include", "-I$JDK_HOME/include/linux", "-c",
+        "-ffunction-sections", "-fdata-sections",
         IS_DEBUG_NATIVE ? ["-ggdb", "-DVERBOSE"] : ["-O2", "-DNDEBUG"]].flatten()
 //ccFlags.addAll(["-Wnon-virtual-dtor", "-Woverloaded-virtual", "-std=c++0x"])
-def linkFlags = ["-shared", commonFlags].flatten()
+def linkFlags = ["-static-libgcc", "-static-libstdc++", "-shared", commonFlags,
+                 "-Wl,--gc-sections"].flatten()
+def defaultLinkFlags = linkFlags.flatten()
 
 // Create $buildDir/linux_tools.properties file and load props from it
 setupTools("linux_tools",
@@ -180,9 +183,10 @@ if (!IS_64) {
 
 LINUX.launcherlibrary = [:]
 LINUX.launcherlibrary.compiler = compiler
-LINUX.launcherlibrary.ccFlags = ["-DJAVAARCH=\"$OS_ARCH\"", "-I$JDK_HOME/include", "-I$JDK_HOME/include/linux", "-c", "-fPIC"]
+LINUX.launcherlibrary.ccFlags = ["-DJAVAARCH=\"$OS_ARCH\"", "-I$JDK_HOME/include", "-I$JDK_HOME/include/linux", "-c", "-fPIC",
+"-std=gnu++98", "-ffunction-sections", "-fdata-sections"]
 LINUX.launcherlibrary.linker = linker
-LINUX.launcherlibrary.linkFlags = ["-ldl", "-lpthread", "-shared"]
+LINUX.launcherlibrary.linkFlags = ["-ldl", "-lpthread", "-shared", "-static-libgcc", "-static-libstdc++", "-Wl,--gc-sections"]
 if (!IS_64) {
     LINUX.launcherlibrary.ccFlags += "-m32"
     LINUX.launcherlibrary.linkFlags += "-m32"
@@ -257,3 +261,9 @@ LINUX.media = [:]
 LINUX.media.compiler = compiler
 LINUX.media.linker = linker
 LINUX.media.lib = "ar"
+
+LINUX.webkit = [:]
+LINUX.webkit.compiler = compiler
+LINUX.webkit.linker = linker
+LINUX.webkit.ccFlags = commonFlags.flatten()
+LINUX.webkit.linkFlags = defaultLinkFlags.flatten()

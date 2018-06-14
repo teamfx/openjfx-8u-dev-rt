@@ -24,7 +24,8 @@ CFLAGS = -fPIC                   \
          -DHAVE_STDINT_H         \
          -DLINUX                 \
          -DGST_DISABLE_LOADSAVE  \
-         -DGSTREAMER_LITE
+         -DGSTREAMER_LITE \
+         -ffunction-sections -fdata-sections
 
 ifeq ($(BUILD_TYPE), Release)
     CFLAGS += -Os
@@ -43,7 +44,8 @@ INCLUDES= -I../../../plugins                          \
 
 LDFLAGS = -L$(BUILD_DIR)    \
           -lgstreamer-lite  \
-           $(PACKAGES_LIBS)
+           $(PACKAGES_LIBS) \
+          -static-libgcc -static-libstdc++ -Wl,--gc-sections
 
 ifneq ($(strip $(LIBAV_DIR)),)
 INCLUDES += -I$(LIBAV_DIR)/include
