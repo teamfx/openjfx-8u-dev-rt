@@ -15,6 +15,7 @@ jmethodID getWaitUntillDoneMethodId();
 jmethodID getNotifyDoneMID();
 jmethodID getOverridePreferenceMID();
 jmethodID getGetBackForwardItemCountMID();
+jmethodID getClearBackForwardListMID();
 jmethodID getResolveURLMID();
 jmethodID getLoadURLMID();
 jmethodID getGoBackForward();
