@@ -7,7 +7,7 @@ TARGET_DIRS = $(BUILD_DIR)
 
 BASE_DIR = ../../..
 
-GLIB_VERSION = 2.28.8
+GLIB_VERSION = 2.56.1
 GLIB_DIR = $(BASE_DIR)/3rd_party/glib/glib-$(GLIB_VERSION)
 
 SRCBASE_DIR = $(BASE_DIR)/plugins
@@ -30,6 +30,7 @@ CFLAGS += -fPIC                     \
          -DGST_DISABLE_LOADSAVE    \
          -DHAVE_STDINT_H           \
          -DGSTREAMER_LITE          \
+         -DG_DISABLE_DEPRECATED    \
          -DOSX                     \
          -msse2
 
@@ -65,7 +66,7 @@ C_SOURCES = fxplugins.c                        \
             progressbuffer/posix/filecache.c   \
             javasource/javasource.c            \
             javasource/marshal.c               \
-            avcdecoder/avcdecoder.c            
+            avcdecoder/avcdecoder.c
 
 ifneq ($(strip $(ON2_SRCDIR)),)
 DIRLIST += vp6

@@ -16,8 +16,8 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 
@@ -26,19 +26,19 @@
 
 #include <gst/gstconfig.h>
 
-#include <time.h> /* time_t */
-#include <sys/types.h> /* off_t */
-#include <sys/stat.h> /* off_t */
-#include <gmodule.h>
 #include <gst/gstobject.h>
 #include <gst/gstmacros.h>
 #include <gst/gststructure.h>
 
 G_BEGIN_DECLS
 
+/**
+ * GstPlugin:
+ *
+ * The opaque plugin object
+ */
 typedef struct _GstPlugin GstPlugin;
 typedef struct _GstPluginClass GstPluginClass;
-typedef struct _GstPluginPrivate GstPluginPrivate;
 typedef struct _GstPluginDesc GstPluginDesc;
 
 /**
@@ -48,6 +48,8 @@ typedef struct _GstPluginDesc GstPluginDesc;
  *
  * Returns: The error quark used in GError messages
  */
+
+GST_API
 GQuark gst_plugin_error_quark (void);
 /**
  * GST_PLUGIN_ERROR:
@@ -80,8 +82,8 @@ typedef enum
  */
 typedef enum
 {
-  GST_PLUGIN_FLAG_CACHED = (1<<0),
-  GST_PLUGIN_FLAG_BLACKLISTED = (1<<1)
+  GST_PLUGIN_FLAG_CACHED      = (GST_OBJECT_FLAG_LAST << 0),
+  GST_PLUGIN_FLAG_BLACKLISTED = (GST_OBJECT_FLAG_LAST << 1)
 } GstPluginFlags;
 
 /**
@@ -93,16 +95,22 @@ typedef enum
  * @GST_PLUGIN_DEPENDENCY_FLAG_FILE_NAME_IS_SUFFIX : interpret
  *         filename argument as filter suffix and check all matching files in
  *         the directory
+ * @GST_PLUGIN_DEPENDENCY_FLAG_FILE_NAME_IS_PREFIX : interpret
+ *         filename argument as filter prefix and check all matching files in
+ *         the directory. Since 1.8.
+ * @GST_PLUGIN_DEPENDENCY_FLAG_PATHS_ARE_RELATIVE_TO_EXE : interpret
+ *   non-absolute paths as relative to the main executable directory. Since
+ *   1.14.
  *
  * Flags used in connection with gst_plugin_add_dependency().
- *
- * Since: 0.10.22
  */
 typedef enum {
   GST_PLUGIN_DEPENDENCY_FLAG_NONE = 0,
   GST_PLUGIN_DEPENDENCY_FLAG_RECURSE = (1 << 0),
   GST_PLUGIN_DEPENDENCY_FLAG_PATHS_ARE_DEFAULT_ONLY = (1 << 1),
-  GST_PLUGIN_DEPENDENCY_FLAG_FILE_NAME_IS_SUFFIX = (1 << 2)
+  GST_PLUGIN_DEPENDENCY_FLAG_FILE_NAME_IS_SUFFIX = (1 << 2),
+  GST_PLUGIN_DEPENDENCY_FLAG_FILE_NAME_IS_PREFIX = (1 << 3),
+  GST_PLUGIN_DEPENDENCY_FLAG_PATHS_ARE_RELATIVE_TO_EXE = (1 << 4)
 } GstPluginDependencyFlags;
 
 /**
@@ -131,9 +139,6 @@ typedef gboolean (*GstPluginInitFunc) (GstPlugin *plugin);
  * user data to be passed to init function (useful for bindings).
  *
  * Returns: %TRUE if plugin initialised successfully
- *
- * Since: 0.10.24
- *
  */
 /* FIXME 0.11: Merge with GstPluginInitFunc */
 typedef gboolean (*GstPluginInitFullFunc) (GstPlugin *plugin, gpointer user_data);
@@ -150,11 +155,12 @@ typedef gboolean (*GstPluginInitFullFunc) (GstPlugin *plugin, gpointer user_data
  * @source: source module plugin belongs to
  * @package: shipped package plugin belongs to
  * @origin: URL to provider of plugin
- * @release_datetime: date time string in ISO 8601 format (or rather, a
- *     subset thereof), or NULL. Allowed are the following formats:
- *     "YYYY-MM-DD" and "YYY-MM-DDTHH:MMZ" (with 'T' a separator and 'Z'
- *     indicating UTC/Zulu time). This field should be set via the
- *     GST_PACKAGE_RELEASE_DATETIME preprocessor macro (Since: 0.10.31)
+ * @release_datetime: (allow-none): date time string in ISO 8601
+ *     format (or rather, a subset thereof), or %NULL. Allowed are the
+ *     following formats: "YYYY-MM-DD" and "YYY-MM-DDTHH:MMZ" (with
+ *     'T' a separator and 'Z' indicating UTC/Zulu time). This field
+ *     should be set via the GST_PACKAGE_RELEASE_DATETIME
+ *     preprocessor macro.
  *
  * A plugin should export a variable of this type called plugin_desc. The plugin
  * loader will use the data provided there to initialize the plugin.
@@ -175,7 +181,7 @@ struct _GstPluginDesc {
   const gchar *origin;
   const gchar *release_datetime;
   /*< private >*/
-  gpointer _gst_reserved[GST_PADDING - 1];
+  gpointer _gst_reserved[GST_PADDING];
 };
 
 
@@ -187,47 +193,39 @@ struct _GstPluginDesc {
 #define GST_PLUGIN_CLASS(klass)        (G_TYPE_CHECK_CLASS_CAST ((klass), GST_TYPE_PLUGIN, GstPluginClass))
 #define GST_PLUGIN_CAST(obj)           ((GstPlugin*)(obj))
 
-/**
- * GstPlugin:
- *
- * The plugin object
- */
-struct _GstPlugin {
-  GstObject       object;
-
-  /*< private >*/
-  GstPluginDesc desc;
-
-  GstPluginDesc *orig_desc;
-
-  unsigned int  flags;
-
-  gchar *   filename;
-  gchar *   basename;       /* base name (non-dir part) of plugin path */
-
-  GModule * module;     /* contains the module if plugin is loaded */
-
-  off_t         file_size;
-  time_t        file_mtime;
-  gboolean      registered;     /* TRUE when the registry has seen a filename
-                                 * that matches the plugin's basename */
-
-  GstPluginPrivate *priv;
-  gpointer _gst_reserved[GST_PADDING - 1];
-};
-
-struct _GstPluginClass {
-  GstObjectClass  object_class;
-
-  /*< private >*/
-  gpointer _gst_reserved[GST_PADDING];
-};
-
 #ifdef GST_PACKAGE_RELEASE_DATETIME
 #define __GST_PACKAGE_RELEASE_DATETIME GST_PACKAGE_RELEASE_DATETIME
 #else
 #define __GST_PACKAGE_RELEASE_DATETIME NULL
 #endif
+
+/**
+ * GST_PLUGIN_STATIC_DECLARE:
+ * @name: short, but unique name of the plugin
+ *
+ * This macro can be used to initialize statically linked plugins. It is
+ * necessary to call this macro before the plugin can be used.
+ * It has to be used in combination with GST_PLUGIN_STATIC_REGISTER
+ * and must be placed outside any block to declare the plugin initialization
+ * function.
+ *
+ * Since: 1.2
+ */
+#define GST_PLUGIN_STATIC_DECLARE(name) \
+  extern void G_PASTE(gst_plugin_, G_PASTE(name, _register)) (void)
+
+/**
+ * GST_PLUGIN_STATIC_REGISTER:
+ * @name: short, but unique name of the plugin
+ *
+ * This macro can be used to initialize statically linked plugins. It is
+ * necessary to call this macro before the plugin can be used.
+ * It has to be used in combination with GST_PLUGIN_STATIC_DECLARE and
+ * calls the plugin initialization function.
+ *
+ * Since: 1.2
+ */
+#define GST_PLUGIN_STATIC_REGISTER(name) G_PASTE(gst_plugin_, G_PASTE(name, _register)) ()
 
 /**
  * GST_PLUGIN_DEFINE:
@@ -256,74 +254,43 @@ struct _GstPluginClass {
  */
 #define GST_PLUGIN_DEFINE(major,minor,name,description,init,version,license,package,origin) \
 G_BEGIN_DECLS \
-GST_PLUGIN_EXPORT GstPluginDesc gst_plugin_desc = { \
-  major,                        \
-  minor,                        \
-  name,                         \
-  (gchar *) description,                \
-  init,                         \
-  version,                      \
-  license,                      \
-  PACKAGE,                      \
-  package,                      \
-  origin,                       \
-  __GST_PACKAGE_RELEASE_DATETIME,                       \
-  GST_PADDING_INIT                      \
-}; \
+GST_PLUGIN_EXPORT const GstPluginDesc * G_PASTE(gst_plugin_, G_PASTE(name, _get_desc)) (void); \
+GST_PLUGIN_EXPORT void G_PASTE(gst_plugin_, G_PASTE(name, _register)) (void); \
+                            \
+static const GstPluginDesc gst_plugin_desc = { \
+  major, \
+  minor, \
+  G_STRINGIFY(name), \
+  (gchar *) description, \
+  init, \
+  version, \
+  license, \
+  PACKAGE, \
+  package, \
+  origin, \
+  __GST_PACKAGE_RELEASE_DATETIME, \
+  GST_PADDING_INIT \
+};                                       \
+\
+const GstPluginDesc * \
+G_PASTE(gst_plugin_, G_PASTE(name, _get_desc)) (void) \
+{ \
+    return &gst_plugin_desc; \
+} \
+\
+void \
+G_PASTE(gst_plugin_, G_PASTE(name, _register)) (void) \
+{ \
+  gst_plugin_register_static (major, minor, G_STRINGIFY(name), \
+      description, init, version, license, \
+      PACKAGE, package, origin); \
+} \
 G_END_DECLS
-
-/**
- * GST_PLUGIN_DEFINE_STATIC:
- * @major: major version number of the gstreamer-core that plugin was compiled for
- * @minor: minor version number of the gstreamer-core that plugin was compiled for
- * @name: short, but unique name of the plugin
- * @description: information about the purpose of the plugin
- * @init: function pointer to the plugin_init method with the signature of <code>static gboolean plugin_init (GstPlugin * plugin)</code>.
- * @version: full version string (e.g. VERSION from config.h)
- * @license: under which licence the package has been released, e.g. GPL, LGPL.
- * @package: the package-name (e.g. PACKAGE_NAME from config.h)
- * @origin: a description from where the package comes from (e.g. the homepage URL)
- *
- * This macro needs to be used to define the entry point and meta data of a
- * local plugin. One would use this macro to define a local plugin that can only
- * be used by the own application.
- *
- * The macro uses a define named PACKAGE for the #GstPluginDesc.source field.
- *
- * Deprecated: Use gst_plugin_register_static() instead. This macro was
- * deprecated because it uses constructors, which is a compiler feature not
- * available on all compilers.
- *
- */
-/* We don't have deprecation guards here on purpose, it's enough to have
- * deprecation guards around _gst_plugin_register_static(), and will result in
- * much better error messages when compiling with -DGST_DISABLE_DEPRECATED */
-#define GST_PLUGIN_DEFINE_STATIC(major,minor,name,description,init,version,license,package,origin)  \
-static void GST_GNUC_CONSTRUCTOR            \
-_gst_plugin_static_init__ ##init (void)         \
-{                           \
-  static GstPluginDesc plugin_desc_ = {         \
-    major,                      \
-    minor,                      \
-    name,                       \
-    (gchar *) description,              \
-    init,                       \
-    version,                        \
-    license,                        \
-    PACKAGE,                        \
-    package,                        \
-    origin,                     \
-    NULL,                       \
-    GST_PADDING_INIT                        \
-  };                            \
-  _gst_plugin_register_static (&plugin_desc_);      \
-}
 
 /**
  * GST_LICENSE_UNKNOWN:
  *
- * To be used in GST_PLUGIN_DEFINE or GST_PLUGIN_DEFINE_STATIC if usure about
- * the licence.
+ * To be used in GST_PLUGIN_DEFINE if unsure about the licence.
  */
 #define GST_LICENSE_UNKNOWN "unknown"
 
@@ -337,17 +304,15 @@ _gst_plugin_static_init__ ##init (void)         \
  * A function that can be used with e.g. gst_registry_plugin_filter()
  * to get a list of plugins that match certain criteria.
  *
- * Returns: TRUE for a positive match, FALSE otherwise
+ * Returns: %TRUE for a positive match, %FALSE otherwise
  */
 typedef gboolean        (*GstPluginFilter)              (GstPlugin *plugin,
                                                          gpointer user_data);
 
+GST_API
 GType                   gst_plugin_get_type             (void);
 
-#ifndef GST_DISABLE_DEPRECATED
-void            _gst_plugin_register_static (GstPluginDesc *desc);
-#endif
-
+GST_API
 gboolean        gst_plugin_register_static  (gint major_version,
                                                          gint minor_version,
                                                          const gchar *name,
@@ -358,7 +323,7 @@ gboolean        gst_plugin_register_static  (gint major_version,
                                                          const gchar *source,
                                                          const gchar *package,
                                                          const gchar *origin);
-
+GST_API
 gboolean        gst_plugin_register_static_full (gint major_version,
                                                          gint minor_version,
                                                          const gchar *name,
@@ -370,41 +335,69 @@ gboolean        gst_plugin_register_static_full (gint major_version,
                                                          const gchar *package,
                                                          const gchar *origin,
                                                          gpointer user_data);
-
+GST_API
 const gchar*        gst_plugin_get_name     (GstPlugin *plugin);
+
+GST_API
 const gchar*        gst_plugin_get_description  (GstPlugin *plugin);
+
+GST_API
 const gchar*        gst_plugin_get_filename     (GstPlugin *plugin);
+
+GST_API
 const gchar*        gst_plugin_get_version      (GstPlugin *plugin);
+
+GST_API
 const gchar*        gst_plugin_get_license      (GstPlugin *plugin);
+
+GST_API
 const gchar*        gst_plugin_get_source       (GstPlugin *plugin);
+
+GST_API
 const gchar*        gst_plugin_get_package      (GstPlugin *plugin);
+
+GST_API
 const gchar*        gst_plugin_get_origin       (GstPlugin *plugin);
+
+GST_API
+const gchar*        gst_plugin_get_release_date_string (GstPlugin *plugin);
+
+GST_API
 const GstStructure* gst_plugin_get_cache_data   (GstPlugin * plugin);
+
+GST_API
 void            gst_plugin_set_cache_data   (GstPlugin * plugin, GstStructure *cache_data);
 
-GModule *       gst_plugin_get_module       (GstPlugin *plugin);
+GST_API
 gboolean        gst_plugin_is_loaded        (GstPlugin *plugin);
 
-gboolean        gst_plugin_name_filter      (GstPlugin *plugin, const gchar *name);
-
+GST_API
 GstPlugin *     gst_plugin_load_file        (const gchar *filename, GError** error);
 
+GST_API
 GstPlugin *             gst_plugin_load                 (GstPlugin *plugin);
+
+GST_API
 GstPlugin *             gst_plugin_load_by_name         (const gchar *name);
 
-void                    gst_plugin_add_dependency (GstPlugin    * plugin,
-                                                   const gchar ** env_vars,
-                                                   const gchar ** paths,
-                                                   const gchar ** names,
-                                                   GstPluginDependencyFlags flags);
-
+GST_API
+void                    gst_plugin_add_dependency        (GstPlugin    * plugin,
+                                                          const gchar ** env_vars,
+                                                          const gchar ** paths,
+                                                          const gchar ** names,
+                                                          GstPluginDependencyFlags flags);
+GST_API
 void                    gst_plugin_add_dependency_simple (GstPlugin   * plugin,
                                                           const gchar * env_vars,
                                                           const gchar * paths,
                                                           const gchar * names,
                                                           GstPluginDependencyFlags flags);
+GST_API
+void                    gst_plugin_list_free (GList *list);
 
-void gst_plugin_list_free (GList *list);
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstPlugin, gst_object_unref)
+#endif
 
 G_END_DECLS
 

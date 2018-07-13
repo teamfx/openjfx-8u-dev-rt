@@ -339,13 +339,10 @@ HRESULT CSink::DoRenderSampleInternal(IMediaSample *pMediaSample)
         GST_BUFFER_DURATION(pBuffer) = stop - start;
     }
 
-    GST_BUFFER_SIZE(pBuffer) = pMediaSample->GetActualDataLength();
+    gst_buffer_set_size(pBuffer, pMediaSample->GetActualDataLength());
 
     if (pMediaSample->IsDiscontinuity() == S_OK)
         GST_BUFFER_FLAG_SET(pBuffer, GST_BUFFER_FLAG_DISCONT);
-
-    if (pMediaSample->IsPreroll() == S_OK)
-        GST_BUFFER_FLAG_SET(pBuffer, GST_BUFFER_FLAG_PREROLL);
 
     // Discontinuity is not reliable to check if given media sample should have new caps in GStLite
     bool bUpdateMediaType = false;
@@ -369,6 +366,7 @@ HRESULT CSink::DoRenderSampleExternal(IMediaSample *pMediaSample)
     HRESULT hr = S_OK;
     long lSize = 0;
     GstBuffer *pBuffer = NULL;
+    GstMapInfo info;
     BYTE *pData = NULL;
     REFERENCE_TIME start = 0;
     REFERENCE_TIME stop = 0;
@@ -394,8 +392,12 @@ HRESULT CSink::DoRenderSampleExternal(IMediaSample *pMediaSample)
     if (FAILED(hr) || pData == NULL)
         return S_FALSE;
 
-    memcpy(GST_BUFFER_DATA(pBuffer), pData, lSize);
-    GST_BUFFER_SIZE(pBuffer) = lSize;
+    if (!gst_buffer_map(pBuffer, &info, GST_MAP_WRITE))
+        return S_FALSE;
+
+    memcpy(info.data, pData, lSize);
+    gst_buffer_unmap(pBuffer, &info);
+    gst_buffer_set_size(pBuffer, lSize);
 
     hr = pMediaSample->GetTime(&start, &stop);
     if (hr == S_OK)
@@ -425,9 +427,6 @@ HRESULT CSink::DoRenderSampleExternal(IMediaSample *pMediaSample)
 
     if (pMediaSample->IsDiscontinuity() == S_OK)
         GST_BUFFER_FLAG_SET(pBuffer, GST_BUFFER_FLAG_DISCONT);
-
-    if (pMediaSample->IsPreroll() == S_OK)
-        GST_BUFFER_FLAG_SET(pBuffer, GST_BUFFER_FLAG_PREROLL);
 
     if (!DeliverCallback(pBuffer, &m_UserData))
         return S_FALSE;

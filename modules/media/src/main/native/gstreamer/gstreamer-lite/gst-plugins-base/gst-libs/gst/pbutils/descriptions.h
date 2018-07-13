@@ -13,8 +13,8 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 #ifndef __GST_PB_UTILS_DESCRIPTIONS_H__
@@ -22,6 +22,7 @@
 
 #include <gst/gsttaglist.h>
 #include <gst/gstcaps.h>
+#include <gst/pbutils/pbutils-prelude.h>
 
 G_BEGIN_DECLS
 
@@ -30,10 +31,12 @@ G_BEGIN_DECLS
  * from caps
  */
 
+GST_PBUTILS_API
 gboolean   gst_pb_utils_add_codec_description_to_tag_list (GstTagList    * taglist,
                                                              const gchar   * codec_tag,
                                                              const GstCaps * caps);
 
+GST_PBUTILS_API
 gchar    * gst_pb_utils_get_codec_description (const GstCaps * caps);
 
 /*
@@ -41,14 +44,19 @@ gchar    * gst_pb_utils_get_codec_description (const GstCaps * caps);
  * find descriptions of what exactly is missing
  */
 
+GST_PBUTILS_API
 gchar    * gst_pb_utils_get_source_description (const gchar * protocol);
 
+GST_PBUTILS_API
 gchar    * gst_pb_utils_get_sink_description (const gchar * protocol);
 
+GST_PBUTILS_API
 gchar    * gst_pb_utils_get_decoder_description (const GstCaps * caps);
 
+GST_PBUTILS_API
 gchar    * gst_pb_utils_get_encoder_description (const GstCaps * caps);
 
+GST_PBUTILS_API
 gchar    * gst_pb_utils_get_element_description (const gchar * factory_name);
 
 

@@ -1,7 +1,10 @@
 /* GStreamer base utils library codec-specific utility functions
  * Copyright (C) 2010 Arun Raghavan <arun.raghavan@collabora.co.uk>
+ *               2013 Sreerenj Balachandran <sreerenj.balachandran@intel.com>
  *               2010 Collabora Multimedia
  *               2010 Nokia Corporation
+ *               2013 Intel Corporation
+ *               2015 Sebastian Dröge <sebastian@centricular.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -15,20 +18,18 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 /**
  * SECTION:gstpbutilscodecutils
+ * @title: Codec utilities
  * @short_description: Miscellaneous codec-specific utility functions
  *
- * <refsect2>
- * <para>
  * Provides codec-specific ulility functions such as functions to provide the
  * codec profile and level in human-readable string form from header data.
- * </para>
- * </refsect2>
+ *
  */
 
 #ifdef HAVE_CONFIG_H
@@ -36,12 +37,20 @@
 #endif
 
 #include "pbutils.h"
+#include <gst/base/base.h>
+#include <gst/tag/tag.h>
+
+#include <string.h>
 
 #define GST_SIMPLE_CAPS_HAS_NAME(caps,name) \
     gst_structure_has_name(gst_caps_get_structure((caps),0),(name))
 
 #define GST_SIMPLE_CAPS_HAS_FIELD(caps,field) \
     gst_structure_has_field(gst_caps_get_structure((caps),0),(field))
+
+static const guint aac_sample_rates[] = { 96000, 88200, 64000, 48000, 44100,
+  32000, 24000, 22050, 16000, 12000, 11025, 8000, 7350
+};
 
 static const gchar *
 digit_to_string (guint digit)
@@ -65,16 +74,10 @@ digit_to_string (guint digit)
  * rate.
  *
  * Returns: The sample rate if @sr_idx is valid, 0 otherwise.
- *
- * Since: 0.10.31
  */
 guint
 gst_codec_utils_aac_get_sample_rate_from_index (guint sr_idx)
 {
-  static const guint aac_sample_rates[] = { 96000, 88200, 64000, 48000, 44100,
-    32000, 24000, 22050, 16000, 12000, 11025, 8000, 7350
-  };
-
   if (G_LIKELY (sr_idx < G_N_ELEMENTS (aac_sample_rates)))
     return aac_sample_rates[sr_idx];
 
@@ -83,24 +86,98 @@ gst_codec_utils_aac_get_sample_rate_from_index (guint sr_idx)
 }
 
 /**
+ * gst_codec_utils_aac_get_index_from_sample_rate:
+ * @rate: Sample rate
+ *
+ * Translates the sample rate to the index corresponding to it in AAC spec.
+ *
+ * Returns: The AAC index for this sample rate, -1 if the rate is not a
+ * valid AAC sample rate.
+ */
+gint
+gst_codec_utils_aac_get_index_from_sample_rate (guint rate)
+{
+  guint n;
+
+  for (n = 0; n < G_N_ELEMENTS (aac_sample_rates); n++)
+    if (aac_sample_rates[n] == rate)
+      return n;
+
+  GST_WARNING ("Invalid sample rate %u", rate);
+  return -1;
+}
+
+/**
+ * gst_codec_utils_aac_get_sample_rate:
+ * @audio_config: (array length=len): a pointer to the AudioSpecificConfig
+ *                as specified in the Elementary Stream Descriptor (esds)
+ *                in ISO/IEC 14496-1.
+ * @len: Length of @audio_config
+ *
+ * Translates the sample rate index found in AAC headers to the actual sample
+ * rate.
+ *
+ * Returns: The sample rate if sr_idx is valid, 0 otherwise.
+ *
+ * Since 1.10
+ */
+guint
+gst_codec_utils_aac_get_sample_rate (const guint8 * audio_config, guint len)
+{
+  guint rate_index;
+
+  if (len < 2)
+    return 0;
+
+  rate_index = ((audio_config[0] & 0x7) << 1) | ((audio_config[1] & 0x80) >> 7);
+  return gst_codec_utils_aac_get_sample_rate_from_index (rate_index);
+}
+
+/**
+ * gst_codec_utils_aac_get_channels:
+ * @audio_config: (array length=len): a pointer to the AudioSpecificConfig
+ *                as specified in the Elementary Stream Descriptor (esds)
+ *                in ISO/IEC 14496-1.
+ * @len: Length of @audio_config in bytes
+ *
+ * Returns the channels of the given AAC stream.
+ *
+ * Returns: The channels or 0 if the channel could not be determined.
+ *
+ * Since 1.10
+ */
+guint
+gst_codec_utils_aac_get_channels (const guint8 * audio_config, guint len)
+{
+  guint channels;
+
+  if (len < 2)
+    return 0;
+
+  channels = (audio_config[1] & 0x7f) >> 3;
+  if (channels > 0 && channels < 7)
+    return channels;
+  else if (channels == 7)
+    return 8;
+  else
+    return 0;
+}
+
+/**
  * gst_codec_utils_aac_get_profile:
- * @audio_config: a pointer to the AudioSpecificConfig as specified in the
- *                Elementary Stream Descriptor (esds) in ISO/IEC 14496-1 (see
- *                gst_codec_utils_aac_get_level() for a more details).
+ * @audio_config: (array length=len): a pointer to the AudioSpecificConfig
+ *                as specified in the Elementary Stream Descriptor (esds)
+ *                in ISO/IEC 14496-1.
  * @len: Length of @audio_config in bytes
  *
  * Returns the profile of the given AAC stream as a string. The profile is
  * determined using the AudioObjectType field which is in the first 5 bits of
  * @audio_config.
  *
- * <note>
- * HE-AAC support has not yet been implemented.
- * </note>
+ * > HE-AAC support has not yet been implemented.
  *
  * Returns: The profile as a const string and %NULL if the profile could not be
  * determined.
- *
- * Since: 0.10.31
  */
 const gchar *
 gst_codec_utils_aac_get_profile (const guint8 * audio_config, guint len)
@@ -132,8 +209,9 @@ gst_codec_utils_aac_get_profile (const guint8 * audio_config, guint len)
 
 /**
  * gst_codec_utils_aac_get_level:
- * @audio_config: a pointer to the AudioSpecificConfig as specified in the
- *                Elementary Stream Descriptor (esds) in ISO/IEC 14496-1.
+ * @audio_config: (array length=len): a pointer to the AudioSpecificConfig
+ *                as specified in the Elementary Stream Descriptor (esds)
+ *                in ISO/IEC 14496-1.
  * @len: Length of @audio_config in bytes
  *
  * Determines the level of a stream as defined in ISO/IEC 14496-3. For AAC LC
@@ -143,28 +221,16 @@ gst_codec_utils_aac_get_profile (const guint8 * audio_config, guint len)
  * The @audio_config parameter follows the following format, starting from the
  * most significant bit of the first byte:
  *
- * <itemizedlist>
- *   <listitem><para>
- *     Bit 0:4 contains the AudioObjectType
- *   </para></listitem>
- *   <listitem><para>
- *     Bit 5:8 contains the sample frequency index (if this is 0xf, then the
- *             next 24 bits define the actual sample frequency, and subsequent
- *             fields are appropriately shifted).
- *    </para></listitem>
- *   <listitem><para>
- *     Bit 9:12 contains the channel configuration
- *   </para></listitem>
- * </itemizedlist>
+ *   * Bit 0:4 contains the AudioObjectType
+ *   * Bit 5:8 contains the sample frequency index (if this is 0xf, then the
+ *     next 24 bits define the actual sample frequency, and subsequent
+ *     fields are appropriately shifted).
+ *   * Bit 9:12 contains the channel configuration
  *
- * <note>
- * HE-AAC support has not yet been implemented.
- * </note>
+ * > HE-AAC support has not yet been implemented.
  *
  * Returns: The level as a const string and %NULL if the level could not be
  * determined.
- *
- * Since: 0.10.31
  */
 const gchar *
 gst_codec_utils_aac_get_level (const guint8 * audio_config, guint len)
@@ -238,10 +304,17 @@ gst_codec_utils_aac_get_level (const guint8 * audio_config, guint len)
       num_cpe = 2;
       break;
     case 7:
+    case 12:
+    case 14:
       /* front left, right, center and LFE; outside front left and right;
        * rear left and right surround */
       num_sce = 1;
       num_cpe = 3;
+      num_lfe = 1;
+      break;
+    case 11:
+      num_sce = 2;
+      num_cpe = 2;
       num_lfe = 1;
       break;
     default:
@@ -300,6 +373,10 @@ gst_codec_utils_aac_get_level (const guint8 * audio_config, guint len)
       ret = 4;
     else if (num_channels <= 5 && rate <= 96000 && pcu <= 38 && rcu <= 15)
       ret = 5;
+    else if (num_channels <= 7 && rate <= 48000 && pcu <= 25 && rcu <= 19)
+      ret = 6;
+    else if (num_channels <= 7 && rate <= 96000 && pcu <= 50 && rcu <= 19)
+      ret = 7;
   } else {
     /* Return the level as per the 'Main Profile' */
     if (pcu < 40 && rcu < 20)
@@ -325,9 +402,9 @@ gst_codec_utils_aac_get_level (const guint8 * audio_config, guint len)
 /**
  * gst_codec_utils_aac_caps_set_level_and_profile:
  * @caps: the #GstCaps to which level and profile fields are to be added
- * @audio_config: a pointer to the AudioSpecificConfig as specified in the
- *                Elementary Stream Descriptor (esds) in ISO/IEC 14496-1 (see
- *                below for a more details).
+ * @audio_config: (array length=len): a pointer to the AudioSpecificConfig
+ *                as specified in the Elementary Stream Descriptor (esds)
+ *                in ISO/IEC 14496-1. (See below for more details)
  * @len: Length of @audio_config in bytes
  *
  * Sets the level and profile on @caps if it can be determined from
@@ -337,8 +414,6 @@ gst_codec_utils_aac_get_level (const guint8 * audio_config, guint len)
  * If mpegversion is 4, the "base-profile" field is also set in @caps.
  *
  * Returns: %TRUE if the level and profile could be set, %FALSE otherwise.
- *
- * Since: 0.10.31
  */
 gboolean
 gst_codec_utils_aac_caps_set_level_and_profile (GstCaps * caps,
@@ -383,7 +458,7 @@ gst_codec_utils_aac_caps_set_level_and_profile (GstCaps * caps,
 
 /**
  * gst_codec_utils_h264_get_profile:
- * @sps: Pointer to the sequence parameter set for the stream.
+ * @sps: (array length=len): Pointer to the sequence parameter set for the stream.
  * @len: Length of the data available in @sps.
  *
  * Converts the profile indication (profile_idc) in the stream's
@@ -392,26 +467,22 @@ gst_codec_utils_aac_caps_set_level_and_profile (GstCaps * caps,
  * as a bitstream here, with bit 0 being the most significant bit of the first
  * byte.
  *
- * <itemizedlist>
- * <listitem><para>Bit 0:7   - Profile indication</para></listitem>
- * <listitem><para>Bit 8     - constraint_set0_flag</para></listitem>
- * <listitem><para>Bit 9     - constraint_set1_flag</para></listitem>
- * <listitem><para>Bit 10    - constraint_set2_flag</para></listitem>
- * <listitem><para>Bit 11    - constraint_set3_flag</para></listitem>
- * <listitem><para>Bit 12    - constraint_set3_flag</para></listitem>
- * <listitem><para>Bit 13:15 - Reserved</para></listitem>
- * <listitem><para>Bit 16:24 - Level indication</para></listitem>
- * </itemizedlist>
+ * * Bit 0:7   - Profile indication
+ * * Bit 8     - constraint_set0_flag
+ * * Bit 9     - constraint_set1_flag
+ * * Bit 10    - constraint_set2_flag
+ * * Bit 11    - constraint_set3_flag
+ * * Bit 12    - constraint_set3_flag
+ * * Bit 13:15 - Reserved
+ * * Bit 16:24 - Level indication
  *
  * Returns: The profile as a const string, or %NULL if there is an error.
- *
- * Since: 0.10.31
  */
 const gchar *
 gst_codec_utils_h264_get_profile (const guint8 * sps, guint len)
 {
   const gchar *profile = NULL;
-  gint csf1, csf3;
+  gint csf1, csf3, csf5;
 
   g_return_val_if_fail (sps != NULL, NULL);
 
@@ -422,6 +493,7 @@ gst_codec_utils_h264_get_profile (const guint8 * sps, guint len)
 
   csf1 = (sps[1] & 0x40) >> 6;
   csf3 = (sps[1] & 0x10) >> 4;
+  csf5 = (sps[1] & 0x04) >> 2;
 
   switch (sps[0]) {
     case 66:
@@ -460,6 +532,26 @@ gst_codec_utils_h264_get_profile (const guint8 * sps, guint len)
     case 44:
       profile = "cavlc-4:4:4-intra";
       break;
+    case 118:
+      profile = "multiview-high";
+      break;
+    case 128:
+      profile = "stereo-high";
+      break;
+    case 83:
+      if (csf5)
+        profile = "scalable-constrained-baseline";
+      else
+        profile = "scalable-baseline";
+      break;
+    case 86:
+      if (csf3)
+        profile = "scalable-high-intra";
+      else if (csf5)
+        profile = "scalable-constrained-high";
+      else
+        profile = "scalable-high";
+      break;
     default:
       return NULL;
   }
@@ -469,7 +561,7 @@ gst_codec_utils_h264_get_profile (const guint8 * sps, guint len)
 
 /**
  * gst_codec_utils_h264_get_level:
- * @sps: Pointer to the sequence parameter set for the stream.
+ * @sps: (array length=len): Pointer to the sequence parameter set for the stream.
  * @len: Length of the data available in @sps.
  *
  * Converts the level indication (level_idc) in the stream's
@@ -477,8 +569,6 @@ gst_codec_utils_h264_get_profile (const guint8 * sps, guint len)
  * same format as for gst_codec_utils_h264_get_profile().
  *
  * Returns: The level as a const string, or %NULL if there is an error.
- *
- * Since: 0.10.31
  */
 const gchar *
 gst_codec_utils_h264_get_level (const guint8 * sps, guint len)
@@ -494,7 +584,9 @@ gst_codec_utils_h264_get_level (const guint8 * sps, guint len)
 
   csf3 = (sps[1] & 0x10) >> 4;
 
-  if (sps[2] == 11 && csf3)
+  if (sps[2] == 0)
+    return NULL;
+  else if ((sps[2] == 11 && csf3) || sps[2] == 9)
     return "1b";
   else if (sps[2] % 10 == 0)
     return digit_to_string (sps[2] / 10);
@@ -520,6 +612,8 @@ gst_codec_utils_h264_get_level (const guint8 * sps, guint len)
         return "4.2";
       case 51:
         return "5.1";
+      case 52:
+        return "5.2";
       default:
         return NULL;
     }
@@ -527,9 +621,61 @@ gst_codec_utils_h264_get_level (const guint8 * sps, guint len)
 }
 
 /**
+ * gst_codec_utils_h264_get_level_idc:
+ * @level: A level string from caps
+ *
+ * Transform a level string from the caps into the level_idc
+ *
+ * Returns: the level_idc or 0 if the level is unknown
+ */
+guint8
+gst_codec_utils_h264_get_level_idc (const gchar * level)
+{
+  g_return_val_if_fail (level != NULL, 0);
+
+  if (!strcmp (level, "1"))
+    return 10;
+  else if (!strcmp (level, "1b"))
+    return 9;
+  else if (!strcmp (level, "1.1"))
+    return 11;
+  else if (!strcmp (level, "1.2"))
+    return 12;
+  else if (!strcmp (level, "1.3"))
+    return 13;
+  else if (!strcmp (level, "2"))
+    return 20;
+  else if (!strcmp (level, "2.1"))
+    return 21;
+  else if (!strcmp (level, "2.2"))
+    return 22;
+  else if (!strcmp (level, "3"))
+    return 30;
+  else if (!strcmp (level, "3.1"))
+    return 31;
+  else if (!strcmp (level, "3.2"))
+    return 32;
+  else if (!strcmp (level, "4"))
+    return 40;
+  else if (!strcmp (level, "4.1"))
+    return 41;
+  else if (!strcmp (level, "4.2"))
+    return 42;
+  else if (!strcmp (level, "5"))
+    return 50;
+  else if (!strcmp (level, "5.1"))
+    return 51;
+  else if (!strcmp (level, "5.2"))
+    return 52;
+
+  GST_WARNING ("Invalid level %s", level);
+  return 0;
+}
+
+/**
  * gst_codec_utils_h264_caps_set_level_and_profile:
  * @caps: the #GstCaps to which the level and profile are to be added
- * @sps: Pointer to the sequence parameter set for the stream.
+ * @sps: (array length=len): Pointer to the sequence parameter set for the stream.
  * @len: Length of the data available in @sps.
  *
  * Sets the level and profile in @caps if it can be determined from @sps. See
@@ -537,8 +683,6 @@ gst_codec_utils_h264_get_level (const guint8 * sps, guint len)
  * for more details on the parameters.
  *
  * Returns: %TRUE if the level and profile could be set, %FALSE otherwise.
- *
- * Since: 0.10.31
  */
 gboolean
 gst_codec_utils_h264_caps_set_level_and_profile (GstCaps * caps,
@@ -568,8 +712,249 @@ gst_codec_utils_h264_caps_set_level_and_profile (GstCaps * caps,
 }
 
 /**
+ * gst_codec_utils_h265_get_profile:
+ * @profile_tier_level: (array length=len): Pointer to the profile_tier_level
+ *   structure for the stream.
+ * @len: Length of the data available in @profile_tier_level
+ *
+ * Converts the profile indication (general_profile_idc) in the stream's
+ * profile_level_tier structure into a string. The profile_tier_level is
+ * expected to have the following format, as defined in the H.265
+ * specification. The profile_tier_level is viewed as a bitstream here,
+ * with bit 0 being the most significant bit of the first byte.
+ *
+ * * Bit 0:1   - general_profile_space
+ * * Bit 2     - general_tier_flag
+ * * Bit 3:7   - general_profile_idc
+ * * Bit 8:39  - gernal_profile_compatibility_flags
+ * * Bit 40    - general_progressive_source_flag
+ * * Bit 41    - general_interlaced_source_flag
+ * * Bit 42    - general_non_packed_constraint_flag
+ * * Bit 43    - general_frame_only_constraint_flag
+ * * Bit 44:87 - general_reserved_zero_44bits
+ * * Bit 88:95 - general_level_idc
+ *
+ * Returns: The profile as a const string, or %NULL if there is an error.
+ *
+ * Since 1.4
+ */
+const gchar *
+gst_codec_utils_h265_get_profile (const guint8 * profile_tier_level, guint len)
+{
+  const gchar *profile = NULL;
+  gint profile_idc;
+
+  g_return_val_if_fail (profile_tier_level != NULL, NULL);
+
+  if (len < 2)
+    return NULL;
+
+  GST_MEMDUMP ("ProfileTierLevel", profile_tier_level, len);
+
+  profile_idc = (profile_tier_level[0] & 0x1f);
+
+  if (profile_idc == 1)
+    profile = "main";
+  else if (profile_idc == 2)
+    profile = "main-10";
+  else if (profile_idc == 3)
+    profile = "main-still-picture";
+  else
+    profile = NULL;
+
+  return profile;
+}
+
+/**
+ * gst_codec_utils_h265_get_tier:
+ * @profile_tier_level: (array length=len): Pointer to the profile_tier_level
+ *   for the stream.
+ * @len: Length of the data available in @profile_tier_level.
+ *
+ * Converts the tier indication (general_tier_flag) in the stream's
+ * profile_tier_level structure into a string. The profile_tier_level
+ * is expected to have the same format as for gst_codec_utils_h264_get_profile().
+ *
+ * Returns: The tier as a const string, or %NULL if there is an error.
+ *
+ * Since 1.4
+ */
+const gchar *
+gst_codec_utils_h265_get_tier (const guint8 * profile_tier_level, guint len)
+{
+  const gchar *tier = NULL;
+  gint tier_flag = 0;
+
+  g_return_val_if_fail (profile_tier_level != NULL, NULL);
+
+  if (len < 1)
+    return NULL;
+
+  GST_MEMDUMP ("ProfileTierLevel", profile_tier_level, len);
+
+  tier_flag = (profile_tier_level[0] & 0x20) >> 5;
+
+  if (tier_flag)
+    tier = "high";
+  else
+    tier = "main";
+
+  return tier;
+}
+
+/**
+ * gst_codec_utils_h265_get_level:
+ * @profile_tier_level: (array length=len): Pointer to the profile_tier_level
+ *   for the stream
+ * @len: Length of the data available in @profile_tier_level.
+ *
+ * Converts the level indication (general_level_idc) in the stream's
+ * profile_tier_level structure into a string. The profiel_tier_level is
+ * expected to have the same format as for gst_codec_utils_h264_get_profile().
+ *
+ * Returns: The level as a const string, or %NULL if there is an error.
+ *
+ * Since 1.4
+ */
+const gchar *
+gst_codec_utils_h265_get_level (const guint8 * profile_tier_level, guint len)
+{
+  g_return_val_if_fail (profile_tier_level != NULL, NULL);
+
+  if (len < 12)
+    return NULL;
+
+  GST_MEMDUMP ("ProfileTierLevel", profile_tier_level, len);
+
+  if (profile_tier_level[11] == 0)
+    return NULL;
+  else if (profile_tier_level[11] % 30 == 0)
+    return digit_to_string (profile_tier_level[11] / 30);
+  else {
+    switch (profile_tier_level[11]) {
+      case 63:
+        return "2.1";
+        break;
+      case 93:
+        return "3.1";
+        break;
+      case 123:
+        return "4.1";
+        break;
+      case 153:
+        return "5.1";
+        break;
+      case 156:
+        return "5.2";
+        break;
+      case 183:
+        return "6.1";
+        break;
+      case 186:
+        return "6.2";
+        break;
+      default:
+        return NULL;
+    }
+  }
+}
+
+/**
+ * gst_codec_utils_h265_get_level_idc:
+ * @level: A level string from caps
+ *
+ * Transform a level string from the caps into the level_idc
+ *
+ * Returns: the level_idc or 0 if the level is unknown
+ *
+ * Since 1.4
+ */
+guint8
+gst_codec_utils_h265_get_level_idc (const gchar * level)
+{
+  g_return_val_if_fail (level != NULL, 0);
+
+  if (!strcmp (level, "1"))
+    return 30;
+  else if (!strcmp (level, "2"))
+    return 60;
+  else if (!strcmp (level, "2.1"))
+    return 63;
+  else if (!strcmp (level, "3"))
+    return 90;
+  else if (!strcmp (level, "3.1"))
+    return 93;
+  else if (!strcmp (level, "4"))
+    return 120;
+  else if (!strcmp (level, "4.1"))
+    return 123;
+  else if (!strcmp (level, "5"))
+    return 150;
+  else if (!strcmp (level, "5.1"))
+    return 153;
+  else if (!strcmp (level, "5.2"))
+    return 156;
+  else if (!strcmp (level, "6"))
+    return 180;
+  else if (!strcmp (level, "6.1"))
+    return 183;
+  else if (!strcmp (level, "6.2"))
+    return 186;
+
+  GST_WARNING ("Invalid level %s", level);
+  return 0;
+}
+
+/**
+ * gst_codec_utils_h265_caps_set_level_tier_and_profile:
+ * @caps: the #GstCaps to which the level, tier and profile are to be added
+ * @profile_tier_level: (array length=len): Pointer to the profile_tier_level
+ *   struct
+ * @len: Length of the data available in @profile_tier_level.
+ *
+ * Sets the level, tier and profile in @caps if it can be determined from
+ * @profile_tier_level. See gst_codec_utils_h265_get_level(),
+ * gst_codec_utils_h265_get_tier() and gst_codec_utils_h265_get_profile()
+ * for more details on the parameters.
+ *
+ * Returns: %TRUE if the level, tier, profile could be set, %FALSE otherwise.
+ *
+ * Since 1.4
+ */
+gboolean
+gst_codec_utils_h265_caps_set_level_tier_and_profile (GstCaps * caps,
+    const guint8 * profile_tier_level, guint len)
+{
+  const gchar *level, *tier, *profile;
+
+  g_return_val_if_fail (GST_IS_CAPS (caps), FALSE);
+  g_return_val_if_fail (GST_CAPS_IS_SIMPLE (caps), FALSE);
+  g_return_val_if_fail (GST_SIMPLE_CAPS_HAS_NAME (caps, "video/x-h265"), FALSE);
+  g_return_val_if_fail (profile_tier_level != NULL, FALSE);
+
+  level = gst_codec_utils_h265_get_level (profile_tier_level, len);
+  if (level != NULL)
+    gst_caps_set_simple (caps, "level", G_TYPE_STRING, level, NULL);
+
+  tier = gst_codec_utils_h265_get_tier (profile_tier_level, len);
+  if (tier != NULL)
+    gst_caps_set_simple (caps, "tier", G_TYPE_STRING, tier, NULL);
+
+  profile = gst_codec_utils_h265_get_profile (profile_tier_level, len);
+  if (profile != NULL)
+    gst_caps_set_simple (caps, "profile", G_TYPE_STRING, profile, NULL);
+
+  GST_LOG ("profile : %s", (profile) ? profile : "---");
+  GST_LOG ("tier    : %s", (tier) ? tier : "---");
+  GST_LOG ("level   : %s", (level) ? level : "---");
+
+  return (level != NULL && tier != NULL && profile != NULL);
+}
+
+/**
  * gst_codec_utils_mpeg4video_get_profile:
- * @vis_obj_seq: Pointer to the visual object sequence for the stream.
+ * @vis_obj_seq: (array length=len): Pointer to the visual object
+ *   sequence for the stream.
  * @len: Length of the data available in @sps.
  *
  * Converts the profile indication in the stream's visual object sequence into
@@ -578,8 +963,6 @@ gst_codec_utils_h264_caps_set_level_and_profile (GstCaps * caps,
  * (profile_and_level_indication) is used.
  *
  * Returns: The profile as a const string, or NULL if there is an error.
- *
- * Since: 0.10.31
  */
 const gchar *
 gst_codec_utils_mpeg4video_get_profile (const guint8 * vis_obj_seq, guint len)
@@ -643,7 +1026,8 @@ gst_codec_utils_mpeg4video_get_profile (const guint8 * vis_obj_seq, guint len)
 
 /**
  * gst_codec_utils_mpeg4video_get_level:
- * @vis_obj_seq: Pointer to the visual object sequence for the stream.
+ * @vis_obj_seq: (array length=len): Pointer to the visual object
+ *   sequence for the stream.
  * @len: Length of the data available in @sps.
  *
  * Converts the level indication in the stream's visual object sequence into
@@ -652,19 +1036,20 @@ gst_codec_utils_mpeg4video_get_profile (const guint8 * vis_obj_seq, guint len)
  * (profile_and_level_indication) is used.
  *
  * Returns: The level as a const string, or NULL if there is an error.
- *
- * Since: 0.10.31
  */
 const gchar *
 gst_codec_utils_mpeg4video_get_level (const guint8 * vis_obj_seq, guint len)
 {
-  /* The profile/level codes are from 14496-2, table G-1, and the Wireshark
-   * sources: epan/dissectors/packet-mp4ves.c
+  /* The profile/level codes are from 14496-2, table G-1, the Wireshark
+   * sources: epan/dissectors/packet-mp4ves.c and the Xvid Sources:
+   * src/xvid.h.
+   * Levels 4a and 5 for SP were added in Amendment 2, level 6 in Amendment 4
+   * (see Xvid sources vfw/config.c)
    *
    * Each profile has a different maximum level it defines. Some of them still
    * need special case handling, because not all levels start from 1, and the
    * Simple profile defines an intermediate level as well. */
-  static const int level_max[] = { 3, 2, 2, 4, 2, 1, 2, 2, 2, 4, 3, 4, 2, 3, 4,
+  static const int level_max[] = { 6, 2, 2, 4, 2, 1, 2, 2, 2, 4, 3, 4, 2, 3, 4,
     5
   };
   int profile_id, level_id;
@@ -707,7 +1092,7 @@ gst_codec_utils_mpeg4video_get_level (const guint8 * vis_obj_seq, guint len)
       break;
 
     case 0xf:
-      if (level_id == 7 && level_id > 0xd)
+      if (level_id == 6 || level_id == 7 || level_id > 0xd)
         return NULL;
       break;
   }
@@ -718,6 +1103,12 @@ gst_codec_utils_mpeg4video_get_level (const guint8 * vis_obj_seq, guint len)
   else if (profile_id == 0 && level_id == 9)
     /* Simple Profile / Level 0b */
     return "0b";
+  else if (profile_id == 0 && level_id == 4)
+    /* Simple Profile / Level 4a */
+    return "4a";
+  else if (profile_id == 0xf && level_id > 7)
+    /* Fine Granularity Scalable Profile */
+    return digit_to_string (level_id - 8);
   else if (level_id <= level_max[profile_id])
     /* Levels for all other cases */
     return digit_to_string (level_id);
@@ -728,7 +1119,8 @@ gst_codec_utils_mpeg4video_get_level (const guint8 * vis_obj_seq, guint len)
 /**
  * gst_codec_utils_mpeg4video_caps_set_level_and_profile:
  * @caps: the #GstCaps to which the level and profile are to be added
- * @vis_obj_seq: Pointer to the visual object sequence for the stream.
+ * @vis_obj_seq: (array length=len): Pointer to the visual object
+ *   sequence for the stream.
  * @len: Length of the data available in @sps.
  *
  * Sets the level and profile in @caps if it can be determined from
@@ -737,8 +1129,6 @@ gst_codec_utils_mpeg4video_get_level (const guint8 * vis_obj_seq, guint len)
  * parameters.
  *
  * Returns: %TRUE if the level and profile could be set, %FALSE otherwise.
- *
- * Since: 0.10.31
  */
 gboolean
 gst_codec_utils_mpeg4video_caps_set_level_and_profile (GstCaps * caps,
@@ -765,3 +1155,536 @@ gst_codec_utils_mpeg4video_caps_set_level_and_profile (GstCaps * caps,
 
   return (profile != NULL && level != NULL);
 }
+
+#ifndef GSTREAMER_LITE
+/**
+ * gst_codec_utils_opus_parse_caps:
+ * @caps: the #GstCaps to parse the data from
+ * @rate: (out): the sample rate
+ * @channels: (out): the number of channels
+ * @channel_mapping_family: (out): the channel mapping family
+ * @stream_count: (out): the number of independent streams
+ * @coupled_count: (out): the number of stereo streams
+ * @channel_mapping: (out) (array): the mapping between the streams
+ *
+ * Parses Opus caps and fills the different fields with defaults if possible.
+ *
+ * Returns: %TRUE if parsing was successful, %FALSE otherwise.
+ *
+ * Since: 1.8
+ */
+gboolean
+gst_codec_utils_opus_parse_caps (GstCaps * caps,
+    guint32 * rate,
+    guint8 * channels,
+    guint8 * channel_mapping_family,
+    guint8 * stream_count, guint8 * coupled_count, guint8 channel_mapping[256])
+{
+  GstStructure *s;
+  gint c, f, sc, cc;
+  const GValue *va, *v;
+
+  g_return_val_if_fail (caps != NULL, FALSE);
+  g_return_val_if_fail (gst_caps_is_fixed (caps), FALSE);
+  g_return_val_if_fail (!gst_caps_is_empty (caps), FALSE);
+
+  s = gst_caps_get_structure (caps, 0);
+
+  g_return_val_if_fail (gst_structure_has_name (s, "audio/x-opus"), FALSE);
+  g_return_val_if_fail (gst_structure_has_field_typed (s,
+          "channel-mapping-family", G_TYPE_INT), FALSE);
+
+  if (rate) {
+    gint r;
+
+    if (gst_structure_get_int (s, "rate", &r))
+      *rate = r;
+    else
+      *rate = 48000;
+  }
+
+  gst_structure_get_int (s, "channel-mapping-family", &f);
+  if (channel_mapping_family)
+    *channel_mapping_family = f;
+
+  if (!gst_structure_get_int (s, "channels", &c)) {
+    if (f == 0)
+      c = 2;
+    else
+      return FALSE;
+  }
+
+  if (channels)
+    *channels = c;
+
+  /* RTP mapping */
+  if (f == 0) {
+    if (c > 2)
+      return FALSE;
+
+    if (stream_count)
+      *stream_count = 1;
+    if (coupled_count)
+      *coupled_count = c == 2 ? 1 : 0;
+
+    if (channel_mapping) {
+      channel_mapping[0] = 0;
+      channel_mapping[1] = 1;
+    }
+
+    return TRUE;
+  }
+
+  if (!gst_structure_get_int (s, "stream-count", &sc))
+    return FALSE;
+  if (stream_count)
+    *stream_count = sc;
+
+  if (!gst_structure_get_int (s, "coupled-count", &cc))
+    return FALSE;
+  if (coupled_count)
+    *coupled_count = cc;
+
+  va = gst_structure_get_value (s, "channel-mapping");
+  if (!va || !G_VALUE_HOLDS (va, GST_TYPE_ARRAY))
+    return FALSE;
+
+  if (gst_value_array_get_size (va) != c)
+    return FALSE;
+
+  if (channel_mapping) {
+    gint i;
+
+    for (i = 0; i < c; i++) {
+      gint cm;
+
+      v = gst_value_array_get_value (va, i);
+
+      if (!G_VALUE_HOLDS (v, G_TYPE_INT))
+        return FALSE;
+
+      cm = g_value_get_int (v);
+      if (cm < 0 || cm > 255)
+        return FALSE;
+
+      channel_mapping[i] = cm;
+    }
+  }
+
+  return TRUE;
+}
+
+/**
+ * gst_codec_utils_opus_create_caps:
+ * @rate: the sample rate
+ * @channels: the number of channels
+ * @channel_mapping_family: the channel mapping family
+ * @stream_count: the number of independent streams
+ * @coupled_count: the number of stereo streams
+ * @channel_mapping: (allow-none) (array): the mapping between the streams
+ *
+ * Creates Opus caps from the given parameters.
+ *
+ * Returns: The #GstCaps, or %NULL if the parameters would lead to
+ * invalid Opus caps.
+ *
+ * Since: 1.8
+ */
+GstCaps *
+gst_codec_utils_opus_create_caps (guint32 rate,
+    guint8 channels,
+    guint8 channel_mapping_family,
+    guint8 stream_count, guint8 coupled_count, const guint8 * channel_mapping)
+{
+  GstCaps *caps = NULL;
+  GValue va = G_VALUE_INIT;
+  GValue v = G_VALUE_INIT;
+  gint i;
+
+  if (rate == 0)
+    rate = 48000;
+
+  if (channel_mapping_family == 0) {
+    if (channels > 2) {
+      GST_ERROR ("Invalid channels count for channel_mapping_family 0: %d",
+          channels);
+      goto done;
+    }
+
+    if (stream_count > 1) {
+      GST_ERROR ("Invalid stream count for channel_mapping_family 0: %d",
+          stream_count);
+      goto done;
+    }
+
+    if (coupled_count > 1) {
+      GST_ERROR ("Invalid coupled count for channel_mapping_family 0: %d",
+          coupled_count);
+      goto done;
+    }
+
+    if (channels == 0)
+      channels = 2;
+
+    if (stream_count == 0)
+      stream_count = 1;
+
+    if (coupled_count == 0)
+      coupled_count = channels == 2 ? 1 : 0;
+
+    return gst_caps_new_simple ("audio/x-opus",
+        "rate", G_TYPE_INT, rate,
+        "channels", G_TYPE_INT, channels,
+        "channel-mapping-family", G_TYPE_INT, channel_mapping_family,
+        "stream-count", G_TYPE_INT, stream_count,
+        "coupled-count", G_TYPE_INT, coupled_count, NULL);
+  }
+
+  if (channels == 0) {
+    GST_ERROR ("Invalid channels count: %d", channels);
+    goto done;
+  }
+
+  if (stream_count == 0) {
+    GST_ERROR ("Invalid stream count: %d", stream_count);
+    goto done;
+  }
+
+  if (coupled_count > stream_count) {
+    GST_ERROR ("Coupled count %d > stream count: %d", coupled_count,
+        stream_count);
+    goto done;
+  }
+
+  if (channel_mapping == NULL) {
+    GST_ERROR
+        ("A non NULL channel-mapping is needed for channel_mapping_family != 0");
+    goto done;
+  }
+
+  caps = gst_caps_new_simple ("audio/x-opus",
+      "rate", G_TYPE_INT, rate,
+      "channels", G_TYPE_INT, channels,
+      "channel-mapping-family", G_TYPE_INT, channel_mapping_family,
+      "stream-count", G_TYPE_INT, stream_count,
+      "coupled-count", G_TYPE_INT, coupled_count, NULL);
+
+  g_value_init (&va, GST_TYPE_ARRAY);
+  g_value_init (&v, G_TYPE_INT);
+  for (i = 0; i < channels; i++) {
+    g_value_set_int (&v, channel_mapping[i]);
+    gst_value_array_append_value (&va, &v);
+  }
+  gst_structure_set_value (gst_caps_get_structure (caps, 0), "channel-mapping",
+      &va);
+  g_value_unset (&va);
+  g_value_unset (&v);
+
+done:
+  return caps;
+}
+
+/*
+ * (really really) FIXME: move into core (dixit tpm)
+ */
+/*
+ * _gst_caps_set_buffer_array:
+ * @caps: (transfer full): a #GstCaps
+ * @field: field in caps to set
+ * @buf: header buffers
+ *
+ * Adds given buffers to an array of buffers set as the given @field
+ * on the given @caps.  List of buffer arguments must be NULL-terminated.
+ *
+ * Returns: (transfer full): input caps with a streamheader field added, or NULL
+ *     if some error occurred
+ */
+static GstCaps *
+_gst_caps_set_buffer_array (GstCaps * caps, const gchar * field,
+    GstBuffer * buf, ...)
+{
+  GstStructure *structure = NULL;
+  va_list va;
+  GValue array = { 0 };
+  GValue value = { 0 };
+
+  g_return_val_if_fail (caps != NULL, NULL);
+  g_return_val_if_fail (gst_caps_is_fixed (caps), NULL);
+  g_return_val_if_fail (field != NULL, NULL);
+
+  caps = gst_caps_make_writable (caps);
+  structure = gst_caps_get_structure (caps, 0);
+
+  g_value_init (&array, GST_TYPE_ARRAY);
+
+  va_start (va, buf);
+  /* put buffers in a fixed list */
+  while (buf) {
+    g_assert (gst_buffer_is_writable (buf));
+
+    /* mark buffer */
+    GST_BUFFER_FLAG_SET (buf, GST_BUFFER_FLAG_HEADER);
+
+    g_value_init (&value, GST_TYPE_BUFFER);
+    buf = gst_buffer_copy (buf);
+    GST_BUFFER_FLAG_SET (buf, GST_BUFFER_FLAG_HEADER);
+    gst_value_set_buffer (&value, buf);
+    gst_buffer_unref (buf);
+    gst_value_array_append_value (&array, &value);
+    g_value_unset (&value);
+
+    buf = va_arg (va, GstBuffer *);
+  }
+  va_end (va);
+
+  gst_structure_set_value (structure, field, &array);
+  g_value_unset (&array);
+
+  return caps;
+}
+
+/**
+ * gst_codec_utils_opus_create_caps_from_header:
+ * @header: OpusHead header
+ * @comments: (allow-none): Comment header or NULL
+ *
+ * Creates Opus caps from the given OpusHead @header and comment header
+ * @comments.
+ *
+ * Returns: The #GstCaps.
+ *
+ * Since: 1.8
+ */
+GstCaps *
+gst_codec_utils_opus_create_caps_from_header (GstBuffer * header,
+    GstBuffer * comments)
+{
+  GstCaps *caps;
+  guint32 rate;
+  guint8 channels;
+  guint8 channel_mapping_family;
+  guint8 stream_count;
+  guint8 coupled_count;
+  guint8 channel_mapping[256];
+  GstBuffer *dummy_comments = NULL;
+
+  g_return_val_if_fail (GST_IS_BUFFER (header), NULL);
+  g_return_val_if_fail (comments == NULL || GST_IS_BUFFER (comments), NULL);
+
+  if (!gst_codec_utils_opus_parse_header (header, &rate, &channels,
+          &channel_mapping_family, &stream_count, &coupled_count,
+          channel_mapping, NULL, NULL))
+    return NULL;
+
+  if (!(caps =
+          gst_codec_utils_opus_create_caps (rate, channels,
+              channel_mapping_family, stream_count, coupled_count,
+              channel_mapping)))
+    return NULL;
+
+  if (!comments) {
+    GstTagList *tags = gst_tag_list_new_empty ();
+    dummy_comments =
+        gst_tag_list_to_vorbiscomment_buffer (tags, (const guint8 *) "OpusTags",
+        8, NULL);
+    gst_tag_list_unref (tags);
+  }
+  _gst_caps_set_buffer_array (caps, "streamheader", header,
+      comments ? comments : dummy_comments, NULL);
+
+  if (dummy_comments)
+    gst_buffer_unref (dummy_comments);
+
+  return caps;
+}
+
+/**
+ * gst_codec_utils_opus_create_header:
+ * @rate: the sample rate
+ * @channels: the number of channels
+ * @channel_mapping_family: the channel mapping family
+ * @stream_count: the number of independent streams
+ * @coupled_count: the number of stereo streams
+ * @channel_mapping: (allow-none) (array): the mapping between the streams
+ * @pre_skip: Pre-skip in 48kHz samples or 0
+ * @output_gain: Output gain or 0
+ *
+ * Creates OpusHead header from the given parameters.
+ *
+ * Returns: The #GstBuffer containing the OpusHead.
+ *
+ * Since: 1.8
+ */
+GstBuffer *
+gst_codec_utils_opus_create_header (guint32 rate,
+    guint8 channels,
+    guint8 channel_mapping_family,
+    guint8 stream_count,
+    guint8 coupled_count,
+    const guint8 * channel_mapping, guint16 pre_skip, gint16 output_gain)
+{
+  GstBuffer *buffer;
+  GstByteWriter bw;
+  gboolean hdl = TRUE;
+
+  if (rate == 0)
+    rate = 48000;
+
+  if (channel_mapping_family == 0) {
+    g_return_val_if_fail (channels <= 2, NULL);
+    if (channels == 0)
+      channels = 2;
+
+    g_return_val_if_fail (stream_count == 0 || stream_count == 1, NULL);
+    if (stream_count == 0)
+      stream_count = 1;
+
+    g_return_val_if_fail (coupled_count == 0 || coupled_count == 1, NULL);
+    if (coupled_count == 0)
+      coupled_count = channels == 2 ? 1 : 0;
+
+    channel_mapping = NULL;
+  } else {
+    g_return_val_if_fail (channels > 0, NULL);
+    g_return_val_if_fail (stream_count > 0, NULL);
+    g_return_val_if_fail (coupled_count <= stream_count, NULL);
+    g_return_val_if_fail (channel_mapping != NULL, NULL);
+  }
+
+  gst_byte_writer_init (&bw);
+  /* See http://wiki.xiph.org/OggOpus */
+  hdl &= gst_byte_writer_put_data (&bw, (const guint8 *) "OpusHead", 8);
+  hdl &= gst_byte_writer_put_uint8 (&bw, 0x01); /* version number */
+  hdl &= gst_byte_writer_put_uint8 (&bw, channels);
+  hdl &= gst_byte_writer_put_uint16_le (&bw, pre_skip);
+  hdl &= gst_byte_writer_put_uint32_le (&bw, rate);
+  hdl &= gst_byte_writer_put_uint16_le (&bw, output_gain);
+  hdl &= gst_byte_writer_put_uint8 (&bw, channel_mapping_family);
+  if (channel_mapping_family > 0) {
+    hdl &= gst_byte_writer_put_uint8 (&bw, stream_count);
+    hdl &= gst_byte_writer_put_uint8 (&bw, coupled_count);
+    hdl &= gst_byte_writer_put_data (&bw, channel_mapping, channels);
+  }
+
+  if (!hdl) {
+    GST_WARNING ("Error creating header");
+    return NULL;
+  }
+
+  buffer = gst_byte_writer_reset_and_get_buffer (&bw);
+  GST_BUFFER_OFFSET (buffer) = 0;
+  GST_BUFFER_OFFSET_END (buffer) = 0;
+
+  return buffer;
+}
+
+/**
+ * gst_codec_utils_opus_parse_header:
+ * @header: the OpusHead #GstBuffer
+ * @rate: (out): the sample rate
+ * @channels: (out): the number of channels
+ * @channel_mapping_family: (out): the channel mapping family
+ * @stream_count: (out): the number of independent streams
+ * @coupled_count: (out): the number of stereo streams
+ * @channel_mapping: (out) (array): the mapping between the streams
+ * @pre_skip: (out): Pre-skip in 48kHz samples or 0
+ * @output_gain: (out): Output gain or 0
+ *
+ * Parses the OpusHead header.
+ *
+ * Returns: %TRUE if parsing was successful, %FALSE otherwise.
+ *
+ * Since: 1.8
+ */
+gboolean
+gst_codec_utils_opus_parse_header (GstBuffer * header,
+    guint32 * rate,
+    guint8 * channels,
+    guint8 * channel_mapping_family,
+    guint8 * stream_count,
+    guint8 * coupled_count,
+    guint8 channel_mapping[256], guint16 * pre_skip, gint16 * output_gain)
+{
+  GstByteReader br;
+  GstMapInfo map;
+  gboolean ret = TRUE;
+  guint8 c, f, version;
+
+  g_return_val_if_fail (GST_IS_BUFFER (header), FALSE);
+  g_return_val_if_fail (gst_buffer_get_size (header) >= 19, FALSE);
+
+  if (!gst_buffer_map (header, &map, GST_MAP_READ))
+    return FALSE;
+  gst_byte_reader_init (&br, map.data, map.size);
+  /* See http://wiki.xiph.org/OggOpus */
+  if (memcmp (gst_byte_reader_get_data_unchecked (&br, 8), "OpusHead", 8) != 0) {
+    ret = FALSE;
+    goto done;
+  }
+  version = gst_byte_reader_get_uint8_unchecked (&br);
+  if (version == 0x00)
+    GST_ERROR ("Opus Header version is wrong, should be 0x01 and not 0x00");
+  else if (version != 0x01) {
+    ret = FALSE;
+    goto done;
+  }
+
+  c = gst_byte_reader_get_uint8_unchecked (&br);
+  if (channels)
+    *channels = c;
+
+  if (pre_skip)
+    *pre_skip = gst_byte_reader_get_uint16_le_unchecked (&br);
+  else
+    gst_byte_reader_skip_unchecked (&br, 2);
+
+  if (rate)
+    *rate = gst_byte_reader_get_uint32_le_unchecked (&br);
+  else
+    gst_byte_reader_skip_unchecked (&br, 4);
+
+  if (output_gain)
+    *output_gain = gst_byte_reader_get_uint16_le_unchecked (&br);
+  else
+    gst_byte_reader_skip_unchecked (&br, 2);
+
+  f = gst_byte_reader_get_uint8_unchecked (&br);
+  if (channel_mapping_family)
+    *channel_mapping_family = f;
+  if (f == 0 && c <= 2) {
+    if (stream_count)
+      *stream_count = 1;
+    if (coupled_count)
+      *coupled_count = c == 2 ? 1 : 0;
+    if (channel_mapping) {
+      channel_mapping[0] = 0;
+      channel_mapping[1] = 1;
+    }
+
+    goto done;
+  }
+
+  if (gst_byte_reader_get_remaining (&br) < 2 + c) {
+    ret = FALSE;
+    goto done;
+  }
+
+  if (stream_count)
+    *stream_count = gst_byte_reader_get_uint8_unchecked (&br);
+  else
+    gst_byte_reader_skip_unchecked (&br, 1);
+
+  if (coupled_count)
+    *coupled_count = gst_byte_reader_get_uint8_unchecked (&br);
+  else
+    gst_byte_reader_skip_unchecked (&br, 1);
+
+  if (channel_mapping)
+    memcpy (channel_mapping, gst_byte_reader_get_data_unchecked (&br, c), c);
+
+done:
+  gst_buffer_unmap (header, &map);
+
+  return ret;
+}
+#endif // GSTREAMER_LITE

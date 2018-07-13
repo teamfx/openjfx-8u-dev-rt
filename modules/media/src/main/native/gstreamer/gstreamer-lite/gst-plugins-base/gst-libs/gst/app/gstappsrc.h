@@ -13,8 +13,8 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 #ifndef _GST_APP_SRC_H_
@@ -22,6 +22,8 @@
 
 #include <gst/gst.h>
 #include <gst/base/gstpushsrc.h>
+#include <gst/app/app-prelude.h>
+#include <gst/app/app-enumtypes.h>
 
 G_BEGIN_DECLS
 
@@ -35,7 +37,6 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_APP_SRC))
 #define GST_IS_APP_SRC_CLASS(klass) \
   (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_APP_SRC))
-/* Since 0.10.23 */
 #define GST_APP_SRC_CAST(obj) \
   ((GstAppSrc*)(obj))
 
@@ -43,22 +44,22 @@ typedef struct _GstAppSrc GstAppSrc;
 typedef struct _GstAppSrcClass GstAppSrcClass;
 typedef struct _GstAppSrcPrivate GstAppSrcPrivate;
 
+/* FIXME 2.0: Make the instance/class struct private */
+
 /**
- * GstAppSrcCallbacks:
+ * GstAppSrcCallbacks: (skip)
  * @need_data: Called when the appsrc needs more data. A buffer or EOS should be
  *    pushed to appsrc from this thread or another thread. @length is just a hint
  *    and when it is set to -1, any number of bytes can be pushed into @appsrc.
  * @enough_data: Called when appsrc has enough data. It is recommended that the
  *    application stops calling push-buffer until the need_data callback is
- *    emited again to avoid excessive buffer queueing.
+ *    emitted again to avoid excessive buffer queueing.
  * @seek_data: Called when a seek should be performed to the offset.
  *    The next push-buffer should produce buffers from the new @offset.
  *    This callback is only called for seekable stream types.
  *
  * A set of callbacks that can be installed on the appsrc with
  * gst_app_src_set_callbacks().
- *
- * Since: 0.10.23
  */
 typedef struct {
   void      (*need_data)    (GstAppSrc *src, guint length, gpointer user_data);
@@ -103,51 +104,90 @@ struct _GstAppSrcClass
   GstBaseSrcClass basesrc_class;
 
   /* signals */
-  void          (*need_data)       (GstAppSrc *src, guint length);
-  void          (*enough_data)     (GstAppSrc *src);
-  gboolean      (*seek_data)       (GstAppSrc *src, guint64 offset);
+  void          (*need_data)       (GstAppSrc *appsrc, guint length);
+  void          (*enough_data)     (GstAppSrc *appsrc);
+  gboolean      (*seek_data)       (GstAppSrc *appsrc, guint64 offset);
 
   /* actions */
-  GstFlowReturn (*push_buffer)     (GstAppSrc *src, GstBuffer *buffer);
-  GstFlowReturn (*end_of_stream)   (GstAppSrc *src);
+  GstFlowReturn (*push_buffer)     (GstAppSrc *appsrc, GstBuffer *buffer);
+  GstFlowReturn (*end_of_stream)   (GstAppSrc *appsrc);
+  GstFlowReturn (*push_sample)     (GstAppSrc *appsrc, GstSample *sample);
+  GstFlowReturn (*push_buffer_list) (GstAppSrc *appsrc, GstBufferList *buffer_list);
 
   /*< private >*/
-  gpointer     _gst_reserved[GST_PADDING];
+  gpointer     _gst_reserved[GST_PADDING-2];
 };
 
-GType gst_app_src_get_type(void);
+GST_APP_API
+GType            gst_app_src_get_type                (void);
 
-/* GType getter for GstAppStreamType, since 0.10.32 */
-#define GST_TYPE_APP_STREAM_TYPE (gst_app_stream_type_get_type ())
-GType gst_app_stream_type_get_type (void);
+GST_APP_API
+void             gst_app_src_set_caps                (GstAppSrc *appsrc, const GstCaps *caps);
 
-void             gst_app_src_set_caps         (GstAppSrc *appsrc, const GstCaps *caps);
-GstCaps*         gst_app_src_get_caps         (GstAppSrc *appsrc);
+GST_APP_API
+GstCaps*         gst_app_src_get_caps                (GstAppSrc *appsrc);
 
-void             gst_app_src_set_size         (GstAppSrc *appsrc, gint64 size);
-gint64           gst_app_src_get_size         (GstAppSrc *appsrc);
+GST_APP_API
+void             gst_app_src_set_size                (GstAppSrc *appsrc, gint64 size);
 
-void             gst_app_src_set_stream_type  (GstAppSrc *appsrc, GstAppStreamType type);
-GstAppStreamType gst_app_src_get_stream_type  (GstAppSrc *appsrc);
+GST_APP_API
+gint64           gst_app_src_get_size                (GstAppSrc *appsrc);
 
-void             gst_app_src_set_max_bytes    (GstAppSrc *appsrc, guint64 max);
-guint64          gst_app_src_get_max_bytes    (GstAppSrc *appsrc);
+GST_APP_API
+void             gst_app_src_set_duration            (GstAppSrc *appsrc, GstClockTime duration);
 
-void             gst_app_src_set_latency      (GstAppSrc *appsrc, guint64 min, guint64 max);
-void             gst_app_src_get_latency      (GstAppSrc *appsrc, guint64 *min, guint64 *max);
+GST_APP_API
+GstClockTime     gst_app_src_get_duration            (GstAppSrc *appsrc);
 
-void             gst_app_src_set_emit_signals (GstAppSrc *appsrc, gboolean emit);
-gboolean         gst_app_src_get_emit_signals (GstAppSrc *appsrc);
+GST_APP_API
+void             gst_app_src_set_stream_type         (GstAppSrc *appsrc, GstAppStreamType type);
 
-GstFlowReturn    gst_app_src_push_buffer      (GstAppSrc *appsrc, GstBuffer *buffer);
-GstFlowReturn    gst_app_src_end_of_stream    (GstAppSrc *appsrc);
+GST_APP_API
+GstAppStreamType gst_app_src_get_stream_type         (GstAppSrc *appsrc);
 
-void             gst_app_src_set_callbacks    (GstAppSrc * appsrc,
-                                               GstAppSrcCallbacks *callbacks,
-                                               gpointer user_data,
-                                               GDestroyNotify notify);
+GST_APP_API
+void             gst_app_src_set_max_bytes           (GstAppSrc *appsrc, guint64 max);
+
+GST_APP_API
+guint64          gst_app_src_get_max_bytes           (GstAppSrc *appsrc);
+
+GST_APP_API
+guint64          gst_app_src_get_current_level_bytes (GstAppSrc *appsrc);
+
+GST_APP_API
+void             gst_app_src_set_latency             (GstAppSrc *appsrc, guint64 min, guint64 max);
+
+GST_APP_API
+void             gst_app_src_get_latency             (GstAppSrc *appsrc, guint64 *min, guint64 *max);
+
+GST_APP_API
+void             gst_app_src_set_emit_signals        (GstAppSrc *appsrc, gboolean emit);
+
+GST_APP_API
+gboolean         gst_app_src_get_emit_signals        (GstAppSrc *appsrc);
+
+GST_APP_API
+GstFlowReturn    gst_app_src_push_buffer             (GstAppSrc *appsrc, GstBuffer *buffer);
+
+GST_APP_API
+GstFlowReturn    gst_app_src_push_buffer_list        (GstAppSrc * appsrc, GstBufferList * buffer_list);
+
+GST_APP_API
+GstFlowReturn    gst_app_src_end_of_stream           (GstAppSrc *appsrc);
+
+GST_APP_API
+GstFlowReturn    gst_app_src_push_sample             (GstAppSrc *appsrc, GstSample *sample);
+
+GST_APP_API
+void             gst_app_src_set_callbacks           (GstAppSrc * appsrc,
+                                                      GstAppSrcCallbacks *callbacks,
+                                                      gpointer user_data,
+                                                      GDestroyNotify notify);
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstAppSrc, gst_object_unref)
+#endif
 
 G_END_DECLS
 
 #endif
-

@@ -16,39 +16,58 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 #include <glib.h>
+#include <glib-object.h>
+#include <gst/gstconfig.h>
 
 #ifndef __GST_ATOMIC_QUEUE_H__
 #define __GST_ATOMIC_QUEUE_H__
 
 G_BEGIN_DECLS
 
+#define GST_TYPE_ATOMIC_QUEUE (gst_atomic_queue_get_type())
+
 /**
  * GstAtomicQueue:
  *
  * Opaque atomic data queue.
  *
- * Use the acessor functions to get the stored values.
- *
- * Since: 0.10.33
+ * Use the accessor functions to get the stored values.
  */
 typedef struct _GstAtomicQueue GstAtomicQueue;
 
 
-GstAtomicQueue *   gst_atomic_queue_new         (guint initial_size);
+GST_API
+GType              gst_atomic_queue_get_type    (void);
 
+GST_API
+GstAtomicQueue *   gst_atomic_queue_new         (guint initial_size) G_GNUC_MALLOC;
+
+GST_API
 void               gst_atomic_queue_ref         (GstAtomicQueue * queue);
+
+GST_API
 void               gst_atomic_queue_unref       (GstAtomicQueue * queue);
 
+GST_API
 void               gst_atomic_queue_push        (GstAtomicQueue* queue, gpointer data);
+
+GST_API
 gpointer           gst_atomic_queue_pop         (GstAtomicQueue* queue);
+
+GST_API
 gpointer           gst_atomic_queue_peek        (GstAtomicQueue* queue);
 
+GST_API
 guint              gst_atomic_queue_length      (GstAtomicQueue * queue);
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstAtomicQueue, gst_atomic_queue_unref)
+#endif
 
 G_END_DECLS
 

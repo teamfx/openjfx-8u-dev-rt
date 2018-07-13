@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -68,6 +68,10 @@ public class Locator {
      */
     private static final long CONNECTION_RETRY_INTERVAL = 1000L;
     /**
+     * Timeout in milliseconds to wait for connection (5 min).
+     */
+    private static final int CONNECTION_TIMEOUT = 300000;
+    /**
      * The content type of the media content.
      */
     protected String contentType = DEFAULT_CONTENT_TYPE;
@@ -134,6 +138,9 @@ public class Locator {
         LocatorConnection locatorConnection = new LocatorConnection();
         HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
         connection.setRequestMethod(requestMethod);
+        // Set timeouts, otherwise we can wait forever.
+        connection.setConnectTimeout(CONNECTION_TIMEOUT);
+        connection.setReadTimeout(CONNECTION_TIMEOUT);
 
         // Set request headers.
         synchronized (propertyLock) {
@@ -162,7 +169,7 @@ public class Locator {
     private static long getContentLengthLong(URLConnection connection) {
         Method method = AccessController.doPrivileged((PrivilegedAction<Method>) () -> {
             try {
-                return connection.getClass().getMethod("getContentLengthLong");
+                return URLConnection.class.getMethod("getContentLengthLong");
             } catch (NoSuchMethodException ex) {
                 return null;
             }

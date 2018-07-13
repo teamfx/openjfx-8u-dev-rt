@@ -14,14 +14,15 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 #ifndef _GST_DISCOVERER_H_
 #define _GST_DISCOVERER_H_
 
 #include <gst/gst.h>
+#include <gst/pbutils/pbutils-prelude.h>
 
 G_BEGIN_DECLS
 
@@ -32,7 +33,9 @@ G_BEGIN_DECLS
 #define GST_IS_DISCOVERER_STREAM_INFO(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_DISCOVERER_STREAM_INFO))
 typedef struct _GstDiscovererStreamInfo GstDiscovererStreamInfo;
-typedef GstMiniObjectClass GstDiscovererStreamInfoClass;
+typedef GObjectClass GstDiscovererStreamInfoClass;
+
+GST_PBUTILS_API
 GType gst_discoverer_stream_info_get_type (void);
 
 /**
@@ -53,25 +56,38 @@ GType gst_discoverer_stream_info_get_type (void);
  * corresponding to the AVI container, which in turn will have a
  * #GstDiscovererAudioInfo sub-stream and a #GstDiscovererVideoInfo sub-stream
  * for the audio and video streams respectively.
- *
- * Since: 0.10.31
  */
-#define gst_discoverer_stream_info_ref(info) ((GstDiscovererStreamInfo*) gst_mini_object_ref((GstMiniObject*) info))
-#define gst_discoverer_stream_info_unref(info) (gst_mini_object_unref((GstMiniObject*) info))
+#define gst_discoverer_stream_info_ref(info) ((GstDiscovererStreamInfo*) g_object_ref((GObject*) info))
+#define gst_discoverer_stream_info_unref(info) (g_object_unref((GObject*) info))
 
+GST_PBUTILS_API
 GstDiscovererStreamInfo* gst_discoverer_stream_info_get_previous(GstDiscovererStreamInfo* info);
+
+GST_PBUTILS_API
 GstDiscovererStreamInfo* gst_discoverer_stream_info_get_next(GstDiscovererStreamInfo* info);
+
+GST_PBUTILS_API
 GstCaps*                 gst_discoverer_stream_info_get_caps(GstDiscovererStreamInfo* info);
+
+GST_PBUTILS_API
 const GstTagList*        gst_discoverer_stream_info_get_tags(GstDiscovererStreamInfo* info);
+
+GST_PBUTILS_API
+const GstToc*            gst_discoverer_stream_info_get_toc(GstDiscovererStreamInfo* info);
+
+GST_PBUTILS_API
+const gchar*             gst_discoverer_stream_info_get_stream_id(GstDiscovererStreamInfo* info);
+
+GST_PBUTILS_API
 const GstStructure*      gst_discoverer_stream_info_get_misc(GstDiscovererStreamInfo* info);
+
+GST_PBUTILS_API
 const gchar *            gst_discoverer_stream_info_get_stream_type_nick(GstDiscovererStreamInfo* info);
 
 /**
  * GstDiscovererContainerInfo:
  *
  * #GstDiscovererStreamInfo specific to container streams.
- *
- * Since: 0.10.31
  */
 #define GST_TYPE_DISCOVERER_CONTAINER_INFO \
   (gst_discoverer_container_info_get_type ())
@@ -80,10 +96,12 @@ const gchar *            gst_discoverer_stream_info_get_stream_type_nick(GstDisc
 #define GST_IS_DISCOVERER_CONTAINER_INFO(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_DISCOVERER_CONTAINER_INFO))
 typedef struct _GstDiscovererContainerInfo GstDiscovererContainerInfo;
-typedef GstMiniObjectClass GstDiscovererContainerInfoClass;
+typedef GObjectClass GstDiscovererContainerInfoClass;
 
+GST_PBUTILS_API
 GType gst_discoverer_container_info_get_type (void);
 
+GST_PBUTILS_API
 GList *gst_discoverer_container_info_get_streams(GstDiscovererContainerInfo *info);
 
 
@@ -91,8 +109,6 @@ GList *gst_discoverer_container_info_get_streams(GstDiscovererContainerInfo *inf
  * GstDiscovererAudioInfo:
  *
  * #GstDiscovererStreamInfo specific to audio streams.
- *
- * Since: 0.10.31
  */
 #define GST_TYPE_DISCOVERER_AUDIO_INFO \
   (gst_discoverer_audio_info_get_type ())
@@ -101,22 +117,36 @@ GList *gst_discoverer_container_info_get_streams(GstDiscovererContainerInfo *inf
 #define GST_IS_DISCOVERER_AUDIO_INFO(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_DISCOVERER_AUDIO_INFO))
 typedef struct _GstDiscovererAudioInfo GstDiscovererAudioInfo;
-typedef GstMiniObjectClass GstDiscovererAudioInfoClass;
+typedef GObjectClass GstDiscovererAudioInfoClass;
 
+GST_PBUTILS_API
 GType gst_discoverer_audio_info_get_type (void);
 
+GST_PBUTILS_API
 guint gst_discoverer_audio_info_get_channels(const GstDiscovererAudioInfo* info);
+
+GST_PBUTILS_API
+guint64 gst_discoverer_audio_info_get_channel_mask(const GstDiscovererAudioInfo* info);
+
+GST_PBUTILS_API
 guint gst_discoverer_audio_info_get_sample_rate(const GstDiscovererAudioInfo* info);
+
+GST_PBUTILS_API
 guint gst_discoverer_audio_info_get_depth(const GstDiscovererAudioInfo* info);
+
+GST_PBUTILS_API
 guint gst_discoverer_audio_info_get_bitrate(const GstDiscovererAudioInfo* info);
+
+GST_PBUTILS_API
 guint gst_discoverer_audio_info_get_max_bitrate(const GstDiscovererAudioInfo* info);
+
+GST_PBUTILS_API
+const gchar * gst_discoverer_audio_info_get_language(const GstDiscovererAudioInfo* info);
 
 /**
  * GstDiscovererVideoInfo:
  *
  * #GstDiscovererStreamInfo specific to video streams (this includes images).
- *
- * Since: 0.10.31
  */
 #define GST_TYPE_DISCOVERER_VIDEO_INFO \
   (gst_discoverer_video_info_get_type ())
@@ -125,20 +155,64 @@ guint gst_discoverer_audio_info_get_max_bitrate(const GstDiscovererAudioInfo* in
 #define GST_IS_DISCOVERER_VIDEO_INFO(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_DISCOVERER_VIDEO_INFO))
 typedef struct _GstDiscovererVideoInfo GstDiscovererVideoInfo;
-typedef GstMiniObjectClass GstDiscovererVideoInfoClass;
+typedef GObjectClass GstDiscovererVideoInfoClass;
+
+GST_PBUTILS_API
 GType gst_discoverer_video_info_get_type (void);
 
+GST_PBUTILS_API
 guint           gst_discoverer_video_info_get_width(const GstDiscovererVideoInfo* info);
+
+GST_PBUTILS_API
 guint           gst_discoverer_video_info_get_height(const GstDiscovererVideoInfo* info);
+
+GST_PBUTILS_API
 guint           gst_discoverer_video_info_get_depth(const GstDiscovererVideoInfo* info);
+
+GST_PBUTILS_API
 guint           gst_discoverer_video_info_get_framerate_num(const GstDiscovererVideoInfo* info);
+
+GST_PBUTILS_API
 guint           gst_discoverer_video_info_get_framerate_denom(const GstDiscovererVideoInfo* info);
+
+GST_PBUTILS_API
 guint           gst_discoverer_video_info_get_par_num(const GstDiscovererVideoInfo* info);
+
+GST_PBUTILS_API
 guint           gst_discoverer_video_info_get_par_denom(const GstDiscovererVideoInfo* info);
+
+GST_PBUTILS_API
 gboolean        gst_discoverer_video_info_is_interlaced(const GstDiscovererVideoInfo* info);
+
+GST_PBUTILS_API
 guint           gst_discoverer_video_info_get_bitrate(const GstDiscovererVideoInfo* info);
+
+GST_PBUTILS_API
 guint           gst_discoverer_video_info_get_max_bitrate(const GstDiscovererVideoInfo* info);
+
+GST_PBUTILS_API
 gboolean        gst_discoverer_video_info_is_image(const GstDiscovererVideoInfo* info);
+
+/**
+ * GstDiscovererSubtitleInfo:
+ *
+ * #GstDiscovererStreamInfo specific to subtitle streams (this includes text and
+ * image based ones).
+ */
+#define GST_TYPE_DISCOVERER_SUBTITLE_INFO \
+  (gst_discoverer_subtitle_info_get_type ())
+#define GST_DISCOVERER_SUBTITLE_INFO(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_DISCOVERER_SUBTITLE_INFO, GstDiscovererSubtitleInfo))
+#define GST_IS_DISCOVERER_SUBTITLE_INFO(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_DISCOVERER_SUBTITLE_INFO))
+typedef struct _GstDiscovererSubtitleInfo GstDiscovererSubtitleInfo;
+typedef GObjectClass GstDiscovererSubtitleInfoClass;
+
+GST_PBUTILS_API
+GType gst_discoverer_subtitle_info_get_type (void);
+
+GST_PBUTILS_API
+const gchar *   gst_discoverer_subtitle_info_get_language(const GstDiscovererSubtitleInfo* info);
 
 /**
  * GstDiscovererResult:
@@ -150,8 +224,6 @@ gboolean        gst_discoverer_video_info_is_image(const GstDiscovererVideoInfo*
  * @GST_DISCOVERER_MISSING_PLUGINS: Some plugins are missing for full discovery
  *
  * Result values for the discovery process.
- *
- * Since: 0.10.31
  */
 typedef enum {
   GST_DISCOVERER_OK               = 0,
@@ -162,13 +234,34 @@ typedef enum {
   GST_DISCOVERER_MISSING_PLUGINS  = 5
 } GstDiscovererResult;
 
+/**
+ * GstDiscovererSerializeFlags:
+ * @GST_DISCOVERER_SERIALIZE_BASIC: Serialize only basic information, excluding
+ * caps, tags and miscellaneous information
+ * @GST_DISCOVERER_SERIALIZE_CAPS: Serialize the caps for each stream
+ * @GST_DISCOVERER_SERIALIZE_TAGS: Serialize the tags for each stream
+ * @GST_DISCOVERER_SERIALIZE_MISC: Serialize miscellaneous information for each stream
+ * @GST_DISCOVERER_SERIALIZE_ALL: Serialize all the available info, including
+ * caps, tags and miscellaneous information
+ *
+ * You can use these flags to control what is serialized by
+ * gst_discoverer_info_to_variant()
+ *
+ * Since: 1.6
+ */
+
+typedef enum {
+  GST_DISCOVERER_SERIALIZE_BASIC = 0,
+  GST_DISCOVERER_SERIALIZE_CAPS  = 1 << 0,
+  GST_DISCOVERER_SERIALIZE_TAGS  = 1 << 1,
+  GST_DISCOVERER_SERIALIZE_MISC  = 1 << 2,
+  GST_DISCOVERER_SERIALIZE_ALL   = GST_DISCOVERER_SERIALIZE_CAPS | GST_DISCOVERER_SERIALIZE_TAGS | GST_DISCOVERER_SERIALIZE_MISC
+} GstDiscovererSerializeFlags;
 
 /**
  * GstDiscovererInfo:
  *
  * Structure containing the information of a URI analyzed by #GstDiscoverer.
- *
- * Since: 0.10.31
  */
 typedef struct _GstDiscovererInfo GstDiscovererInfo;
 
@@ -178,29 +271,73 @@ typedef struct _GstDiscovererInfo GstDiscovererInfo;
   (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_DISCOVERER_INFO, GstDiscovererInfo))
 #define GST_IS_DISCOVERER_INFO(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_DISCOVERER_INFO))
-typedef GstMiniObjectClass GstDiscovererInfoClass;
+typedef GObjectClass GstDiscovererInfoClass;
+
+GST_PBUTILS_API
 GType gst_discoverer_info_get_type (void);
 
-#define gst_discoverer_info_unref(info) (gst_mini_object_unref((GstMiniObject*)info))
-#define gst_discoverer_info_ref(info) (gst_mini_object_ref((GstMiniObject*)info))
+#define gst_discoverer_info_unref(info) (g_object_unref((GObject*)info))
+#define gst_discoverer_info_ref(info) (g_object_ref((GObject*)info))
 
+GST_PBUTILS_API
 GstDiscovererInfo*        gst_discoverer_info_copy (GstDiscovererInfo * ptr);
 
+GST_PBUTILS_API
 const gchar*              gst_discoverer_info_get_uri(const GstDiscovererInfo* info);
-GstDiscovererResult       gst_discoverer_info_get_result(const GstDiscovererInfo* info);
-GstDiscovererStreamInfo*  gst_discoverer_info_get_stream_info(GstDiscovererInfo* info);
-GList*                    gst_discoverer_info_get_stream_list(GstDiscovererInfo* info);
-GstClockTime              gst_discoverer_info_get_duration(const GstDiscovererInfo* info);
-gboolean                  gst_discoverer_info_get_seekable(const GstDiscovererInfo* info);
-const GstStructure*       gst_discoverer_info_get_misc(const GstDiscovererInfo* info);
-const GstTagList*         gst_discoverer_info_get_tags(const GstDiscovererInfo* info);
 
+GST_PBUTILS_API
+GstDiscovererResult       gst_discoverer_info_get_result(const GstDiscovererInfo* info);
+
+GST_PBUTILS_API
+GstDiscovererStreamInfo*  gst_discoverer_info_get_stream_info(GstDiscovererInfo* info);
+
+GST_PBUTILS_API
+GList*                    gst_discoverer_info_get_stream_list(GstDiscovererInfo* info);
+
+GST_PBUTILS_API
+GstClockTime              gst_discoverer_info_get_duration(const GstDiscovererInfo* info);
+
+GST_PBUTILS_API
+gboolean                  gst_discoverer_info_get_seekable(const GstDiscovererInfo* info);
+
+GST_PBUTILS_API
+gboolean                  gst_discoverer_info_get_live(const GstDiscovererInfo* info);
+
+GST_PBUTILS_API
+const GstStructure*       gst_discoverer_info_get_misc(const GstDiscovererInfo* info);
+
+GST_PBUTILS_API
+const GstTagList*         gst_discoverer_info_get_tags(const GstDiscovererInfo* info);
+GST_PBUTILS_API
+const GstToc*             gst_discoverer_info_get_toc(const GstDiscovererInfo* info);
+
+GST_PBUTILS_API
+const gchar**             gst_discoverer_info_get_missing_elements_installer_details(const GstDiscovererInfo* info);
+
+GST_PBUTILS_API
 GList *                   gst_discoverer_info_get_streams (GstDiscovererInfo *info,
                                GType streamtype);
+
+GST_PBUTILS_API
 GList *                   gst_discoverer_info_get_audio_streams (GstDiscovererInfo *info);
+
+GST_PBUTILS_API
 GList *                   gst_discoverer_info_get_video_streams (GstDiscovererInfo *info);
+
+GST_PBUTILS_API
+GList *                   gst_discoverer_info_get_subtitle_streams (GstDiscovererInfo *info);
+
+GST_PBUTILS_API
 GList *                   gst_discoverer_info_get_container_streams (GstDiscovererInfo *info);
 
+GST_PBUTILS_API
+GVariant *                gst_discoverer_info_to_variant (GstDiscovererInfo *info,
+                                                          GstDiscovererSerializeFlags flags);
+
+GST_PBUTILS_API
+GstDiscovererInfo *       gst_discoverer_info_from_variant (GVariant *variant);
+
+GST_PBUTILS_API
 void                      gst_discoverer_stream_info_list_free (GList *infos);
 
 #define GST_TYPE_DISCOVERER \
@@ -222,12 +359,11 @@ typedef struct _GstDiscovererPrivate GstDiscovererPrivate;
  * GstDiscoverer:
  *
  * The #GstDiscoverer structure.
- *
- * Since: 0.10.31
  **/
 struct _GstDiscoverer {
   GObject parent;
 
+  /*< private >*/
   GstDiscovererPrivate *priv;
 
   gpointer _reserved[GST_PADDING];
@@ -236,30 +372,71 @@ struct _GstDiscoverer {
 struct _GstDiscovererClass {
   GObjectClass parentclass;
 
-  /*< signals >*/
+  /* signals */
   void        (*finished)        (GstDiscoverer *discoverer);
   void        (*starting)        (GstDiscoverer *discoverer);
   void        (*discovered)      (GstDiscoverer *discoverer,
                                   GstDiscovererInfo *info,
                   const GError *err);
+  void        (*source_setup)    (GstDiscoverer *discoverer,
+                                  GstElement *source);
 
   gpointer _reserved[GST_PADDING];
 };
 
+GST_PBUTILS_API
 GType          gst_discoverer_get_type (void);
+
+GST_PBUTILS_API
 GstDiscoverer *gst_discoverer_new (GstClockTime timeout, GError **err);
 
 /* Asynchronous API */
+
+GST_PBUTILS_API
 void           gst_discoverer_start (GstDiscoverer *discoverer);
+
+GST_PBUTILS_API
 void           gst_discoverer_stop (GstDiscoverer *discoverer);
+
+GST_PBUTILS_API
 gboolean       gst_discoverer_discover_uri_async (GstDiscoverer *discoverer,
                           const gchar *uri);
 
 /* Synchronous API */
+
+GST_PBUTILS_API
 GstDiscovererInfo *
 gst_discoverer_discover_uri (GstDiscoverer * discoverer,
                  const gchar * uri,
                  GError ** err);
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstDiscoverer, gst_object_unref)
+#endif
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstDiscovererAudioInfo, gst_object_unref)
+#endif
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstDiscovererContainerInfo, gst_object_unref)
+#endif
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstDiscovererInfo, gst_object_unref)
+#endif
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstDiscovererStreamInfo, gst_object_unref)
+#endif
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstDiscovererSubtitleInfo, gst_object_unref)
+#endif
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstDiscovererVideoInfo, gst_object_unref)
+#endif
 
 G_END_DECLS
 

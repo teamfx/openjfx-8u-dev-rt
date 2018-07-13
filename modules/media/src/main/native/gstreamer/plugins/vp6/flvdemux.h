@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -76,6 +76,7 @@ struct _FlvDemux
     gboolean        copied_metadata_keyframes;  /* Set to TRUE once we've processed the keyframe list from metadata */
     GstSegment      segment;
     gboolean        is_flushing;
+    gboolean        is_eos_received;
 
     //Source pads
     GstPad          *audio_src_pad;

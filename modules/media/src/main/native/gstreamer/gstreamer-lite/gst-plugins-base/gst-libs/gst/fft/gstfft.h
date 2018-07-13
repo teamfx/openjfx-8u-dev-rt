@@ -13,15 +13,20 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 #include <glib.h>
 #include <math.h>
+#include <gst/gst.h>
 
 #ifndef __GST_FFT_H__
 #define __GST_FFT_H__
+
+#include <gst/fft/fft-prelude.h>
+
+G_BEGIN_DECLS
 
 /**
  * GstFFTWindow:
@@ -44,6 +49,11 @@ typedef enum
 
 /* Functions */
 
+#ifndef GSTREAMER_LITE
+GST_FFT_API
 gint gst_fft_next_fast_length (gint n) G_GNUC_CONST;
+#endif // GSTREAMER_LITE
+
+G_END_DECLS
 
 #endif /* __GST_FFT_H__ */

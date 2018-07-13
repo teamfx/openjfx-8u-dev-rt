@@ -15,8 +15,8 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 #ifndef __GST_TASK_POOL_H__
@@ -40,13 +40,11 @@ typedef struct _GstTaskPoolClass GstTaskPoolClass;
 
 /**
  * GstTaskPoolFunction:
- * @data: user data for the task function
+ * @user_data: user data for the task function
  *
  * Task function, see gst_task_pool_push().
- *
- * Since: 0.10.24
  */
-typedef void   (*GstTaskPoolFunction)          (void *data);
+typedef void   (*GstTaskPoolFunction)          (void *user_data);
 
 /**
  * GstTaskPool:
@@ -87,16 +85,27 @@ struct _GstTaskPoolClass {
   gpointer _gst_reserved[GST_PADDING];
 };
 
+GST_API
 GType           gst_task_pool_get_type    (void);
 
+GST_API
 GstTaskPool *   gst_task_pool_new         (void);
+
+GST_API
 void            gst_task_pool_prepare     (GstTaskPool *pool, GError **error);
 
+GST_API
 gpointer        gst_task_pool_push        (GstTaskPool *pool, GstTaskPoolFunction func,
                                            gpointer user_data, GError **error);
+GST_API
 void            gst_task_pool_join        (GstTaskPool *pool, gpointer id);
 
+GST_API
 void        gst_task_pool_cleanup     (GstTaskPool *pool);
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstTaskPool, gst_object_unref)
+#endif
 
 G_END_DECLS
 

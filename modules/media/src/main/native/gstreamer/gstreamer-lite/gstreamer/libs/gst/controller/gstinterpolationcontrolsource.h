@@ -17,8 +17,8 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 #ifndef __GST_INTERPOLATION_CONTROL_SOURCE_H__
@@ -27,7 +27,8 @@
 #include <glib-object.h>
 #include <gst/gst.h>
 
-#include <gst/controller/gstcontrolsource.h>
+#include <gst/controller/gsttimedvaluecontrolsource.h>
+#include <gst/controller/controller-enumtypes.h>
 
 G_BEGIN_DECLS
 
@@ -49,26 +50,24 @@ typedef struct _GstInterpolationControlSourceClass GstInterpolationControlSource
 typedef struct _GstInterpolationControlSourcePrivate GstInterpolationControlSourcePrivate;
 
 /**
- * GstInterpolateMode:
- * @GST_INTERPOLATE_NONE: steps-like interpolation, default
- * @GST_INTERPOLATE_TRIGGER: returns the default value of the property,
- * except for times with specific values
- * @GST_INTERPOLATE_LINEAR: linear interpolation
- * @GST_INTERPOLATE_QUADRATIC: square interpolation (deprecated, maps to cubic)
- * @GST_INTERPOLATE_CUBIC: cubic interpolation
- * @GST_INTERPOLATE_USER: user-provided interpolation (not yet available)
+ * GstInterpolationMode:
+ * @GST_INTERPOLATION_MODE_NONE: steps-like interpolation, default
+ * @GST_INTERPOLATION_MODE_LINEAR: linear interpolation
+ * @GST_INTERPOLATION_MODE_CUBIC: cubic interpolation (natural), may overshoot
+ *   the min or max values set by the control point, but is more 'curvy'
+ * @GST_INTERPOLATION_MODE_CUBIC_MONOTONIC: monotonic cubic interpolation, will not
+ *   produce any values outside of the min-max range set by the control points
+ *   (Since 1.8)
  *
  * The various interpolation modes available.
  */
 typedef enum
 {
-  GST_INTERPOLATE_NONE,
-  GST_INTERPOLATE_TRIGGER,
-  GST_INTERPOLATE_LINEAR,
-  GST_INTERPOLATE_QUADRATIC,
-  GST_INTERPOLATE_CUBIC,
-  GST_INTERPOLATE_USER
-} GstInterpolateMode;
+  GST_INTERPOLATION_MODE_NONE,
+  GST_INTERPOLATION_MODE_LINEAR,
+  GST_INTERPOLATION_MODE_CUBIC,
+  GST_INTERPOLATION_MODE_CUBIC_MONOTONIC,
+} GstInterpolationMode;
 
 /**
  * GstInterpolationControlSource:
@@ -76,33 +75,31 @@ typedef enum
  * The instance structure of #GstControlSource.
  */
 struct _GstInterpolationControlSource {
-  GstControlSource parent;
+  GstTimedValueControlSource parent;
 
-  /* <private> */
-  GMutex *lock;
+  /*< private >*/
   GstInterpolationControlSourcePrivate *priv;
   gpointer _gst_reserved[GST_PADDING];
 };
 
 struct _GstInterpolationControlSourceClass {
-  GstControlSourceClass parent_class;
+  GstTimedValueControlSourceClass parent_class;
 
   /*< private >*/
   gpointer _gst_reserved[GST_PADDING];
 };
 
+GST_CONTROLLER_API
 GType gst_interpolation_control_source_get_type (void);
 
 /* Functions */
 
-GstInterpolationControlSource *gst_interpolation_control_source_new (void);
-gboolean gst_interpolation_control_source_set_interpolation_mode (GstInterpolationControlSource *self, GstInterpolateMode mode);
-gboolean gst_interpolation_control_source_set (GstInterpolationControlSource * self, GstClockTime timestamp, const GValue * value);
-gboolean gst_interpolation_control_source_set_from_list (GstInterpolationControlSource * self, const GSList * timedvalues);
-gboolean gst_interpolation_control_source_unset (GstInterpolationControlSource * self, GstClockTime timestamp);
-void gst_interpolation_control_source_unset_all (GstInterpolationControlSource *self);
-GList *gst_interpolation_control_source_get_all (GstInterpolationControlSource * self);
-gint gst_interpolation_control_source_get_count (GstInterpolationControlSource * self);
+GST_CONTROLLER_API
+GstControlSource * gst_interpolation_control_source_new (void);
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstInterpolationControlSource, gst_object_unref)
+#endif
 
 G_END_DECLS
 

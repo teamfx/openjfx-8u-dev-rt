@@ -17,8 +17,8 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  *
  * The development of this code was made possible due to the involvement
  * of Pioneers of the Inevitable, the creators of the Songbird Music player
@@ -30,13 +30,10 @@
 #define __GST_DIRECTSOUNDSINK_H__
 
 #include <gst/gst.h>
+#include <gst/audio/audio.h>
 #include <gst/audio/gstaudiosink.h>
-#include <gst/interfaces/mixer.h>
 
 #include <windows.h>
-#ifndef GSTREAMER_LITE
-#include <dxerr9.h>
-#endif // GSTREAMER_LITE
 #include <dsound.h>
 #include <mmreg.h>
 #include <ks.h>
@@ -51,12 +48,13 @@ G_BEGIN_DECLS
 typedef struct _GstDirectSoundSink GstDirectSoundSink;
 typedef struct _GstDirectSoundSinkClass GstDirectSoundSinkClass;
 
-#define GST_DSOUND_LOCK(obj)    (g_mutex_lock (obj->dsound_lock))
-#define GST_DSOUND_UNLOCK(obj)  (g_mutex_unlock (obj->dsound_lock))
+#define GST_DSOUND_LOCK(obj)    (g_mutex_lock (&obj->dsound_lock))
+#define GST_DSOUND_UNLOCK(obj)  (g_mutex_unlock (&obj->dsound_lock))
 
 struct _GstDirectSoundSink
 {
   GstAudioSink sink;
+
 
   /* directsound object interface pointer */
   LPDIRECTSOUND pDS;
@@ -74,18 +72,22 @@ struct _GstDirectSoundSink
 
   /* current volume setup by mixer interface */
   glong volume;
+  gboolean mute;
 
-  /* tracks list of our mixer interface implementation */
-  GList *tracks;
+  /* current directsound device ID */
+  gchar * device_id;
 
   GstCaps *cached_caps;
-
   /* lock used to protect writes and resets */
-  GMutex *dsound_lock;
+  GMutex dsound_lock;
+
+  GstClock *system_clock;
+  GstClockID write_wait_clock_id;
+  gboolean reset_while_sleeping;
 
   gboolean first_buffer_after_reset;
 
-  GstBufferFormat buffer_format;
+  GstAudioRingBufferFormatType type;
 
 #ifdef GSTREAMER_LITE
   gfloat panorama;
@@ -99,6 +101,17 @@ struct _GstDirectSoundSinkClass
 };
 
 GType gst_directsound_sink_get_type (void);
+
+#define GST_DIRECTSOUND_SINK_CAPS "audio/x-raw, " \
+        "format = (string) S16LE, " \
+        "layout = (string) interleaved, " \
+        "rate = (int) [ 1, MAX ], " "channels = (int) [ 1, 2 ]; " \
+        "audio/x-raw, " \
+        "format = (string) U8, " \
+        "layout = (string) interleaved, " \
+        "rate = (int) [ 1, MAX ], " "channels = (int) [ 1, 2 ];" \
+        "audio/x-ac3, framed = (boolean) true;" \
+        "audio/x-dts, framed = (boolean) true;"
 
 G_END_DECLS
 #endif /* __GST_DIRECTSOUNDSINK_H__ */

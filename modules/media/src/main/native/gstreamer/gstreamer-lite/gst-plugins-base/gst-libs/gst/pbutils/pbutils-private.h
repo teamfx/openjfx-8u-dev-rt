@@ -14,36 +14,49 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
+#include "gstdiscoverer.h"
+
 struct _GstDiscovererStreamInfo {
-  GstMiniObject          parent;
+  GObject                parent;
 
   GstDiscovererStreamInfo *previous;  /* NULL for starting points */
   GstDiscovererStreamInfo *next; /* NULL for containers */
 
   GstCaps               *caps;
   GstTagList            *tags;
+  GstToc                *toc;
+  gchar                 *stream_id;
   GstStructure          *misc;
+
+  gpointer _gst_reserved[GST_PADDING];
 };
 
 struct _GstDiscovererContainerInfo {
   GstDiscovererStreamInfo parent;
 
   GList               *streams;
+
+  gpointer _gst_reserved[GST_PADDING];
 };
 
 struct _GstDiscovererAudioInfo {
   GstDiscovererStreamInfo parent;
 
+  guint64 channel_mask;
   guint channels;
   guint sample_rate;
   guint depth;
 
   guint bitrate;
   guint max_bitrate;
+
+  gchar *language;
+
+  gpointer _gst_reserved[GST_PADDING];
 };
 
 struct _GstDiscovererVideoInfo {
@@ -62,10 +75,20 @@ struct _GstDiscovererVideoInfo {
   guint max_bitrate;
 
   gboolean is_image;
+
+  gpointer _gst_reserved[GST_PADDING];
+};
+
+struct _GstDiscovererSubtitleInfo {
+  GstDiscovererStreamInfo parent;
+
+  gchar *language;
+
+  gpointer _gst_reserved[GST_PADDING];
 };
 
 struct _GstDiscovererInfo {
-  GstMiniObject parent;
+  GObject parent;
 
   gchar *uri;
   GstDiscovererResult result;
@@ -78,9 +101,17 @@ struct _GstDiscovererInfo {
   GstClockTime duration;
   GstStructure *misc;
   GstTagList *tags;
+  GstToc *toc;
+  gboolean live;
   gboolean seekable;
+  GPtrArray *missing_elements_details;
+
+  gpointer _gst_reserved[GST_PADDING];
 };
 
 /* missing-plugins.c */
-
+G_GNUC_INTERNAL
 GstCaps *copy_and_clean_caps (const GstCaps * caps);
+
+G_GNUC_INTERNAL
+void gst_pb_utils_init_locale_text_domain (void);

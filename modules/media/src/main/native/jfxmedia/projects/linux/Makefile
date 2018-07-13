@@ -26,6 +26,7 @@ CFLAGS = -DTARGET_OS_LINUX=1     \
          -DHAVE_CONFIG_H         \
          -DJFXMEDIA_JNI_EXPORTS  \
          -DLINUX                 \
+         -DG_DISABLE_DEPRECATED  \
          -ffunction-sections -fdata-sections
 
 CPPFLAGS = -fno-rtti -ffunction-sections -fdata-sections
@@ -35,14 +36,15 @@ BASE_INCLUDES = -I$(SRCBASE_DIR) \
 
 ifdef HOST_COMPILE
 	GSTREAMER_LITE_DIR = ../../../gstreamer/gstreamer-lite
+	GLIB_LITE_DIR = ../../../gstreamer/3rd_party/glib/glib-2.56.1
 
 	CFLAGS += -fPIC \
+                  -Wformat \
+                  -Wextra \
+                  -Wformat-security \
                   -Werror=implicit-function-declaration \
 		  -msse2 \
 	          -DGSTREAMER_LITE
-
-	PACKAGES_INCLUDES := $(shell pkg-config --cflags glib-2.0)
-	PACKAGES_LIBS := $(shell pkg-config --libs glib-2.0 gobject-2.0 gmodule-2.0 gthread-2.0)
 
 	INCLUDES = $(BASE_INCLUDES) \
 		   -I$(JAVA_HOME)/include \
@@ -50,9 +52,11 @@ ifdef HOST_COMPILE
 	           -I$(GSTREAMER_LITE_DIR)/gstreamer \
 		   -I$(GSTREAMER_LITE_DIR)/gst-plugins-base/gst-libs \
 	           -I$(GSTREAMER_LITE_DIR)/gstreamer/libs \
-		  $(PACKAGES_INCLUDES)
+	           -I$(GLIB_LITE_DIR)/ \
+	           -I$(GLIB_LITE_DIR)/glib \
+	           -I$(GLIB_LITE_DIR)/gmodule
 
-	LDFLAGS = -Wl,-rpath,\$$ORIGIN -L$(BUILD_DIR) -lgstreamer-lite $(PACKAGES_LIBS) \
+	LDFLAGS = -Wl,-rpath,\$$ORIGIN -L$(BUILD_DIR) -lgstreamer-lite -lglib-lite \
             -static-libgcc -static-libstdc++ -Wl,--gc-sections
 else
 	CFLAGS += $(EXTRA_CFLAGS)
@@ -69,6 +73,9 @@ endif
 ifeq ($(ARCH), x32)
     CFLAGS += -m32
     LDFLAGS += -m32
+    INCLUDES += -I$(GLIB_LITE_DIR)/build/linux/x86
+else
+    INCLUDES += -I$(GLIB_LITE_DIR)/build/linux/x64
 endif
 
 CPP_SOURCES = \
@@ -112,7 +119,7 @@ CPP_SOURCES = \
 C_SOURCES = Utils/ColorConverter.c
 
 
-OBJECTS  = $(patsubst %.cpp,$(OBJBASE_DIR)/%.o,$(CPP_SOURCES)) $(patsubst %.c,$(OBJBASE_DIR)/%.o,$(C_SOURCES)) 
+OBJECTS  = $(patsubst %.cpp,$(OBJBASE_DIR)/%.o,$(CPP_SOURCES)) $(patsubst %.c,$(OBJBASE_DIR)/%.o,$(C_SOURCES))
 DEPFILES = $(patsubst %.cpp,$(OBJBASE_DIR)/%.d,$(CPP_SOURCES))
 
 OBJ_DIRS = $(addprefix $(OBJBASE_DIR)/,$(DIRLIST))

@@ -2432,9 +2432,35 @@ project(":media") {
                     enabled = IS_COMPILE_MEDIA
                     doLast {
                         exec {
+                            commandLine ("make", "${makeJobsFlag}", "-C", "${nativeSrcDir}/gstreamer/projects/${projectDir}/libffi")
+                            args("OUTPUT_DIR=${nativeOutputDir}", "BUILD_TYPE=${buildType}", "BASE_NAME=ffi")
+                            args ("CC=${mediaProperties.compiler}", "LINK=${mediaProperties.linker}", "AR=${mediaProperties.ar}")
+                        }
+
+                        exec {
                             commandLine ("make", "${makeJobsFlag}", "-C", "${nativeSrcDir}/gstreamer/projects/${projectDir}/glib-lite")
                             args("OUTPUT_DIR=${nativeOutputDir}", "BUILD_TYPE=${buildType}", "BASE_NAME=glib-lite")
                             args ("CC=${mediaProperties.compiler}", "LINK=${mediaProperties.linker}", "LIB=${mediaProperties.lib}")
+                        }
+                    }
+                }
+                buildGStreamer.dependsOn buildGlib
+            } else if (t.name == "linux") {
+                def buildGlib = task("build${t.capital}Glib") {
+                    enabled = IS_COMPILE_MEDIA
+                    doLast {
+                        exec {
+                            commandLine ("make", "${makeJobsFlag}", "-C", "${nativeSrcDir}/gstreamer/projects/${projectDir}/libffi")
+                            args("OUTPUT_DIR=${nativeOutputDir}", "BUILD_TYPE=${buildType}", "BASE_NAME=ffi")
+                            args("CC=${mediaProperties.compiler}", "LINK=${mediaProperties.linker}", "AR=${mediaProperties.ar}")
+                            args(IS_64 ? "ARCH=x64" : "ARCH=x32")
+                        }
+
+                        exec {
+                            commandLine ("make", "${makeJobsFlag}", "-C", "${nativeSrcDir}/gstreamer/projects/${projectDir}/glib-lite")
+                            args("OUTPUT_DIR=${nativeOutputDir}", "BUILD_TYPE=${buildType}", "BASE_NAME=glib-lite")
+                            args("CC=${mediaProperties.compiler}", "LINK=${mediaProperties.linker}", "LIB=${mediaProperties.lib}")
+                            args(IS_64 ? "ARCH=x64" : "ARCH=x32")
                         }
                     }
                 }
@@ -3080,7 +3106,7 @@ compileTargets { t ->
                         from ("$vslib");
                     }
                     targetProperties.WinSDKDLLs.each { winsdklib ->
-                        from ("$winsdklib"); 
+                        from ("$winsdklib");
                     }
                 }
                 if (IS_COMPILE_WEBKIT) {
@@ -3093,31 +3119,28 @@ compileTargets { t ->
 
                 def mediaBuildType = project(":media").ext.buildType
                 if (IS_COMPILE_MEDIA) {
-                    [ "fxplugins", "gstreamer-lite", "jfxmedia" ].each { name ->
+                    [ "fxplugins", "glib-lite", "gstreamer-lite", "jfxmedia" ].each { name ->
                         from ("modules/media/build/native/${t.name}/${mediaBuildType}/${library(name)}") }
 
                     if (t.name == "mac") {
                         // OSX media natives
-                        [ "jfxmedia_qtkit", "jfxmedia_avf", "glib-lite" ].each { name ->
+                        [ "jfxmedia_qtkit", "jfxmedia_avf" ].each { name ->
                             from ("modules/media/build/native/${t.name}/${mediaBuildType}/${library(name)}") }
                     } else if (t.name == "linux") {
                         from("modules/media/build/native/${t.name}/${mediaBuildType}") { include "libavplugin*.so" }
-                    } else from ("modules/media/build/native/${t.name}/${mediaBuildType}/${library("glib-lite")}")
+                    }
                 } else {
-                    if (t.name != "android"  && t.name != "dalvik" ) {
-                        [ "fxplugins", "gstreamer-lite", "jfxmedia" ].each { name ->
+                    if (t.name != "android" && t.name != "dalvik" ) {
+                        [ "fxplugins", "glib-lite", "gstreamer-lite", "jfxmedia" ].each { name ->
                             from ("$LIBRARY_STUB/${library(name)}") }
                     }
 
                     if (t.name == "mac") {
                         // copy libjfxmedia_{avf,qtkit}.dylib if they exist
-                        [ "jfxmedia_qtkit", "jfxmedia_avf", "glib-lite" ].each { name ->
+                        [ "jfxmedia_qtkit", "jfxmedia_avf" ].each { name ->
                             from ("$LIBRARY_STUB/${library(name)}") }
                     } else if (t.name == "linux") {
                         from(LIBRARY_STUB) { include "libavplugin*.so" }
-                    }
-                    else if (t.name != "android"  && t.name != "dalvik" ) {
-                        from ("$LIBRARY_STUB/${library("glib-lite")}")
                     }
                 }
 

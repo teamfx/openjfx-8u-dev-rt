@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -46,8 +46,7 @@ gboolean lite_plugins_init (GstPlugin * plugin)
     return FALSE;
 
 #ifdef WIN32
-  if (!plugin_init_directsound(plugin) ||
-      !plugin_init_indexers(plugin))
+  if (!plugin_init_directsound(plugin))
     return FALSE;
 #endif
 

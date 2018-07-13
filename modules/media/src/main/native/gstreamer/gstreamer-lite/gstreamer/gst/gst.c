@@ -16,17 +16,18 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 /**
  * SECTION:gst
+ * @title: GStreamer
  * @short_description: Media library supporting arbitrary formats and filter
  *                     graphs.
  *
  * GStreamer is a framework for constructing graphs of various filters
- * (termed elements here) that will handle streaming media.  Any discreet
+ * (termed elements here) that will handle streaming media.  Any discrete
  * (packetizable) media type is supported, with provisions for automatically
  * determining source type.  Formatting/framing information is provided with
  * a powerful negotiation framework.  Plugins are heavily used to provide for
@@ -40,9 +41,9 @@
  * and argv variables so that GStreamer can process its own command line
  * options, as shown in the following example.
  *
- * <example>
- * <title>Initializing the gstreamer library</title>
- * <programlisting language="c">
+ * ## Initializing the gstreamer library
+ *
+ * |[ <!-- language="C" -->
  * int
  * main (int argc, char *argv[])
  * {
@@ -50,17 +51,16 @@
  *   gst_init (&amp;argc, &amp;argv);
  *   ...
  * }
- * </programlisting>
- * </example>
+ * ]|
  *
- * It's allowed to pass two NULL pointers to gst_init() in case you don't want
+ * It's allowed to pass two %NULL pointers to gst_init() in case you don't want
  * to pass the command line args to GStreamer.
  *
  * You can also use GOption to initialize your own parameters as shown in
  * the next code fragment:
- * <example>
- * <title>Initializing own parameters when initializing gstreamer</title>
- * <programlisting>
+ *
+ * ## Initializing own parameters when initializing gstreamer
+ * |[ <!-- language="C" -->
  * static gboolean stats = FALSE;
  * ...
  * int
@@ -71,9 +71,6 @@
  *       N_("Output tags (also known as metadata)"), NULL},
  *   {NULL}
  *  };
- *  // must initialise the threading system before using any other GLib funtion
- *  if (!g_thread_supported ())
- *    g_thread_init (NULL);
  *  ctx = g_option_context_new ("[ADDITIONAL ARGUMENTS]");
  *  g_option_context_add_main_entries (ctx, options, GETTEXT_PACKAGE);
  *  g_option_context_add_group (ctx, gst_init_get_option_group ());
@@ -84,18 +81,14 @@
  *  g_option_context_free (ctx);
  * ...
  * }
- * </programlisting>
- * </example>
+ * ]|
  *
  * Use gst_version() to query the library version at runtime or use the
  * GST_VERSION_* macros to find the version at compile time. Optionally
  * gst_version_string() returns a printable string.
  *
  * The gst_deinit() call is used to clean up all internal resources used
- * by <application>GStreamer</application>. It is mostly used in unit tests
- * to check for leaks.
- *
- * Last reviewed on 2006-08-11 (0.10.10)
+ * by GStreamer. It is mostly used in unit tests to check for leaks.
  */
 
 #include "gst_private.h"
@@ -112,6 +105,12 @@
 #ifdef G_OS_WIN32
 #define WIN32_LEAN_AND_MEAN     /* prevents from including too many things */
 #include <windows.h>            /* GetStdHandle, windows console */
+#endif
+#if defined (__APPLE__)
+#include "TargetConditionals.h"
+#if !TARGET_OS_IPHONE && !TARGET_OS_SIMULATOR && !TARGET_OS_EMBEDDED
+#include <libproc.h>            /* proc_pidpath, PROC_PIDPATHINFO_MAXSIZE */
+#endif
 #endif
 
 #if defined(GSTREAMER_LITE)
@@ -131,18 +130,23 @@
 static gboolean gst_initialized = FALSE;
 static gboolean gst_deinitialized = FALSE;
 
+GstClockTime _priv_gst_start_time;
+
 #ifdef G_OS_WIN32
 HMODULE _priv_gst_dll_handle = NULL;
 #endif
 
 #ifndef GST_DISABLE_REGISTRY
-GList *_priv_gst_plugin_paths = NULL;   /* for delayed processing in post_init */
+GList *_priv_gst_plugin_paths = NULL;   /* for delayed processing in init_post */
 
+extern gboolean _priv_gst_disable_registry;
 extern gboolean _priv_gst_disable_registry_update;
 #endif
 
+gchar *_gst_executable_path = NULL;
+
 #ifndef GST_DISABLE_GST_DEBUG
-extern const gchar *priv_gst_dump_dot_dir;
+const gchar *priv_gst_dump_dot_dir;
 #endif
 
 /* defaults */
@@ -182,6 +186,7 @@ enum
   ARG_DEBUG,
   ARG_DEBUG_DISABLE,
   ARG_DEBUG_NO_COLOR,
+  ARG_DEBUG_COLOR_MODE,
   ARG_DEBUG_HELP,
 #endif
   ARG_PLUGIN_SPEW,
@@ -198,84 +203,19 @@ enum
  * val ::= [0-5]
  */
 
-#ifndef NUL
-#define NUL '\0'
-#endif
-
-#ifndef GST_DISABLE_GST_DEBUG
-static gboolean
-parse_debug_category (gchar * str, const gchar ** category)
-{
-  if (!str)
-    return FALSE;
-
-  /* works in place */
-  g_strstrip (str);
-
-  if (str[0] != NUL) {
-    *category = str;
-    return TRUE;
-  }
-
-  return FALSE;
-}
-
-static gboolean
-parse_debug_level (gchar * str, gint * level)
-{
-  if (!str)
-    return FALSE;
-
-  /* works in place */
-  g_strstrip (str);
-
-  if (str[0] != NUL && str[1] == NUL
-      && str[0] >= '0' && str[0] < '0' + GST_LEVEL_COUNT) {
-    *level = str[0] - '0';
-    return TRUE;
-  }
-
-  return FALSE;
-}
-
-static void
-parse_debug_list (const gchar * list)
-{
-  gchar **split;
-  gchar **walk;
-
-  g_assert (list);
-
-  split = g_strsplit (list, ",", 0);
-
-  for (walk = split; *walk; walk++) {
-    if (strchr (*walk, ':')) {
-      gchar **values = g_strsplit (*walk, ":", 2);
-
-      if (values[0] && values[1]) {
-        gint level;
-        const gchar *category;
-
-        if (parse_debug_category (values[0], &category)
-            && parse_debug_level (values[1], &level))
-          gst_debug_set_threshold_for_name (category, level);
-      }
-
-      g_strfreev (values);
-    } else {
-      gint level;
-
-      if (parse_debug_level (*walk, &level))
-        gst_debug_set_default_threshold (level);
-    }
-  }
-
-  g_strfreev (split);
-}
-#endif
-
 #ifndef GSTREAMER_LITE
 #ifdef G_OS_WIN32
+/* Note: DllMain is only called when DLLs are loaded or unloaded, so this will
+ * never be called if libgstreamer-1.0 is linked statically. Do not add any code
+ * here to, say, initialize variables or set things up since that will only
+ * happen for dynamically-built GStreamer.
+ *
+ * Also, ideally this should not be defined when GStreamer is built statically.
+ * i.e., it should be conditional on #ifdef DLL_EXPORT. It will be ignored, but
+ * if other libraries make the same mistake of defining it when building
+ * statically, there will be a symbol collision during linking. Fixing this
+ * requires one to build two object files: one for static linking and another
+ * for dynamic linking. */
 BOOL WINAPI DllMain (HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
 BOOL WINAPI
 DllMain (HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -284,11 +224,12 @@ DllMain (HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
     _priv_gst_dll_handle = (HMODULE) hinstDLL;
   return TRUE;
 }
+
 #endif
 #endif // GSTREAMER_LITE
 
 /**
- * gst_init_get_option_group:
+ * gst_init_get_option_group: (skip)
  *
  * Returns a #GOptionGroup with GStreamer's argument specifications. The
  * group is set up to use standard GOption callbacks, so when using this
@@ -302,7 +243,7 @@ DllMain (HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
  * threading system as one of the very first things in your program
  * (see the example at the beginning of this section).
  *
- * Returns: (transfer full): a pointer to GStreamer's option group.
+ * Returns: (transfer full) (nullable): a pointer to GStreamer's option group.
  */
 
 GOptionGroup *
@@ -322,7 +263,7 @@ gst_init_get_option_group (void)
         NULL},
     {"gst-debug-level", 0, 0, G_OPTION_ARG_CALLBACK,
           (gpointer) parse_goption_arg,
-          N_("Default debug level from 1 (only error) to 5 (anything) or "
+          N_("Default debug level from 1 (only error) to 9 (anything) or "
               "0 for no output"),
         N_("LEVEL")},
     {"gst-debug", 0, 0, G_OPTION_ARG_CALLBACK, (gpointer) parse_goption_arg,
@@ -332,6 +273,11 @@ gst_init_get_option_group (void)
         N_("LIST")},
     {"gst-debug-no-color", 0, G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK,
           (gpointer) parse_goption_arg, N_("Disable colored debugging output"),
+        NULL},
+    {"gst-debug-color-mode", 0, 0, G_OPTION_ARG_CALLBACK,
+          (gpointer) parse_goption_arg,
+          N_("Changes coloring mode of the debug log. "
+              "Possible modes: off, on, disable, auto, unix"),
         NULL},
     {"gst-debug-disable", 0, G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK,
         (gpointer) parse_goption_arg, N_("Disable debugging"), NULL},
@@ -365,28 +311,6 @@ gst_init_get_option_group (void)
     {NULL}
   };
 
-  /* Since GLib 2.23.2 calling g_thread_init() 'late' is allowed and is
-   * automatically done as part of g_type_init() */
-  if (glib_check_version (2, 23, 3)) {
-    /* The GLib threading system must be initialised before calling any other
-     * GLib function according to the documentation; if the application hasn't
-     * called gst_init() yet or initialised the threading system otherwise, we
-     * better issue a warning here (since chances are high that the application
-     * has already called other GLib functions such as g_option_context_new() */
-    if (!g_thread_get_initialized ()) {
-      g_warning ("The GStreamer function gst_init_get_option_group() was\n"
-          "\tcalled, but the GLib threading system has not been initialised\n"
-          "\tyet, something that must happen before any other GLib function\n"
-          "\tis called. The application needs to be fixed so that it calls\n"
-          "\t   if (!g_thread_get_initialized ()) g_thread_init(NULL);\n"
-          "\tas very first thing in its main() function. Please file a bug\n"
-          "\tagainst this application.");
-      g_thread_init (NULL);
-    }
-  } else {
-    /* GLib >= 2.23.2 */
-  }
-
   group = g_option_group_new ("gst", _("GStreamer Options"),
       _("Show GStreamer Options"), NULL, NULL);
   g_option_group_set_parse_hooks (group, (GOptionParseFunc) init_pre,
@@ -399,6 +323,73 @@ gst_init_get_option_group (void)
 #else
   return NULL;
 #endif
+}
+
+#if defined(__linux__)
+static void
+find_executable_path (void)
+{
+  GError *error = NULL;
+
+  if (_gst_executable_path)
+    return;
+
+  _gst_executable_path = g_file_read_link ("/proc/self/exe", &error);
+  if (error)
+    g_error_free (error);
+}
+#elif defined(G_OS_WIN32)
+static void
+find_executable_path (void)
+{
+  char buffer[MAX_PATH];
+
+  if (!GetModuleFileName (NULL, buffer, MAX_PATH))
+    return;
+
+  _gst_executable_path = g_strdup (buffer);
+}
+#elif defined(__APPLE__) && !TARGET_OS_IPHONE && !TARGET_OS_SIMULATOR && !TARGET_OS_EMBEDDED
+static void
+find_executable_path (void)
+{
+  int ret;
+  pid_t pid;
+  char pathbuf[PROC_PIDPATHINFO_MAXSIZE];
+
+  pid = getpid ();
+  ret = proc_pidpath (pid, pathbuf, sizeof (pathbuf));
+  if (ret > 0)
+    _gst_executable_path = g_strdup (pathbuf);
+}
+#else
+static void
+find_executable_path (void)
+{
+  GST_FIXME ("Couldn't look up executable path, add support for this platform");
+}
+#endif
+
+/**
+ * gst_get_main_executable_path:
+ *
+ * This helper is mostly helpful for plugins that need to
+ * inspect the folder of the main executable to determine
+ * their set of features.
+ *
+ * When a plugin is initialized from the gst-plugin-scanner
+ * external process, the returned path will be the same as from the
+ * parent process.
+ *
+ * Returns: (transfer none) (nullable): The path of the executable that
+ *   initialized GStreamer, or %NULL if it could not be determined.
+ *
+ * Since: 1.14
+ */
+const gchar *
+gst_get_main_executable_path (void)
+{
+  return _gst_executable_path;
 }
 
 /**
@@ -414,38 +405,38 @@ gst_init_get_option_group (void)
  * for some reason.  If you want your program to fail fatally,
  * use gst_init() instead.
  *
- * This function should be called before calling any other GLib functions. If
- * this is not an option, your program must initialise the GLib thread system
- * using g_thread_init() before any other GLib functions are called.
- *
  * Returns: %TRUE if GStreamer could be initialized.
  */
 gboolean
 gst_init_check (int *argc, char **argv[], GError ** err)
 {
+  static GMutex init_lock;
 #ifndef GST_DISABLE_OPTION_PARSING
   GOptionGroup *group;
   GOptionContext *ctx;
 #endif
   gboolean res;
 
+  g_mutex_lock (&init_lock);
+
+#ifdef GSTREAMER_LITE
 #ifdef ENABLE_VISUAL_STUDIO_MEMORY_LEAKS_DETECTION
   #include <crtdbg.h>
 
   _CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
   _CrtSetReportMode( _CRT_ERROR, _CRTDBG_MODE_DEBUG );
 #endif // ENABLE_VISUAL_STUDIO_MEMORY_LEAKS_DETECTION
-
-  if (!g_thread_get_initialized ())
-    g_thread_init (NULL);
+#endif // GSTREAMER_LITE
 
   if (gst_initialized) {
     GST_DEBUG ("already initialized gst");
+    g_mutex_unlock (&init_lock);
     return TRUE;
   }
 #ifndef GST_DISABLE_OPTION_PARSING
   ctx = g_option_context_new ("- GStreamer initialization");
   g_option_context_set_ignore_unknown_options (ctx, TRUE);
+  g_option_context_set_help_enabled (ctx, FALSE);
   group = gst_init_get_option_group ();
   g_option_context_add_group (ctx, group);
   res = g_option_context_parse (ctx, argc, argv, err);
@@ -458,11 +449,7 @@ gst_init_check (int *argc, char **argv[], GError ** err)
 
   gst_initialized = res;
 
-  if (res) {
-    GST_INFO ("initialized GStreamer successfully");
-  } else {
-    GST_INFO ("failed to initialize GStreamer");
-  }
+  g_mutex_unlock (&init_lock);
 
   return res;
 }
@@ -482,18 +469,12 @@ gst_init_check (int *argc, char **argv[], GError ** err)
  * <link linkend="gst-running">Running GStreamer Applications</link>
  * for how to disable automatic registry updates.
  *
- * This function should be called before calling any other GLib functions. If
- * this is not an option, your program must initialise the GLib thread system
- * using g_thread_init() before any other GLib functions are called.
- *
- * <note><para>
- * This function will terminate your program if it was unable to initialize
- * GStreamer for some reason.  If you want your program to fall back,
- * use gst_init_check() instead.
- * </para></note>
+ * > This function will terminate your program if it was unable to initialize
+ * > GStreamer for some reason.  If you want your program to fall back,
+ * > use gst_init_check() instead.
  *
  * WARNING: This function does not work in the same way as corresponding
- * functions in other glib-style libraries, such as gtk_init().  In
+ * functions in other glib-style libraries, such as gtk_init\(\). In
  * particular, unknown command line options cause this function to
  * abort program execution.
  */
@@ -518,9 +499,7 @@ gst_init (int *argc, char **argv[])
  * Use this function to check if GStreamer has been initialized with gst_init()
  * or gst_init_check().
  *
- * Returns: TRUE if initialization has been done, FALSE otherwise.
- *
- * Since: 0.10.31
+ * Returns: %TRUE if initialization has been done, %FALSE otherwise.
  */
 gboolean
 gst_is_initialized (void)
@@ -528,7 +507,8 @@ gst_is_initialized (void)
   return gst_initialized;
 }
 
-#ifndef GST_DISABLE_REGISTRY
+#ifndef GST_DISABLE_OPTION_PARSING
+#  ifndef GST_DISABLE_REGISTRY
 static void
 add_path_func (gpointer data, gpointer user_data)
 {
@@ -536,6 +516,7 @@ add_path_func (gpointer data, gpointer user_data)
   _priv_gst_plugin_paths =
       g_list_append (_priv_gst_plugin_paths, g_strdup (data));
 }
+#  endif
 #endif
 
 #ifndef GST_DISABLE_OPTION_PARSING
@@ -579,45 +560,63 @@ static gboolean
 init_pre (GOptionContext * context, GOptionGroup * group, gpointer data,
     GError ** error)
 {
+  gchar *libdir;
   if (gst_initialized) {
     GST_DEBUG ("already initialized");
     return TRUE;
   }
 
+#if defined(GSTREAMER_LITE) && defined(G_OS_WIN32)
+  // We still need to call it due too bug in GLib
   g_type_init ();
+#endif // GSTREAMER_LITE
 
-  /* we need threading to be enabled right here */
-  g_assert (g_thread_get_initialized ());
+  find_executable_path ();
 
-  _gst_debug_init ();
+  _priv_gst_start_time = gst_util_get_timestamp ();
+
+#ifndef GST_DISABLE_GST_DEBUG
+  _priv_gst_debug_init ();
+  priv_gst_dump_dot_dir = g_getenv ("GST_DEBUG_DUMP_DOT_DIR");
+#endif
 
 #ifdef ENABLE_NLS
-  setlocale (LC_ALL, "");
   bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 #endif /* ENABLE_NLS */
 
-#ifndef GST_DISABLE_GST_DEBUG
-  {
-    const gchar *debug_list;
-
-    if (g_getenv ("GST_DEBUG_NO_COLOR") != NULL)
-      gst_debug_set_colored (FALSE);
-
-    debug_list = g_getenv ("GST_DEBUG");
-    if (debug_list) {
-      parse_debug_list (debug_list);
-    }
-  }
-
-  priv_gst_dump_dot_dir = g_getenv ("GST_DEBUG_DUMP_DOT_DIR");
-#endif
+#ifndef GSTREAMER_LITE
   /* This is the earliest we can make stuff show up in the logs.
    * So give some useful info about GStreamer here */
+#ifdef G_OS_WIN32
+  {
+    gchar *basedir =
+        g_win32_get_package_installation_directory_of_module
+        (_priv_gst_dll_handle);
+
+    libdir = g_build_filename (basedir,
+#ifdef _DEBUG
+        "debug"
+#endif
+        "lib", NULL);
+    g_free (basedir);
+  }
+#else
+  libdir = g_strdup (LIBDIR);
+#endif
   GST_INFO ("Initializing GStreamer Core Library version %s", VERSION);
-#ifndef GSTREAMER_LITE
-  GST_INFO ("Using library installed in %s", LIBDIR);
+  GST_INFO ("Using library installed in %s", libdir);
+  g_free (libdir);
 #endif // GSTREAMER_LITE
+
+#ifndef GST_DISABLE_REGISTRY
+  {
+    const gchar *disable_registry;
+    if ((disable_registry = g_getenv ("GST_REGISTRY_DISABLE"))) {
+      _priv_gst_disable_registry = (strcmp (disable_registry, "yes") == 0);
+    }
+  }
+#endif
 
   /* Print some basic system details if possible (OS/architecture) */
 #ifdef HAVE_SYS_UTSNAME_H
@@ -630,6 +629,11 @@ init_pre (GOptionContext * context, GOptionGroup * group, gpointer data,
           sys_details.machine);
     }
   }
+#endif
+
+#ifndef G_ATOMIC_LOCK_FREE
+  GST_CAT_WARNING (GST_CAT_PERFORMANCE, "GLib atomic operations are NOT "
+      "implemented using real hardware atomic operations!");
 #endif
 
   return TRUE;
@@ -666,10 +670,6 @@ init_post (GOptionContext * context, GOptionGroup * group, gpointer data,
 {
   GLogLevelFlags llf;
 
-#ifndef GST_DISABLE_TRACE
-  GstTrace *gst_trace;
-#endif /* GST_DISABLE_TRACE */
-
   if (gst_initialized) {
     GST_DEBUG ("already initialized");
     return TRUE;
@@ -678,29 +678,36 @@ init_post (GOptionContext * context, GOptionGroup * group, gpointer data,
   llf = G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_ERROR | G_LOG_FLAG_FATAL;
   g_log_set_handler (g_log_domain_gstreamer, llf, debug_log_handler, NULL);
 
+  _priv_gst_mini_object_initialize ();
   _priv_gst_quarks_initialize ();
-  _gst_format_initialize ();
-  _gst_query_initialize ();
+  _priv_gst_allocator_initialize ();
+  _priv_gst_memory_initialize ();
+  _priv_gst_format_initialize ();
+  _priv_gst_query_initialize ();
+  _priv_gst_structure_initialize ();
+  _priv_gst_caps_initialize ();
+  _priv_gst_caps_features_initialize ();
+  _priv_gst_meta_initialize ();
+  _priv_gst_message_initialize ();
+
   g_type_class_ref (gst_object_get_type ());
   g_type_class_ref (gst_pad_get_type ());
   g_type_class_ref (gst_element_factory_get_type ());
   g_type_class_ref (gst_element_get_type ());
+  g_type_class_ref (gst_tracer_factory_get_type ());
   g_type_class_ref (gst_type_find_factory_get_type ());
   g_type_class_ref (gst_bin_get_type ());
   g_type_class_ref (gst_bus_get_type ());
   g_type_class_ref (gst_task_get_type ());
   g_type_class_ref (gst_clock_get_type ());
+  g_type_class_ref (gst_debug_color_mode_get_type ());
 
-  g_type_class_ref (gst_index_factory_get_type ());
   gst_uri_handler_get_type ();
 
   g_type_class_ref (gst_object_flags_get_type ());
   g_type_class_ref (gst_bin_flags_get_type ());
-  g_type_class_ref (gst_buffer_flag_get_type ());
+  g_type_class_ref (gst_buffer_flags_get_type ());
   g_type_class_ref (gst_buffer_copy_flags_get_type ());
-#ifndef GSTREAMER_LITE
-  g_type_class_ref (gst_buffer_list_item_get_type ());
-#endif // GSTREAMER_LITE
   g_type_class_ref (gst_bus_flags_get_type ());
   g_type_class_ref (gst_bus_sync_reply_get_type ());
   g_type_class_ref (gst_caps_flags_get_type ());
@@ -713,6 +720,8 @@ init_post (GOptionContext * context, GOptionGroup * group, gpointer data,
   g_type_class_ref (gst_state_change_return_get_type ());
   g_type_class_ref (gst_state_change_get_type ());
   g_type_class_ref (gst_element_flags_get_type ());
+  g_type_class_ref (gst_tracer_value_scope_get_type ());
+  g_type_class_ref (gst_tracer_value_flags_get_type ());
   g_type_class_ref (gst_core_error_get_type ());
   g_type_class_ref (gst_library_error_get_type ());
   g_type_class_ref (gst_resource_error_get_type ());
@@ -723,12 +732,6 @@ init_post (GOptionContext * context, GOptionGroup * group, gpointer data,
   g_type_class_ref (gst_seek_flags_get_type ());
   g_type_class_ref (gst_qos_type_get_type ());
   g_type_class_ref (gst_format_get_type ());
-  g_type_class_ref (gst_index_certainty_get_type ());
-  g_type_class_ref (gst_index_entry_type_get_type ());
-  g_type_class_ref (gst_index_lookup_method_get_type ());
-  g_type_class_ref (gst_assoc_flags_get_type ());
-  g_type_class_ref (gst_index_resolver_method_get_type ());
-  g_type_class_ref (gst_index_flags_get_type ());
   g_type_class_ref (gst_debug_level_get_type ());
   g_type_class_ref (gst_debug_color_flags_get_type ());
   g_type_class_ref (gst_iterator_result_get_type ());
@@ -738,7 +741,7 @@ init_post (GOptionContext * context, GOptionGroup * group, gpointer data,
   g_type_class_ref (gst_pad_link_return_get_type ());
   g_type_class_ref (gst_pad_link_check_get_type ());
   g_type_class_ref (gst_flow_return_get_type ());
-  g_type_class_ref (gst_activate_mode_get_type ());
+  g_type_class_ref (gst_pad_mode_get_type ());
   g_type_class_ref (gst_pad_direction_get_type ());
   g_type_class_ref (gst_pad_flags_get_type ());
   g_type_class_ref (gst_pad_presence_get_type ());
@@ -748,38 +751,61 @@ init_post (GOptionContext * context, GOptionGroup * group, gpointer data,
   g_type_class_ref (gst_plugin_flags_get_type ());
   g_type_class_ref (gst_plugin_dependency_flags_get_type ());
   g_type_class_ref (gst_rank_get_type ());
+  g_type_class_ref (gst_query_type_flags_get_type ());
   g_type_class_ref (gst_query_type_get_type ());
   g_type_class_ref (gst_buffering_mode_get_type ());
   g_type_class_ref (gst_stream_status_type_get_type ());
   g_type_class_ref (gst_structure_change_type_get_type ());
   g_type_class_ref (gst_tag_merge_mode_get_type ());
   g_type_class_ref (gst_tag_flag_get_type ());
+  g_type_class_ref (gst_tag_scope_get_type ());
   g_type_class_ref (gst_task_pool_get_type ());
   g_type_class_ref (gst_task_state_get_type ());
-  g_type_class_ref (gst_alloc_trace_flags_get_type ());
+  g_type_class_ref (gst_toc_entry_type_get_type ());
   g_type_class_ref (gst_type_find_probability_get_type ());
+  g_type_class_ref (gst_uri_error_get_type ());
   g_type_class_ref (gst_uri_type_get_type ());
   g_type_class_ref (gst_parse_error_get_type ());
   g_type_class_ref (gst_parse_flags_get_type ());
   g_type_class_ref (gst_search_mode_get_type ());
   g_type_class_ref (gst_progress_type_get_type ());
+  g_type_class_ref (gst_buffer_pool_acquire_flags_get_type ());
+  g_type_class_ref (gst_memory_flags_get_type ());
+  g_type_class_ref (gst_map_flags_get_type ());
   g_type_class_ref (gst_caps_intersect_mode_get_type ());
+  g_type_class_ref (gst_pad_probe_type_get_type ());
+  g_type_class_ref (gst_pad_probe_return_get_type ());
+  g_type_class_ref (gst_segment_flags_get_type ());
+  g_type_class_ref (gst_scheduling_flags_get_type ());
+  g_type_class_ref (gst_meta_flags_get_type ());
+  g_type_class_ref (gst_toc_entry_type_get_type ());
+  g_type_class_ref (gst_toc_scope_get_type ());
+  g_type_class_ref (gst_toc_loop_type_get_type ());
+  g_type_class_ref (gst_control_binding_get_type ());
+  g_type_class_ref (gst_control_source_get_type ());
+  g_type_class_ref (gst_lock_flags_get_type ());
+  g_type_class_ref (gst_allocator_flags_get_type ());
+  g_type_class_ref (gst_stream_flags_get_type ());
+  g_type_class_ref (gst_stream_type_get_type ());
+  g_type_class_ref (gst_stack_trace_flags_get_type ());
+#ifndef GSTREAMER_LITE
+  g_type_class_ref (gst_promise_result_get_type ());
+#endif // GSTREAMER_LITE
 
-  gst_structure_get_type ();
-  _gst_value_initialize ();
+  _priv_gst_event_initialize ();
+  _priv_gst_buffer_initialize ();
+  _priv_gst_buffer_list_initialize ();
+  _priv_gst_sample_initialize ();
+  _priv_gst_context_initialize ();
+  _priv_gst_date_time_initialize ();
+  _priv_gst_value_initialize ();
+  _priv_gst_tag_initialize ();
+  _priv_gst_toc_initialize ();
+
   g_type_class_ref (gst_param_spec_fraction_get_type ());
-  gst_caps_get_type ();
-  _gst_event_initialize ();
-  _gst_buffer_initialize ();
-  _gst_buffer_list_initialize ();
-  gst_buffer_list_iterator_get_type ();
-  _gst_message_initialize ();
-  _gst_tag_initialize ();
   gst_parse_context_get_type ();
 
-  _gst_plugin_initialize ();
-
-  gst_g_error_get_type ();
+  _priv_gst_plugin_initialize ();
 
   /* register core plugins */
   gst_plugin_register_static (GST_VERSION_MAJOR, GST_VERSION_MINOR,
@@ -799,7 +825,7 @@ init_post (GOptionContext * context, GOptionGroup * group, gpointer data,
    * gstreamer as being initialized, since it is the case from a plugin point of
    * view.
    *
-   * If anything fails, it will be put back to FALSE in gst_init_check().
+   * If anything fails, it will be put back to %FALSE in gst_init_check().
    * This allows some special plugins that would call gst_init() to not cause a
    * looping effect (i.e. initializing GStreamer twice).
    */
@@ -808,23 +834,21 @@ init_post (GOptionContext * context, GOptionGroup * group, gpointer data,
   if (!gst_update_registry ())
     return FALSE;
 
-#ifndef GST_DISABLE_TRACE
-  _gst_trace_on = 0;
-  if (_gst_trace_on) {
-    gst_trace = gst_trace_new ("gst.trace", 1024);
-    gst_trace_set_default (gst_trace);
-  }
-#endif /* GST_DISABLE_TRACE */
-
   GST_INFO ("GLib runtime version: %d.%d.%d", glib_major_version,
       glib_minor_version, glib_micro_version);
   GST_INFO ("GLib headers version: %d.%d.%d", GLIB_MAJOR_VERSION,
       GLIB_MINOR_VERSION, GLIB_MICRO_VERSION);
+  GST_INFO ("initialized GStreamer successfully");
+
+#ifndef GST_DISABLE_GST_DEBUG
+  _priv_gst_tracing_init ();
+#endif
 
   return TRUE;
 }
 
-#ifndef GST_DISABLE_GST_DEBUG
+#ifndef GST_DISABLE_OPTION_PARSING
+#  ifndef GST_DISABLE_GST_DEBUG
 static gboolean
 select_all (GstPlugin * plugin, gpointer user_data)
 {
@@ -848,14 +872,47 @@ gst_debug_help (void)
   if (!init_post (NULL, NULL, NULL, NULL))
     exit (1);
 
-  list2 = gst_registry_plugin_filter (gst_registry_get_default (),
+  list2 = gst_registry_plugin_filter (gst_registry_get (),
       select_all, FALSE, NULL);
 
   /* FIXME this is gross.  why don't debug have categories PluginFeatures? */
   for (g = list2; g; g = g_list_next (g)) {
     GstPlugin *plugin = GST_PLUGIN_CAST (g->data);
+    GList *features, *orig_features;
+
+    if (GST_OBJECT_FLAG_IS_SET (plugin, GST_PLUGIN_FLAG_BLACKLISTED))
+      continue;
 
     gst_plugin_load (plugin);
+    /* Now create one of each feature so the class_init functions
+     * are called, as that's where most debug categories are
+     * registered. FIXME: If debug categories were a plugin feature,
+     * this would be unneeded */
+    orig_features = features =
+        gst_registry_get_feature_list_by_plugin (gst_registry_get (),
+        gst_plugin_get_name (plugin));
+    while (features) {
+      GstPluginFeature *feature;
+
+      if (G_UNLIKELY (features->data == NULL))
+        goto next;
+
+      feature = GST_PLUGIN_FEATURE (features->data);
+      if (GST_IS_ELEMENT_FACTORY (feature)) {
+        GstElementFactory *factory;
+        GstElement *e;
+
+        factory = GST_ELEMENT_FACTORY (feature);
+        e = gst_element_factory_create (factory, NULL);
+        if (e)
+          gst_object_unref (e);
+  }
+
+    next:
+      features = g_list_next (features);
+    }
+
+    gst_plugin_feature_list_free (orig_features);
   }
   g_list_free (list2);
 
@@ -867,9 +924,27 @@ gst_debug_help (void)
   g_print ("---------------------+--------+--------------------------------\n");
 
   while (walk) {
+    gboolean on_unix;
     GstDebugCategory *cat = (GstDebugCategory *) walk->data;
+    GstDebugColorMode coloring = gst_debug_get_color_mode ();
+#ifdef G_OS_UNIX
+    on_unix = TRUE;
+#else
+    on_unix = FALSE;
+#endif
 
-    if (gst_debug_is_colored ()) {
+    if (GST_DEBUG_COLOR_MODE_UNIX == coloring
+        || (on_unix && GST_DEBUG_COLOR_MODE_ON == coloring)) {
+      gchar *color = gst_debug_construct_term_color (cat->color);
+
+      g_print ("%s%-20s\033[00m  %1d %s  %s%s\033[00m\n",
+          color,
+          gst_debug_category_get_name (cat),
+          gst_debug_category_get_threshold (cat),
+          gst_debug_level_get_name (gst_debug_category_get_threshold (cat)),
+          color, gst_debug_category_get_description (cat));
+      g_free (color);
+    } else if (GST_DEBUG_COLOR_MODE_ON == coloring && !on_unix) {
 #ifdef G_OS_WIN32
       gint color = gst_debug_construct_win_color (cat->color);
       const gint clear = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
@@ -883,16 +958,6 @@ gst_debug_help (void)
       g_print ("%s", gst_debug_category_get_description (cat));
       SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE), clear);
       g_print ("\n");
-#else /* G_OS_WIN32 */
-      gchar *color = gst_debug_construct_term_color (cat->color);
-
-      g_print ("%s%-20s\033[00m  %1d %s  %s%s\033[00m\n",
-          color,
-          gst_debug_category_get_name (cat),
-          gst_debug_category_get_threshold (cat),
-          gst_debug_level_get_name (gst_debug_category_get_threshold (cat)),
-          color, gst_debug_category_get_description (cat));
-      g_free (color);
 #endif /* G_OS_WIN32 */
     } else {
       g_print ("%-20s  %1d %s  %s\n", gst_debug_category_get_name (cat),
@@ -905,7 +970,8 @@ gst_debug_help (void)
   g_slist_free (list);
   g_print ("\n");
 }
-#endif
+#  endif /* GST_DISABLE_OPTION_PARSING */
+#endif /* GST_DISABLE_GST_DEBUG */
 
 #ifndef GST_DISABLE_OPTION_PARSING
 static gboolean
@@ -925,19 +991,22 @@ parse_one_option (gint opt, const gchar * arg, GError ** err)
     }
 #ifndef GST_DISABLE_GST_DEBUG
     case ARG_DEBUG_LEVEL:{
-      gint tmp = 0;
+      GstDebugLevel tmp = GST_LEVEL_NONE;
 
-      tmp = strtol (arg, NULL, 0);
-      if (tmp >= 0 && tmp < GST_LEVEL_COUNT) {
+      tmp = (GstDebugLevel) strtol (arg, NULL, 0);
+      if (((guint) tmp) < GST_LEVEL_COUNT) {
         gst_debug_set_default_threshold (tmp);
       }
       break;
     }
     case ARG_DEBUG:
-      parse_debug_list (arg);
+      gst_debug_set_threshold_from_string (arg, FALSE);
       break;
     case ARG_DEBUG_NO_COLOR:
       gst_debug_set_colored (FALSE);
+      break;
+    case ARG_DEBUG_COLOR_MODE:
+      gst_debug_set_color_mode_from_string (arg);
       break;
     case ARG_DEBUG_DISABLE:
       gst_debug_set_active (FALSE);
@@ -950,6 +1019,7 @@ parse_one_option (gint opt, const gchar * arg, GError ** err)
       break;
     case ARG_PLUGIN_PATH:
 #ifndef GST_DISABLE_REGISTRY
+      if (!_priv_gst_disable_registry)
       split_and_iterate (arg, G_SEARCHPATH_SEPARATOR_S, add_path_func, NULL);
 #endif /* GST_DISABLE_REGISTRY */
       break;
@@ -961,6 +1031,7 @@ parse_one_option (gint opt, const gchar * arg, GError ** err)
       break;
     case ARG_REGISTRY_UPDATE_DISABLE:
 #ifndef GST_DISABLE_REGISTRY
+      if (!_priv_gst_disable_registry)
       _priv_gst_disable_registry_update = TRUE;
 #endif
       break;
@@ -994,6 +1065,7 @@ parse_goption_arg (const gchar * opt,
     "--gst-debug", ARG_DEBUG}, {
     "--gst-debug-disable", ARG_DEBUG_DISABLE}, {
     "--gst-debug-no-color", ARG_DEBUG_NO_COLOR}, {
+    "--gst-debug-color-mode", ARG_DEBUG_COLOR_MODE}, {
     "--gst-debug-help", ARG_DEBUG_HELP},
 #endif
     {
@@ -1033,7 +1105,11 @@ parse_goption_arg (const gchar * opt,
 void
 gst_deinit (void)
 {
+  GstBinClass *bin_class;
   GstClock *clock;
+
+  if (!gst_initialized)
+    return;
 
   GST_INFO ("deinitializing GStreamer");
 
@@ -1041,6 +1117,13 @@ gst_deinit (void)
     GST_DEBUG ("already deinitialized");
     return;
   }
+  g_thread_pool_set_max_unused_threads (0);
+  bin_class = (GstBinClass *) g_type_class_peek (gst_bin_get_type ());
+  if (bin_class && bin_class->pool != NULL) {
+    g_thread_pool_free (bin_class->pool, FALSE, TRUE);
+    bin_class->pool = NULL;
+  }
+  gst_task_cleanup_all ();
 
   g_slist_foreach (_priv_gst_preload_plugins, (GFunc) g_free, NULL);
   g_slist_free (_priv_gst_preload_plugins);
@@ -1052,28 +1135,41 @@ gst_deinit (void)
   _priv_gst_plugin_paths = NULL;
 #endif
 
+  if (_gst_executable_path) {
+    g_free (_gst_executable_path);
+    _gst_executable_path = NULL;
+  }
+
   clock = gst_system_clock_obtain ();
   gst_object_unref (clock);
   gst_object_unref (clock);
 
   _priv_gst_registry_cleanup ();
+  _priv_gst_allocator_cleanup ();
+
+  /* We want to destroy tracers as late as possible for the leaks tracer
+   * but still need to keep the caps system alive as it may have to use
+   * gst_caps_to_string() to display leaked caps. */
+#ifndef GST_DISABLE_GST_DEBUG
+  _priv_gst_tracing_deinit ();
+#endif
+
+  _priv_gst_caps_features_cleanup ();
+  _priv_gst_caps_cleanup ();
 
   g_type_class_unref (g_type_class_peek (gst_object_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_pad_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_element_factory_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_element_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_tracer_factory_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_type_find_factory_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_bin_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_bus_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_task_get_type ()));
-  g_type_class_unref (g_type_class_peek (gst_index_factory_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_object_flags_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_bin_flags_get_type ()));
-  g_type_class_unref (g_type_class_peek (gst_buffer_flag_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_buffer_flags_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_buffer_copy_flags_get_type ()));
-#ifndef GSTREAMER_LITE
-  g_type_class_unref (g_type_class_peek (gst_buffer_list_item_get_type ()));
-#endif // GSTREAMER_LITE
   g_type_class_unref (g_type_class_peek (gst_bus_flags_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_bus_sync_reply_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_caps_flags_get_type ()));
@@ -1086,6 +1182,8 @@ gst_deinit (void)
   g_type_class_unref (g_type_class_peek (gst_state_change_return_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_state_change_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_element_flags_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_tracer_value_scope_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_tracer_value_flags_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_core_error_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_library_error_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_plugin_dependency_flags_get_type
@@ -1103,23 +1201,17 @@ gst_deinit (void)
   g_type_class_unref (g_type_class_peek (gst_seek_flags_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_qos_type_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_format_get_type ()));
-  g_type_class_unref (g_type_class_peek (gst_index_certainty_get_type ()));
-  g_type_class_unref (g_type_class_peek (gst_index_entry_type_get_type ()));
-  g_type_class_unref (g_type_class_peek (gst_index_lookup_method_get_type ()));
-  g_type_class_unref (g_type_class_peek (gst_assoc_flags_get_type ()));
-  g_type_class_unref (g_type_class_peek (gst_index_resolver_method_get_type
-          ()));
-  g_type_class_unref (g_type_class_peek (gst_index_flags_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_debug_level_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_debug_color_flags_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_iterator_result_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_iterator_item_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_message_type_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_meta_flags_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_mini_object_flags_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_pad_link_return_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_pad_link_check_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_flow_return_get_type ()));
-  g_type_class_unref (g_type_class_peek (gst_activate_mode_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_pad_mode_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_pad_direction_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_pad_flags_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_pad_presence_get_type ()));
@@ -1128,19 +1220,45 @@ gst_deinit (void)
   g_type_class_unref (g_type_class_peek (gst_plugin_error_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_plugin_flags_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_rank_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_query_type_flags_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_query_type_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_buffering_mode_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_tag_merge_mode_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_tag_flag_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_tag_scope_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_task_state_get_type ()));
-  g_type_class_unref (g_type_class_peek (gst_alloc_trace_flags_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_toc_entry_type_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_toc_scope_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_type_find_probability_get_type
           ()));
   g_type_class_unref (g_type_class_peek (gst_uri_type_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_uri_error_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_parse_error_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_param_spec_fraction_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_progress_type_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_buffer_pool_acquire_flags_get_type
+          ()));
+  g_type_class_unref (g_type_class_peek (gst_memory_flags_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_map_flags_get_type ()));
   g_type_class_unref (g_type_class_peek (gst_caps_intersect_mode_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_pad_probe_type_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_pad_probe_return_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_segment_flags_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_scheduling_flags_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_stream_type_get_type ()));
+
+  g_type_class_unref (g_type_class_peek (gst_control_binding_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_control_source_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_toc_entry_type_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_toc_loop_type_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_lock_flags_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_allocator_flags_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_stream_flags_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_debug_color_mode_get_type ()));
+  g_type_class_unref (g_type_class_peek (gst_stack_trace_flags_get_type ()));
+#ifndef GSTREAMER_LITE
+  g_type_class_unref (g_type_class_peek (gst_promise_result_get_type ()));
+#endif // GSTREAMER_LITE
 
   gst_deinitialized = TRUE;
   GST_INFO ("deinitialized GStreamer");
@@ -1206,8 +1324,6 @@ gst_version_string (void)
  * wants to install its own handler without GStreamer interfering.
  *
  * Returns: %TRUE if GStreamer is allowed to install a custom SIGSEGV handler.
- *
- * Since: 0.10.10
  */
 gboolean
 gst_segtrap_is_enabled (void)
@@ -1222,8 +1338,6 @@ gst_segtrap_is_enabled (void)
  *
  * Applications might want to disable/enable the SIGSEGV handling of
  * the GStreamer core. See gst_segtrap_is_enabled() for more information.
- *
- * Since: 0.10.10
  */
 void
 gst_segtrap_set_enabled (gboolean enabled)

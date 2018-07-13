@@ -199,7 +199,7 @@ flv_script_data_read(FlvScriptDataReader* reader, FlvMetadata* metadata)
 
     /* Initialize metadata->tags member */
     if (metadata->tag_list == NULL)
-        metadata->tag_list = gst_tag_list_new();
+        metadata->tag_list = gst_tag_list_new_empty();
 
     /* Read tag contents */
     result =  flv_script_data_read_ecma(reader,

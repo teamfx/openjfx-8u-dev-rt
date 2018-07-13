@@ -15,12 +15,13 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 /**
  * SECTION:gsttaskpool
+ * @title: GstTaskPool
  * @short_description: Pool of GStreamer streaming threads
  * @see_also: #GstTask, #GstPad
  *
@@ -28,8 +29,6 @@
  * implementation uses a regular GThreadPool to start tasks.
  *
  * Subclasses can be made to create custom threads.
- *
- * Last reviewed on 2009-04-23 (0.10.24)
  */
 
 #include "gst_private.h"
@@ -159,15 +158,16 @@ gst_task_pool_finalize (GObject * object)
  * GThreadPool for threads.
  *
  * Returns: (transfer full): a new #GstTaskPool. gst_object_unref() after usage.
- *
- * Since: 0.10.24
  */
 GstTaskPool *
 gst_task_pool_new (void)
 {
   GstTaskPool *pool;
 
-  pool = g_object_newv (GST_TYPE_TASK_POOL, 0, NULL);
+  pool = g_object_new (GST_TYPE_TASK_POOL, NULL);
+
+  /* clear floating flag */
+  gst_object_ref_sink (pool);
 
   return pool;
 }
@@ -180,8 +180,6 @@ gst_task_pool_new (void)
  * Prepare the taskpool for accepting gst_task_pool_push() operations.
  *
  * MT safe.
- *
- * Since: 0.10.24
  */
 void
 gst_task_pool_prepare (GstTaskPool * pool, GError ** error)
@@ -204,8 +202,6 @@ gst_task_pool_prepare (GstTaskPool * pool, GError ** error)
  * to ensure proper cleanup of internal data structures in test suites.
  *
  * MT safe.
- *
- * Since: 0.10.24
  */
 void
 gst_task_pool_cleanup (GstTaskPool * pool)
@@ -223,17 +219,15 @@ gst_task_pool_cleanup (GstTaskPool * pool)
 /**
  * gst_task_pool_push:
  * @pool: a #GstTaskPool
- * @func: the function to call
+ * @func: (scope async): the function to call
  * @user_data: (closure): data to pass to @func
  * @error: return location for an error
  *
  * Start the execution of a new thread from @pool.
  *
- * Returns: a pointer that should be used for the gst_task_pool_join
- * function. This pointer can be NULL, you must check @error to detect
- * errors.
- *
- * Since: 0.10.24
+ * Returns: (transfer none) (nullable): a pointer that should be used
+ * for the gst_task_pool_join function. This pointer can be %NULL, you
+ * must check @error to detect errors.
  */
 gpointer
 gst_task_pool_push (GstTaskPool * pool, GstTaskPoolFunction func,
@@ -265,8 +259,6 @@ not_supported:
  *
  * Join a task and/or return it to the pool. @id is the id obtained from
  * gst_task_pool_push().
- *
- * Since: 0.10.24
  */
 void
 gst_task_pool_join (GstTaskPool * pool, gpointer id)

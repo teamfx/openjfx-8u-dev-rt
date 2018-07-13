@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -35,7 +35,7 @@ import com.sun.javafx.sg.prism.MediaFrameTracker;
 import com.sun.javafx.sg.prism.NGNode;
 import com.sun.javafx.tk.Toolkit;
 import com.sun.media.jfxmediaimpl.HostUtils;
-import com.sun.media.jfxmediaimpl.platform.ios.IOSMediaPlayer;
+import com.sun.media.jfxmedia.control.MediaPlayerOverlay;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -57,7 +57,8 @@ import javafx.scene.Parent;
  * <p>The following code snippet provides a simple example of an
  * {@link javafx.application.Application#start(javafx.stage.Stage) Application.start()}
  * method which displays a video:
- * <code><pre>
+ * </p>
+ * <pre>{@code
  * public void start(Stage stage) {
  *     // Create and set the Scene.
  *     Scene scene = new Scene(new Group(), 540, 209);
@@ -79,12 +80,12 @@ import javafx.scene.Parent;
  *     MediaView mediaView = new MediaView(mediaPlayer);
  *     ((Group) scene.getRoot()).getChildren().add(mediaView);
  * }
- * </pre></code>
+ * }</pre>
  * The foregoing code will display the video as:
- * <br/>
- * <br/>
- * <img src="doc-files/mediaview.png" alt="Hello Media"/>
- * </p>
+ * <br>
+ * <br>
+ * <img src="doc-files/mediaview.png" alt="Hello Media">
+ *
  * @since JavaFX 2.0
  */
 public class MediaView extends Node {
@@ -145,9 +146,9 @@ public class MediaView extends Node {
         }
     }
 
-    /***************************************** iOS specific stuff ***************************/
+    /***************************************** Media Player Overlay support ***************************/
 
-    private /*volatile*/ boolean mediaPlayerReady;
+    private MediaPlayerOverlay mediaPlayerOverlay = null;
 
     private ChangeListener<Parent> parentListener;
     private ChangeListener<Boolean> treeVisibleListener;
@@ -167,53 +168,49 @@ public class MediaView extends Node {
         };
     }
 
-    private IOSMediaPlayer getIOSPlayer() {
-        return (IOSMediaPlayer) getMediaPlayer().retrieveJfxPlayer();
-    }
-
     private boolean determineVisibility() {
         return (getParent() != null && isVisible());
     }
 
     private synchronized void updateOverlayVisibility() {
-        if (mediaPlayerReady) {
-            getIOSPlayer().setOverlayVisible(determineVisibility());
+        if (mediaPlayerOverlay != null) {
+            mediaPlayerOverlay.setOverlayVisible(determineVisibility());
         }
     }
 
     private synchronized void updateOverlayOpacity() {
-        if (mediaPlayerReady) {
-            getIOSPlayer().setOverlayOpacity(getOpacity());
+        if (mediaPlayerOverlay != null) {
+            mediaPlayerOverlay.setOverlayOpacity(getOpacity());
         }
     }
 
     private synchronized void updateOverlayX() {
-        if (mediaPlayerReady) {
-            getIOSPlayer().setOverlayX(getX());
+        if (mediaPlayerOverlay != null) {
+            mediaPlayerOverlay.setOverlayX(getX());
         }
     }
 
     private synchronized void updateOverlayY() {
-        if (mediaPlayerReady) {
-            getIOSPlayer().setOverlayY(getY());
+        if (mediaPlayerOverlay != null) {
+            mediaPlayerOverlay.setOverlayY(getY());
         }
     }
 
     private synchronized void updateOverlayWidth() {
-        if (mediaPlayerReady) {
-            getIOSPlayer().setOverlayWidth(getFitWidth());
+        if (mediaPlayerOverlay != null) {
+            mediaPlayerOverlay.setOverlayWidth(getFitWidth());
         }
     }
 
     private synchronized void updateOverlayHeight() {
-        if (mediaPlayerReady) {
-            getIOSPlayer().setOverlayHeight(getFitHeight());
+        if (mediaPlayerOverlay != null) {
+            mediaPlayerOverlay.setOverlayHeight(getFitHeight());
         }
     }
 
     private synchronized void updateOverlayPreserveRatio() {
-        if (mediaPlayerReady) {
-            getIOSPlayer().setOverlayPreserveRatio(isPreserveRatio());
+        if (mediaPlayerOverlay != null) {
+            mediaPlayerOverlay.setOverlayPreserveRatio(isPreserveRatio());
         }
     }
 
@@ -227,29 +224,25 @@ public class MediaView extends Node {
         return transform;
     }
 
-    private void updateOverlayTransformDirectly() {
-        final Affine3D trans = MediaView.calculateNodeToSceneTransform(this);
-        getIOSPlayer().setOverlayTransform(
+    private void updateOverlayTransform() {
+        if (mediaPlayerOverlay != null) {
+            final Affine3D trans = MediaView.calculateNodeToSceneTransform(this);
+            mediaPlayerOverlay.setOverlayTransform(
                 trans.getMxx(), trans.getMxy(), trans.getMxz(), trans.getMxt(),
                 trans.getMyx(), trans.getMyy(), trans.getMyz(), trans.getMyt(),
                 trans.getMzx(), trans.getMzy(), trans.getMzz(), trans.getMzt());
-    }
-
-    private synchronized void updateOverlayTransform() {
-        if (mediaPlayerReady) {
-            updateOverlayTransformDirectly();
         }
-    }
+   }
 
-    private void updateIOSOverlay() {
-        getIOSPlayer().setOverlayX(getX());
-        getIOSPlayer().setOverlayY(getY());
-        getIOSPlayer().setOverlayPreserveRatio(isPreserveRatio());
-        getIOSPlayer().setOverlayWidth(getFitWidth());
-        getIOSPlayer().setOverlayHeight(getFitHeight());
-        getIOSPlayer().setOverlayOpacity(getOpacity());
-        getIOSPlayer().setOverlayVisible(determineVisibility());
-        updateOverlayTransformDirectly();
+    private void updateMediaPlayerOverlay() {
+        mediaPlayerOverlay.setOverlayX(getX());
+        mediaPlayerOverlay.setOverlayY(getY());
+        mediaPlayerOverlay.setOverlayPreserveRatio(isPreserveRatio());
+        mediaPlayerOverlay.setOverlayWidth(getFitWidth());
+        mediaPlayerOverlay.setOverlayHeight(getFitHeight());
+        mediaPlayerOverlay.setOverlayOpacity(getOpacity());
+        mediaPlayerOverlay.setOverlayVisible(determineVisibility());
+        updateOverlayTransform();
     }
 
     /**
@@ -260,7 +253,7 @@ public class MediaView extends Node {
     @Override
     public void impl_transformsChanged() {
         super.impl_transformsChanged();
-        if (HostUtils.isIOS()) {
+        if (mediaPlayerOverlay != null) {
             updateOverlayTransform();
         }
     }
@@ -283,13 +276,7 @@ public class MediaView extends Node {
         setSmooth(Toolkit.getToolkit().getDefaultImageSmooth());
         decodedFrameRateListener = createVideoFrameRateListener();
         setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
-        if (HostUtils.isIOS()) {
-            createListeners();
-            parentProperty().addListener(parentListener);
-            impl_treeVisibleProperty().addListener(treeVisibleListener);
-            opacityProperty().addListener(opacityListener);
         }
-    }
 
     /**
      * Creates a <code>MediaView</code> instance associated with the specified
@@ -297,7 +284,7 @@ public class MediaView extends Node {
      * <pre><code>
      * MediaPlayer player; // initialization omitted
      * MediaView view = new MediaView();
-     * view.setPlayer(player);
+     * view.setMediaPlayer(player);
      * </code></pre>
      *
      * @param mediaPlayer the {@link MediaPlayer} the playback of which is to be
@@ -646,10 +633,12 @@ public class MediaView extends Node {
      * resized as necessary to fit. If <code>value &le; 0</code>, then the width
      * of the bounding box will be set to the natural width of the media, but
      * <code>fitWidth</code> will be set to the supplied parameter, even if
-     * non-positive.<p/>
+     * non-positive.
+     * <p>
      * See {@link #preserveRatioProperty preserveRatio} for information on interaction
      * between media views <code>fitWidth</code>, <code>fitHeight</code> and
      * <code>preserveRatio</code> attributes.
+     * </p>
      */
     private DoubleProperty fitWidth;
 
@@ -703,10 +692,12 @@ public class MediaView extends Node {
      * resized as necessary to fit. If <code>value &le; 0</code>, then the height
      * of the bounding box will be set to the natural height of the media, but
      * <code>fitHeight</code> will be set to the supplied parameter, even if
-     * non-positive.<p/>
+     * non-positive.
+     * <p>
      * See {@link #preserveRatioProperty preserveRatio} for information on interaction
      * between media views <code>fitWidth</code>, <code>fitHeight</code> and
      * <code>preserveRatio</code> attributes.
+     * </p>
      */
     private DoubleProperty fitHeight;
 
@@ -1030,14 +1021,25 @@ public class MediaView extends Node {
      * Called by MediaPlayer when it becomes ready
      */
     void _mediaPlayerOnReady() {
-        if (decodedFrameRateListener != null && getMediaPlayer().retrieveJfxPlayer() != null && registerVideoFrameRateListener) {
-            getMediaPlayer().retrieveJfxPlayer().getVideoRenderControl().addVideoFrameRateListener(decodedFrameRateListener);
-            registerVideoFrameRateListener = false;
-        }
-        if (HostUtils.isIOS()) {
-            synchronized (this) {
-                updateIOSOverlay();
-                mediaPlayerReady = true;
+        com.sun.media.jfxmedia.MediaPlayer jfxPlayer = getMediaPlayer().retrieveJfxPlayer();
+        if (jfxPlayer != null) {
+            if (decodedFrameRateListener != null && registerVideoFrameRateListener) {
+                jfxPlayer.getVideoRenderControl().addVideoFrameRateListener(decodedFrameRateListener);
+                registerVideoFrameRateListener = false;
+            }
+
+            // Get media player overlay
+            mediaPlayerOverlay = jfxPlayer.getMediaPlayerOverlay();
+            if (mediaPlayerOverlay != null) {
+                // Init media player overlay support
+                createListeners();
+                parentProperty().addListener(parentListener);
+                impl_treeVisibleProperty().addListener(treeVisibleListener);
+                opacityProperty().addListener(opacityListener);
+
+                synchronized (this) {
+                    updateMediaPlayerOverlay();
+                }
             }
         }
     }

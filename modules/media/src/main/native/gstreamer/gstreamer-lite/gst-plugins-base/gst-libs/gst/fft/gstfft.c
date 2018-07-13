@@ -13,23 +13,30 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 /**
  * SECTION:gstfft
+ * @title: GstFFT
  * @short_description: General FFT functions and declarations
  *
  * This library includes general definitions and functions, useful for
  * all typed FFT classes.
  */
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #include <glib.h>
 
 #include "gstfft.h"
+#ifndef GSTREAMER_LITE
 #include "kiss_fft_s16.h"
+#endif // GSTREAMER_LITE
 
+#ifndef GSTREAMER_LITE
 /**
  * gst_fft_next_fast_length:
  * @n: Number for which the next fast length should be returned
@@ -52,3 +59,4 @@ gst_fft_next_fast_length (gint n)
   /* The real FFT needs an even length so calculate that */
   return 2 * kiss_fft_s16_next_fast_size (half);
 }
+#endif // GSTREAMER_LITE

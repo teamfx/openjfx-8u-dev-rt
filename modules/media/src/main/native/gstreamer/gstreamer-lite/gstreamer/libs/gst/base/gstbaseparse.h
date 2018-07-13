@@ -15,14 +15,15 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 #ifndef __GST_BASE_PARSE_H__
 #define __GST_BASE_PARSE_H__
 
 #include <gst/gst.h>
+#include <gst/base/base-prelude.h>
 
 G_BEGIN_DECLS
 
@@ -39,8 +40,6 @@ G_BEGIN_DECLS
  * @obj: base parse instance
  *
  * Gives the pointer to the source #GstPad object of the element.
- *
- * Since: 0.10.33
  */
 #define GST_BASE_PARSE_SRC_PAD(obj)    (GST_BASE_PARSE_CAST (obj)->srcpad)
 
@@ -49,8 +48,6 @@ G_BEGIN_DECLS
  * @obj: base parse instance
  *
  * Gives the pointer to the sink #GstPad object of the element.
- *
- * Since: 0.10.33
  */
 #define GST_BASE_PARSE_SINK_PAD(obj)    (GST_BASE_PARSE_CAST (obj)->sinkpad)
 
@@ -58,22 +55,10 @@ G_BEGIN_DECLS
  * GST_BASE_PARSE_FLOW_DROPPED:
  *
  * A #GstFlowReturn that can be returned from parse_frame to
- * indicate that no output buffer was generated, or from pre_push_buffer to
+ * indicate that no output buffer was generated, or from pre_push_frame to
  * to forego pushing buffer.
- *
- * Since: 0.10.33
  */
 #define GST_BASE_PARSE_FLOW_DROPPED     GST_FLOW_CUSTOM_SUCCESS
-
-/**
- * GST_BASE_PARSE_FLOW_QUEUED:
- *
- * A #GstFlowReturn that can be returned from parse frame to indicate that
- * the buffer will be queued to be pushed when the next OK
- *
- * Since: 0.10.33
- */
-#define GST_BASE_PARSE_FLOW_QUEUED      GST_FLOW_CUSTOM_SUCCESS_1
 
 /* not public API, use accessor macros below */
 #define GST_BASE_PARSE_FLAG_LOST_SYNC (1 << 0)
@@ -84,8 +69,6 @@ G_BEGIN_DECLS
  * @parse: base parse instance
  *
  * Obtains current sync status.
- *
- * Since: 0.10.33
  */
 #define GST_BASE_PARSE_LOST_SYNC(parse) (!!(GST_BASE_PARSE_CAST(parse)->flags & GST_BASE_PARSE_FLAG_LOST_SYNC))
 
@@ -95,36 +78,45 @@ G_BEGIN_DECLS
  *
  * Obtains current drain status (ie. whether EOS has been received and
  * the parser is now processing the frames at the end of the stream)
- *
- * Since: 0.10.33
  */
 #define GST_BASE_PARSE_DRAINING(parse)  (!!(GST_BASE_PARSE_CAST(parse)->flags & GST_BASE_PARSE_FLAG_DRAINING))
 
 /**
  * GstBaseParseFrameFlags:
  * @GST_BASE_PARSE_FRAME_FLAG_NONE: no flag
+ * @GST_BASE_PARSE_FRAME_FLAG_NEW_FRAME: set by baseclass if current frame
+ *   is passed for processing to the subclass for the first time
+ *   (and not set on subsequent calls with same data).
  * @GST_BASE_PARSE_FRAME_FLAG_NO_FRAME: set to indicate this buffer should not be
  *   counted as frame, e.g. if this frame is dependent on a previous one.
  *   As it is not counted as a frame, bitrate increases but frame to time
  *   conversions are maintained.
- * @GST_BASE_PARSE_FRAME_FLAG_CLIP: @pre_push_buffer can set this to indicate
+ * @GST_BASE_PARSE_FRAME_FLAG_CLIP: @pre_push_frame can set this to indicate
  *    that regular segment clipping can still be performed (as opposed to
  *    any custom one having been done).
+ * @GST_BASE_PARSE_FRAME_FLAG_DROP: indicates to @finish_frame that the
+ *    the frame should be dropped (and might be handled internally by subclass)
+ * @GST_BASE_PARSE_FRAME_FLAG_QUEUE: indicates to @finish_frame that the
+ *    the frame should be queued for now and processed fully later
+ *    when the first non-queued frame is finished
  *
  * Flags to be used in a #GstBaseParseFrame.
- *
- * Since: 0.10.33
  */
 typedef enum {
   GST_BASE_PARSE_FRAME_FLAG_NONE         = 0,
-  GST_BASE_PARSE_FRAME_FLAG_NO_FRAME     = (1 << 0),
-  GST_BASE_PARSE_FRAME_FLAG_CLIP         = (1 << 1)
+  GST_BASE_PARSE_FRAME_FLAG_NEW_FRAME    = (1 << 0),
+  GST_BASE_PARSE_FRAME_FLAG_NO_FRAME     = (1 << 1),
+  GST_BASE_PARSE_FRAME_FLAG_CLIP         = (1 << 2),
+  GST_BASE_PARSE_FRAME_FLAG_DROP         = (1 << 3),
+  GST_BASE_PARSE_FRAME_FLAG_QUEUE        = (1 << 4)
 } GstBaseParseFrameFlags;
 
 /**
  * GstBaseParseFrame:
- * @buffer: data to check for valid frame or parsed frame.
- *   Subclass is allowed to replace this buffer.
+ * @buffer: input data to be parsed for frames.
+ * @out_buffer: output data.
+ * @offset: media specific offset of input frame
+ *   Note that a converter may have a different one on the frame's buffer.
  * @overhead: subclass can set this to indicates the metadata overhead
  *   for the given frame, which is then used to enable more accurate bitrate
  *   computations. If this is -1, it is assumed that this frame should be
@@ -140,14 +132,15 @@ typedef enum {
  * than global parameters).  Some of these may apply to each parsing stage, others
  * only to some a particular one.  These parameters are effectively zeroed at start
  * of each frame's processing, i.e. parsing virtual method invocation sequence.
- *
- * Since: 0.10.33
  */
 typedef struct {
   GstBuffer * buffer;
+  GstBuffer * out_buffer;
   guint       flags;
+  guint64     offset;
   gint        overhead;
   /*< private >*/
+  gint        size;
   guint       _gst_reserved_i[2];
   gpointer    _gst_reserved_p[2];
   guint       _private_flags;
@@ -164,6 +157,7 @@ typedef struct _GstBaseParsePrivate GstBaseParsePrivate;
  * The opaque #GstBaseParse data structure.
  */
 struct _GstBaseParse {
+  /*< public >*/
   GstElement     element;
 
   /*< protected >*/
@@ -190,31 +184,49 @@ struct _GstBaseParse {
  * @stop:           Optional.
  *                  Called when the element stops processing.
  *                  Allows closing external resources.
- * @set_sink_caps:  allows the subclass to be notified of the actual caps set.
- * @check_valid_frame:  Check if the given piece of data contains a valid
- *                      frame.
- * @parse_frame:    Parse the already checked frame. Subclass need to
- *                  set the buffer timestamp, duration, caps and possibly
- *                  other necessary metadata. This is called with srcpad's
- *                  STREAM_LOCK held.
+ * @set_sink_caps:  Optional.
+ *                  Allows the subclass to be notified of the actual caps set.
+ * @get_sink_caps:  Optional.
+ *                  Allows the subclass to do its own sink get caps if needed.
+ * @handle_frame:   Parses the input data into valid frames as defined by subclass
+ *                  which should be passed to gst_base_parse_finish_frame().
+ *                  The frame's input buffer is guaranteed writable,
+ *                  whereas the input frame ownership is held by caller
+ *                  (so subclass should make a copy if it needs to hang on).
+ *                  Input buffer (data) is provided by baseclass with as much
+ *                  metadata set as possible by baseclass according to upstream
+ *                  information and/or subclass settings,
+ *                  though subclass may still set buffer timestamp and duration
+ *                  if desired.
  * @convert:        Optional.
  *                  Convert between formats.
- * @event:          Optional.
- *                  Event handler on the sink pad. This function should return
- *                  TRUE if the event was handled and can be dropped.
+ * @sink_event:     Optional.
+ *                  Event handler on the sink pad. This function should chain
+ *                  up to the parent implementation to let the default handler
+ *                  run.
  * @src_event:      Optional.
- *                  Event handler on the source pad. Should return TRUE
- *                  if the event was handled and can be dropped.
+ *                  Event handler on the source pad. Should chain up to the
+ *                  parent to let the default handler run.
  * @pre_push_frame: Optional.
  *                   Called just prior to pushing a frame (after any pending
  *                   events have been sent) to give subclass a chance to perform
  *                   additional actions at this time (e.g. tag sending) or to
  *                   decide whether this buffer should be dropped or not
  *                   (e.g. custom segment clipping).
+ * @detect:         Optional.
+ *                   Called until it doesn't return GST_FLOW_OK anymore for
+ *                   the first buffers. Can be used by the subclass to detect
+ *                   the stream format.
+ * @sink_query:     Optional.
+ *                   Query handler on the sink pad. This function should chain
+ *                   up to the parent implementation to let the default handler
+ *                   run (Since 1.2)
+ * @src_query:      Optional.
+ *                   Query handler on the source pad. Should chain up to the
+ *                   parent to let the default handler run (Since 1.2)
  *
  * Subclasses can override any of the available virtual methods or not, as
- * needed. At minimum @check_valid_frame and @parse_frame needs to be
- * overridden.
+ * needed. At minimum @handle_frame needs to be overridden.
  */
 struct _GstBaseParseClass {
   GstElementClass parent_class;
@@ -229,13 +241,9 @@ struct _GstBaseParseClass {
   gboolean      (*set_sink_caps)      (GstBaseParse * parse,
                                        GstCaps      * caps);
 
-  gboolean      (*check_valid_frame)  (GstBaseParse      * parse,
+  GstFlowReturn (*handle_frame)       (GstBaseParse      * parse,
                                        GstBaseParseFrame * frame,
-                                       guint             * framesize,
                                        gint              * skipsize);
-
-  GstFlowReturn (*parse_frame)        (GstBaseParse      * parse,
-                                       GstBaseParseFrame * frame);
 
   GstFlowReturn (*pre_push_frame)     (GstBaseParse      * parse,
                                        GstBaseParseFrame * frame);
@@ -246,68 +254,119 @@ struct _GstBaseParseClass {
                                        GstFormat      dest_format,
                                        gint64       * dest_value);
 
-  gboolean      (*event)              (GstBaseParse * parse,
+  gboolean      (*sink_event)         (GstBaseParse * parse,
                                        GstEvent     * event);
 
   gboolean      (*src_event)          (GstBaseParse * parse,
                                        GstEvent     * event);
 
+  GstCaps *     (*get_sink_caps)      (GstBaseParse * parse,
+                                       GstCaps      * filter);
+
+  GstFlowReturn (*detect)             (GstBaseParse * parse,
+                                       GstBuffer    * buffer);
+
+  gboolean      (*sink_query)         (GstBaseParse * parse,
+                                       GstQuery     * query);
+
+  gboolean      (*src_query)          (GstBaseParse * parse,
+                                       GstQuery     * query);
+
   /*< private >*/
-  gpointer       _gst_reserved[GST_PADDING_LARGE];
+  gpointer       _gst_reserved[GST_PADDING_LARGE - 2];
 };
 
+GST_BASE_API
 GType           gst_base_parse_get_type (void);
 
+GST_BASE_API
 GType           gst_base_parse_frame_get_type (void);
 
+GST_BASE_API
 GstBaseParseFrame * gst_base_parse_frame_new  (GstBuffer              * buffer,
                                                GstBaseParseFrameFlags   flags,
                                                gint                     overhead);
-
+GST_BASE_API
 void            gst_base_parse_frame_init      (GstBaseParseFrame * frame);
 
+GST_BASE_API
+GstBaseParseFrame * gst_base_parse_frame_copy  (GstBaseParseFrame * frame);
+GST_BASE_API
 void            gst_base_parse_frame_free      (GstBaseParseFrame * frame);
 
+GST_BASE_API
 GstFlowReturn   gst_base_parse_push_frame      (GstBaseParse      * parse,
                                                 GstBaseParseFrame * frame);
-
+GST_BASE_API
+GstFlowReturn   gst_base_parse_finish_frame    (GstBaseParse * parse,
+                                                GstBaseParseFrame * frame,
+                                                gint size);
+GST_BASE_API
 void            gst_base_parse_set_duration    (GstBaseParse      * parse,
                                                 GstFormat           fmt,
                                                 gint64              duration,
                                                 gint                interval);
-
+GST_BASE_API
 void            gst_base_parse_set_average_bitrate (GstBaseParse   * parse,
                                                     guint            bitrate);
-
+GST_BASE_API
 void            gst_base_parse_set_min_frame_size (GstBaseParse    * parse,
                                                    guint             min_size);
-
+GST_BASE_API
 void            gst_base_parse_set_has_timing_info (GstBaseParse   * parse,
                                                     gboolean         has_timing);
+GST_BASE_API
+void            gst_base_parse_drain           (GstBaseParse * parse);
 
+GST_BASE_API
 void            gst_base_parse_set_syncable    (GstBaseParse * parse,
                                                 gboolean       syncable);
-
+GST_BASE_API
 void            gst_base_parse_set_passthrough (GstBaseParse * parse,
                                                 gboolean       passthrough);
-
+GST_BASE_API
+void            gst_base_parse_set_pts_interpolation (GstBaseParse * parse,
+                                                      gboolean pts_interpolate);
+GST_BASE_API
+void            gst_base_parse_set_infer_ts (GstBaseParse * parse,
+                                             gboolean infer_ts);
+GST_BASE_API
 void            gst_base_parse_set_frame_rate  (GstBaseParse * parse,
                                                 guint          fps_num,
                                                 guint          fps_den,
                                                 guint          lead_in,
                                                 guint          lead_out);
-
+GST_BASE_API
+void            gst_base_parse_set_latency     (GstBaseParse * parse,
+                                                GstClockTime min_latency,
+                                                GstClockTime max_latency);
+GST_BASE_API
 gboolean        gst_base_parse_convert_default (GstBaseParse * parse,
                                                 GstFormat      src_format,
                                                 gint64         src_value,
                                                 GstFormat      dest_format,
                                                 gint64       * dest_value);
-
+GST_BASE_API
 gboolean        gst_base_parse_add_index_entry (GstBaseParse * parse,
                                                 guint64        offset,
                                                 GstClockTime   ts,
                                                 gboolean       key,
                                                 gboolean       force);
+GST_BASE_API
+void            gst_base_parse_set_ts_at_offset (GstBaseParse *parse,
+                                                 gsize offset);
+GST_BASE_API
+void            gst_base_parse_merge_tags       (GstBaseParse  * parse,
+                                                 GstTagList    * tags,
+                                                 GstTagMergeMode mode);
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstBaseParseFrame, gst_base_parse_frame_free)
+#endif
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstBaseParse, gst_object_unref)
+#endif
 
 G_END_DECLS
 

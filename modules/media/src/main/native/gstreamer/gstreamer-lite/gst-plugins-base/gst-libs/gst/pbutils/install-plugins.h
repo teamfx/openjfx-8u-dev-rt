@@ -14,14 +14,15 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 #ifndef __GST_PB_UTILS_INSTALL_PLUGINS_H__
 #define __GST_PB_UTILS_INSTALL_PLUGINS_H__
 
-#include <glib-object.h>
+#include <gst/gst.h>
+#include <gst/pbutils/pbutils-prelude.h>
 
 G_BEGIN_DECLS
 
@@ -58,12 +59,10 @@ G_BEGIN_DECLS
  *
  * Result codes returned by gst_install_plugins_async() and
  * gst_install_plugins_sync(), and also the result code passed to the
- * #GstInstallPluginsResultFunc specified with gst_install_plugin_async().
+ * #GstInstallPluginsResultFunc specified with gst_install_plugins_async().
  *
  * These codes indicate success or failure of starting an external installer
  * program and to what extent the requested plugins could be installed.
- *
- * Since: 0.10.12
  */
 typedef enum {
   /* Return codes from the installer. Returned by gst_install_plugins_sync(),
@@ -93,21 +92,37 @@ typedef enum {
  *
  * Opaque context structure for the plugin installation. Use the provided
  * API to set details on it.
- *
- * Since: 0.10.12
  */
 
 #define GST_TYPE_INSTALL_PLUGINS_CONTEXT    (gst_install_plugins_context_get_type())
 
 typedef struct _GstInstallPluginsContext GstInstallPluginsContext;
 
+GST_PBUTILS_API
 GstInstallPluginsContext * gst_install_plugins_context_new (void);
 
+GST_PBUTILS_API
+GstInstallPluginsContext * gst_install_plugins_context_copy (GstInstallPluginsContext * ctx);
+GST_PBUTILS_API
 void   gst_install_plugins_context_free    (GstInstallPluginsContext * ctx);
 
+GST_PBUTILS_API
+void   gst_install_plugins_context_set_confirm_search (GstInstallPluginsContext * ctx,
+                                                       gboolean                   confirm_search);
+
+GST_PBUTILS_API
+void   gst_install_plugins_context_set_desktop_id (GstInstallPluginsContext * ctx,
+                                                   const gchar              * desktop_id);
+
+GST_PBUTILS_API
+void   gst_install_plugins_context_set_startup_notification_id (GstInstallPluginsContext * ctx,
+                                                                const gchar              * startup_id);
+
+GST_PBUTILS_API
 void   gst_install_plugins_context_set_xid (GstInstallPluginsContext * ctx,
                                             guint                      xid);
 
+GST_PBUTILS_API
 GType  gst_install_plugins_context_get_type (void);
 
 /**
@@ -118,25 +133,32 @@ GType  gst_install_plugins_context_get_type (void);
  * The prototype of the callback function that will be called once the
  * external plugin installer program has returned. You only need to provide
  * a callback function if you are using the asynchronous interface.
- *
- * Since: 0.10.12
  */
 typedef void (*GstInstallPluginsResultFunc) (GstInstallPluginsReturn  result,
                                              gpointer                 user_data);
 
-GstInstallPluginsReturn  gst_install_plugins_async (gchar                    ** details,
+GST_PBUTILS_API
+GstInstallPluginsReturn  gst_install_plugins_async (const gchar * const * details,
                                                     GstInstallPluginsContext  * ctx,
                                                     GstInstallPluginsResultFunc func,
                                                     gpointer                    user_data);
 
-GstInstallPluginsReturn  gst_install_plugins_sync  (gchar                    ** details,
+GST_PBUTILS_API
+GstInstallPluginsReturn  gst_install_plugins_sync  (const gchar * const       * details,
                                                     GstInstallPluginsContext  * ctx);
 
+GST_PBUTILS_API
 const gchar * gst_install_plugins_return_get_name (GstInstallPluginsReturn ret);
 
+GST_PBUTILS_API
 gboolean      gst_install_plugins_installation_in_progress (void);
 
+GST_PBUTILS_API
 gboolean      gst_install_plugins_supported (void);
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstInstallPluginsContext, gst_install_plugins_context_free)
+#endif
 
 G_END_DECLS
 

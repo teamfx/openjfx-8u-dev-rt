@@ -17,8 +17,8 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 #ifndef __GST_POLL_H__
@@ -58,39 +58,68 @@ typedef struct {
  * used. This macro can used be to initialize a variable, but it cannot
  * be assigned to a variable. In that case you have to use
  * gst_poll_fd_init().
- *
- * Since: 0.10.18
  */
 #define GST_POLL_FD_INIT  { -1, -1 }
 
-GstPoll*        gst_poll_new              (gboolean controllable);
-GstPoll*        gst_poll_new_timer        (void);
+GST_API
+GstPoll*        gst_poll_new              (gboolean controllable) G_GNUC_MALLOC;
+
+GST_API
+GstPoll*        gst_poll_new_timer        (void) G_GNUC_MALLOC;
+
+GST_API
 void            gst_poll_free             (GstPoll *set);
 
+GST_API
 void            gst_poll_get_read_gpollfd (GstPoll *set, GPollFD *fd);
 
+GST_API
 void            gst_poll_fd_init          (GstPollFD *fd);
 
+GST_API
 gboolean        gst_poll_add_fd           (GstPoll *set, GstPollFD *fd);
+
+GST_API
 gboolean        gst_poll_remove_fd        (GstPoll *set, GstPollFD *fd);
 
+GST_API
 gboolean        gst_poll_fd_ctl_write     (GstPoll *set, GstPollFD *fd, gboolean active);
+
+GST_API
 gboolean        gst_poll_fd_ctl_read      (GstPoll *set, GstPollFD *fd, gboolean active);
+
+GST_API
 void            gst_poll_fd_ignored       (GstPoll *set, GstPollFD *fd);
 
+GST_API
 gboolean        gst_poll_fd_has_closed    (const GstPoll *set, GstPollFD *fd);
+
+GST_API
 gboolean        gst_poll_fd_has_error     (const GstPoll *set, GstPollFD *fd);
+
+GST_API
 gboolean        gst_poll_fd_can_read      (const GstPoll *set, GstPollFD *fd);
+
+GST_API
 gboolean        gst_poll_fd_can_write     (const GstPoll *set, GstPollFD *fd);
 
+GST_API
 gint            gst_poll_wait             (GstPoll *set, GstClockTime timeout);
 
+GST_API
 gboolean        gst_poll_set_controllable (GstPoll *set, gboolean controllable);
+
+GST_API
 void            gst_poll_restart          (GstPoll *set);
+
+GST_API
 void            gst_poll_set_flushing     (GstPoll *set, gboolean flushing);
 
+GST_API
 gboolean        gst_poll_write_control    (GstPoll *set);
-gboolean        gst_poll_read_control     (GstPoll *set);
+
+GST_API
+gboolean        gst_poll_read_control     (GstPoll *set) G_GNUC_WARN_UNUSED_RESULT;
 
 G_END_DECLS
 

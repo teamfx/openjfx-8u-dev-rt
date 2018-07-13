@@ -10,8 +10,6 @@
 extern "C" {
 #endif
 
-void gst_volume_orc_init (void);
-
 
 
 #ifndef _ORC_INTEGER_TYPEDEFS_
@@ -69,24 +67,37 @@ typedef union { orc_int64 i; double f; orc_int32 x2[2]; float x2f[2]; orc_int16 
 #define ORC_RESTRICT
 #endif
 #endif
-void orc_scalarmultiply_f64_ns (double * ORC_RESTRICT d1, double p1, int n);
-void orc_scalarmultiply_f32_ns (float * ORC_RESTRICT d1, float p1, int n);
-void orc_process_int32 (gint32 * ORC_RESTRICT d1, int p1, int n);
-void orc_process_int32_clamp (gint32 * ORC_RESTRICT d1, int p1, int n);
-void orc_process_int16 (gint16 * ORC_RESTRICT d1, int p1, int n);
-void orc_process_int16_clamp (gint16 * ORC_RESTRICT d1, int p1, int n);
-void orc_process_int8 (gint8 * ORC_RESTRICT d1, int p1, int n);
-void orc_process_int8_clamp (gint8 * ORC_RESTRICT d1, int p1, int n);
-void orc_memset_f64 (gdouble * ORC_RESTRICT d1, double p1, int n);
-void orc_prepare_volumes (gdouble * ORC_RESTRICT d1, const gboolean * ORC_RESTRICT s1, int n);
-void orc_process_controlled_f64_1ch (gdouble * ORC_RESTRICT d1, const gdouble * ORC_RESTRICT s1, int n);
-void orc_process_controlled_f32_1ch (gfloat * ORC_RESTRICT d1, const gdouble * ORC_RESTRICT s1, int n);
-void orc_process_controlled_f32_2ch (gfloat * ORC_RESTRICT d1, const gdouble * ORC_RESTRICT s1, int n);
-void orc_process_controlled_int32_1ch (gint32 * ORC_RESTRICT d1, const gdouble * ORC_RESTRICT s1, int n);
-void orc_process_controlled_int16_1ch (gint16 * ORC_RESTRICT d1, const gdouble * ORC_RESTRICT s1, int n);
-void orc_process_controlled_int16_2ch (gint16 * ORC_RESTRICT d1, const gdouble * ORC_RESTRICT s1, int n);
-void orc_process_controlled_int8_1ch (gint8 * ORC_RESTRICT d1, const gdouble * ORC_RESTRICT s1, int n);
-void orc_process_controlled_int8_2ch (gint8 * ORC_RESTRICT d1, const gdouble * ORC_RESTRICT s1, int n);
+
+#ifndef ORC_INTERNAL
+#if defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590)
+#define ORC_INTERNAL __attribute__((visibility("hidden")))
+#elif defined(__SUNPRO_C) && (__SUNPRO_C >= 0x550)
+#define ORC_INTERNAL __hidden
+#elif defined (__GNUC__)
+#define ORC_INTERNAL __attribute__((visibility("hidden")))
+#else
+#define ORC_INTERNAL
+#endif
+#endif
+
+void volume_orc_scalarmultiply_f64_ns (double * ORC_RESTRICT d1, double p1, int n);
+void volume_orc_scalarmultiply_f32_ns (float * ORC_RESTRICT d1, float p1, int n);
+void volume_orc_process_int32 (gint32 * ORC_RESTRICT d1, int p1, int n);
+void volume_orc_process_int32_clamp (gint32 * ORC_RESTRICT d1, int p1, int n);
+void volume_orc_process_int16 (gint16 * ORC_RESTRICT d1, int p1, int n);
+void volume_orc_process_int16_clamp (gint16 * ORC_RESTRICT d1, int p1, int n);
+void volume_orc_process_int8 (gint8 * ORC_RESTRICT d1, int p1, int n);
+void volume_orc_process_int8_clamp (gint8 * ORC_RESTRICT d1, int p1, int n);
+void volume_orc_memset_f64 (gdouble * ORC_RESTRICT d1, double p1, int n);
+void volume_orc_prepare_volumes (gdouble * ORC_RESTRICT d1, const gboolean * ORC_RESTRICT s1, int n);
+void volume_orc_process_controlled_f64_1ch (gdouble * ORC_RESTRICT d1, const gdouble * ORC_RESTRICT s1, int n);
+void volume_orc_process_controlled_f32_1ch (gfloat * ORC_RESTRICT d1, const gdouble * ORC_RESTRICT s1, int n);
+void volume_orc_process_controlled_f32_2ch (gfloat * ORC_RESTRICT d1, const gdouble * ORC_RESTRICT s1, int n);
+void volume_orc_process_controlled_int32_1ch (gint32 * ORC_RESTRICT d1, const gdouble * ORC_RESTRICT s1, int n);
+void volume_orc_process_controlled_int16_1ch (gint16 * ORC_RESTRICT d1, const gdouble * ORC_RESTRICT s1, int n);
+void volume_orc_process_controlled_int16_2ch (gint16 * ORC_RESTRICT d1, const gdouble * ORC_RESTRICT s1, int n);
+void volume_orc_process_controlled_int8_1ch (gint8 * ORC_RESTRICT d1, const gdouble * ORC_RESTRICT s1, int n);
+void volume_orc_process_controlled_int8_2ch (gint8 * ORC_RESTRICT d1, const gdouble * ORC_RESTRICT s1, int n);
 
 #ifdef __cplusplus
 }

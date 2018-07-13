@@ -17,8 +17,8 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 #ifndef __GST_LFO_CONTROL_SOURCE_H__
@@ -26,8 +26,7 @@
 
 #include <glib-object.h>
 #include <gst/gst.h>
-
-#include <gst/controller/gstcontrolsource.h>
+#include <gst/controller/controller-enumtypes.h>
 
 G_BEGIN_DECLS
 
@@ -43,8 +42,6 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_CLASS_TYPE ((vtable), GST_TYPE_LFO_CONTROL_SOURCE))
 #define GST_LFO_CONTROL_SOURCE_GET_CLASS(inst) \
   (G_TYPE_INSTANCE_GET_CLASS ((inst), GST_TYPE_LFO_CONTROL_SOURCE, GstLFOControlSourceClass))
-
-#define GST_TYPE_LFO_WAVEFORM (gst_lfo_waveform_get_type ())
 
 typedef struct _GstLFOControlSource GstLFOControlSource;
 typedef struct _GstLFOControlSourceClass GstLFOControlSourceClass;
@@ -79,7 +76,7 @@ struct _GstLFOControlSource {
 
   /* <private> */
   GstLFOControlSourcePrivate *priv;
-  GMutex *lock;
+  GMutex lock;
   gpointer _gst_reserved[GST_PADDING];
 };
 
@@ -90,12 +87,17 @@ struct _GstLFOControlSourceClass {
   gpointer _gst_reserved[GST_PADDING];
 };
 
+GST_CONTROLLER_API
 GType gst_lfo_control_source_get_type (void);
-GType gst_lfo_waveform_get_type (void);
 
 /* Functions */
 
-GstLFOControlSource *gst_lfo_control_source_new (void);
+GST_CONTROLLER_API
+GstControlSource *gst_lfo_control_source_new (void);
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstLFOControlSource, gst_object_unref)
+#endif
 
 G_END_DECLS
 

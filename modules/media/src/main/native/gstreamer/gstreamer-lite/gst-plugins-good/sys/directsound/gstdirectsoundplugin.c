@@ -16,8 +16,8 @@
 *
 * You should have received a copy of the GNU Library General Public
 * License along with this library; if not, write to the
-* Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-* Boston, MA 02111-1307, USA.
+* Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+* Boston, MA 02110-1301, USA.
 *
 *
 * The development of this code was made possible due to the involvement
@@ -30,6 +30,9 @@
 #endif
 
 #include "gstdirectsoundsink.h"
+#ifndef GSTREAMER_LITE
+#include "gstdirectsounddevice.h"
+#endif // GSTREAMER_LITE
 
 #ifdef GSTREAMER_LITE
 gboolean
@@ -39,9 +42,19 @@ static gboolean
 plugin_init (GstPlugin * plugin)
 #endif // GSTREAMER_LITE
 {
+#ifdef GSTREAMER_LITE
   if (!gst_element_register (plugin, "directsoundsink", GST_RANK_PRIMARY,
           GST_TYPE_DIRECTSOUND_SINK))
     return FALSE;
+#else // GSTREAMER_LITE
+if (!gst_element_register (plugin, "directsoundsink", GST_RANK_SECONDARY,
+          GST_TYPE_DIRECTSOUND_SINK))
+    return FALSE;
+
+  if (!gst_device_provider_register (plugin, "directsoundsinkdeviceprovider",
+          GST_RANK_PRIMARY, GST_TYPE_DIRECTSOUND_DEVICE_PROVIDER))
+    return FALSE;
+#endif // GSTREAMER_LITE
 
   return TRUE;
 }
@@ -49,7 +62,7 @@ plugin_init (GstPlugin * plugin)
 #ifndef GSTREAMER_LITE
 GST_PLUGIN_DEFINE (GST_VERSION_MAJOR,
     GST_VERSION_MINOR,
-    "directsound",
+    directsound,
     "Direct Sound plugin library",
     plugin_init, VERSION, "LGPL", GST_PACKAGE_NAME, GST_PACKAGE_ORIGIN)
 #endif // GSTREAMER_LITE

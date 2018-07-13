@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -152,49 +152,56 @@ public final class MediaPlayer {
     /**
      * Enumeration describing the different status values of a {@link MediaPlayer}.
      *
+     * <p>
      * The principal <code>MediaPlayer</code> status transitions are given in the
      * following table:
-     * <table border="1" summary="MediaPlayer status transition table">
+     * </p>
+     * <table border="1">
+     * <caption>MediaPlayer Status Transition Table</caption>
      * <tr>
-     * <th>Current \ Next</th><th>READY</th><th>PAUSED</th>
-     * <th>PLAYING</th><th>STALLED</th><th>STOPPED</th>
+     * <th scope="col">Current \ Next</th><th scope="col">READY</th><th scope="col">PAUSED</th>
+     * <th scope="col">PLAYING</th><th scope="col">STALLED</th><th scope="col">STOPPED</th>
+     * <th scope="col">DISPOSED</th>
      * </tr>
      * <tr>
-     * <td><b>UNKNOWN</b></td><td>pre-roll</td><td></td><td></td><td></td><td></td>
+     * <th scope="row"><b>UNKNOWN</b></th><td>pre-roll</td><td></td><td></td><td></td><td></td><td>dispose()</td>
      * </tr>
      * <tr>
-     * <td><b>READY</b><td></td></td><td></td><td>autoplay; play()</td><td></td><td></td>
+     * <th scope="row"><b>READY</b></th><td></td><td></td><td>autoplay; play()</td><td></td><td></td><td>dispose()</td>
      * </tr>
      * <tr>
-     * <td><b>PAUSED</b><td></td></td><td></td><td>play()</td><td></td><td>stop()</td>
+     * <th scope="row"><b>PAUSED</b></th><td></td><td></td><td>play()</td><td></td><td>stop()</td><td>dispose()</td>
      * </tr>
      * <tr>
-     * <td><b>PLAYING</b><td></td></td><td>pause()</td><td></td><td>buffering data</td><td>stop()</td>
+     * <th scope="row"><b>PLAYING</b></th><td></td><td>pause()</td><td></td><td>buffering data</td><td>stop()</td><td>dispose()</td>
      * </tr>
      * <tr>
-     * <td><b>STALLED</b><td></td></td><td>pause()</td><td>data buffered</td><td></td><td>stop()</td>
+     * <th scope="row"><b>STALLED</b></th><td></td><td>pause()</td><td>data buffered</td><td></td><td>stop()</td><td>dispose()</td>
      * </tr>
      * <tr>
-     * <td><b>STOPPED</b><td></td></td><td>pause()</td><td>play()</td><td></td><td></td>
+     * <th scope="row"><b>STOPPED</b></th><td></td><td>pause()</td><td>play()</td><td></td><td></td><td>dispose()</td>
+     * </tr>
+     * <tr>
+     * <th scope="row"><b>HALTED</b></th><td></td><td></td><td></td><td></td><td></td><td>dispose()</td>
      * </tr>
      * </table>
-     * </p>
      * <p>The table rows represent the current state of the player and the columns
      * the next state of the player. The cell at the intersection of a given row
      * and column lists the events which can cause a transition from the row
      * state to the column state. An empty cell represents an impossible transition.
-     * The transitions to <code>UNKNOWN</code> and to and from <code>HALTED</code>
-     * status are intentionally not tabulated. <code>UNKNOWN</code> is the initial
-     * status of the player before the media source is pre-rolled and cannot be
-     * entered once exited. <code>HALTED</code> is a terminal status entered when
-     * an error occurs and may be transitioned into from any other status but not
-     * exited.
+     * The transitions to <code>UNKNOWN</code> and <code>HALTED</code> and from
+     * <code>DISPOSED</code> status are intentionally not tabulated. <code>UNKNOWN</code>
+     * is the initial status of the player before the media source is pre-rolled
+     * and cannot be entered once exited. <code>DISPOSED</code> is a terminal status
+     * entered after dispose() method is invoked and cannot be exited. <code>HALTED</code>
+     * status entered when a critical error occurs and may be transitioned into
+     * from any other status except <code>DISPOSED</code>.
      * </p>
      * <p>
      * The principal <code>MediaPlayer</code> status values and transitions are
      * depicted in the following diagram:
-     * <br/><br/>
-     * <img src="doc-files/mediaplayerstatus.png" alt="MediaPlayer status diagram"/>
+     * <br><br>
+     * <img src="doc-files/mediaplayerstatus.png" alt="MediaPlayer status diagram">
      * </p>
      * <p>
      * Reaching the end of the media (or the
@@ -1362,16 +1369,17 @@ public final class MediaPlayer {
      * <p>The behavior of <code>seek()</code> is constrained as follows where
      * <i>start time</i> and <i>stop time</i> indicate the effective lower and
      * upper bounds, respectively, of media playback:
-     * <table border="1">
-     * <tr><th>seekTime</th><th>seek position</th></tr>
-     * <tr><td><code>null</code></td><td>no change</td></tr>
-     * <tr><td>{@link Duration#UNKNOWN}</td><td>no change</td></tr>
-     * <tr><td>{@link Duration#INDEFINITE}</td><td>stop time</td></tr>
-     * <tr><td>seekTime&nbsp;&lt;&nbsp;start time</td><td>start time</td></tr>
-     * <tr><td>seekTime&nbsp;&gt;&nbsp;stop time</td><td>stop time</td></tr>
-     * <tr><td>start time&nbsp;&le;&nbsp;seekTime&nbsp;&le;&nbsp;stop time</td><td>seekTime</td></tr>
-     * </table>
      * </p>
+     * <table border="1">
+     * <caption>MediaPlayer Seek Table</caption>
+     * <tr><th scope="col">seekTime</th><th scope="col">seek position</th></tr>
+     * <tr><th scope="row"><code>null</code></th><td>no change</td></tr>
+     * <tr><th scope="row">{@link Duration#UNKNOWN}</th><td>no change</td></tr>
+     * <tr><th scope="row">{@link Duration#INDEFINITE}</th><td>stop time</td></tr>
+     * <tr><th scope="row">seekTime&nbsp;&lt;&nbsp;start time</th><td>start time</td></tr>
+     * <tr><th scope="row">seekTime&nbsp;&gt;&nbsp;stop time</th><td>stop time</td></tr>
+     * <tr><th scope="row">start time&nbsp;&le;&nbsp;seekTime&nbsp;&le;&nbsp;stop time</th><td>seekTime</td></tr>
+     * </table>
      *
      * @param seekTime the requested playback time
      */
@@ -2353,8 +2361,8 @@ public final class MediaPlayer {
 
     /**
      * Free all resources associated with player. Player SHOULD NOT be used after this function is called.
-     * Player will transition to {@link Status.DISPOSED} after this method is done. This method can be called
-     * anytime and regarding current player status.
+     * Player will transition to {@link Status#DISPOSED} after this method is done. This method can be
+     * called anytime regardless of current player status.
      * @since JavaFX 8.0
      */
     public synchronized void dispose() {

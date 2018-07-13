@@ -13,14 +13,16 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
-#include "qtdemux.h"
+#include "qtdemux_debug.h"
 #include "qtdemux_lang.h"
 
 #include <string.h>
+
+#define GST_CAT_DEFAULT qtdemux_debug
 
 /* http://developer.apple.com/mac/library/documentation/QuickTime/QTFF/QTFFChap4/qtff4.html */
 
@@ -189,7 +191,7 @@ qtdemux_lang_map_qt_code_to_iso (gchar id[4], guint16 qt_lang_code)
 {
   const gchar *iso_code;
 
-  g_assert (qt_lang_code < 0x800);
+  g_assert (qt_lang_code < 0x400);
 
   if (qt_lang_code < G_N_ELEMENTS (qt_lang_map))
     iso_code = qt_lang_map[qt_lang_code];

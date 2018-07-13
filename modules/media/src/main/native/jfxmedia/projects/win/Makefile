@@ -5,13 +5,15 @@ CPP = cl.exe
 LINK = link.exe
 MAKEDEPEND = makedepend.exe
 
+GLIB_VERSION = 2.56.1
+
 BUILD_DIR = $(shell cygpath -u "$(OUTPUT_DIR)/$(BUILD_TYPE)")
 
 SRCBASE_DIR = ../..
 OBJBASE_DIR = $(BUILD_DIR)/obj/jfxmedia-jni
 
 GSTREAMER_LITE_DIR = ../../../gstreamer/gstreamer-lite
-GLIB_LITE_DIR = ../../../gstreamer/3rd_party/glib/glib-2.28.8
+GLIB_LITE_DIR = ../../../gstreamer/3rd_party/glib/glib-$(GLIB_VERSION)
 
 DIRLIST = jni \
           PipelineManagement \
@@ -51,6 +53,8 @@ CFLAGS = -DWIN32 \
          -DTARGET_OS_WIN32=1 \
          -D_WIN32_WINNT=0x0500 \
          -DGST_DISABLE_LOADSAVE \
+         -DGST_REMOVE_DEPRECATED \
+         -DG_DISABLE_DEPRECATED \
          -DGSTREAMER_LITE \
          -D_WINDLL \
          -D_MBCS \
@@ -149,7 +153,7 @@ OBJECTS = $(patsubst %.cpp,$(OBJBASE_DIR)/%.obj,$(CPP_SOURCES)) $(patsubst %.c,$
 
 default: $(TARGET)
 
-$(TARGET): $(DEPFILE) $(OBJECTS) 
+$(TARGET): $(DEPFILE) $(OBJECTS)
 	$(LINK) $(LDFLAGS) $(shell cygpath -ma "$(RESOURCE)") $(foreach object,$(OBJECTS),$(shell cygpath -ma $(object)))
 
 $(DEPFILE): | $(DEP_DIRS)

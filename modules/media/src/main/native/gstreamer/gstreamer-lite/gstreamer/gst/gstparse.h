@@ -16,8 +16,8 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 #ifndef __GST_PARSE_H__
@@ -27,6 +27,7 @@
 
 G_BEGIN_DECLS
 
+GST_API
 GQuark gst_parse_error_quark (void);
 /**
  * GST_PARSE_ERROR:
@@ -35,15 +36,18 @@ GQuark gst_parse_error_quark (void);
  */
 #define GST_PARSE_ERROR gst_parse_error_quark ()
 
+/* FIXME 2.0: rename to GstParseLaunchError, this is not only related to
+ *parsing */
 /**
  * GstParseError:
- * @GST_PARSE_ERROR_SYNTAX: A syntax error occured.
+ * @GST_PARSE_ERROR_SYNTAX: A syntax error occurred.
  * @GST_PARSE_ERROR_NO_SUCH_ELEMENT: The description contained an unknown element
  * @GST_PARSE_ERROR_NO_SUCH_PROPERTY: An element did not have a specified property
  * @GST_PARSE_ERROR_LINK: There was an error linking two pads.
  * @GST_PARSE_ERROR_COULD_NOT_SET_PROPERTY: There was an error setting a property
  * @GST_PARSE_ERROR_EMPTY_BIN: An empty bin was specified.
  * @GST_PARSE_ERROR_EMPTY: An empty description was specified
+ * @GST_PARSE_ERROR_DELAYED_LINK: A delayed link did not get resolved.
  *
  * The different parsing errors that can occur.
  */
@@ -55,24 +59,30 @@ typedef enum
   GST_PARSE_ERROR_LINK,
   GST_PARSE_ERROR_COULD_NOT_SET_PROPERTY,
   GST_PARSE_ERROR_EMPTY_BIN,
-  GST_PARSE_ERROR_EMPTY
+  GST_PARSE_ERROR_EMPTY,
+  GST_PARSE_ERROR_DELAYED_LINK
 } GstParseError;
 
 /**
  * GstParseFlags:
  * @GST_PARSE_FLAG_NONE: Do not use any special parsing options.
- * @GST_PARSE_FLAG_FATAL_ERRORS: Always return NULL when an error occurs
+ * @GST_PARSE_FLAG_FATAL_ERRORS: Always return %NULL when an error occurs
  *     (default behaviour is to return partially constructed bins or elements
  *      in some cases)
+ * @GST_PARSE_FLAG_NO_SINGLE_ELEMENT_BINS: If a bin only has a single element,
+ *     just return the element.
+ * @GST_PARSE_FLAG_PLACE_IN_BIN: If more than one toplevel element is described
+ *     by the pipeline description string, put them in a #GstBin instead of a
+ *     #GstPipeline. (Since 1.10)
  *
  * Parsing options.
- *
- * Since: 0.10.20
  */
 typedef enum
 {
   GST_PARSE_FLAG_NONE = 0,
-  GST_PARSE_FLAG_FATAL_ERRORS = (1 << 0)
+  GST_PARSE_FLAG_FATAL_ERRORS = (1 << 0),
+  GST_PARSE_FLAG_NO_SINGLE_ELEMENT_BINS = (1 << 1),
+  GST_PARSE_FLAG_PLACE_IN_BIN = (1 << 2)
 } GstParseFlags;
 
 #define GST_TYPE_PARSE_CONTEXT (gst_parse_context_get_type())
@@ -81,38 +91,49 @@ typedef enum
  * GstParseContext:
  *
  * Opaque structure.
- *
- * Since: 0.10.20
  */
 typedef struct _GstParseContext GstParseContext;
 
 /* create, process and free a parse context */
 
+GST_API
 GType             gst_parse_context_get_type (void);
-GstParseContext * gst_parse_context_new (void);
 
-gchar          ** gst_parse_context_get_missing_elements (GstParseContext * context);
+GST_API
+GstParseContext * gst_parse_context_new (void) G_GNUC_MALLOC;
 
+GST_API
+gchar          ** gst_parse_context_get_missing_elements (GstParseContext * context) G_GNUC_MALLOC;
+
+GST_API
 void              gst_parse_context_free (GstParseContext * context);
+
+GST_API
+GstParseContext * gst_parse_context_copy (const GstParseContext * context);
 
 
 /* parse functions */
 
+GST_API
 GstElement      * gst_parse_launch       (const gchar      * pipeline_description,
-                                          GError          ** error);
-
+                                          GError          ** error) G_GNUC_MALLOC;
+GST_API
 GstElement      * gst_parse_launchv      (const gchar     ** argv,
-                                          GError          ** error);
-
+                                          GError          ** error) G_GNUC_MALLOC;
+GST_API
 GstElement      * gst_parse_launch_full  (const gchar      * pipeline_description,
                                           GstParseContext  * context,
                                           GstParseFlags      flags,
-                                          GError          ** error);
-
+                                          GError          ** error) G_GNUC_MALLOC;
+GST_API
 GstElement      * gst_parse_launchv_full (const gchar     ** argv,
                                           GstParseContext  * context,
                                           GstParseFlags      flags,
-                                          GError          ** error);
+                                          GError          ** error) G_GNUC_MALLOC;
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstParseContext, gst_parse_context_free)
+#endif
 
 G_END_DECLS
 

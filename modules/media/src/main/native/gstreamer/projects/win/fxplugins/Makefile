@@ -6,7 +6,7 @@ CC   = cl.exe
 CPP  = cl.exe
 LINK = link.exe
 
-GLIB_VERSION = 2.28.8
+GLIB_VERSION = 2.56.1
 
 BASECLASSES_TARGET = baseclasses.lib
 MODULES = $(BASECLASSES_TARGET)
@@ -32,7 +32,7 @@ SYSTEM_LIBS = glib-lite.lib \
 
 LDFLAGS = -out:$(shell cygpath -ma $(TARGET)) -nologo -incremental:no -libpath:$(shell cygpath -ma $(BUILD_DIR)) -dll $(SYSTEM_LIBS) \
           -nodefaultlib:libcmt -manifest -manifestfile:$(MANIFEST) -manifestuac:"level='asInvoker' uiAccess='false'" -implib:$(IMPLIB) \
-          -subsystem:windows -tlbid:1 -dynamicbase -nxcompat -errorreport:queue 
+          -subsystem:windows -tlbid:1 -dynamicbase -nxcompat -errorreport:queue
 
 OBJBASE_DIR = $(BUILD_DIR)/obj/plugins
 SRCBASE_DIR = ../../../plugins
@@ -51,8 +51,8 @@ DEP_DIRS = $(BUILD_DIR) $(addprefix $(OBJBASE_DIR)/,$(DIRLIST))
 C_SOURCES = javasource/javasource.c \
             javasource/marshal.c \
             progressbuffer/progressbuffer.c \
-            progressbuffer/hlsprogressbuffer.c \
             progressbuffer/win32/filecache.c \
+            progressbuffer/hlsprogressbuffer.c \
             fxplugins.c
 
 CPP_SOURCES = dshowwrapper/Allocator.cpp \
@@ -102,7 +102,7 @@ ifeq ($(BUILD_TYPE), Release)
     O1FLAGS = -O1
     O2FLAGS = -O2
 else # debug
-    LDFLAGS += -debug -pdb:$(PDB) 
+    LDFLAGS += -debug -pdb:$(PDB)
     CFLAGS += -D_DEBUG -Oy- -RTC1 -MDd -DENABLE_VISUAL_STUDIO_MEMORY_LEAKS_DETECTION -wd"4018" -wd"4244" -wd"4274" -Zi -Fd$(PDB)
     O1FLAGS = -Od
     O2FLAGS = -Od

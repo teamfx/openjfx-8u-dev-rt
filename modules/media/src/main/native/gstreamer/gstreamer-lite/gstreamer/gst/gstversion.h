@@ -16,9 +16,15 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
+
+#ifndef __GST_VERSION_H__
+#define __GST_VERSION_H__
+
+#include <glib.h>
+
 /**
  * SECTION:gstversion
  * @short_description: GStreamer version macros.
@@ -35,9 +41,6 @@
  * The version macros get defined by including "gst/gst.h".
  */
 
-#ifndef __GST_VERSION_H__
-#define __GST_VERSION_H__
-
 G_BEGIN_DECLS
 
 /**
@@ -45,19 +48,19 @@ G_BEGIN_DECLS
  *
  * The major version of GStreamer at compile time:
  */
-#define GST_VERSION_MAJOR (0)
+#define GST_VERSION_MAJOR (1)
 /**
  * GST_VERSION_MINOR:
  *
  * The minor version of GStreamer at compile time:
  */
-#define GST_VERSION_MINOR (10)
+#define GST_VERSION_MINOR (14)
 /**
  * GST_VERSION_MICRO:
  *
  * The micro version of GStreamer at compile time:
  */
-#define GST_VERSION_MICRO (35)
+#define GST_VERSION_MICRO (0)
 /**
  * GST_VERSION_NANO:
  *
@@ -74,8 +77,6 @@ G_BEGIN_DECLS
  *
  * Check whether a GStreamer version equal to or greater than
  * major.minor.micro is present.
- *
- * Since: 0.10.18
  */
 #define GST_CHECK_VERSION(major,minor,micro)    \
     (GST_VERSION_MAJOR > (major) || \

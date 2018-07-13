@@ -2,7 +2,7 @@
  * Copyright (C) 1999 Erik Walthinsen <omega@cse.ogi.edu>
  * Copyright (C) 2004 Wim Taymans <wim.taymans@gmail.com>
  * Copyright (C) 2007 Peter Kjellerstedt <pkj@axis.com>
- * Copyright (C) 2008 Ole André Vadla Ravnås <ole.andre.ravnas@tandberg.com>
+ * Copyright (C) 2008 Ole AndrÃ© Vadla RavnÃ¥s <ole.andre.ravnas@tandberg.com>
  *
  * gstpoll.c: File descriptor set
  *
@@ -18,28 +18,29 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 /**
  * SECTION:gstpoll
+ * @title: GstPoll
  * @short_description: Keep track of file descriptors and make it possible
- *                     to wait on them in a cancelable way
+ *                     to wait on them in a cancellable way
  *
  * A #GstPoll keeps track of file descriptors much like fd_set (used with
  * select()) or a struct pollfd array (used with poll()). Once created with
  * gst_poll_new(), the set can be used to wait for file descriptors to be
- * readable and/or writeable. It is possible to make this wait be controlled
+ * readable and/or writable. It is possible to make this wait be controlled
  * by specifying %TRUE for the @controllable flag when creating the set (or
  * later calling gst_poll_set_controllable()).
  *
  * New file descriptors are added to the set using gst_poll_add_fd(), and
  * removed using gst_poll_remove_fd(). Controlling which file descriptors
- * should be waited for to become readable and/or writeable are done using
+ * should be waited for to become readable and/or writable are done using
  * gst_poll_fd_ctl_read() and gst_poll_fd_ctl_write().
  *
  * Use gst_poll_wait() to wait for the file descriptors to actually become
- * readable and/or writeable, or to timeout if no file descriptor is available
+ * readable and/or writable, or to timeout if no file descriptor is available
  * in time. The wait can be controlled by calling gst_poll_restart() and
  * gst_poll_set_flushing().
  *
@@ -72,13 +73,23 @@
 
 #ifdef G_OS_WIN32
 #include <winsock2.h>
-#define EINPROGRESS WSAEINPROGRESS
 #else
 #define _GNU_SOURCE 1
+#ifdef HAVE_SYS_POLL_H
 #include <sys/poll.h>
+#endif
+#ifdef HAVE_POLL_H
+#include <poll.h>
+#endif
 #include <sys/time.h>
 #include <sys/socket.h>
 #endif
+
+#ifdef G_OS_WIN32
+#  ifndef EWOULDBLOCK
+#  define EWOULDBLOCK EAGAIN    /* This is just to placate gcc */
+#  endif
+#endif /* G_OS_WIN32 */
 
 /* OS/X needs this because of bad headers */
 #include <string.h>
@@ -120,7 +131,7 @@ struct _GstPoll
 {
   GstPollMode mode;
 
-  GMutex *lock;
+  GMutex lock;
   /* array of fds, always written to and read from with lock */
   GArray *fds;
   /* array of active fds, only written to from the waiting thread with the
@@ -129,7 +140,6 @@ struct _GstPoll
   GArray *active_fds;
 
 #ifndef G_OS_WIN32
-  gchar buf[1];
   GstPollFD control_read_fd;
   GstPollFD control_write_fd;
 #else
@@ -155,19 +165,114 @@ static gboolean gst_poll_add_fd_unlocked (GstPoll * set, GstPollFD * fd);
 #define IS_FLUSHING(s)      (g_atomic_int_get(&(s)->flushing))
 #define SET_FLUSHING(s,val) (g_atomic_int_set(&(s)->flushing, (val)))
 
-#define INC_WAITING(s)      (G_ATOMIC_INT_ADD(&(s)->waiting, 1))
-#define DEC_WAITING(s)      (G_ATOMIC_INT_ADD(&(s)->waiting, -1))
+#define INC_WAITING(s)      (g_atomic_int_add(&(s)->waiting, 1))
+#define DEC_WAITING(s)      (g_atomic_int_add(&(s)->waiting, -1))
 #define GET_WAITING(s)      (g_atomic_int_get(&(s)->waiting))
 
 #define TEST_REBUILD(s)     (g_atomic_int_compare_and_exchange(&(s)->rebuild, 1, 0))
 #define MARK_REBUILD(s)     (g_atomic_int_set(&(s)->rebuild, 1))
 
 #ifndef G_OS_WIN32
-#define WAKE_EVENT(s)       (write ((s)->control_write_fd.fd, "W", 1) == 1)
-#define RELEASE_EVENT(s)    (read ((s)->control_read_fd.fd, (s)->buf, 1) == 1)
+
+static gboolean
+wake_event (GstPoll * set)
+{
+  ssize_t num_written;
+  while ((num_written = write (set->control_write_fd.fd, "W", 1)) != 1) {
+    if (num_written == -1 && errno != EAGAIN && errno != EINTR) {
+      g_critical ("%p: failed to wake event: %s", set, strerror (errno));
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
+
+static gboolean
+release_event (GstPoll * set)
+{
+  gchar buf[1] = { '\0' };
+  ssize_t num_read;
+  while ((num_read = read (set->control_read_fd.fd, buf, 1)) != 1) {
+    if (num_read == -1 && errno != EAGAIN && errno != EINTR) {
+      g_critical ("%p: failed to release event: %s", set, strerror (errno));
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
+
 #else
-#define WAKE_EVENT(s)       (SetEvent ((s)->wakeup_event), errno = GetLastError () == NO_ERROR ? 0 : EACCES, errno == 0 ? 1 : 0)
-#define RELEASE_EVENT(s)    (ResetEvent ((s)->wakeup_event))
+
+static void
+format_last_error (gchar * buf, size_t buf_len)
+{
+  DWORD flags = FORMAT_MESSAGE_FROM_SYSTEM;
+  LPCVOID src = NULL;
+  DWORD lang = 0;
+  DWORD id;
+  id = GetLastError ();
+  FormatMessage (flags, src, id, lang, buf, (DWORD) buf_len, NULL);
+  SetLastError (id);
+}
+
+static gboolean
+wake_event (GstPoll * set)
+{
+  SetLastError (0);
+  errno = 0;
+  if (!SetEvent (set->wakeup_event)) {
+    gchar msg[1024] = "<unknown>";
+    format_last_error (msg, sizeof (msg));
+    g_critical ("%p: failed to set wakup_event: %s", set, msg);
+    errno = EBADF;
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+static gboolean
+release_event (GstPoll * set)
+{
+  DWORD status;
+  SetLastError (0);
+  errno = 0;
+
+  status = WaitForSingleObject (set->wakeup_event, INFINITE);
+  if (status) {
+    const gchar *reason = "unknown";
+    gchar msg[1024] = "<unknown>";
+    switch (status) {
+      case WAIT_ABANDONED:
+        reason = "WAIT_ABANDONED";
+        break;
+      case WAIT_TIMEOUT:
+        reason = "WAIT_TIMEOUT";
+        break;
+      case WAIT_FAILED:
+        format_last_error (msg, sizeof (msg));
+        reason = msg;
+        break;
+      default:
+        reason = "other";
+        break;
+    }
+    g_critical ("%p: failed to block on wakup_event: %s", set, reason);
+    errno = EBADF;
+    return FALSE;
+  }
+
+  if (!ResetEvent (set->wakeup_event)) {
+    gchar msg[1024] = "<unknown>";
+    format_last_error (msg, sizeof (msg));
+    g_critical ("%p: failed to reset wakup_event: %s", set, msg);
+    errno = EBADF;
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
 #endif
 
 /* the poll/select call is also performed on a control socket, that way
@@ -177,24 +282,50 @@ raise_wakeup (GstPoll * set)
 {
   gboolean result = TRUE;
 
-  if (G_ATOMIC_INT_ADD (&set->control_pending, 1) == 0) {
+  /* makes testing control_pending and WAKE_EVENT() atomic. */
+  g_mutex_lock (&set->lock);
+
+  if (set->control_pending == 0) {
     /* raise when nothing pending */
-    result = WAKE_EVENT (set);
+    GST_LOG ("%p: raise", set);
+    result = wake_event (set);
   }
+
+  if (result) {
+    set->control_pending++;
+  }
+
+  g_mutex_unlock (&set->lock);
+
   return result;
 }
 
-/* note how bad things can happen when the 2 threads both raise and release the
- * wakeup. This is however not a problem because you must always pair a raise
- * with a release */
 static inline gboolean
 release_wakeup (GstPoll * set)
 {
-  gboolean result = TRUE;
+  gboolean result = FALSE;
 
-  if (g_atomic_int_dec_and_test (&set->control_pending)) {
-    result = RELEASE_EVENT (set);
+  /* makes testing/modifying control_pending and RELEASE_EVENT() atomic. */
+  g_mutex_lock (&set->lock);
+
+  if (set->control_pending > 0) {
+    /* release, only if this was the last pending. */
+    if (set->control_pending == 1) {
+    GST_LOG ("%p: release", set);
+      result = release_event (set);
+    } else {
+      result = TRUE;
   }
+
+    if (result) {
+      set->control_pending--;
+    }
+  } else {
+    errno = EWOULDBLOCK;
+  }
+
+  g_mutex_unlock (&set->lock);
+
   return result;
 }
 
@@ -203,21 +334,20 @@ release_all_wakeup (GstPoll * set)
 {
   gint old;
 
-  while (TRUE) {
-    if (!(old = g_atomic_int_get (&set->control_pending)))
-      /* nothing pending, just exit */
-      break;
+  /* makes testing control_pending and RELEASE_EVENT() atomic. */
+  g_mutex_lock (&set->lock);
 
-    /* try to remove all pending control messages */
-    if (g_atomic_int_compare_and_exchange (&set->control_pending, old, 0)) {
-      /* we managed to remove all messages, read the control socket */
-      if (RELEASE_EVENT (set))
-        break;
-      else
-        /* retry again until we read it successfully */
-        G_ATOMIC_INT_ADD (&set->control_pending, 1);
+  if ((old = set->control_pending) > 0) {
+    GST_LOG ("%p: releasing %d", set, old);
+    if (release_event (set)) {
+      set->control_pending = 0;
+    } else {
+      old = 0;
     }
   }
+
+  g_mutex_unlock (&set->lock);
+
   return old;
 }
 
@@ -265,24 +395,24 @@ find_index (GArray * array, GstPollFD * fd)
 #if !defined(HAVE_PPOLL) && defined(HAVE_POLL)
 /* check if all file descriptors will fit in an fd_set */
 static gboolean
-selectable_fds (const GstPoll * set)
+selectable_fds (GstPoll * set)
 {
   guint i;
 
-  g_mutex_lock (set->lock);
+  g_mutex_lock (&set->lock);
   for (i = 0; i < set->fds->len; i++) {
     struct pollfd *pfd = &g_array_index (set->fds, struct pollfd, i);
 
     if (pfd->fd >= FD_SETSIZE)
       goto too_many;
   }
-  g_mutex_unlock (set->lock);
+  g_mutex_unlock (&set->lock);
 
   return TRUE;
 
 too_many:
   {
-    g_mutex_unlock (set->lock);
+    g_mutex_unlock (&set->lock);
     return FALSE;
   }
 }
@@ -305,7 +435,7 @@ pollable_timeout (GstClockTime timeout)
 #endif
 
 static GstPollMode
-choose_mode (const GstPoll * set, GstClockTime timeout)
+choose_mode (GstPoll * set, GstClockTime timeout)
 {
   GstPollMode mode;
 
@@ -345,7 +475,7 @@ pollfd_to_fd_set (GstPoll * set, fd_set * readfds, fd_set * writefds,
   FD_ZERO (writefds);
   FD_ZERO (errorfds);
 
-  g_mutex_lock (set->lock);
+  g_mutex_lock (&set->lock);
 
   for (i = 0; i < set->active_fds->len; i++) {
     struct pollfd *pfd = &g_array_index (set->fds, struct pollfd, i);
@@ -362,7 +492,7 @@ pollfd_to_fd_set (GstPoll * set, fd_set * readfds, fd_set * writefds,
     }
   }
 
-  g_mutex_unlock (set->lock);
+  g_mutex_unlock (&set->lock);
 
   return max_fd;
 }
@@ -373,7 +503,7 @@ fd_set_to_pollfd (GstPoll * set, fd_set * readfds, fd_set * writefds,
 {
   guint i;
 
-  g_mutex_lock (set->lock);
+  g_mutex_lock (&set->lock);
 
   for (i = 0; i < set->active_fds->len; i++) {
     struct pollfd *pfd = &g_array_index (set->active_fds, struct pollfd, i);
@@ -389,7 +519,7 @@ fd_set_to_pollfd (GstPoll * set, fd_set * readfds, fd_set * writefds,
     }
   }
 
-  g_mutex_unlock (set->lock);
+  g_mutex_unlock (&set->lock);
 }
 #else /* G_OS_WIN32 */
 /*
@@ -530,7 +660,7 @@ gst_poll_collect_winsock_events (GstPoll * set)
 #endif
 
 /**
- * gst_poll_new:
+ * gst_poll_new: (skip)
  * @controllable: whether it should be possible to control a wait.
  *
  * Create a new file descriptor set. If @controllable, it
@@ -539,20 +669,17 @@ gst_poll_collect_winsock_events (GstPoll * set)
  *
  * Free-function: gst_poll_free
  *
- * Returns: (transfer full): a new #GstPoll, or %NULL in case of an error.
- *     Free with gst_poll_free().
- *
- * Since: 0.10.18
+ * Returns: (transfer full) (nullable): a new #GstPoll, or %NULL in
+ *     case of an error.  Free with gst_poll_free().
  */
 GstPoll *
 gst_poll_new (gboolean controllable)
 {
   GstPoll *nset;
 
-  GST_DEBUG ("controllable : %d", controllable);
-
   nset = g_slice_new0 (GstPoll);
-  nset->lock = g_mutex_new ();
+  GST_DEBUG ("%p: new controllable : %d", nset, controllable);
+  g_mutex_init (&nset->lock);
 #ifndef G_OS_WIN32
   nset->mode = GST_POLL_MODE_AUTO;
   nset->fds = g_array_new (FALSE, FALSE, sizeof (struct pollfd));
@@ -564,9 +691,6 @@ gst_poll_new (gboolean controllable)
 
     if (socketpair (PF_UNIX, SOCK_STREAM, 0, control_sock) < 0)
       goto no_socket_pair;
-
-    fcntl (control_sock[0], F_SETFL, O_NONBLOCK);
-    fcntl (control_sock[1], F_SETFL, O_NONBLOCK);
 
     nset->control_read_fd.fd = control_sock[0];
     nset->control_write_fd.fd = control_sock[1];
@@ -589,6 +713,7 @@ gst_poll_new (gboolean controllable)
   MARK_REBUILD (nset);
 
   nset->controllable = controllable;
+  nset->control_pending = 0;
 
   return nset;
 
@@ -604,7 +729,7 @@ no_socket_pair:
 }
 
 /**
- * gst_poll_new_timer:
+ * gst_poll_new_timer: (skip)
  *
  * Create a new poll object that can be used for scheduling cancellable
  * timeouts.
@@ -614,10 +739,8 @@ no_socket_pair:
  *
  * Free-function: gst_poll_free
  *
- * Returns: (transfer full): a new #GstPoll, or %NULL in case of an error.
- *     Free with gst_poll_free().
- *
- * Since: 0.10.23
+ * Returns: (transfer full) (nullable): a new #GstPoll, or %NULL in
+ *     case of an error.  Free with gst_poll_free().
  */
 GstPoll *
 gst_poll_new_timer (void)
@@ -640,8 +763,6 @@ done:
  * @set: (transfer full): a file descriptor set.
  *
  * Free a file descriptor set.
- *
- * Since: 0.10.18
  */
 void
 gst_poll_free (GstPoll * set)
@@ -672,7 +793,7 @@ gst_poll_free (GstPoll * set)
 
   g_array_free (set->active_fds, TRUE);
   g_array_free (set->fds, TRUE);
-  g_mutex_free (set->lock);
+  g_mutex_clear (&set->lock);
   g_slice_free (GstPoll, set);
 }
 
@@ -683,8 +804,6 @@ gst_poll_free (GstPoll * set)
  *
  * Get a GPollFD for the reading part of the control socket. This is useful when
  * integrating with a GSource and GMainLoop.
- *
- * Since: 0.10.32
  */
 void
 gst_poll_get_read_gpollfd (GstPoll * set, GPollFD * fd)
@@ -711,8 +830,6 @@ gst_poll_get_read_gpollfd (GstPoll * set, GPollFD * fd)
  *
  * Initializes @fd. Alternatively you can initialize it with
  * #GST_POLL_FD_INIT.
- *
- * Since: 0.10.18
  */
 void
 gst_poll_fd_init (GstPollFD * fd)
@@ -759,7 +876,7 @@ gst_poll_add_fd_unlocked (GstPoll * set, GstPollFD * fd)
 #endif
     MARK_REBUILD (set);
   } else {
-    GST_WARNING ("%p: couldn't find fd !", set);
+    GST_WARNING ("%p: fd already added !", set);
   }
 
   return TRUE;
@@ -773,8 +890,6 @@ gst_poll_add_fd_unlocked (GstPoll * set, GstPollFD * fd)
  * Add a file descriptor to the file descriptor set.
  *
  * Returns: %TRUE if the file descriptor was successfully added to the set.
- *
- * Since: 0.10.18
  */
 gboolean
 gst_poll_add_fd (GstPoll * set, GstPollFD * fd)
@@ -785,11 +900,11 @@ gst_poll_add_fd (GstPoll * set, GstPollFD * fd)
   g_return_val_if_fail (fd != NULL, FALSE);
   g_return_val_if_fail (fd->fd >= 0, FALSE);
 
-  g_mutex_lock (set->lock);
+  g_mutex_lock (&set->lock);
 
   ret = gst_poll_add_fd_unlocked (set, fd);
 
-  g_mutex_unlock (set->lock);
+  g_mutex_unlock (&set->lock);
 
   return ret;
 }
@@ -802,8 +917,6 @@ gst_poll_add_fd (GstPoll * set, GstPollFD * fd)
  * Remove a file descriptor from the file descriptor set.
  *
  * Returns: %TRUE if the file descriptor was successfully removed from the set.
- *
- * Since: 0.10.18
  */
 gboolean
 gst_poll_remove_fd (GstPoll * set, GstPollFD * fd)
@@ -817,7 +930,7 @@ gst_poll_remove_fd (GstPoll * set, GstPollFD * fd)
 
   GST_DEBUG ("%p: fd (fd:%d, idx:%d)", set, fd->fd, fd->idx);
 
-  g_mutex_lock (set->lock);
+  g_mutex_lock (&set->lock);
 
   /* get the index, -1 is an fd that is not added */
   idx = find_index (set->fds, fd);
@@ -838,7 +951,7 @@ gst_poll_remove_fd (GstPoll * set, GstPollFD * fd)
     GST_WARNING ("%p: couldn't find fd !", set);
   }
 
-  g_mutex_unlock (set->lock);
+  g_mutex_unlock (&set->lock);
 
   return idx >= 0;
 }
@@ -853,8 +966,6 @@ gst_poll_remove_fd (GstPoll * set, GstPollFD * fd)
  * writability.
  *
  * Returns: %TRUE if the descriptor was successfully updated.
- *
- * Since: 0.10.18
  */
 gboolean
 gst_poll_fd_ctl_write (GstPoll * set, GstPollFD * fd, gboolean active)
@@ -868,7 +979,7 @@ gst_poll_fd_ctl_write (GstPoll * set, GstPollFD * fd, gboolean active)
   GST_DEBUG ("%p: fd (fd:%d, idx:%d), active : %d", set,
       fd->fd, fd->idx, active);
 
-  g_mutex_lock (set->lock);
+  g_mutex_lock (&set->lock);
 
   idx = find_index (set->fds, fd);
   if (idx >= 0) {
@@ -880,7 +991,7 @@ gst_poll_fd_ctl_write (GstPoll * set, GstPollFD * fd, gboolean active)
     else
       pfd->events &= ~POLLOUT;
 
-    GST_LOG ("pfd->events now %d (POLLOUT:%d)", pfd->events, POLLOUT);
+    GST_LOG ("%p: pfd->events now %d (POLLOUT:%d)", set, pfd->events, POLLOUT);
 #else
     gst_poll_update_winsock_event_mask (set, idx, FD_WRITE | FD_CONNECT,
         active);
@@ -890,7 +1001,7 @@ gst_poll_fd_ctl_write (GstPoll * set, GstPollFD * fd, gboolean active)
     GST_WARNING ("%p: couldn't find fd !", set);
   }
 
-  g_mutex_unlock (set->lock);
+  g_mutex_unlock (&set->lock);
 
   return idx >= 0;
 }
@@ -934,8 +1045,6 @@ gst_poll_fd_ctl_read_unlocked (GstPoll * set, GstPollFD * fd, gboolean active)
  * readability.
  *
  * Returns: %TRUE if the descriptor was successfully updated.
- *
- * Since: 0.10.18
  */
 gboolean
 gst_poll_fd_ctl_read (GstPoll * set, GstPollFD * fd, gboolean active)
@@ -946,11 +1055,11 @@ gst_poll_fd_ctl_read (GstPoll * set, GstPollFD * fd, gboolean active)
   g_return_val_if_fail (fd != NULL, FALSE);
   g_return_val_if_fail (fd->fd >= 0, FALSE);
 
-  g_mutex_lock (set->lock);
+  g_mutex_lock (&set->lock);
 
   ret = gst_poll_fd_ctl_read_unlocked (set, fd, active);
 
-  g_mutex_unlock (set->lock);
+  g_mutex_unlock (&set->lock);
 
   return ret;
 }
@@ -968,8 +1077,6 @@ gst_poll_fd_ctl_read (GstPoll * set, GstPollFD * fd, gboolean active)
  * The reason why this is needed is because the underlying implementation
  * might not allow querying the fd more than once between calls to one of
  * the re-enabling operations.
- *
- * Since: 0.10.18
  */
 void
 gst_poll_fd_ignored (GstPoll * set, GstPollFD * fd)
@@ -981,7 +1088,7 @@ gst_poll_fd_ignored (GstPoll * set, GstPollFD * fd)
   g_return_if_fail (fd != NULL);
   g_return_if_fail (fd->fd >= 0);
 
-  g_mutex_lock (set->lock);
+  g_mutex_lock (&set->lock);
 
   idx = find_index (set->fds, fd);
   if (idx >= 0) {
@@ -991,7 +1098,7 @@ gst_poll_fd_ignored (GstPoll * set, GstPollFD * fd)
     MARK_REBUILD (set);
   }
 
-  g_mutex_unlock (set->lock);
+  g_mutex_unlock (&set->lock);
 #endif
 }
 
@@ -1003,8 +1110,6 @@ gst_poll_fd_ignored (GstPoll * set, GstPollFD * fd)
  * Check if @fd in @set has closed the connection.
  *
  * Returns: %TRUE if the connection was closed.
- *
- * Since: 0.10.18
  */
 gboolean
 gst_poll_fd_has_closed (const GstPoll * set, GstPollFD * fd)
@@ -1016,9 +1121,7 @@ gst_poll_fd_has_closed (const GstPoll * set, GstPollFD * fd)
   g_return_val_if_fail (fd != NULL, FALSE);
   g_return_val_if_fail (fd->fd >= 0, FALSE);
 
-  GST_DEBUG ("%p: fd (fd:%d, idx:%d)", set, fd->fd, fd->idx);
-
-  g_mutex_lock (set->lock);
+  g_mutex_lock (&((GstPoll *) set)->lock);
 
   idx = find_index (set->active_fds, fd);
   if (idx >= 0) {
@@ -1034,8 +1137,9 @@ gst_poll_fd_has_closed (const GstPoll * set, GstPollFD * fd)
   } else {
     GST_WARNING ("%p: couldn't find fd !", set);
   }
+  g_mutex_unlock (&((GstPoll *) set)->lock);
 
-  g_mutex_unlock (set->lock);
+  GST_DEBUG ("%p: fd (fd:%d, idx:%d) %d", set, fd->fd, fd->idx, res);
 
   return res;
 }
@@ -1048,8 +1152,6 @@ gst_poll_fd_has_closed (const GstPoll * set, GstPollFD * fd)
  * Check if @fd in @set has an error.
  *
  * Returns: %TRUE if the descriptor has an error.
- *
- * Since: 0.10.18
  */
 gboolean
 gst_poll_fd_has_error (const GstPoll * set, GstPollFD * fd)
@@ -1061,9 +1163,7 @@ gst_poll_fd_has_error (const GstPoll * set, GstPollFD * fd)
   g_return_val_if_fail (fd != NULL, FALSE);
   g_return_val_if_fail (fd->fd >= 0, FALSE);
 
-  GST_DEBUG ("%p: fd (fd:%d, idx:%d)", set, fd->fd, fd->idx);
-
-  g_mutex_lock (set->lock);
+  g_mutex_lock (&((GstPoll *) set)->lock);
 
   idx = find_index (set->active_fds, fd);
   if (idx >= 0) {
@@ -1083,8 +1183,9 @@ gst_poll_fd_has_error (const GstPoll * set, GstPollFD * fd)
   } else {
     GST_WARNING ("%p: couldn't find fd !", set);
   }
+  g_mutex_unlock (&((GstPoll *) set)->lock);
 
-  g_mutex_unlock (set->lock);
+  GST_DEBUG ("%p: fd (fd:%d, idx:%d) %d", set, fd->fd, fd->idx, res);
 
   return res;
 }
@@ -1094,8 +1195,6 @@ gst_poll_fd_can_read_unlocked (const GstPoll * set, GstPollFD * fd)
 {
   gboolean res = FALSE;
   gint idx;
-
-  GST_DEBUG ("%p: fd (fd:%d, idx:%d)", set, fd->fd, fd->idx);
 
   idx = find_index (set->active_fds, fd);
   if (idx >= 0) {
@@ -1111,6 +1210,7 @@ gst_poll_fd_can_read_unlocked (const GstPoll * set, GstPollFD * fd)
   } else {
     GST_WARNING ("%p: couldn't find fd !", set);
   }
+  GST_DEBUG ("%p: fd (fd:%d, idx:%d) %d", set, fd->fd, fd->idx, res);
 
   return res;
 }
@@ -1123,8 +1223,6 @@ gst_poll_fd_can_read_unlocked (const GstPoll * set, GstPollFD * fd)
  * Check if @fd in @set has data to be read.
  *
  * Returns: %TRUE if the descriptor has data to be read.
- *
- * Since: 0.10.18
  */
 gboolean
 gst_poll_fd_can_read (const GstPoll * set, GstPollFD * fd)
@@ -1135,11 +1233,11 @@ gst_poll_fd_can_read (const GstPoll * set, GstPollFD * fd)
   g_return_val_if_fail (fd != NULL, FALSE);
   g_return_val_if_fail (fd->fd >= 0, FALSE);
 
-  g_mutex_lock (set->lock);
+  g_mutex_lock (&((GstPoll *) set)->lock);
 
   res = gst_poll_fd_can_read_unlocked (set, fd);
 
-  g_mutex_unlock (set->lock);
+  g_mutex_unlock (&((GstPoll *) set)->lock);
 
   return res;
 }
@@ -1152,8 +1250,6 @@ gst_poll_fd_can_read (const GstPoll * set, GstPollFD * fd)
  * Check if @fd in @set can be used for writing.
  *
  * Returns: %TRUE if the descriptor can be used for writing.
- *
- * Since: 0.10.18
  */
 gboolean
 gst_poll_fd_can_write (const GstPoll * set, GstPollFD * fd)
@@ -1165,9 +1261,7 @@ gst_poll_fd_can_write (const GstPoll * set, GstPollFD * fd)
   g_return_val_if_fail (fd != NULL, FALSE);
   g_return_val_if_fail (fd->fd >= 0, FALSE);
 
-  GST_DEBUG ("%p: fd (fd:%d, idx:%d)", set, fd->fd, fd->idx);
-
-  g_mutex_lock (set->lock);
+  g_mutex_lock (&((GstPoll *) set)->lock);
 
   idx = find_index (set->active_fds, fd);
   if (idx >= 0) {
@@ -1183,8 +1277,9 @@ gst_poll_fd_can_write (const GstPoll * set, GstPollFD * fd)
   } else {
     GST_WARNING ("%p: couldn't find fd !", set);
   }
+  g_mutex_unlock (&((GstPoll *) set)->lock);
 
-  g_mutex_unlock (set->lock);
+  GST_DEBUG ("%p: fd (fd:%d, idx:%d) %d", set, fd->fd, fd->idx, res);
 
   return res;
 }
@@ -1208,8 +1303,6 @@ gst_poll_fd_can_write (const GstPoll * set, GstPollFD * fd)
  * Returns: The number of #GstPollFD in @set that have activity or 0 when no
  * activity was detected after @timeout. If an error occurs, -1 is returned
  * and errno is set.
- *
- * Since: 0.10.18
  */
 gint
 gst_poll_wait (GstPoll * set, GstClockTime timeout)
@@ -1221,7 +1314,7 @@ gst_poll_wait (GstPoll * set, GstClockTime timeout)
 
   g_return_val_if_fail (set != NULL, -1);
 
-  GST_DEBUG ("timeout :%" GST_TIME_FORMAT, GST_TIME_ARGS (timeout));
+  GST_DEBUG ("%p: timeout :%" GST_TIME_FORMAT, set, GST_TIME_ARGS (timeout));
 
   is_timer = set->timer;
 
@@ -1232,7 +1325,7 @@ gst_poll_wait (GstPoll * set, GstClockTime timeout)
   if (G_UNLIKELY (old_waiting > 0 && !is_timer))
     goto already_waiting;
 
-  /* flushing, exit immediatly */
+  /* flushing, exit immediately */
   if (G_UNLIKELY (IS_FLUSHING (set)))
     goto flushing;
 
@@ -1245,7 +1338,7 @@ gst_poll_wait (GstPoll * set, GstClockTime timeout)
     mode = choose_mode (set, timeout);
 
     if (TEST_REBUILD (set)) {
-      g_mutex_lock (set->lock);
+      g_mutex_lock (&set->lock);
 #ifndef G_OS_WIN32
       g_array_set_size (set->active_fds, set->fds->len);
       memcpy (set->active_fds->data, set->fds->data,
@@ -1254,7 +1347,7 @@ gst_poll_wait (GstPoll * set, GstClockTime timeout)
       if (!gst_poll_prepare_winsock_active_sets (set))
         goto winsock_error;
 #endif
-      g_mutex_unlock (set->lock);
+      g_mutex_unlock (&set->lock);
     }
 
     switch (mode) {
@@ -1332,9 +1425,9 @@ gst_poll_wait (GstPoll * set, GstClockTime timeout)
             tvptr = NULL;
           }
 
-          GST_DEBUG ("Calling select");
+          GST_DEBUG ("%p: Calling select", set);
           res = select (max_fd + 1, &readfds, &writefds, &errorfds, tvptr);
-          GST_DEBUG ("After select, res:%d", res);
+          GST_DEBUG ("%p: After select, res:%d", set, res);
         } else {
 #ifdef HAVE_PSELECT
           struct timespec ts;
@@ -1347,10 +1440,10 @@ gst_poll_wait (GstPoll * set, GstClockTime timeout)
             tsptr = NULL;
           }
 
-          GST_DEBUG ("Calling pselect");
+          GST_DEBUG ("%p: Calling pselect", set);
           res =
               pselect (max_fd + 1, &readfds, &writefds, &errorfds, tsptr, NULL);
-          GST_DEBUG ("After pselect, res:%d", res);
+          GST_DEBUG ("%p: After pselect, res:%d", set, res);
 #endif
         }
 
@@ -1418,12 +1511,10 @@ gst_poll_wait (GstPoll * set, GstClockTime timeout)
         restarting = TRUE;
     }
 
-    if (G_UNLIKELY (IS_FLUSHING (set))) {
-      /* we got woken up and we are flushing, we need to stop */
-      errno = EBUSY;
-      res = -1;
-      break;
-    }
+    /* we got woken up and we are flushing, we need to stop */
+    if (G_UNLIKELY (IS_FLUSHING (set)))
+      goto flushing;
+
   } while (G_UNLIKELY (restarting));
 
   DEC_WAITING (set);
@@ -1433,12 +1524,14 @@ gst_poll_wait (GstPoll * set, GstClockTime timeout)
   /* ERRORS */
 already_waiting:
   {
+    GST_LOG ("%p: we are already waiting", set);
     DEC_WAITING (set);
     errno = EPERM;
     return -1;
   }
 flushing:
   {
+    GST_LOG ("%p: we are flushing", set);
     DEC_WAITING (set);
     errno = EBUSY;
     return -1;
@@ -1446,7 +1539,8 @@ flushing:
 #ifdef G_OS_WIN32
 winsock_error:
   {
-    g_mutex_unlock (set->lock);
+    GST_LOG ("%p: winsock error", set);
+    g_mutex_unlock (&set->lock);
     DEC_WAITING (set);
     return -1;
   }
@@ -1462,14 +1556,16 @@ winsock_error:
  * gst_poll_wait() will be affected by gst_poll_restart() and
  * gst_poll_set_flushing().
  *
- * Returns: %TRUE if the controllability of @set could be updated.
+ * This function only works for non-timer #GstPoll objects created with
+ * gst_poll_new().
  *
- * Since: 0.10.18
+ * Returns: %TRUE if the controllability of @set could be updated.
  */
 gboolean
 gst_poll_set_controllable (GstPoll * set, gboolean controllable)
 {
   g_return_val_if_fail (set != NULL, FALSE);
+  g_return_val_if_fail (!set->timer, FALSE);
 
   GST_LOG ("%p: controllable : %d", set, controllable);
 
@@ -1487,12 +1583,14 @@ gst_poll_set_controllable (GstPoll * set, gboolean controllable)
  *
  * If @set is not controllable, then this call will have no effect.
  *
- * Since: 0.10.18
+ * This function only works for non-timer #GstPoll objects created with
+ * gst_poll_new().
  */
 void
 gst_poll_restart (GstPoll * set)
 {
   g_return_if_fail (set != NULL);
+  g_return_if_fail (!set->timer);
 
   if (set->controllable && GET_WAITING (set) > 0) {
     /* we are controllable and waiting, wake up the waiter. The socket will be
@@ -1511,12 +1609,16 @@ gst_poll_restart (GstPoll * set)
  *
  * Unsetting the flushing state will restore normal operation of @set.
  *
- * Since: 0.10.18
+ * This function only works for non-timer #GstPoll objects created with
+ * gst_poll_new().
  */
 void
 gst_poll_set_flushing (GstPoll * set, gboolean flushing)
 {
   g_return_if_fail (set != NULL);
+  g_return_if_fail (!set->timer);
+
+  GST_LOG ("%p: flushing: %d", set, flushing);
 
   /* update the new state first */
   SET_FLUSHING (set, flushing);
@@ -1542,10 +1644,12 @@ gst_poll_set_flushing (GstPoll * set, gboolean flushing)
  * gst_poll_read_control() have been performed, calls to gst_poll_wait() will
  * block again until their timeout expired.
  *
- * Returns: %TRUE on success. %FALSE when @set is not controllable or when the
- * byte could not be written.
+ * This function only works for timer #GstPoll objects created with
+ * gst_poll_new_timer().
  *
- * Since: 0.10.23
+ * Returns: %TRUE on success. %FALSE when when the byte could not be written.
+ * errno contains the detailed error code but will never be EAGAIN, EINTR or
+ * EWOULDBLOCK. %FALSE always signals a critical error.
  */
 gboolean
 gst_poll_write_control (GstPoll * set)
@@ -1565,13 +1669,14 @@ gst_poll_write_control (GstPoll * set)
  * @set: a #GstPoll.
  *
  * Read a byte from the control socket of the controllable @set.
- * This function is mostly useful for timer #GstPoll objects created with
+ *
+ * This function only works for timer #GstPoll objects created with
  * gst_poll_new_timer().
  *
- * Returns: %TRUE on success. %FALSE when @set is not controllable or when there
- * was no byte to read.
- *
- * Since: 0.10.23
+ * Returns: %TRUE on success. %FALSE when when there was no byte to read or
+ * reading the byte failed. If there was no byte to read, and only then, errno
+ * will contain EWOULDBLOCK or EAGAIN. For all other values of errno this always signals a
+ * critical error.
  */
 gboolean
 gst_poll_read_control (GstPoll * set)

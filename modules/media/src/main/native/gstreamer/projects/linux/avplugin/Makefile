@@ -5,6 +5,11 @@
 BUILD_DIR = $(OUTPUT_DIR)/$(BUILD_TYPE)
 TARGET_DIRS = $(BUILD_DIR)
 
+BASE_DIR = ../../..
+
+GLIB_VERSION = 2.56.1
+GLIB_DIR = $(BASE_DIR)/3rd_party/glib/glib-$(GLIB_VERSION)
+
 SRCBASE_DIR = ../../../plugins
 
 DIRLIST = av
@@ -18,6 +23,9 @@ OBJBASE_DIR = $(BUILD_DIR)/obj/plugins/avplugin
 endif
 
 CFLAGS = -fPIC                   \
+         -Wformat                \
+         -Wextra                 \
+         -Wformat-security       \
          -Werror=implicit-function-declaration \
          -msse2                  \
          -fbuiltin               \
@@ -25,6 +33,7 @@ CFLAGS = -fPIC                   \
          -DLINUX                 \
          -DGST_DISABLE_LOADSAVE  \
          -DGSTREAMER_LITE \
+         -DG_DISABLE_DEPRECATED \
          -ffunction-sections -fdata-sections
 
 ifeq ($(BUILD_TYPE), Release)
@@ -33,18 +42,17 @@ else
     CFLAGS += -g -Wall
 endif
 
-PACKAGES_INCLUDES := $(shell pkg-config --cflags glib-2.0)
-PACKAGES_LIBS     := $(shell pkg-config --libs glib-2.0 gobject-2.0)
-
 INCLUDES= -I../../../plugins                          \
           -I../../../plugins/av                       \
           -I../../../gstreamer-lite/gstreamer         \
           -I../../../gstreamer-lite/gstreamer/libs    \
-          $(PACKAGES_INCLUDES)
+          -I$(GLIB_DIR)                               \
+          -I$(GLIB_DIR)/glib                          \
+          -I$(GLIB_DIR)/gmodule
 
 LDFLAGS = -L$(BUILD_DIR)    \
           -lgstreamer-lite  \
-           $(PACKAGES_LIBS) \
+          -lglib-lite  \
           -static-libgcc -static-libstdc++ -Wl,--gc-sections
 
 ifneq ($(strip $(LIBAV_DIR)),)
@@ -58,6 +66,9 @@ endif
 ifeq ($(ARCH), x32)
     CFLAGS += -m32
     LDFLAGS += -m32
+    INCLUDES += -I$(GLIB_DIR)/build/linux/x86
+else
+    INCLUDES += -I$(GLIB_DIR)/build/linux/x64
 endif
 
 SOURCES = av/fxavcodecplugin.c  \

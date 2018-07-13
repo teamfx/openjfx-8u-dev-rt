@@ -98,7 +98,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
 
 + (BOOL) playerAvailable {
     // Check if AVPlayerItemVideoOutput exists, if not we're running on 10.7 or
-    // earlier and have to fall back on QTKit
+    // earlier which is no longer supported
     Class klass = objc_getClass("AVPlayerItemVideoOutput");
     return (klass != nil);
 }
@@ -302,12 +302,16 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
                          change:(NSDictionary *)change
                         context:(void *)context {
     if (context == AVFMediaPlayerItemStatusContext) {
-        AVPlayerStatus status = (AVPlayerStatus)[[change objectForKey:NSKeyValueChangeNewKey] longValue];
-        if (status == AVPlayerStatusReadyToPlay) {
-            if (!_movieReady) {
-                // Only send this once, though we'll receive notification a few times
-                [self setPlayerState:kPlayerState_READY];
-                _movieReady = true;
+        // According to docs change[NSKeyValueChangeNewKey] can be NSNull when player.currentItem is nil
+        if (![change[NSKeyValueChangeNewKey] isKindOfClass:[NSNull class]]) {
+            AVPlayerStatus status = (AVPlayerStatus)[[change objectForKey:NSKeyValueChangeNewKey] longValue];
+            if (status == AVPlayerStatusReadyToPlay) {
+                if (!_movieReady) {
+                    LOGGER_DEBUGMSG(([[NSString stringWithFormat:@"Setting player to READY state"] UTF8String]));
+                    // Only send this once, though we'll receive notification a few times
+                    [self setPlayerState:kPlayerState_READY];
+                    _movieReady = true;
+                }
             }
         }
     } else if (context == AVFMediaPlayerItemDurationContext) {

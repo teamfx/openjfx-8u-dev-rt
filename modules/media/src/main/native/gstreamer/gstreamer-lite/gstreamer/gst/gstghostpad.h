@@ -17,8 +17,8 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 
@@ -57,15 +57,33 @@ struct _GstProxyPadClass
   gpointer _gst_reserved[1];
 };
 
-GType gst_proxy_pad_get_type (void);
+GST_API
+GType               gst_proxy_pad_get_type (void);
+
+GST_API
+GstProxyPad *       gst_proxy_pad_get_internal (GstProxyPad *pad);
 
 
-#define GST_TYPE_GHOST_PAD      (gst_ghost_pad_get_type ())
-#define GST_IS_GHOST_PAD(obj)       (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_GHOST_PAD))
+GST_API
+GstIterator*        gst_proxy_pad_iterate_internal_links_default (GstPad *pad, GstObject *parent) G_GNUC_MALLOC;
+
+GST_API
+GstFlowReturn       gst_proxy_pad_chain_default                  (GstPad *pad, GstObject *parent,
+                                                                  GstBuffer *buffer);
+GST_API
+GstFlowReturn       gst_proxy_pad_chain_list_default             (GstPad *pad, GstObject *parent,
+                                                                  GstBufferList *list);
+GST_API
+GstFlowReturn       gst_proxy_pad_getrange_default               (GstPad *pad, GstObject *parent,
+                                                                  guint64 offset, guint size,
+                                                                  GstBuffer **buffer);
+
+#define GST_TYPE_GHOST_PAD              (gst_ghost_pad_get_type ())
+#define GST_IS_GHOST_PAD(obj)           (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_GHOST_PAD))
 #define GST_IS_GHOST_PAD_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), GST_TYPE_GHOST_PAD))
-#define GST_GHOST_PAD(obj)      (G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_GHOST_PAD, GstGhostPad))
-#define GST_GHOST_PAD_CLASS(klass)  (G_TYPE_CHECK_CLASS_CAST ((klass), GST_TYPE_GHOST_PAD, GstGhostPadClass))
-#define GST_GHOST_PAD_CAST(obj)     ((GstGhostPad*)(obj))
+#define GST_GHOST_PAD(obj)              (G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_GHOST_PAD, GstGhostPad))
+#define GST_GHOST_PAD_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), GST_TYPE_GHOST_PAD, GstGhostPadClass))
+#define GST_GHOST_PAD_CAST(obj)         ((GstGhostPad*)(obj))
 
 /**
  * GstGhostPad:
@@ -93,18 +111,44 @@ struct _GstGhostPadClass
 };
 
 
-GType        gst_ghost_pad_get_type     (void);
+GST_API
+GType            gst_ghost_pad_get_type          (void);
 
-GstPad*      gst_ghost_pad_new      (const gchar *name, GstPad *target);
-GstPad*      gst_ghost_pad_new_no_target    (const gchar *name, GstPadDirection dir);
+GST_API
+GstPad*          gst_ghost_pad_new               (const gchar *name, GstPad *target) G_GNUC_MALLOC;
 
-GstPad*      gst_ghost_pad_new_from_template (const gchar *name, GstPad * target, GstPadTemplate * templ);
-GstPad*      gst_ghost_pad_new_no_target_from_template (const gchar *name, GstPadTemplate * templ);
+GST_API
+GstPad*          gst_ghost_pad_new_no_target     (const gchar *name, GstPadDirection dir) G_GNUC_MALLOC;
 
-GstPad*      gst_ghost_pad_get_target   (GstGhostPad *gpad);
-gboolean     gst_ghost_pad_set_target   (GstGhostPad *gpad, GstPad *newtarget);
+GST_API
+GstPad*          gst_ghost_pad_new_from_template (const gchar *name, GstPad * target, GstPadTemplate * templ) G_GNUC_MALLOC;
 
-gboolean     gst_ghost_pad_construct    (GstGhostPad *gpad);
+GST_API
+GstPad*          gst_ghost_pad_new_no_target_from_template (const gchar *name, GstPadTemplate * templ) G_GNUC_MALLOC;
+
+GST_API
+GstPad*          gst_ghost_pad_get_target        (GstGhostPad *gpad);
+
+GST_API
+gboolean         gst_ghost_pad_set_target        (GstGhostPad *gpad, GstPad *newtarget);
+
+GST_API
+gboolean         gst_ghost_pad_construct         (GstGhostPad *gpad);
+
+GST_API
+gboolean         gst_ghost_pad_activate_mode_default  (GstPad * pad, GstObject * parent,
+                                                       GstPadMode mode, gboolean active);
+GST_API
+gboolean         gst_ghost_pad_internal_activate_mode_default   (GstPad * pad, GstObject * parent,
+                                                                 GstPadMode mode, gboolean active);
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstGhostPad, gst_object_unref)
+#endif
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstProxyPad, gst_object_unref)
+#endif
 
 G_END_DECLS
 

@@ -1,4 +1,4 @@
-/* GStreamer - GParamSpecs for for some of our types
+/* GStreamer - GParamSpecs for some of our types
  * Copyright (C) 2007 Tim-Philipp Müller  <tim centricular net>
  *
  * This library is free software; you can redistribute it and/or
@@ -13,8 +13,8 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 #ifndef __GST_PARAMSPECS_H__
@@ -39,8 +39,6 @@ G_BEGIN_DECLS
  *
  * Use this flag on GObject properties of GstElements to indicate that
  * they can be changed when the element is in the READY or lower state.
- *
- * Since: 0.10.23
  */
 #define GST_PARAM_MUTABLE_READY  (1 << (G_PARAM_USER_SHIFT + 2))
 
@@ -50,8 +48,6 @@ G_BEGIN_DECLS
  * Use this flag on GObject properties of GstElements to indicate that
  * they can be changed when the element is in the PAUSED or lower state.
  * This flag implies GST_PARAM_MUTABLE_READY.
- *
- * Since: 0.10.23
  */
 #define GST_PARAM_MUTABLE_PAUSED  (1 << (G_PARAM_USER_SHIFT + 3))
 
@@ -61,8 +57,6 @@ G_BEGIN_DECLS
  * Use this flag on GObject properties of GstElements to indicate that
  * they can be changed when the element is in the PLAYING or lower state.
  * This flag implies GST_PARAM_MUTABLE_PAUSED.
- *
- * Since: 0.10.23
  */
 #define GST_PARAM_MUTABLE_PLAYING  (1 << (G_PARAM_USER_SHIFT + 4))
 
@@ -81,14 +75,24 @@ G_BEGIN_DECLS
 #define GST_PARAM_SPEC_FRACTION(pspec)    (G_TYPE_CHECK_INSTANCE_CAST ((pspec), GST_TYPE_PARAM_FRACTION, GstParamSpecFraction))
 
 
+#define GST_TYPE_PARAM_ARRAY_LIST           (gst_param_spec_array_get_type ())
+#define GST_IS_PARAM_SPEC_ARRAY_LIST(pspec) (G_TYPE_CHECK_INSTANCE_TYPE ((pspec), GST_TYPE_PARAM_ARRAY_LIST))
+#define GST_PARAM_SPEC_ARRAY_LIST(pspec)    (G_TYPE_CHECK_INSTANCE_CAST ((pspec), GST_TYPE_PARAM_ARRAY_LIST, GstParamSpecArray))
+
+
 /* --- get_type functions --- */
 
+GST_API
 GType  gst_param_spec_fraction_get_type (void);
+
+GST_API
+GType  gst_param_spec_array_get_type (void);
 
 
 /* --- typedefs & structures --- */
 
 typedef struct _GstParamSpecFraction GstParamSpecFraction;
+typedef struct _GstParamSpecArray GstParamSpecArray;
 
 /**
  * GstParamSpecFraction:
@@ -111,16 +115,37 @@ struct _GstParamSpecFraction {
   gint          def_num, def_den;
 };
 
+/**
+ * GstParamSpecArray:
+ * @parent_instance: super class
+ * @value_array: the array of values
+ *
+ * A GParamSpec derived structure that contains the meta data for fractional
+ * properties.
+ */
+struct _GstParamSpecArray {
+  GParamSpec    parent_instance;
+
+  GParamSpec * element_spec;
+};
+
 
 /* --- GParamSpec prototypes --- */
 
+GST_API
 GParamSpec  * gst_param_spec_fraction (const gchar * name,
                                        const gchar * nick,
                                        const gchar * blurb,
                                        gint min_num, gint min_denom,
                                        gint max_num, gint max_denom,
                                        gint default_num, gint default_denom,
-                                       GParamFlags flags);
+                                       GParamFlags flags) G_GNUC_MALLOC;
+GST_API
+GParamSpec  * gst_param_spec_array    (const gchar * name,
+                                       const gchar * nick,
+                                       const gchar * blurb,
+                                       GParamSpec * element_spec,
+                                       GParamFlags flags) G_GNUC_MALLOC;
 
 G_END_DECLS
 

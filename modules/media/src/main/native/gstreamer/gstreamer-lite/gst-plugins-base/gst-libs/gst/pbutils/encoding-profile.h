@@ -14,8 +14,8 @@
  *
  * You should have received a copy of the GNU Library General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 #ifndef __GST_PROFILE_H__
@@ -23,27 +23,28 @@
 
 #include <gst/gst.h>
 
-G_BEGIN_DECLS
-
 #include <gst/pbutils/pbutils-enumtypes.h>
+#include <gst/pbutils/gstdiscoverer.h>
+
+G_BEGIN_DECLS
 
 /**
  * GstEncodingProfile:
  *
  * The opaque base class object for all encoding profiles. This contains generic
  * information like name, description, format and preset.
- *
- * Since: 0.10.32
  */
 
-#define GST_TYPE_ENCODING_PROFILE           \
+#define GST_TYPE_ENCODING_PROFILE                       \
   (gst_encoding_profile_get_type ())
-#define GST_ENCODING_PROFILE(obj)           \
+#define GST_ENCODING_PROFILE(obj)                       \
   (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_ENCODING_PROFILE, GstEncodingProfile))
-#define GST_IS_ENCODING_PROFILE(obj)            \
+#define GST_IS_ENCODING_PROFILE(obj)                    \
   (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_ENCODING_PROFILE))
 typedef struct _GstEncodingProfile GstEncodingProfile;
-typedef GstMiniObjectClass GstEncodingProfileClass;
+typedef struct _GstEncodingProfileClass GstEncodingProfileClass;
+
+GST_PBUTILS_API
 GType gst_encoding_profile_get_type (void);
 
 
@@ -52,17 +53,17 @@ GType gst_encoding_profile_get_type (void);
  * GstEncodingContainerProfile:
  *
  * Encoding profiles for containers. Keeps track of a list of #GstEncodingProfile
- *
- * Since: 0.10.32
  */
-#define GST_TYPE_ENCODING_CONTAINER_PROFILE         \
+#define GST_TYPE_ENCODING_CONTAINER_PROFILE                     \
   (gst_encoding_container_profile_get_type ())
-#define GST_ENCODING_CONTAINER_PROFILE(obj)         \
+#define GST_ENCODING_CONTAINER_PROFILE(obj)                     \
   (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_ENCODING_CONTAINER_PROFILE, GstEncodingContainerProfile))
-#define GST_IS_ENCODING_CONTAINER_PROFILE(obj)          \
+#define GST_IS_ENCODING_CONTAINER_PROFILE(obj)                  \
   (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_ENCODING_CONTAINER_PROFILE))
 typedef struct _GstEncodingContainerProfile GstEncodingContainerProfile;
-typedef GstEncodingProfileClass GstEncodingContainerProfileClass;
+typedef struct _GstEncodingContainerProfileClass GstEncodingContainerProfileClass;
+
+GST_PBUTILS_API
 GType gst_encoding_container_profile_get_type (void);
 
 
@@ -71,17 +72,17 @@ GType gst_encoding_container_profile_get_type (void);
  * GstEncodingVideoProfile:
  *
  * Variant of #GstEncodingProfile for video streams, allows specifying the @pass.
- *
- * Since: 0.10.32
  */
-#define GST_TYPE_ENCODING_VIDEO_PROFILE         \
+#define GST_TYPE_ENCODING_VIDEO_PROFILE                 \
   (gst_encoding_video_profile_get_type ())
-#define GST_ENCODING_VIDEO_PROFILE(obj)         \
+#define GST_ENCODING_VIDEO_PROFILE(obj)                 \
   (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_ENCODING_VIDEO_PROFILE, GstEncodingVideoProfile))
-#define GST_IS_ENCODING_VIDEO_PROFILE(obj)          \
+#define GST_IS_ENCODING_VIDEO_PROFILE(obj)                      \
   (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_ENCODING_VIDEO_PROFILE))
 typedef struct _GstEncodingVideoProfile GstEncodingVideoProfile;
-typedef GstEncodingProfileClass GstEncodingVideoProfileClass;
+typedef struct _GstEncodingVideoProfileClass GstEncodingVideoProfileClass;
+
+GST_PBUTILS_API
 GType gst_encoding_video_profile_get_type (void);
 
 
@@ -90,17 +91,17 @@ GType gst_encoding_video_profile_get_type (void);
  * GstEncodingAudioProfile:
  *
  * Variant of #GstEncodingProfile for audio streams.
- *
- * Since: 0.10.32
  */
-#define GST_TYPE_ENCODING_AUDIO_PROFILE         \
+#define GST_TYPE_ENCODING_AUDIO_PROFILE                 \
   (gst_encoding_audio_profile_get_type ())
-#define GST_ENCODING_AUDIO_PROFILE(obj)         \
+#define GST_ENCODING_AUDIO_PROFILE(obj)                 \
   (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_ENCODING_AUDIO_PROFILE, GstEncodingAudioProfile))
-#define GST_IS_ENCODING_AUDIO_PROFILE(obj)          \
+#define GST_IS_ENCODING_AUDIO_PROFILE(obj)                      \
   (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_ENCODING_AUDIO_PROFILE))
 typedef struct _GstEncodingAudioProfile GstEncodingAudioProfile;
-typedef GstEncodingProfileClass GstEncodingAudioProfileClass;
+typedef struct _GstEncodingAudioProfileClass GstEncodingAudioProfileClass;
+
+GST_PBUTILS_API
 GType gst_encoding_audio_profile_get_type (void);
 
 
@@ -112,76 +113,168 @@ GType gst_encoding_audio_profile_get_type (void);
  * @profile: a #GstEncodingProfile
  *
  * Decreases the reference count of the @profile, possibly freeing the @profile.
- *
- * Since: 0.10.32
  */
-#define gst_encoding_profile_unref(profile) (gst_mini_object_unref ((GstMiniObject*) profile))
+#define gst_encoding_profile_unref(profile) (g_object_unref ((GObject*) profile))
 
 /**
  * gst_encoding_profile_ref:
  * @profile: a #GstEncodingProfile
  *
  * Increases the reference count of the @profile.
- *
- * Since: 0.10.32
  */
-#define gst_encoding_profile_ref(profile) (gst_mini_object_ref ((GstMiniObject*) profile))
+#define gst_encoding_profile_ref(profile) (g_object_ref ((GObject*) profile))
 
-const gchar *   gst_encoding_profile_get_name(GstEncodingProfile *profile);
-const gchar *   gst_encoding_profile_get_description(GstEncodingProfile *profile);
-const GstCaps * gst_encoding_profile_get_format(GstEncodingProfile *profile);
-const gchar *   gst_encoding_profile_get_preset(GstEncodingProfile *profile);
-guint   gst_encoding_profile_get_presence(GstEncodingProfile *profile);
-const GstCaps * gst_encoding_profile_get_restriction(GstEncodingProfile *profile);
+GST_PBUTILS_API
+const gchar *   gst_encoding_profile_get_name           (GstEncodingProfile *profile);
 
-void    gst_encoding_profile_set_name(GstEncodingProfile *profile, const gchar *name);
-void    gst_encoding_profile_set_description(GstEncodingProfile *profile, const gchar *description);
-void    gst_encoding_profile_set_format(GstEncodingProfile *profile, GstCaps *format);
-void    gst_encoding_profile_set_preset(GstEncodingProfile *profile, const gchar *preset);
-void    gst_encoding_profile_set_restriction(GstEncodingProfile *profile, GstCaps *restriction);
-void    gst_encoding_profile_set_presence(GstEncodingProfile *profile, guint presence);
+GST_PBUTILS_API
+void            gst_encoding_profile_set_name           (GstEncodingProfile *profile,
+                                                         const gchar *name);
 
-gboolean gst_encoding_profile_is_equal (GstEncodingProfile *a,
-                    GstEncodingProfile *b);
-GstCaps * gst_encoding_profile_get_input_caps (GstEncodingProfile *profile);
+GST_PBUTILS_API
+const gchar *   gst_encoding_profile_get_description    (GstEncodingProfile *profile);
 
-const gchar *gst_encoding_profile_get_type_nick (GstEncodingProfile *profile);
+GST_PBUTILS_API
+void            gst_encoding_profile_set_description    (GstEncodingProfile *profile,
+                                                         const gchar *description);
 
+GST_PBUTILS_API
+GstCaps *       gst_encoding_profile_get_format         (GstEncodingProfile *profile);
+
+GST_PBUTILS_API
+void            gst_encoding_profile_set_format         (GstEncodingProfile *profile,
+                                                         GstCaps *format);
+
+GST_PBUTILS_API
+gboolean  gst_encoding_profile_get_allow_dynamic_output (GstEncodingProfile *profile);
+
+GST_PBUTILS_API
+void      gst_encoding_profile_set_allow_dynamic_output (GstEncodingProfile *profile,
+                                                         gboolean allow_dynamic_output);
+
+GST_PBUTILS_API
+const gchar *   gst_encoding_profile_get_preset         (GstEncodingProfile *profile);
+
+GST_PBUTILS_API
+const gchar *   gst_encoding_profile_get_preset_name    (GstEncodingProfile *profile);
+
+GST_PBUTILS_API
+void            gst_encoding_profile_set_preset         (GstEncodingProfile *profile,
+                                                         const gchar *preset);
+
+GST_PBUTILS_API
+guint           gst_encoding_profile_get_presence       (GstEncodingProfile *profile);
+
+GST_PBUTILS_API
+void            gst_encoding_profile_set_presence       (GstEncodingProfile *profile,
+                                                         guint presence);
+
+GST_PBUTILS_API
+void            gst_encoding_profile_set_preset_name    (GstEncodingProfile * profile,
+                                                         const gchar * preset_name);
+
+GST_PBUTILS_API
+GstCaps *       gst_encoding_profile_get_restriction    (GstEncodingProfile *profile);
+
+GST_PBUTILS_API
+void            gst_encoding_profile_set_restriction    (GstEncodingProfile *profile,
+                                                         GstCaps *restriction);
+
+GST_PBUTILS_API
+gboolean        gst_encoding_profile_is_equal           (GstEncodingProfile *a,
+                                                         GstEncodingProfile *b);
+
+GST_PBUTILS_API
+GstCaps *       gst_encoding_profile_get_input_caps     (GstEncodingProfile *profile);
+
+GST_PBUTILS_API
+const gchar *   gst_encoding_profile_get_type_nick      (GstEncodingProfile *profile);
+
+GST_PBUTILS_API
+const gchar *   gst_encoding_profile_get_file_extension (GstEncodingProfile * profile);
+
+GST_PBUTILS_API
 GstEncodingProfile * gst_encoding_profile_find (const gchar *targetname,
-                        const gchar *profilename,
-                        const gchar *category);
+                                                const gchar *profilename,
+                                                const gchar *category);
 
+GST_PBUTILS_API
+gboolean        gst_encoding_profile_is_enabled        (GstEncodingProfile *profile);
+
+GST_PBUTILS_API
+void            gst_encoding_profile_set_enabled       (GstEncodingProfile *profile,
+                                                         gboolean enabled);
 /* GstEncodingContainerProfile API */
-gboolean  gst_encoding_container_profile_add_profile       (GstEncodingContainerProfile *container,
-                                GstEncodingProfile *profile);
-gboolean  gst_encoding_container_profile_contains_profile  (GstEncodingContainerProfile * container,
-                                GstEncodingProfile *profile);
-const GList *gst_encoding_container_profile_get_profiles   (GstEncodingContainerProfile *profile);
+
+GST_PBUTILS_API
+gboolean        gst_encoding_container_profile_add_profile       (GstEncodingContainerProfile *container,
+                                                                  GstEncodingProfile *profile);
+
+GST_PBUTILS_API
+gboolean        gst_encoding_container_profile_contains_profile  (GstEncodingContainerProfile * container,
+                                                                  GstEncodingProfile *profile);
+
+GST_PBUTILS_API
+const GList *   gst_encoding_container_profile_get_profiles      (GstEncodingContainerProfile *profile);
 
 
+GST_PBUTILS_API
 GstEncodingContainerProfile *  gst_encoding_container_profile_new (const gchar *name,
-                                   const gchar *description,
-                                   GstCaps *format,
-                                   const gchar *preset);
+                                                                   const gchar *description,
+                                                                   GstCaps *format,
+                                                                   const gchar *preset);
 
 
 /* Invidual stream encodingprofile API */
-GstEncodingVideoProfile * gst_encoding_video_profile_new (GstCaps *format,
-                              const gchar *preset,
-                              GstCaps *restriction,
-                              guint presence);
-GstEncodingAudioProfile * gst_encoding_audio_profile_new (GstCaps *format,
-                              const gchar *preset,
-                              GstCaps *restriction,
-                              guint presence);
 
+GST_PBUTILS_API
+GstEncodingVideoProfile * gst_encoding_video_profile_new (GstCaps *format,
+                                                          const gchar *preset,
+                                                          GstCaps *restriction,
+                                                          guint presence);
+
+GST_PBUTILS_API
+GstEncodingAudioProfile * gst_encoding_audio_profile_new (GstCaps *format,
+                                                          const gchar *preset,
+                                                          GstCaps *restriction,
+                                                          guint presence);
+
+GST_PBUTILS_API
 guint    gst_encoding_video_profile_get_pass              (GstEncodingVideoProfile *prof);
+
+GST_PBUTILS_API
 gboolean gst_encoding_video_profile_get_variableframerate (GstEncodingVideoProfile *prof);
 
+GST_PBUTILS_API
 void     gst_encoding_video_profile_set_pass              (GstEncodingVideoProfile *prof,
-                               guint pass);
+                                                           guint pass);
+
+GST_PBUTILS_API
 void     gst_encoding_video_profile_set_variableframerate (GstEncodingVideoProfile *prof,
-                               gboolean variableframerate);
+                                                           gboolean variableframerate);
+
+GST_PBUTILS_API
+GstEncodingProfile * gst_encoding_profile_from_discoverer (GstDiscovererInfo *info);
+
+GST_PBUTILS_API
+GstEncodingProfile * gst_encoding_profile_copy (GstEncodingProfile *self);
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstEncodingAudioProfile, gst_object_unref)
+#endif
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstEncodingContainerProfile, gst_object_unref)
+#endif
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstEncodingProfile, gst_object_unref)
+#endif
+
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GstEncodingVideoProfile, gst_object_unref)
+#endif
+
 G_END_DECLS
 
 #endif /* __GST_PROFILE_H__ */

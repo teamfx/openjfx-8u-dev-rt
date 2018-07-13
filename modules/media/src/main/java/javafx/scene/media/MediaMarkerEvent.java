@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -34,7 +34,7 @@ import javafx.util.Pair;
  * {@link Media} which is then played by a {@link MediaPlayer}. The event
  * is fired when the playback position reaches the position of the marker.
  *
- * @see MediaPlayer#onMarker
+ * @see MediaPlayer#onMarkerProperty()
  * @since JavaFX 2.0
  */
 public class MediaMarkerEvent extends ActionEvent {

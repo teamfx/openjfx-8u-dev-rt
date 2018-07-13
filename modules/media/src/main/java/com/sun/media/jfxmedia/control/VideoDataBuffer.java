@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -24,6 +24,7 @@
  */
 package com.sun.media.jfxmedia.control;
 
+import java.lang.annotation.Native;
 import java.nio.ByteBuffer;
 
 /**
@@ -31,16 +32,16 @@ import java.nio.ByteBuffer;
  */
 public interface VideoDataBuffer {
     /** Plane index used by all packed formats */
-    public static final int PACKED_FORMAT_PLANE = 0;
+    @Native public static final int PACKED_FORMAT_PLANE = 0;
 
     /** Plane index for YCbCr luminance data */
-    public static final int YCBCR_PLANE_LUMA = 0;
+    @Native public static final int YCBCR_PLANE_LUMA = 0;
     /** Plane index for YCbCr red chrominance data */
-    public static final int YCBCR_PLANE_CR = 1;
+    @Native public static final int YCBCR_PLANE_CR = 1;
     /** Plane index for YCbCr blue chrominance data */
-    public static final int YCBCR_PLANE_CB = 2;
+    @Native public static final int YCBCR_PLANE_CB = 2;
     /** Plane index for YCbCr alpha data, this plane is optional */
-    public static final int YCBCR_PLANE_ALPHA = 3;
+    @Native public static final int YCBCR_PLANE_ALPHA = 3;
 
     /**
      * Retrieve the data buffer for the specified plane. For chunky formats,
