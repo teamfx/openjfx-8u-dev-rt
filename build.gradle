@@ -769,21 +769,14 @@ if (Integer.parseInt(NUM_COMPILE_THREADS.toString()) < 1) {
     NUM_COMPILE_THREADS = 1
 }
 
-// Check that Gradle 1.8 is in use.
-if (gradle.gradleVersion != "1.8") {
+// Check for Gradle 4.8, error if < 4.8.
+if (gradle.gradleVersion != "4.8") {
     def ver = gradle.gradleVersion.split("[\\.]");
     def gradleMajor = Integer.parseInt(ver[0]);
-    def gradleMinor = Integer.parseInt(ver[1]);
+    def gradleMinor = Integer.parseInt(ver[1].split("[^0-9]")[0]);
     def err = "";
-    if (gradleMajor == 1) {
-        if (gradleMinor < 8) {
-            err = "Gradle version too old: ${gradle.gradleVersion}; must be at least 1.8"
-        }
-
-        // Blacklisted versions of gradle
-        if (gradleMinor == 11) {
-            err = "JavaFX fails to build with Gradle ${gradle.gradleVersion}; supported version is 1.8"
-        }
+    if (gradleMajor < 4 || (gradleMajor == 4 && gradleMinor < 8)) {
+        err = "Gradle version too old: ${gradle.gradleVersion}; must be at least 4.8"
     }
 
     if (IS_GRADLE_VERSION_CHECK && err != "") {
@@ -792,7 +785,7 @@ if (gradle.gradleVersion != "1.8") {
 
     logger.warn("*****************************************************************");
     logger.warn("Unsupported gradle version $gradle.gradleVersion in use.");
-    logger.warn("Only version 1.8 is supported. Use this version at your own risk");
+    logger.warn("Only version 4.8 is supported. Use this version at your own risk");
     if ( err != "") logger.warn(err);
     logger.warn("*****************************************************************");
 }
@@ -806,6 +799,7 @@ if (gradle.gradleVersion != "1.8") {
  *                                                                            *
  *****************************************************************************/
 
+logger.quiet("gradle.gradleVersion: $gradle.gradleVersion")
 logger.quiet("OS_NAME: $OS_NAME")
 logger.quiet("OS_ARCH: $OS_ARCH")
 logger.quiet("JAVA_HOME: $JAVA_HOME")
@@ -907,12 +901,12 @@ void addNative(Project project, String name) {
         def javahTask = project.task("javah${t.capital}${capitalName}", type: JavaHeaderTask, dependsOn: project.classes, group: "Build") {
             description = "Generates JNI Headers for ${name} for ${t.name}"
             if (properties.javahSource == null) {
-                source(project.sourceSets.main.output.classesDir)
+                source(project.sourceSets.main.java.outputDir)
             } else {
                 source(properties.javahSource)
             }
             if (properties.javahClasspath == null) {
-                classpath = project.files(project.sourceSets.main.output.classesDir)
+                classpath = project.files(project.sourceSets.main.java.outputDir)
                 classpath += project.sourceSets.main.compileClasspath
             } else {
                 classpath = project.files(properties.javahClasspath)
@@ -978,7 +972,7 @@ void addJSL(Project project, String name, String pkg, Closure compile) {
 
     def compileCompilers = project.task("compile${name}Compilers", type: JavaCompile, dependsOn: project.compileJava) {
         description = "Compile the $name JSL Compilers"
-        classpath = project.files(project.sourceSets.main.output.classesDir) +
+        classpath = project.files(project.sourceSets.main.java.outputDir) +
                 rootProject.BUILD_SRC +
                 project.configurations.antlr3
         source = [project.file("src/main/jsl-$lowerName")]
@@ -998,7 +992,7 @@ void addJSL(Project project, String name, String pkg, Closure compile) {
 
     project.task("compile${name}JavaShaders", type: JavaCompile, dependsOn: generateShaders) {
         description = "Compile the Java $name JSL shaders"
-        classpath = project.files(project.sourceSets.main.output.classesDir) + rootProject.BUILD_SRC
+        classpath = project.files(project.sourceSets.main.java.outputDir) + rootProject.BUILD_SRC
         source = [project.file("$project.buildDir/generated-src/jsl-$lowerName")]
         destinationDir = project.file("$project.buildDir/classes/jsl-$lowerName")
     }
@@ -1461,7 +1455,7 @@ project(":graphics") {
                 workingDir = "modules/graphics"
                 main = settings.generator
                 classpath = configurations.compile + configurations.antlr3
-                classpath += files("$buildDir/classes/main")
+                classpath += files("$buildDir/classes/java/main")
                 classpath += files("$buildDir/classes/jsl-compilers/decora")
                 args = ["-i", sourceDir, "-o", destinationDir, "-t", "-pkg", "com/sun/scenario/effect", "$settings.outputs", "$settings.fileName"]
                 jvmArgs "-Djava.ext.dirs="
@@ -1472,9 +1466,9 @@ project(":graphics") {
     task generateDecoraNativeHeaders(type: JavaHeaderTask, dependsOn: compileDecoraJavaShaders) {
         description = "Generates JNI Headers for Decora SSE Natives"
         source file("$buildDir/classes/jsl-decora")
-        source file("$buildDir/classes/main")
+        source file("$buildDir/classes/java/main")
         include("com/sun/scenario/effect/impl/sw/sse/*");
-        classpath = files("$buildDir/classes/main", "$buildDir/classes/jsl-decora")
+        classpath = files("$buildDir/classes/java/main", "$buildDir/classes/jsl-decora")
         output = file("$buildDir/generated-src/headers/jsl-decora")
     }
 
@@ -1569,7 +1563,7 @@ project(":graphics") {
     processResources.dependsOn processDecoraShaders, processPrismShaders
 
     test {
-        def cssDir = file("$buildDir/classes/main/javafx")
+        def cssDir = file("$buildDir/classes/java/main/javafx")
         jvmArgs "-Djava.ext.dirs=", "-Djavafx.toolkit=com.sun.javafx.pgstub.StubToolkit",
             "-DCSS_META_DATA_TEST_DIR=$cssDir"
         enableAssertions = true
@@ -1584,38 +1578,40 @@ project(":graphics") {
     // To enable the IDEs to all be happy (no red squiggles) we need to have the libraries
     // available in some known location. Maybe in the future the Gradle plugins to each
     // of the IDEs will be good enough that we won't need this hack anymore.
-    classes << {
-        // Copy all of the download libraries to the libs directory for the sake of the IDEs
-        File libsDir = rootProject.file("build/libs");
+    classes {
+        doLast {
+            // Copy all of the download libraries to the libs directory for the sake of the IDEs
+            File libsDir = rootProject.file("build/libs");
 
-        // In some IDEs (Eclipse for example), touching these libraries cauese a full build
-        // within the IDE.  When gradle is used outside of the IDE, for example to build the
-        // native code, a full rebuild is caused within the IDE.  The fix is to check for the
-        // lib directory and not copy the files
-        //
-        // This means that in order to update the dependent libraries for the IDE's, a clean
-        // build is required
-        //
-        if (libsDir.exists()) return;
-        libsDir.mkdirs();
-        for (File f : [configurations.compile.files, configurations.antlr3.files].flatten()) {
-            copy {
-                into libsDir
-                from f.getParentFile()
-                include "**/antlr-3.1.3.jar"
-                include "**/stringtemplate-3.2.jar"
-                include "**/antlr-runtime-3.1.3.jar"
-                includeEmptyDirs = false
-            }
-            // Have to rename the swt jar because it is some platform specific name but
-            // for the sake of the IDEs we need to have a single stable name that works
-            // on every platform
-            copy {
-                into libsDir
-                from f.getParentFile()
-                include "**/*swt*.jar"
-                includeEmptyDirs = false
-                rename ".*swt.*jar", "swt-debug\\.jar"
+            // In some IDEs (Eclipse for example), touching these libraries cauese a full build
+            // within the IDE.  When gradle is used outside of the IDE, for example to build the
+            // native code, a full rebuild is caused within the IDE.  The fix is to check for the
+            // lib directory and not copy the files
+            //
+            // This means that in order to update the dependent libraries for the IDE's, a clean
+            // build is required
+            //
+            if (libsDir.exists()) return;
+            libsDir.mkdirs();
+            for (File f : [configurations.compile.files, configurations.antlr3.files].flatten()) {
+                copy {
+                    into libsDir
+                    from f.getParentFile()
+                    include "**/antlr-3.1.3.jar"
+                    include "**/stringtemplate-3.2.jar"
+                    include "**/antlr-runtime-3.1.3.jar"
+                    includeEmptyDirs = false
+                }
+                // Have to rename the swt jar because it is some platform specific name but
+                // for the sake of the IDEs we need to have a single stable name that works
+                // on every platform
+                copy {
+                    into libsDir
+                    from f.getParentFile()
+                    include "**/*swt*.jar"
+                    includeEmptyDirs = false
+                    rename ".*swt.*jar", "swt-debug\\.jar"
+                }
             }
         }
     }
@@ -1630,7 +1626,7 @@ project(":controls") {
     }
 
     test {
-        def cssDir = file("$buildDir/classes/main/javafx")
+        def cssDir = file("$buildDir/classes/java/main/javafx")
         jvmArgs "-Djavafx.toolkit=com.sun.javafx.pgstub.StubToolkit",
             "-DCSS_META_DATA_TEST_DIR=$cssDir"
     }
@@ -1638,25 +1634,27 @@ project(":controls") {
     // TODO Css2Bin really should be moved out and put into buildSrc if it can be
     // TODO could change script to dynamically locate all .css files and create bss for them, probably better
     // TODO also not sure there is any benefit to having css files in the jfxrt.jar at all
-    processResources << {
-        ["$buildDir/resources/main/com/sun/javafx/scene/control/skin/caspian/caspian.css",
-        "$buildDir/resources/main/com/sun/javafx/scene/control/skin/caspian/caspian-no-transparency.css",
-        "$buildDir/resources/main/com/sun/javafx/scene/control/skin/caspian/embedded-qvga.css",
-        "$buildDir/resources/main/com/sun/javafx/scene/control/skin/caspian/embedded.css",
-        "$buildDir/resources/main/com/sun/javafx/scene/control/skin/caspian/fxvk.css",
-        "$buildDir/resources/main/com/sun/javafx/scene/control/skin/caspian/highcontrast.css",
-        "$buildDir/resources/main/com/sun/javafx/scene/control/skin/modena/modena.css",
-        "$buildDir/resources/main/com/sun/javafx/scene/control/skin/modena/modena-no-transparency.css",
-        "$buildDir/resources/main/com/sun/javafx/scene/control/skin/modena/touch.css"].each { css ->
-            javaexec {
-                executable = JAVA
-                workingDir = "modules/controls"
-                classpath files("$buildDir/classes/main",
-                        project(":graphics").sourceSets.main.output,
-                        project(":base").sourceSets.main.output)
-                main = "com.sun.javafx.css.parser.Css2Bin"
-                args css
-                jvmArgs "-Djava.ext.dirs="
+    processResources {
+        doLast {
+            ["$buildDir/resources/main/com/sun/javafx/scene/control/skin/caspian/caspian.css",
+            "$buildDir/resources/main/com/sun/javafx/scene/control/skin/caspian/caspian-no-transparency.css",
+            "$buildDir/resources/main/com/sun/javafx/scene/control/skin/caspian/embedded-qvga.css",
+            "$buildDir/resources/main/com/sun/javafx/scene/control/skin/caspian/embedded.css",
+            "$buildDir/resources/main/com/sun/javafx/scene/control/skin/caspian/fxvk.css",
+            "$buildDir/resources/main/com/sun/javafx/scene/control/skin/caspian/highcontrast.css",
+            "$buildDir/resources/main/com/sun/javafx/scene/control/skin/modena/modena.css",
+            "$buildDir/resources/main/com/sun/javafx/scene/control/skin/modena/modena-no-transparency.css",
+            "$buildDir/resources/main/com/sun/javafx/scene/control/skin/modena/touch.css"].each { css ->
+                javaexec {
+                    executable = JAVA
+                    workingDir = "modules/controls"
+                    classpath files("$buildDir/classes/java/main",
+                            project(":graphics").sourceSets.main.output,
+                            project(":base").sourceSets.main.output)
+                    main = "com.sun.javafx.css.parser.Css2Bin"
+                    args css
+                    jvmArgs "-Djava.ext.dirs="
+                }
             }
         }
     }
@@ -1838,7 +1836,7 @@ project(":fxpackager") {
                     from "$buildDir/native/WinLauncher/WinLauncher.exe"
                     from "$MSVCR"
                     from "$MSVCP"
-                    into "$buildDir/classes/main/com/oracle/tools/packager/windows"
+                    into "$buildDir/classes/java/main/com/oracle/tools/packager/windows"
                 }
             }
         }
@@ -1859,7 +1857,7 @@ project(":fxpackager") {
             doLast {
                 copy {
                     from "$buildDir/native/WinLauncher/packager.dll"
-                    into "$buildDir/classes/main/com/oracle/tools/packager/windows"
+                    into "$buildDir/classes/java/main/com/oracle/tools/packager/windows"
                 }
             }
         }
@@ -1875,7 +1873,7 @@ project(":fxpackager") {
             doLast {
                 copy {
                     from "$buildDir/native/WinLauncherSvc/WinLauncherSvc.exe"
-                    into "$buildDir/classes/main/com/oracle/tools/packager/windows"
+                    into "$buildDir/classes/java/main/com/oracle/tools/packager/windows"
                 }
             }
         }
@@ -1891,7 +1889,7 @@ project(":fxpackager") {
             doLast {
                 copy {
                     from "$buildDir/native/IconSwap/IconSwap.exe"
-                    into "$buildDir/classes/main/com/oracle/tools/packager/windows"
+                    into "$buildDir/classes/java/main/com/oracle/tools/packager/windows"
                 }
             }
         }
@@ -1904,7 +1902,7 @@ project(":fxpackager") {
             source file("src/main/native/launcher/mac")
             params.addAll(MAC.launcher.ccFlags)
             compiler = MAC.launcher.compiler
-            output(file("$buildDir/classes/main/com/oracle/tools/packager/mac"))
+            output(file("$buildDir/classes/java/main/com/oracle/tools/packager/mac"))
             eachOutputFile = { f ->
                 return new File(f.getParent(), "JavaAppLauncher")
             }
@@ -1922,7 +1920,7 @@ project(":fxpackager") {
             objectDir = file("$buildDir/native/maclauncher/obj")
             linkParams.addAll(MAC.launcherlibrary.linkFlags)
             linker = MAC.launcherlibrary.linker
-            lib = file("$buildDir/classes/main/com/oracle/tools/packager/mac/libpackager.dylib")
+            lib = file("$buildDir/classes/java/main/com/oracle/tools/packager/mac/libpackager.dylib")
         }
         task compileLauncher(dependsOn: [buildMacLauncher, linkMacLibrary])
         jar.dependsOn compileLauncher;
@@ -1940,7 +1938,7 @@ project(":fxpackager") {
             objectDir = file("$buildDir/native/linuxlauncher/launcherobj")
             linkParams.addAll(LINUX.launcher.linkFlags)
             linker = LINUX.launcher.linker
-            lib = file("$buildDir/classes/main/com/oracle/tools/packager/linux/JavaAppLauncher")
+            lib = file("$buildDir/classes/java/main/com/oracle/tools/packager/linux/JavaAppLauncher")
         }
         task compileLinuxLibrary(type: CCTask, group: "Build") {
             description = "Compiles native sources for the application co-bundle launcher library"
@@ -1955,7 +1953,7 @@ project(":fxpackager") {
             objectDir = file("$buildDir/native/linuxlauncher/obj")
             linkParams.addAll(LINUX.launcherlibrary.linkFlags)
             linker = LINUX.launcherlibrary.linker
-            lib = file("$buildDir/classes/main/com/oracle/tools/packager/linux/libpackager.so")
+            lib = file("$buildDir/classes/java/main/com/oracle/tools/packager/linux/libpackager.so")
         }
         task compileLauncher(dependsOn: [linkLinuxLauncher, linkLinuxLibrary])
         jar.dependsOn compileLauncher;
@@ -2045,7 +2043,7 @@ project(":fxpackager") {
         description = "Creates the packager.jar"
         archiveName = "packager.jar";
         includeEmptyDirs = false
-        from("$buildDir/classes/main");
+        from("$buildDir/classes/java/main");
         from("$buildDir/resources/main");
         include('jdk/packager/**')
 
@@ -2055,17 +2053,19 @@ project(":fxpackager") {
     jar.dependsOn buildJavaPackager
     jar.dependsOn packagerJar
 
-    classes << {
-        // Copy all of the download libraries to libs directory for the sake of the IDEs
-        File libsDir = rootProject.file("build/libs");
-        File antLib = new File(libsDir, "ant-1.8.2.jar")
-        libsDir.mkdirs();
-        for (File f : configurations.compile.files) {
-            copy {
-                into libsDir
-                from f.getParentFile()
-                include "**/ant-1.8.2.jar"
-                includeEmptyDirs = false
+    classes {
+        doLast {
+            // Copy all of the download libraries to libs directory for the sake of the IDEs
+            File libsDir = rootProject.file("build/libs");
+            File antLib = new File(libsDir, "ant-1.8.2.jar")
+            libsDir.mkdirs();
+            for (File f : configurations.compile.files) {
+                copy {
+                    into libsDir
+                    from f.getParentFile()
+                    include "**/ant-1.8.2.jar"
+                    includeEmptyDirs = false
+                }
             }
         }
     }
@@ -2382,35 +2382,37 @@ project(":media") {
             }
 
             if (t.name == "win") {
-                def buildResources = task("buildResources") << {
-                    def rcOutputDir = "${nativeOutputDir}/${buildType}"
-                    mkdir rcOutputDir
-                    exec {
-                        environment(WINDOWS_NATIVE_COMPILE_ENVIRONMENT)
-                        commandLine (WIN.media.rcCompiler)
-                        args(WIN.media.glibRcFlags)
-                        args("/Fo${rcOutputDir}/${WIN.media.glibRcFile}", WIN.media.rcSource)
-                    }
+                def buildResources = task("buildResources") {
+                    doLast {
+                        def rcOutputDir = "${nativeOutputDir}/${buildType}"
+                        mkdir rcOutputDir
+                        exec {
+                            environment(WINDOWS_NATIVE_COMPILE_ENVIRONMENT)
+                            commandLine (WIN.media.rcCompiler)
+                            args(WIN.media.glibRcFlags)
+                            args("/Fo${rcOutputDir}/${WIN.media.glibRcFile}", WIN.media.rcSource)
+                        }
 
-                    exec {
-                        environment(WINDOWS_NATIVE_COMPILE_ENVIRONMENT)
-                        commandLine (WIN.media.rcCompiler)
-                        args(WIN.media.gstreamerRcFlags)
-                        args("/Fo${rcOutputDir}/${WIN.media.gstreamerRcFile}", WIN.media.rcSource)
-                    }
+                        exec {
+                            environment(WINDOWS_NATIVE_COMPILE_ENVIRONMENT)
+                            commandLine (WIN.media.rcCompiler)
+                            args(WIN.media.gstreamerRcFlags)
+                            args("/Fo${rcOutputDir}/${WIN.media.gstreamerRcFile}", WIN.media.rcSource)
+                        }
 
-                    exec {
-                        environment(WINDOWS_NATIVE_COMPILE_ENVIRONMENT)
-                        commandLine (WIN.media.rcCompiler)
-                        args(WIN.media.fxpluginsRcFlags)
-                        args("/Fo${rcOutputDir}/${WIN.media.fxpluginsRcFile}", WIN.media.rcSource)
-                    }
+                        exec {
+                            environment(WINDOWS_NATIVE_COMPILE_ENVIRONMENT)
+                            commandLine (WIN.media.rcCompiler)
+                            args(WIN.media.fxpluginsRcFlags)
+                            args("/Fo${rcOutputDir}/${WIN.media.fxpluginsRcFile}", WIN.media.rcSource)
+                        }
 
-                    exec {
-                        environment(WINDOWS_NATIVE_COMPILE_ENVIRONMENT)
-                        commandLine (WIN.media.rcCompiler)
-                        args(WIN.media.jfxmediaRcFlags)
-                        args("/Fo${rcOutputDir}/${WIN.media.jfxmediaRcFile}", WIN.media.rcSource)
+                        exec {
+                            environment(WINDOWS_NATIVE_COMPILE_ENVIRONMENT)
+                            commandLine (WIN.media.rcCompiler)
+                            args(WIN.media.jfxmediaRcFlags)
+                            args("/Fo${rcOutputDir}/${WIN.media.jfxmediaRcFile}", WIN.media.rcSource)
+                        }
                     }
                 }
 
@@ -2511,8 +2513,8 @@ project(":web") {
 
     task generateHeaders(dependsOn: compileJava) {
         doLast {
-            def classpath = files("$buildDir/classes/main",
-                                  project(":graphics").sourceSets.main.output.classesDir)
+            def classpath = files("$buildDir/classes/java/main",
+                                  project(":graphics").sourceSets.main.java.outputDir)
             def dest = file("$buildDir/generated-src/headers");
             mkdir dest;
             exec {
@@ -2567,87 +2569,89 @@ project(":web") {
         File nativeBuildDir = new File("${webkitOutputDir}")
         nativeBuildDir.mkdirs()
 
-        def compileNativeTask = task("compileNative${t.capital}", dependsOn: generateHeaders) << {
-            println "Building Webkit configuration /$webkitConfig/ into $webkitOutputDir"
+        def compileNativeTask = task("compileNative${t.capital}", dependsOn: generateHeaders) {
+            doLast {
+                println "Building Webkit configuration /$webkitConfig/ into $webkitOutputDir"
 
-            exec {
-                workingDir("$webkitOutputDir")
-                commandLine("perl", "$projectDir/src/main/native/Tools/Scripts/set-webkit-configuration", "--$webkitConfig")
-                environment(["WEBKIT_OUTPUTDIR" : webkitOutputDir])
-            }
+                exec {
+                    workingDir("$webkitOutputDir")
+                    commandLine("perl", "$projectDir/src/main/native/Tools/Scripts/set-webkit-configuration", "--$webkitConfig")
+                    environment(["WEBKIT_OUTPUTDIR" : webkitOutputDir])
+                }
 
-            exec {
-                workingDir("$projectDir/src/main/native")
-                def cmakeArgs = "-DENABLE_TOOLS=1"
-                if (t.name == "win") {
-                    String parfaitPath = IS_COMPILE_PARFAIT ? System.getenv().get("PARFAIT_PATH") + ";" : "";
-                    Map environmentSettings = new HashMap(WINDOWS_NATIVE_COMPILE_ENVIRONMENT)
-                    environmentSettings["PATH"] = parfaitPath + "$WINDOWS_VS_PATH"
-                    /* To build with ICU:
-                    1. Download http://javaweb.us.oracle.com/jcg/fx-webrevs/RT-17164/WebKitLibrariesICU.zip
-                    and unzip it to WebKitLibraries folder.
-                    2. Copy DLLs from
-                    WebKitLibrariesICU.zip\WebKitLibraries\import\runtime
-                    to %windir%\system32
-                    3. Uncomment the line below
-                     */
-                    // args("--icu-unicode")
-                } else if (t.name == "mac") {
-                    cmakeArgs = "-DCMAKE_OSX_DEPLOYMENT_TARGET=$MACOSX_MIN_VERSION -DCMAKE_OSX_SYSROOT=$MACOSX_SDK_PATH"
-                } else if (t.name == "linux") {
-                    cmakeArgs = "-DCMAKE_SYSTEM_NAME=Linux -DCMAKE_C_COMPILER=${webkitProperties.compiler}"
-                    if (IS_64) {
-                        cmakeArgs = "$cmakeArgs -DCMAKE_SYSTEM_PROCESSOR=x86_64"
-                    } else {
-                        cmakeArgs = "$cmakeArgs -DCMAKE_SYSTEM_PROCESSOR=i586"
+                exec {
+                    workingDir("$projectDir/src/main/native")
+                    def cmakeArgs = "-DENABLE_TOOLS=1"
+                    if (t.name == "win") {
+                        String parfaitPath = IS_COMPILE_PARFAIT ? System.getenv().get("PARFAIT_PATH") + ";" : "";
+                        Map environmentSettings = new HashMap(WINDOWS_NATIVE_COMPILE_ENVIRONMENT)
+                        environmentSettings["PATH"] = parfaitPath + "$WINDOWS_VS_PATH"
+                        /* To build with ICU:
+                        1. Download http://javaweb.us.oracle.com/jcg/fx-webrevs/RT-17164/WebKitLibrariesICU.zip
+                        and unzip it to WebKitLibraries folder.
+                        2. Copy DLLs from
+                        WebKitLibrariesICU.zip\WebKitLibraries\import\runtime
+                        to %windir%\system32
+                        3. Uncomment the line below
+                         */
+                        // args("--icu-unicode")
+                    } else if (t.name == "mac") {
+                        cmakeArgs = "-DCMAKE_OSX_DEPLOYMENT_TARGET=$MACOSX_MIN_VERSION -DCMAKE_OSX_SYSROOT=$MACOSX_SDK_PATH"
+                    } else if (t.name == "linux") {
+                        cmakeArgs = "-DCMAKE_SYSTEM_NAME=Linux -DCMAKE_C_COMPILER=${webkitProperties.compiler}"
+                        if (IS_64) {
+                            cmakeArgs = "$cmakeArgs -DCMAKE_SYSTEM_PROCESSOR=x86_64"
+                        } else {
+                            cmakeArgs = "$cmakeArgs -DCMAKE_SYSTEM_PROCESSOR=i586"
+                        }
+                        // TODO: Use cflags and ldflags from all platforms
+                        def cFlags = webkitProperties.ccFlags?.join(' ') ?: ''
+                        def lFlags = webkitProperties.linkFlags?.join(' ') ?: ''
+                        // -shared flag should be omitted while creating executable.
+                        def exeFlags = webkitProperties.linkFlags?.join(' ')?.replace('-shared', '') ?: ''
+                        cmakeArgs = "$cmakeArgs -DCMAKE_C_FLAGS='${cFlags}' -DCMAKE_CXX_FLAGS='${cFlags}'"
+                        cmakeArgs = "$cmakeArgs -DCMAKE_SHARED_LINKER_FLAGS='${lFlags}' -DCMAKE_EXE_LINKER_FLAGS='${exeFlags}'"
+                    } else if (t.name.startsWith("arm")) {
+                        fail("ARM target is not supported as of now.")
                     }
-                    // TODO: Use cflags and ldflags from all platforms
-                    def cFlags = webkitProperties.ccFlags?.join(' ') ?: ''
-                    def lFlags = webkitProperties.linkFlags?.join(' ') ?: ''
-                    // -shared flag should be omitted while creating executable.
-                    def exeFlags = webkitProperties.linkFlags?.join(' ')?.replace('-shared', '') ?: ''
-                    cmakeArgs = "$cmakeArgs -DCMAKE_C_FLAGS='${cFlags}' -DCMAKE_CXX_FLAGS='${cFlags}'"
-                    cmakeArgs = "$cmakeArgs -DCMAKE_SHARED_LINKER_FLAGS='${lFlags}' -DCMAKE_EXE_LINKER_FLAGS='${exeFlags}'"
-                } else if (t.name.startsWith("arm")) {
-                    fail("ARM target is not supported as of now.")
-                }
 
-                if (IS_COMPILE_PARFAIT) {
+                    if (IS_COMPILE_PARFAIT) {
+                        environment([
+                            "COMPILE_PARFAIT" : "true"
+                        ])
+                        cmakeArgs = "-DCMAKE_C_COMPILER=parfait-gcc -DCMAKE_CXX_COMPILER=parfait-g++"
+                    }
+
                     environment([
-                        "COMPILE_PARFAIT" : "true"
+                        "JAVA_HOME"       : JDK_HOME,
+                        "WEBKIT_OUTPUTDIR" : webkitOutputDir,
+                        "PYTHONDONTWRITEBYTECODE" : "1",
                     ])
-                    cmakeArgs = "-DCMAKE_C_COMPILER=parfait-gcc -DCMAKE_CXX_COMPILER=parfait-g++"
+
+                    def targetCpuBitDepthSwitch = ""
+                    if (IS_64) {
+                        targetCpuBitDepthSwitch = "--64-bit"
+                    } else {
+                        targetCpuBitDepthSwitch = "--32-bit"
+                    }
+
+                    cmakeArgs += " -DJAVAFX_RELEASE_VERSION=8.0"
+                    commandLine("perl", "$projectDir/src/main/native/Tools/Scripts/build-webkit",
+                        "--java", "--icu-unicode", targetCpuBitDepthSwitch,
+                        "--cmakeargs=${cmakeArgs}")
                 }
 
-                environment([
-                    "JAVA_HOME"       : JDK_HOME,
-                    "WEBKIT_OUTPUTDIR" : webkitOutputDir,
-                    "PYTHONDONTWRITEBYTECODE" : "1",
-                ])
-
-                def targetCpuBitDepthSwitch = ""
-                if (IS_64) {
-                    targetCpuBitDepthSwitch = "--64-bit"
-                } else {
-                    targetCpuBitDepthSwitch = "--32-bit"
+                // Cmake places Windows DLL in bin directory
+                def dllDir = IS_WINDOWS ? "bin" : "lib"
+                def library = rootProject.ext[t.upper].library
+                copy {
+                    from "$webkitOutputDir/$webkitConfig/$dllDir/${library('jfxwebkit')}"
+                    into "$buildDir/libs/${t.name}"
                 }
-
-                cmakeArgs += " -DJAVAFX_RELEASE_VERSION=8.0"
-                commandLine("perl", "$projectDir/src/main/native/Tools/Scripts/build-webkit",
-                    "--java", "--icu-unicode", targetCpuBitDepthSwitch,
-                    "--cmakeargs=${cmakeArgs}")
-            }
-
-            // Cmake places Windows DLL in bin directory
-            def dllDir = IS_WINDOWS ? "bin" : "lib"
-            def library = rootProject.ext[t.upper].library
-            copy {
-                from "$webkitOutputDir/$webkitConfig/$dllDir/${library('jfxwebkit')}"
-                into "$buildDir/libs/${t.name}"
-            }
-            copy {
-                from "$webkitOutputDir/$webkitConfig/$dllDir/${library('DumpRenderTreeJava')}"
-                into "$buildDir/test/${t.name}"
+                copy {
+                    from "$webkitOutputDir/$webkitConfig/$dllDir/${library('DumpRenderTreeJava')}"
+                    into "$buildDir/test/${t.name}"
+                }
             }
         }
 
@@ -2676,7 +2680,7 @@ project(":web") {
     task drtJar(type: Jar, dependsOn: compileJava) {
         archiveName = "drt.jar"
         destinationDir = file("$buildDir/test")
-        from "$buildDir/classes/main"
+        from "$buildDir/classes/java/main"
         include drtClasses
     }
     if (IS_COMPILE_WEBKIT) {
@@ -2928,25 +2932,25 @@ compileTargets { t ->
         description = "Creates the jfxrt.jar for the $t.name target"
         archiveName = "build/${sdkDirName}/rt/lib/ext/jfxrt.jar";
         includeEmptyDirs = false
-        from("modules/base/build/classes/main",
+        from("modules/base/build/classes/java/main",
              "modules/base/build/resources/main",
-             "modules/builders/build/classes/main",
-             "modules/graphics/build/classes/main",
+             "modules/builders/build/classes/java/main",
+             "modules/graphics/build/classes/java/main",
              "modules/graphics/build/resources/main",
-             "modules/controls/build/classes/main",
+             "modules/controls/build/classes/java/main",
              "modules/controls/build/resources/main",
-             "modules/fxml/build/classes/main",
+             "modules/fxml/build/classes/java/main",
              "modules/fxml/build/resources/main",
              "modules/graphics/build/classes/jsl-decora",
              "modules/graphics/build/resources/jsl-decora",
              "modules/graphics/build/classes/jsl-prism",
              "modules/graphics/build/resources/jsl-prism",
-             "modules/media/build/classes/main",
+             "modules/media/build/classes/java/main",
              "modules/media/build/resources/main")
-        if (COMPILE_SWING) from ("modules/swing/build/classes/main", "modules/swing/build/resources/main")
+        if (COMPILE_SWING) from ("modules/swing/build/classes/java/main", "modules/swing/build/resources/main")
 
         if (!IS_MAC) {
-            exclude ("modules/media/build/classes/main/com/sun/media/jfxmediaimpl/platform/osx/**",
+            exclude ("modules/media/build/classes/java/main/com/sun/media/jfxmediaimpl/platform/osx/**",
                      "com/sun/prism/es2/MacGL*",
                      "com/sun/glass/events/mac",
                      "com/sun/glass/ui/mac",
@@ -2989,7 +2993,7 @@ compileTargets { t ->
             exclude ("com/sun/prism/null3d")
         }
         if (t.name != 'ios') {
-            exclude ("modules/media/build/classes/main/com/sun/media/jfxmediaimpl/platform/ios/**",
+            exclude ("modules/media/build/classes/java/main/com/sun/media/jfxmediaimpl/platform/ios/**",
                      "com/sun/glass/ui/ios",
                      "com/sun/prism/es2/IOS*"
                      )
@@ -3008,7 +3012,7 @@ compileTargets { t ->
                   "modules/web/build/resources/ios",
                   "modules/extensions/build/classes/ios")
         } else {
-            from ("modules/web/build/classes/main", "modules/web/build/resources/main")
+            from ("modules/web/build/classes/java/main", "modules/web/build/resources/main")
         }
 
         exclude("**/javafx/embed/swt/**")
@@ -3049,8 +3053,8 @@ compileTargets { t ->
         description = "Creates the jfxswt.jar for the $t.name target"
         archiveName = "build/${sdkDirName}/rt/lib/jfxswt.jar";
         includeEmptyDirs = false
-        from("modules/swt/build/classes/main");
-        from("modules/builders/build/classes/main");
+        from("modules/swt/build/classes/java/main");
+        from("modules/builders/build/classes/java/main");
         include("**/javafx/embed/swt/**")
         exclude("**/*.java");  // Builder java files are in build/classes and should be excluded
 
@@ -3071,7 +3075,7 @@ compileTargets { t ->
         description = "Creates the javafx-mx.jar"
         archiveName = "build/${sdkDirName}/lib/javafx-mx.jar";
         includeEmptyDirs = false
-        from "modules/jmx/build/classes/main"
+        from "modules/jmx/build/classes/java/main"
         from "modules/jmx/build/resources/main"
         dependsOn project(":jmx").assemble
     }
@@ -3248,14 +3252,14 @@ compileTargets { t ->
  */
 ext.JFXRT_CP =
     files(
-        project(":base").sourceSets.main.output.classesDir,
-        project(":graphics").sourceSets.main.output.classesDir,
-        project(":controls").sourceSets.main.output.classesDir,
-        project(":fxml").sourceSets.main.output.classesDir,
-        project(":swing").sourceSets.main.output.classesDir, //NOTE - used by 3Dviewer
-        project(":builders").sourceSets.main.output.classesDir,
-            "modules/media/build/classes/main",
-            "modules/web/build/classes/main",
+        project(":base").sourceSets.main.java.outputDir,
+        project(":graphics").sourceSets.main.java.outputDir,
+        project(":controls").sourceSets.main.java.outputDir,
+        project(":fxml").sourceSets.main.java.outputDir,
+        project(":swing").sourceSets.main.java.outputDir, //NOTE - used by 3Dviewer
+        project(":builders").sourceSets.main.java.outputDir,
+            "modules/media/build/classes/java/main",
+            "modules/web/build/classes/java/main",
     )
 
 project(":apps") {
