@@ -2609,7 +2609,7 @@ project(":web") {
                         def lFlags = webkitProperties.linkFlags?.join(' ') ?: ''
                         // -shared flag should be omitted while creating executable.
                         def exeFlags = webkitProperties.linkFlags?.join(' ')?.replace('-shared', '') ?: ''
-                        cmakeArgs = "$cmakeArgs -DCMAKE_C_FLAGS='${cFlags}' -DCMAKE_CXX_FLAGS='${cFlags}'"
+                        cmakeArgs = "$cmakeArgs -DCMAKE_C_FLAGS='${cFlags}' -DCMAKE_CXX_FLAGS='${cFlags}' -DCMAKE_ASM_FLAGS='${cFlags}'"
                         cmakeArgs = "$cmakeArgs -DCMAKE_SHARED_LINKER_FLAGS='${lFlags}' -DCMAKE_EXE_LINKER_FLAGS='${exeFlags}'"
                     } else if (t.name.startsWith("arm")) {
                         fail("ARM target is not supported as of now.")
